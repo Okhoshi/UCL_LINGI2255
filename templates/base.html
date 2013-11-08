@@ -1,0 +1,99 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}Solidare-IT{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<!--
+			##################
+			##### HEADER #####
+			##################
+			-->
+			{% block header %}
+			<div class="page-header">
+				<p class="pull-right text-right" style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;">
+					<a href="/login/" class="btn btn-primary btn-xs"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
+					Exchanges done : <span class="active">123</span><br />
+					Visits : <span class="active">456</span><br />
+					<img src ="{% static 'images/facebook.png' %}" />
+					<img src ="{% static 'images/twitter.png' %}" />
+					<img src ="{% static 'images/gplus.png' %}" />
+				</p>
+				<h1>Solidare-IT<br /></h1>
+			</div>
+			{% endblock %}
+
+			<!--
+			######################
+			##### NAVIGATION #####
+			######################
+			-->
+			{% block navigation %}
+			<nav class="navbar navbar-default" role="navigation">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">The real social network</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="/"><i class="glyphicon glyphicon-home"></i>&nbsp;Home</a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;Concept</a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;FAQ</a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;News</a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;Contact</a></li>
+				</ul>
+				</div><!-- /.navbar-collapse -->
+			</nav>
+			{% endblock %}
+
+			<!--
+			################################
+			##### BREADCRUMB & CONTENT #####
+			################################
+			-->
+			{% block breadcrumb %}{% endblock %}
+
+			{% block content %}{% endblock %}
+			<!--
+			##################
+			##### FOOTER #####
+			##################
+			-->
+			<div class="clearfix"></div>
+			{% block footer %}
+			<footer>
+				<p class="pull-right"><a href="#">Legal mentions</a> &middot; <a href="#">Site map</a></p>
+				<p>SOLIDARE-it! ASBL</p>
+			</footer>
+			{% endblock %}
+		</div>
+
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://code.jquery.com/jquery.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	</body>
+</html>

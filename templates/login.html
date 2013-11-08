@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+	<li><a href="/">Home</a></li>
+	<li class="active">Log in</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+	<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 well">
+		<img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive img-circle" style="margin-bottom: 20px" alt="Log in">
+		<form class="form-signin" id="sign_in">
+			<input type="text" class="form-control" placeholder="Email address" required autofocus>
+			<input type="password" class="form-control" placeholder="Password" required>
+			<label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+			<a class="btn btn-lg btn-success btn-block" href="/register/">Register</a>
+			
+		</form>
+	</div>
+</div>
+{% endblock %}

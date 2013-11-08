@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!--
+#######################################
+##### CHALLENGE PROGRESS & SEARCH #####
+#######################################
+ -->
+<div class="row">
+	<div class="col-sm-8">
+		<h4 class="text-center">Challenge progress</h4>
+		<div class="progress">
+			<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;background-color: #e1007a;">
+				<span>60%</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-4">
+		<form class="form-inline" role="form" id="search_field">
+			<!--<div class="form-group">
+				<label class="sr-only" for="search">Search</label>
+				<input type="search" class="form-control" id="search" placeholder="Search">
+			</div>
+			<button type="submit" class="btn btn-default">DARE-it!</button>-->
+			<div style="height: 33px;" class="hidden-xs"></div>
+			<div class="input-group">
+				<div class="input-group-btn"><button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button></div>
+				<input type="search" class="form-control" id="search" placeholder="Search">
+				<span class="input-group-btn">
+					<button class="btn btn-danger" type="submit">DARE-it!</button>
+				</span>
+			</div><!-- /input-group -->
+			<div style="height: 33px;" class="visible-xs"></div>
+		</form>
+	</div>
+</div>
+<!--
+#########################################
+##### CONCEPT / TESTIMONIES / VIDEO #####
+#########################################
+ -->
+<div id="home_content">
+	<div class="col-md-4 col-sm-6">
+		<h4 class="in_front">The concept</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+	</div>
+
+	<div class="col-md-4 col-sm-6">
+		<h4>Testimonies</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+	</div>
+
+	<div class="col-md-4 col-sm-6">
+		<h4>&nbsp;</h4>
+		<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+			<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
+		</div>
+	</div>
+
+	<div class="clearfix visible-md"></div>
+	<!--
+	##################################################
+	##### MANUAL / LAST OFFERS & DEMANDS / VIDEO #####
+	##################################################
+	 -->
+	<div class="col-md-4 col-sm-6">
+		<h4>Video manual</h4>
+		<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+			<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
+		</div>
+	</div>
+
+	<div class="col-md-4 col-sm-6">
+		<h4>Latest offers and demands</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+	</div>
+
+	<div class="col-md-4 col-sm-6">
+		<h4>&nbsp;</h4>
+		<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+			<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
+		</div>
+	</div>
+
+	<div class="clearfix visible-md"></div>
+	<!--
+	########################################################
+	##### CALENDAR & NEWS / CHALLENGE MAP / DL & SHARE #####
+	########################################################
+	 -->
+	<div class="col-md-4 col-sm-6">
+		<h4>Calendar and news</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+	</div>
+
+	<div class="col-md-4 col-sm-6">
+		<h4>Challenge map</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+	</div>
+
+	<div class="col-md-4 col-sm-6">
+		<h4>Download and share</h4>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+	</div>
+</div> <!-- #home_content -->
+
+<div class="clearfix"></div>
+<!--
+####################
+##### PARTNERS #####
+####################
+-->
+<h4 style="margin-top: 40px;">Our partners:</h4>
+<div class="well" id="partners">
+	<div class="row" style="margin: 0px">
+		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>
+		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>
+		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>
+		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>
+		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>
+		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>
+	</div>
+</div>
+{% endblock %}
