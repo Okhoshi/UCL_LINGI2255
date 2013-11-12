@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+	<li><a href="/">Home</a></li>
+	<li class="active">Account</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-8">
+		<h1>Welcome {{ user_name }}</h1>
+	</div>
+		<div class="col-sm-8">
+
+	<div class="row">
+		here sits the notifications
+	</div>
+</div>
+</div>
+{% endblock %}
