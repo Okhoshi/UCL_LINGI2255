@@ -60,8 +60,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'SolidareIt',
-        'USER': 'django',
-        'PASSWORD': 'solidareit',
+        'USER': 'root',
     }
 }
 
