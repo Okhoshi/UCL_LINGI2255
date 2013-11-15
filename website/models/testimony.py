@@ -1,7 +1,8 @@
 # Class that represents a testimony on the Homepage
 # AUTHOR :  Quentin De Coninck
 # DATE_CREATION : 13 November 2013
-# VERSION : 1
+# DATE_VERSION2 : 15 November 2013
+# VERSION : 2
 from django.db import models
 import random
 
@@ -17,16 +18,32 @@ class Testimony(models.Model):
     """ Get number testimonies chosen randomly in the database
         If there are less testimonies available in the database, return
         all the testimonies."""
+    @staticmethod
     def get_random_testimonies(number):
-        total = Testimony.objects.reverse()[:1].id
+        # It would be not the best implementation, thought it will works
+        # 1 Go fetch all the Testimonies
+        # 2 Choose randomly number Testimonies to return
+        testimonies = list(Testimony.objects.all())
+        total = Testimony.objects.count()
         if (number >= total):
-            return Testimony.objects.all()
-        # else, if number < total
-        possible_values = range(1,total + 1) # [1, 2, ..., total-1, total]
+            return testimonies
+        # else
         to_return = []
-        for elem in range(number):
-            chosen = random.choice(possible_values)
-            #TODO TO BE CONTINUED
+        for counter in range(number):
+            chosen = random.choice(testimonies)
+            to_return.append(chosen)
+            testimonies.remove(chosen)
+        return to_return
+        
+##        total = Testimony.objects.reverse()[:1].id
+##        if (number >= total):
+##            return Testimony.objects.all()
+##        # else, if number < total
+##        possible_values = range(1,total + 1) # [1, 2, ..., total-1, total]
+##        to_return = []
+##        for elem in range(number):
+##            chosen = random.choice(possible_values)
+##            #TODO TO BE CONTINUED
 
 
             
