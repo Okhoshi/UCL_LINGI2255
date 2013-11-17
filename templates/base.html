@@ -24,17 +24,35 @@
 			-->
 			{% block header %}
 			<div class="page-header row">
-				<div class="col-xs-7">
+				<div class="pull-left">
 					<img src ="{% static 'images/header.png' %}" class="img-responsive pull-left" style="margin: 10px" />
 				</div>
 
-				<div class="col-xs-5">
-					<p class="pull-right text-right" style="text-transform: uppercase; font-size: 0.85em; font-weight: bold; margin-top: 10px;">
-						<a href="/login/" class="btn btn-primary btn-xs" style=" margin-bottom: 5px;"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
+				<div class="pull-right text-right" style="padding-top: 6px;">
+					<!-- Si connecté -->
+					<div class="btn-group text-left">
+					<a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="/login/">&nbsp;Username&nbsp;</a>
+					<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+					<span class="caret"></span>
+					<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+					<li><a href="/profile/"><i class="glyphicon glyphicon-user"></i>&nbsp;My profile</a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;My exchanges</a></li>
+					<li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;Internal messages</a></li>
+					<li class="divider"></li>
+					<li><a href="#"><i class="glyphicon glyphicon-off"></i>&nbsp;Log out</a></li>
+					</ul>
+					</div>
 
+					<!-- Si déconnecté
+					<a href="/login/" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
+					-->
+
+					<p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
 						<img src ="{% static 'images/facebook.png' %}" />
 						<img src ="{% static 'images/twitter.png' %}" />
-						<img src ="{% static 'images/gplus.png' %}" />						
+						<img src ="{% static 'images/gplus.png' %}" />
 					</p>
 				</div>
 			</div>

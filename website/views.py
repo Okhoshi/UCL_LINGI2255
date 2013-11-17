@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.shortcuts import render
 
@@ -17,3 +15,6 @@ def individual_registration(request):
 
 def organisation_registration(request):
     return render(request, 'organisation_registration.html', {})
+
+def profile(request):
+    return render(request, 'profile.html', {})

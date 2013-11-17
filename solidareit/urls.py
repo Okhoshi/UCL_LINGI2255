@@ -12,6 +12,7 @@ urlpatterns = patterns('website.views',
     url(r'^register/$', 'register'),
     url(r'^register/individual/$', 'individual_registration'),
     url(r'^register/organisation/$', 'organisation_registration'),
+    url(r'^profile/$', 'profile'),
     # Examples:
     # url(r'^$', 'solidareit.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
