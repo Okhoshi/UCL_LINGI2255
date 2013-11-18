@@ -34,16 +34,6 @@ class Testimony(models.Model):
             to_return.append(chosen)
             testimonies.remove(chosen)
         return to_return
-        
-##        total = Testimony.objects.reverse()[:1].id
-##        if (number >= total):
-##            return Testimony.objects.all()
-##        # else, if number < total
-##        possible_values = range(1,total + 1) # [1, 2, ..., total-1, total]
-##        to_return = []
-##        for elem in range(number):
-##            chosen = random.choice(possible_values)
-##            #TODO TO BE CONTINUED
 
 
             

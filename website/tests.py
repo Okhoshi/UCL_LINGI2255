@@ -17,7 +17,8 @@ class ModelsTests(TestCase):
         testimony2.save()
         testimony3.save()
         # Now test it!
-        print(Testimony.get_random_testimonies(1))
-        print(Testimony.get_random_testimonies(2))
-        print(Testimony.get_random_testimonies(2))
-        print(Testimony.get_random_testimonies(4))
+        for i in range(1,5):
+            t1 = Testimony.get_random_testimonies(i)
+            print(t1)
+            self.assertEqual(len(t1), min(i, Testimony.objects.count()))
+

@@ -1,8 +1,10 @@
 # Create your views here.
 from django.shortcuts import render
+from models import *
 
 def home(request):
-    return render(request, 'home.html', {})
+    testimonies = Testimony.get_random_testimonies(3)
+    return render(request, 'home.html', {'testimonies': testimonies})
 
 def login(request):
     return render(request, 'login.html', {})

@@ -49,7 +49,9 @@
 
 	<div class="col-md-4 col-sm-6">
 		<h4>Testimonies</h4>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+		{%  for testimony in testimonies  %}
+            <p class="q">"{{ testimony.testimony }}"</p>
+        {% endfor %}
 	</div>
 
 	<div class="col-md-4 col-sm-6">
