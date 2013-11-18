@@ -97,7 +97,7 @@ STATICFILES_FINDERS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+LOGIN_URL = '/login/'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

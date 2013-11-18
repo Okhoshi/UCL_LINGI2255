@@ -29,25 +29,30 @@
 				</div>
 
 				<div class="pull-right text-right" style="padding-top: 6px;">
-					<!-- Si connecté -->
-					<div class="btn-group text-left">
-					<a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="/login/">&nbsp;Username&nbsp;</a>
-					<button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-					<span class="caret"></span>
-					<span class="sr-only">Toggle Dropdown</span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-					<li><a href="/profile/"><i class="glyphicon glyphicon-user"></i>&nbsp;My profile</a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;My exchanges</a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;Internal messages</a></li>
-					<li class="divider"></li>
-					<li><a href="#"><i class="glyphicon glyphicon-off"></i>&nbsp;Log out</a></li>
-					</ul>
-					</div>
-
-					<!-- Si déconnecté
-					<a href="/login/" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
-					-->
+					{% if user.is_authenticated %}
+					    <div class="btn-group text-left">
+					    <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="#">
+                            {% if user.first_name %}
+                                {{user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user }}
+                            {% endif %}
+                        </a>
+					    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+					    <span class="caret"></span>
+					    <span class="sr-only">Toggle Dropdown</span>
+					    </button>
+					    <ul class="dropdown-menu" role="menu">
+					    <li><a href="/profile/"><i class="glyphicon glyphicon-user"></i>&nbsp;My profile</a></li>
+					    <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;My exchanges</a></li>
+					    <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;Internal messages</a></li>
+					    <li class="divider"></li>
+					    <li><a href="#"><i class="glyphicon glyphicon-off"></i>&nbsp;Log out</a></li>
+					    </ul>
+					    </div>
+                    {% else %}
+					    <a href="/login/" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
+					{% endif %}
 
 					<p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
 						<img src ="{% static 'images/facebook.png' %}" />

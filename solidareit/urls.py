@@ -8,11 +8,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('website.views',
     url(r'^$', 'home'),
-    url(r'^login/$', 'login'),
-    url(r'^register/$', 'register'),
+    url(r'^login/$', 'login', name='login'),
+    url(r'^register/$', 'register', name='register'),
     url(r'^register/individual/$', 'individual_registration'),
     url(r'^register/organisation/$', 'organisation_registration'),
-    url(r'^profile/$', 'profile'),
+    url(r'^profile/$', 'profile', name='profile'),
     # Examples:
     # url(r'^$', 'solidareit.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
