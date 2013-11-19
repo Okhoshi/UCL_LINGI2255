@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="row">
-<form class="form-horizontal" role="form" method="post" action="">
+<form class="form-horizontal" role="form" method="post" action="" autocomplete="on">
 {% csrf_token %}
 	<!--
 	#######################
@@ -25,62 +25,64 @@
 			<div class="form-group">
 				<label for="inputName" class="col-sm-3 control-label" style="color:{{ name_color }} !important;">Name*</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputName" name="name" placeholder="Name" required>
+					<input type="text" class="form-control" id="inputName" name="name" placeholder="Name" style="border-color: {{ name_color }} !important;"
+					        value="{{ name }}"
+					required autofocus>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputFirstName" class="col-sm-3 control-label" style="color:{{ first_name_color }} !important;">First name*</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="First name" required>
+					<input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="First name" style="border-color: {{ first_name_color }} !important;" value="{{ first_name }}" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputUserName" class="col-sm-3 control-label" style="color:{{ user_name_color }} !important;">User name*</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputUserName" name="user_name" placeholder="User name" required>
+					<input type="text" class="form-control" id="inputUserName" name="user_name" placeholder="User name" style="border-color: {{ user_name_color }} !important;" value="{{ user_name }}"required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputEmail" class="col-sm-3 control-label" style="color:{{ email_color }} !important;">Email*</label>
 				<div class="col-sm-9">
-					<input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
+					<input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" style="border-color: {{ email_color }} !important;" value="{{ email }}"required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputPassword3" class="col-sm-3 control-label" style="color:{{ passwd_color }} !important;">Password*</label>
 				<div class="col-sm-9">
-					<input type="password" class="form-control" id="inputPassword3" name="passwd" placeholder="Password" required>
+					<input type="password" class="form-control" id="inputPassword3" name="passwd" placeholder="Password" style="border-color: {{ passwd_color }} !important;" value="{{ passwd }}" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputConfirmation" class="col-sm-3 control-label" style="color:{{ passwdC_color }} !important;">Confirmation*</label>
 				<div class="col-sm-9">
-					<input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="Confirm password" required>
+					<input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="Confirm password" style="border-color: {{ passwdC_color }} !important;" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputStreet" class="col-sm-3 col-xs-12 control-label">Address*</label>
 				<div class="col-sm-7 col-xs-9">
-					<input type="text" class="form-control" id="inputStreet" name="street" placeholder="{% block address_placeholder %}Street{% endblock %}" required>
+					<input type="text" class="form-control" id="inputStreet" name="street" placeholder="{% block address_placeholder %}Street{% endblock %}" style="border-color: {{ street_color }} !important;" required>
 				</div>
 				<div class="col-sm-2 col-xs-3">
-					<input type="text" class="form-control" id="inputNumber" name="streetnumber" placeholder="N°" required>
+					<input type="text" class="form-control" id="inputNumber" name="streetnumber" placeholder="N°" style="border-color: {{ streetnumber_color }} !important;" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputCity" class="col-sm-3 col-xs-12 control-label">City*</label>
 				<div class="col-sm-6 col-xs-8">
-					<input type="text" class="form-control" id="inputCity" name="city" placeholder="City" required>
+					<input type="text" class="form-control" id="inputCity" name="city" placeholder="City" style="border-color: {{ city_color }} !important;" required>
 				</div>
 				<div class="col-sm-3 col-xs-4">
-					<input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="Post code" required>
+					<input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="Post code" style="border-color: {{ postcode_color }} !important;" required>
 				</div>
 			</div>
 			{% endblock %}

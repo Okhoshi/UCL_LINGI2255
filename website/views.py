@@ -45,9 +45,8 @@ def individual_registration(request):
             #TODO: create a user from the data stored inside form and redirect
             return render(request, 'individual_registration.html', {})
         else:
-            print("la")
-            print(form.colors)
-            return render(request, 'individual_registration.html', form.colors)
+            dictionaries = dict(form.colors.items() + request.POST.dict().items())
+            return render(request, 'individual_registration.html', dictionaries)
 
     return render(request, 'individual_registration.html', {})
 
