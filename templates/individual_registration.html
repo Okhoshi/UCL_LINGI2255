@@ -12,7 +12,8 @@
 
 {% block content %}
 <div class="row">
-<form class="form-horizontal" role="form">
+<form class="form-horizontal" role="form" method="post" action="">
+{% csrf_token %}
 	<!--
 	#######################
 	#### FIRST COLUMN #####
@@ -22,64 +23,64 @@
 		<div class="col-md-12 col-sm-9">
 			{% block first_column %}
 			<div class="form-group">
-				<label for="inputName" class="col-sm-3 control-label">Name*</label>
+				<label for="inputName" class="col-sm-3 control-label" style="color:{{ name_color }} !important;">Name*</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputName" placeholder="Name" required>
+					<input type="text" class="form-control" id="inputName" name="name" placeholder="Name" required>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="inputFirstName" class="col-sm-3 control-label">First name*</label>
+				<label for="inputFirstName" class="col-sm-3 control-label" style="color:{{ first_name_color }} !important;">First name*</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputFirstName" placeholder="First name" required>
+					<input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="First name" required>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="inputUserName" class="col-sm-3 control-label">User name*</label>
+				<label for="inputUserName" class="col-sm-3 control-label" style="color:{{ user_name_color }} !important;">User name*</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputUserName" placeholder="User name" required>
+					<input type="text" class="form-control" id="inputUserName" name="user_name" placeholder="User name" required>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="inputEmail" class="col-sm-3 control-label">Email*</label>
+				<label for="inputEmail" class="col-sm-3 control-label" style="color:{{ email_color }} !important;">Email*</label>
 				<div class="col-sm-9">
-					<input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+					<input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="inputPassword3" class="col-sm-3 control-label">Password*</label>
+				<label for="inputPassword3" class="col-sm-3 control-label" style="color:{{ passwd_color }} !important;">Password*</label>
 				<div class="col-sm-9">
-					<input type="password" class="form-control" id="inputPassword3" placeholder="Password" required>
+					<input type="password" class="form-control" id="inputPassword3" name="passwd" placeholder="Password" required>
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label for="inputConfirmation" class="col-sm-3 control-label">Confirmation*</label>
+				<label for="inputConfirmation" class="col-sm-3 control-label" style="color:{{ passwdC_color }} !important;">Confirmation*</label>
 				<div class="col-sm-9">
-					<input type="password" class="form-control" id="inputConfirmation" placeholder="Confirm password" required>
+					<input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="Confirm password" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputStreet" class="col-sm-3 col-xs-12 control-label">Address*</label>
 				<div class="col-sm-7 col-xs-9">
-					<input type="text" class="form-control" id="inputStreet" placeholder="{% block address_placeholder %}Street{% endblock %}" required>
+					<input type="text" class="form-control" id="inputStreet" name="street" placeholder="{% block address_placeholder %}Street{% endblock %}" required>
 				</div>
 				<div class="col-sm-2 col-xs-3">
-					<input type="text" class="form-control" id="inputNumber" placeholder="N°" required>
+					<input type="text" class="form-control" id="inputNumber" name="streetnumber" placeholder="N°" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputCity" class="col-sm-3 col-xs-12 control-label">City*</label>
 				<div class="col-sm-6 col-xs-8">
-					<input type="text" class="form-control" id="inputCity" placeholder="City" required>
+					<input type="text" class="form-control" id="inputCity" name="city" placeholder="City" required>
 				</div>
 				<div class="col-sm-3 col-xs-4">
-					<input type="text" class="form-control" id="inputPostCode" placeholder="Post code" required>
+					<input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="Post code" required>
 				</div>
 			</div>
 			{% endblock %}
@@ -96,14 +97,14 @@
 			<div class="form-group">
 				<label for="inputPhone" class="col-sm-3 col-xs-12 control-label">Phone</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputPhoneNumber" placeholder="Phone number">
+					<input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="Phone number">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label for="inputIDCard" class="col-sm-3 control-label">ID Card</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputIDCard" placeholder="ID card number">
+					<input type="text" class="form-control" id="inputIDCard" name="id_card" placeholder="ID card number">
 				</div>
 			</div>
 
@@ -117,7 +118,7 @@
 			<div class="form-group">
 				<label for="inputFacebook" class="col-sm-3 control-label">Facebook</label>
 				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputFacebook" placeholder="Facebook page URL">
+					<input type="text" class="form-control" id="inputFacebook" name="facebook" placeholder="Facebook page URL">
 				</div>
 			</div>
 			{% endblock %}
@@ -125,7 +126,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
 					<div class="checkbox">
-						<label><input type="checkbox"> Only show my username</label>
+						<label><input type="checkbox" name="cb_only_username"> Only show my username</label>
 					</div>
 				</div>
 			</div>
@@ -133,7 +134,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-3 col-sm-9">
 					<div class="checkbox">
-						<label><input type="checkbox"> Send mails on my personnal address</label>
+						<label><input type="checkbox" name="cb_personnal_address"> Send mails on my personnal address</label>
 					</div>
 				</div>
 			</div>

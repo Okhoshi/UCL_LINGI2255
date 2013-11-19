@@ -2,7 +2,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as Dlogin
 from django.contrib.auth.decorators import login_required
-from models import *
+from forms import MForm
+from exceptions import *
+from website.models import *
 
 def home(request):
     testimonies = Testimony.get_random_testimonies(3)
@@ -34,7 +36,19 @@ def register(request):
     return render(request, 'register.html', {})
 
 def individual_registration(request):
+    if request.method == 'POST':
+        print(request.POST)
+        form = MForm(request)
+        if form.is_valid:
+            #TODO: create a user from the data stored inside form and redirect
+            return render(request, 'individual_registration.html', {})
+        else:
+            print("la")
+            print(form.colors)
+            return render(request, 'individual_registration.html', form.colors)
+
     return render(request, 'individual_registration.html', {})
+
 
 def organisation_registration(request):
     return render(request, 'organisation_registration.html', {})
