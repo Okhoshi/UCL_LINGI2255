@@ -12,6 +12,7 @@
 
 {% block content %}
 <div class="row">
+
 <form class="form-horizontal" role="form" method="post" action="" autocomplete="on">
 {% csrf_token %}
 	<!--
@@ -111,32 +112,34 @@
 			</div>
 
 			<div class="form-group">
-			{% block facebook_field %}
-			<div class="form-group">
-				<label for="inputFacebook" class="col-sm-3 control-label">Facebook</label>
-				<div class="col-sm-9">
-					<input type="text" class="form-control" id="inputFacebook" name="facebook" placeholder="Facebook page URL" value="{{ facebook }}">
-				</div>
-			</div>
-			{% endblock %}
+                {% block facebook_field %}
+                <div class="form-group">
+                    <label for="inputFacebook" class="col-sm-3 control-label">Facebook</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="inputFacebook" name="facebook" placeholder="Facebook page URL" value="{{ facebook }}">
+                    </div>
+                </div>
+                {% endblock %}
 
-			<div class="form-group">
-				<div class="col-sm-offset-3 col-sm-9">
-					<div class="checkbox">
-						<label><input type="checkbox" name="cb_only_username" value="{{ cb_only_username }}"> Only show my username</label>
-					</div>
-				</div>
-			</div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="cb_only_username" value="{{ cb_only_username }}"> Only show my username</label>
+                        </div>
+                    </div>
+                </div>
 
-			<div class="form-group">
-				<div class="col-sm-offset-3 col-sm-9">
-					<div class="checkbox">
-						<label><input type="checkbox" name="cb_personnal_address" value="{{ cb_personnal_address }}"> Send mails on my personnal address</label>
-					</div>
-				</div>
-			</div>{% endblock %}
+			    <div class="form-group">
+				    <div class="col-sm-offset-3 col-sm-9">
+					    <div class="checkbox">
+						    <label><input type="checkbox" name="cb_personnal_address" value="{{ cb_personnal_address }}"> Send mails on my personnal address</label>
+					    </div>
+				    </div>
+			    </div>
+		    </div>
+            {% endblock %}
+        </div>
 
-		</div>
 		<!--
 		#######################
 		#### THIRD COLUMN #####
