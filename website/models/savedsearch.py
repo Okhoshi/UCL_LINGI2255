@@ -5,13 +5,14 @@
 # VERSION : 2
 from django.db import models
 from place import *
+from entity import *
 
 class SavedSearch(models.Model):
-    name = models.CharField(max_length=256, null=True, blank=True)
+    entity = models.ForeignKey(Entity)
     date = models.DateTimeField('date search', null=True, blank=True)
     search_field = models.CharField(max_length=512, null=True, blank=True)
-    type = models.CharField(max_length=256, null=True, blank=True)
-    place = models.ForeignKey(Place, null=True, blank=True)
+    category = models.CharField(max_length=256, null=True, blank=True)
+    place = models.ForeignKey(Place)
     
     class Meta:
         app_label = 'website'
