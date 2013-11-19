@@ -89,7 +89,7 @@ class Request(models.Model):
 
     @staticmethod
     def make_request(search, isProposer):
-        new = Request(name=search.seach_field, date=search.date, \
+        new = Request(name=search.search_field, date=search.date, \
                       category=search.category, place=search.place)
         if (isProposer):
             new.proposer = search.entity
