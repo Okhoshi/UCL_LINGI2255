@@ -5,10 +5,6 @@
 # VERSION : 1
 from django.db import models
 from place import *
-from savedsearch import *
-from internalmessage import *
-from feedback import *
-from request import *
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
