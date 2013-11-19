@@ -11,7 +11,23 @@
 
 
 {% block content %}
-<div class="row">
+    {% if error %}
+
+    <div class="row">
+        <div class="col-md-2 col-sm-3 col-xs-1"></div>
+            <div class="col-md-8 col-sm-6 col-xs-10 warning">
+                <h5>Il existe des erreurs dans le formulaire :</h5>
+                <ul>
+                {% for errorname, errordesc in errors %}
+                    <li>{{ errorname }} : {{ errordesc }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        <div class="col-md-2 col-sm-6  col-xs-1"></div>
+    </div>
+
+    {% endif %}
+    <div class="row" style="margin-top: 20px !important;">
 
 <form class="form-horizontal" role="form" method="post" action="" autocomplete="on">
 {% csrf_token %}

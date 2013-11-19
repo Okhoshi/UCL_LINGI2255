@@ -23,6 +23,21 @@ a:hover {
 	color:#e1007a;
 }
 
+.warning {
+    color:#e1007a;
+    background-color: rgba(248,248,248,1);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+    border: 1px solid #e1007a;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+       -moz-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+            box-shadow: 4px 4px 4px rgba(0,0,0,0.5);    
+}
+
 .page-header {
 	border: none;
 	height: 110px;
