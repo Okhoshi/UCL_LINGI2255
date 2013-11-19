@@ -19,7 +19,6 @@ class Request(models.Model):
         (DONE, 'Done'),
     )
     
-    #TODO Add the instance variables here
     name = models.CharField(max_length=512)
     date = models.DateTimeField('request date', null=True, blank=True)
     category = models.CharField(max_length=256)
@@ -42,8 +41,12 @@ class Request(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        #TODO
-        return "TODO"
+        return self.name
 
     #TODO Add the methods here
-    
+    def get_feedback(self):
+        return self.feedback
+
+    @staticmethod
+    def get_all_requests():
+        return Request.objects.all()

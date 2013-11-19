@@ -8,10 +8,12 @@ from django.contrib.auth.models import User as DUser
 from website.models.entity import *
 
 def pic_path(instance, filename):
-    return 'profile_pic/' + (instance.first_name + instance.last_name).__hash__()
+    return 'profile_pic/' + \
+           (instance.first_name + instance.last_name).__hash__()
 
 def id_path(instance, filename):
-    return 'profile_pic/' + (instance.first_name + instance.last_name).__hash__()
+    return 'profile_pic/' + \
+           (instance.first_name + instance.last_name).__hash__()
 
 class User(Entity, DUser):
     confirmed_status = models.BooleanField()
@@ -22,7 +24,6 @@ class User(Entity, DUser):
         app_label = 'website'
     
     def __unicode__(self):
-        #TODO
         return first_name + ' ' + last_name
 
 
