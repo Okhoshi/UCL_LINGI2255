@@ -39,7 +39,6 @@ def register(request):
 
 def individual_registration(request):
     if request.method == 'POST':
-        print(request.POST)
         form = MForm(request)
         if form.is_valid:
             #TODO: create a user from the data stored inside form and redirect
