@@ -31,7 +31,7 @@
 				<div class="pull-right text-right" style="padding-top: 6px;">
 					{% if user.is_authenticated %}
 					    <div class="btn-group text-left">
-					    <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="#">
+					    <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'profile' %}">
                             {% if user.first_name %}
                                 {{user.first_name }} {{ user.last_name }}
                             {% else %}
@@ -43,15 +43,15 @@
 					    <span class="sr-only">Toggle Dropdown</span>
 					    </button>
 					    <ul class="dropdown-menu" role="menu">
-					    <li><a href="/profile/"><i class="glyphicon glyphicon-user"></i>&nbsp;My profile</a></li>
+					    <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;My profile</a></li>
 					    <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;My exchanges</a></li>
 					    <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;Internal messages</a></li>
 					    <li class="divider"></li>
-					    <li><a href="#"><i class="glyphicon glyphicon-off"></i>&nbsp;Log out</a></li>
+					    <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;Log out</a></li>
 					    </ul>
 					    </div>
                     {% else %}
-					    <a href="/login/" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
+					    <a href="{% url 'login' %}" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;Log in</a><br />
 					{% endif %}
 
 					<p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
