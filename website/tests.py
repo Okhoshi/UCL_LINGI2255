@@ -1,5 +1,9 @@
 from django.test import TestCase
 from models import *
+import datetime
+from django.utils.timezone import utc
+
+
 
 # Create your tests here.
 class ModelsTests(TestCase):
@@ -81,6 +85,45 @@ class ModelsTests(TestCase):
         req4.save()
         req5.save()
         print(req.get_similar_requests())
+
+    def test_request_make_request(self):
+        users = []
+        for index in range(2):
+            pla = Place()
+            pla.save()
+            users.append(User(first_name="E"+str(index), last_name="User", \
+                                location=pla, confirmed_status=True, \
+                              username="E"+str(index)))
+            users[index].save()
+            
+        coco_search = SavedSearch(entity=users[0], \
+                            date=datetime.datetime.utcnow().replace(tzinfo=utc), \
+                                  search_field="Hello world", category="Test", \
+                                  place = pla)
+        pla = Place()
+        pla.save()
+        coco_search2 = SavedSearch(entity=users[1], \
+                            date=datetime.datetime.utcnow().replace(tzinfo=utc),\
+                                  search_field="Lonely days", category="Test", \
+                                  place = pla)
+        coco_search.save()
+        coco_search2.save()
+
+        req1 = Request.make_request(coco_search, False)
+        req2 = Request.make_request(coco_search2, True)
+
+        self.assertEqual(coco_search.entity, req1.demander)
+        self.assertEqual(coco_search.search_field, req1.name)
+        self.assertEqual(coco_search.date, req1.date)
+        self.assertEqual(coco_search.place, req1.place)
+        self.assertEqual(coco_search.category, req1.category)
+        self.assertEqual(coco_search2.entity, req2.proposer)
+        self.assertEqual(coco_search2.search_field, req2.name)
+        self.assertEqual(coco_search2.date, req2.date)
+        self.assertEqual(coco_search2.place, req2.place)
+        self.assertEqual(coco_search2.category, req2.category)
+
+        
 
     def test_testimony_get_random(self):
         # Creation
