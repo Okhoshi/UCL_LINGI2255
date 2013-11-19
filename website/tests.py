@@ -14,7 +14,7 @@ class ModelsTests(TestCase):
             pla = Place()
             pla.save()
             users.append(User(first_name="W"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True \
+                                location=pla, confirmed_status=True, \
                               username="E"+str(index)))
             users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
