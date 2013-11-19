@@ -82,6 +82,25 @@ class ModelsTests(TestCase):
         req5.save()
         print(req.get_similar_requests())
 
+    def test_request_make_request(self):
+         users = []
+        for index in range(2):
+            pla = Place()
+            pla.save()
+            users.append(User(first_name="E"+str(index), last_name="User", \
+                                location=pla, confirmed_status=True, \
+                              username="E"+str(index)))
+            users[index].save()
+            
+        coco_search = SavedSearch(entity=users[0], date=datetime.now(), \
+                                  search_field="Hello world", category="Test", \
+                                  place = pla)
+        pla = Place()
+        pla.save()
+        coco_search2 = SavedSearch(entity=users[1], date=datetime.now(), \
+                                  search_field="Lonely days", category="Test", \
+                                  place = pla)
+
     def test_testimony_get_random(self):
         # Creation
         testimony1 = Testimony(testimony="Hello, I'm sexy and I know it!")

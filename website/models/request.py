@@ -86,3 +86,19 @@ class Request(models.Model):
             return self.demander
         # else, it's the proposer
         return self.proposer
+
+    @staticmethod
+    def make_request(search, isProposer):
+        new = Request(name=search.seach_field, date=search.date, \
+                      category=search.category, place=search.place)
+        if (isProposer):
+            new.proposer = search.entity
+        else:
+            new.demander = search.entity
+
+        new.save()
+        return new
+    
+            
+            
+        
