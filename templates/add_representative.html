@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+	<li><a href="{% url 'home' %}">Home</a></li>
+	<li><a href="#">Organisations</a></li>
+	<li><a href="{% url 'profile' %}">My_organisation_name</a></li>
+	<li class="active">Add a representative</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+	<p>YO</p>
+{% endblock %}
+
