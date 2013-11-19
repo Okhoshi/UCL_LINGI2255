@@ -45,8 +45,7 @@ class MForm(forms.Form):
             
             ### PASSWORD ###
             if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
-                    and match(r"/^[A-Za-z0-9,;:=?./+-_)(]*$/", form['user_name']):
-
+                    and match(r"^[A-Za-z0-9,;:=?./+-_)(]{4,20}$", form['user_name']):
                 self.passwd = form['passwd'].__hash__()
             else:
                 self.is_valid = False
@@ -58,19 +57,30 @@ class MForm(forms.Form):
                 self.street = form['street']
             else:
                 self.is_valid = False
-                self.colors['street'] = MForm.SOLIDAREITCOLOR
+                self.colors['street_color'] = MForm.SOLIDAREITCOLOR
             
             if form['streetnumber'] != '' and match(r"^[0-9]{1,5}$", form['streetnumber']):
                 self.streetnumber = form['streetnumber']
             else:
                 self.is_valid = False
-                self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
-            self.city = form['city']
-            self.postcode = form['postcode']
+                self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
+    
+            if form['city'] != '':
+                self.city = form['city']
+            else:
+                self.is_valid = False
+                self.colors['city_color'] = MForm.SOLIDAREITCOLOR
+                
+            if form['postcode'] != '' and match(r"^[0-9]{1,9}$", form['postcode']):
+                self.postcode = form['postcode']
+            else:
+                self.is_valid = False
+                self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
+                
             self.phone = form['phone']
             self.id_card = form['id_card']
             self.facebook = form['facebook']
-
+            
     def is_valid(self):
         print(self.is_valid)
         return self.is_valid
