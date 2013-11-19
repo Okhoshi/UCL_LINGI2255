@@ -15,9 +15,7 @@
 		<!--<img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive img-circle" style="margin-bottom: 20px" alt="Log in">-->
 		<form class="form-signin" id="sign_in" method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-            {% if next %}
-                <input type="hidden" value="{{ redirect }}" name="next" />
-            {% endif %}
+            {% if redirect %}<input type="hidden" value="{{ redirect }}" name="next" />{% endif %}
 			<input type="text" class="form-control" placeholder="Email address" name="username" required autofocus>
 			<input type="password" class="form-control" placeholder="Password" name="password" required>
 			<!--<label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label>-->

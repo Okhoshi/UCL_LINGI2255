@@ -50,7 +50,9 @@
 	<div class="col-md-4 col-sm-6">
 		<h4>Testimonies</h4>
 		{%  for testimony in testimonies  %}
-            <p class="q">"{{ testimony.testimony }}"</p>
+		<blockquote>
+			<p>{{ testimony.testimony }}</p>
+		</blockquote>
         {% endfor %}
 	</div>
 
