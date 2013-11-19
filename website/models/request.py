@@ -14,7 +14,7 @@ class Request(models.Model):
     DONE = 'D'
     
     STATUS_CHOICES = (
-        (PROPOSAL, 'Progress'),
+        (PROPOSAL, 'Proposal'),
         (IN_PROGRESS, 'In progress'),
         (DONE, 'Done'),
     )
@@ -50,3 +50,39 @@ class Request(models.Model):
     @staticmethod
     def get_all_requests():
         return Request.objects.all()
+
+    def get_similar_requests(self):
+        # SHOULD BE REDONE!!!
+        # Search similar names and type
+        set1 = Request.objects.filter(name__icontains=self.name)
+        set2 = Request.objects.filter(category__icontains=self.category)
+        # Merge and distinct
+        great_set = set1 | set2
+        great_set_return = great_set
+        # Fetch requests with same locality
+        loc1 = None
+        loc2 = None
+        loc3 = None
+        if (self.place.country != None):
+            loc1 = Place.objects.filter(country__icontains=self.place.country)
+            loc3 = loc1
+        if (self.place.city != None):
+            loc2 = Place.objects.filter(city__icontains=self.place.city)
+            loc3 = loc2
+        if (loc1 and loc2):
+            loc3 = loc1 | loc2
+        if (loc3):
+            set3 = reduce(operator.and_, (Q(place__contains=x) \
+                                          for x in loc3))
+            great_set_return = great_set | set3
+        return great_set_return
+
+    # Should be used when sending a message or viewing the profile of initiator
+    def get_initiator(self):
+        # Only useful when it's a proposal
+        if (self.state != Request.PROPOSAL):
+            return None
+        if (self.demander != None):
+            return self.demander
+        # else, it's the proposer
+        return self.proposer

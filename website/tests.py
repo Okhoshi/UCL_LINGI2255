@@ -37,6 +37,51 @@ class ModelsTests(TestCase):
         print(feedback)
         print(feedback2)
 
+    def test_request_get_initiator(self):
+        users = []
+        for index in range(2):
+            pla = Place()
+            pla.save()
+            users.append(User(first_name="E"+str(index), last_name="User", \
+                                location=pla, confirmed_status=True, \
+                              username="E"+str(index)))
+            users[index].save()
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], state=Request.PROPOSAL)
+        req2 = Request(name="Hello2", category="Test", place=pla, \
+                      demander=users[1], state=Request.PROPOSAL)
+        req.save()
+        req2.save()
+        self.assertEqual(users[0], req.get_initiator())
+        self.assertEqual(users[1], req2.get_initiator())
+
+    def test_request_get_similar_requests(self):
+        users = []
+        for index in range(2):
+            pla = Place()
+            pla.save()
+            users.append(User(first_name="E"+str(index), last_name="User", \
+                                location=pla, confirmed_status=True, \
+                              username="E"+str(index)))
+            users[index].save()
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req2 = Request(name="Hello2", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        req2.save()
+        req3 = Request(name="Bouffi", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req4 = Request(name="Coco", category="Plante", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req5 = Request(name="World: hello!", category="Plante", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+
+        req3.save()
+        req4.save()
+        req5.save()
+        print(req.get_similar_requests())
+
     def test_testimony_get_random(self):
         # Creation
         testimony1 = Testimony(testimony="Hello, I'm sexy and I know it!")
