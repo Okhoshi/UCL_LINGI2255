@@ -45,6 +45,7 @@ def organisation_registration(request):
 def profile(request):
     return render(request, 'profile.html', {})
 
+@login_required
 def add_representative(request):
     return render(request, 'add_representative.html', {})
 
