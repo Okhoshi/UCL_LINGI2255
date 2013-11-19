@@ -1,6 +1,7 @@
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as Dlogin
+from django.contrib.auth import authenticate,\
+     login as Dlogin, logout as Dlogout
 from django.contrib.auth.decorators import login_required
 from forms import MForm
 from exceptions import *
@@ -21,16 +22,17 @@ def login(request):
                 Dlogin(request, user)
                 # Redirect to a success page.
                 if request.REQUEST.__contains__('next'):
-                    return redirect(request.REQUEST['next'], permanent=False)
+                    return redirect(request.REQUEST['next'])
                 else:
-                    return redirect('profile', permanent=False)
+                    return redirect('profile')
             else:
                 # Return a 'disabled account' error message
                 message = 'Disabled Account'
         else:
             # Return an 'invalid login' error message.
             message = 'Invalid login'
-    return render(request, 'login.html', {'message': message, 'redirect': request.REQUEST.get('next','')})
+    return render(request, 'login.html',\
+                  {'message': message, 'redirect': request.REQUEST.get('next','')})
 
 def register(request):
     return render(request, 'register.html', {})
@@ -56,3 +58,11 @@ def organisation_registration(request):
 @login_required
 def profile(request):
     return render(request, 'profile.html', {})
+
+@login_required
+def add_representative(request):
+    return render(request, 'add_representative.html', {})
+
+def logout(request):
+    Dlogout(request)
+    return redirect('home')
