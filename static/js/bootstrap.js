@@ -210,7 +210,7 @@ if (typeof jQuery === "undefined") { throw new Error("Bootstrap requires jQuery"
 
     $el[val](data[state] || this.options[state])
 
-    // push to event loop to allow forms to submit
+    // push to event loop to allow forms.py to submit
     setTimeout(function () {
       state == 'loadingText' ?
         $el.addClass(d).attr(d, d) :

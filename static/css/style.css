@@ -148,3 +148,15 @@ a:hover {
  form#sign_in input {
  	margin-bottom: 10px; 
  }
+
+/**********************
+ ***** add_representative.html *****
+ **********************/
+
+ .m_tab {
+ 	color: #333333; 
+ 	border: 1px solid #dddddd; 
+ 	border-top: none; 
+ 	padding-top: 10px;
+ 	border-radius: 0 0 4px 4px;
+ }
