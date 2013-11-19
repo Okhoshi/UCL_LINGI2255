@@ -7,12 +7,13 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 urlpatterns = patterns('website.views',
-    url(r'^$', 'home'),
+    url(r'^$', 'home', name='home'),
     url(r'^login/$', 'login', name='login'),
     url(r'^register/$', 'register', name='register'),
     url(r'^register/individual/$', 'individual_registration'),
     url(r'^register/organisation/$', 'organisation_registration'),
     url(r'^profile/$', 'profile', name='profile'),
+    url(r'^logout/$', 'logout', name='logout'),
     # Examples:
     # url(r'^$', 'solidareit.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
