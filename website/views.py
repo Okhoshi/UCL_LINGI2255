@@ -1,7 +1,8 @@
 # Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,\
-     login as Dlogin, logout as Dlogout, user as DUser
+     login as Dlogin, logout as Dlogout
+from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required
 from forms import MForm
 from exceptions import *
@@ -13,7 +14,7 @@ def home(request):
 
 def login(request):
     message = request
-    if request.method == POST:
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
@@ -41,12 +42,10 @@ def individual_registration(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            user = DUser.objects.create_user(request.POST['username'],\
-                                            request.POST['password'],\
-                                            request.POST['email'])
-            user.last_name = request.POST['last_name']
-            user.first_name = request.POST['first_name']
-            user.user = User()
+            user = User.objects.create_user(request.POST['user_name'],\
+                                             request.POST['email'],\
+                                             request.POST['passwd'],\
+                                             request.POST)
             return redirect('home')
         else:
             dictionaries = dict(form.colors.items() + request.POST.dict().items())

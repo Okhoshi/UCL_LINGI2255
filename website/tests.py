@@ -13,10 +13,7 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="W"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True, \
-                              username="E"+str(index)))
-            users[index].save()
+            users.append(User.objects.create_user(first_name="W"+str(index), last_name="User", location=pla, confirmed_status=True, username="E"+str(index)))
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -55,10 +52,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -71,7 +67,7 @@ class ModelsTests(TestCase):
         pla = Place()
         users = []
         for index in range(2):
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True)) 
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
@@ -88,10 +84,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], state=Request.PROPOSAL)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -106,10 +101,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -133,10 +127,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
             
         coco_search = SavedSearch(entity=users[0], \
                             date=datetime.datetime.utcnow().replace(tzinfo=utc), \
