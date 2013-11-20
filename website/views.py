@@ -47,14 +47,12 @@ def individual_registration(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            user = User.objects.create_user(request.POST['user_name'],\
-                                             request.POST['email'],\
-                                             request.POST['passwd'],\
-                                             request.POST)
+            user = User.objects.create_user(form.user_name, form.email, form.passwd, request.POST)
             return redirect('home')
         else:
-            error = True;
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items()+['errorlist', form.errorlist])
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
             print(dictionaries)
             return render(request, 'individual_registration.html', dictionaries)
 
