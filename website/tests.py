@@ -57,6 +57,25 @@ class ModelsTests(TestCase):
 
         print(users[0].get_feedback())
 
+    def test_entity_get_internal_messages(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        internal_message = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),\
+            sender = users[0],request=req , message = "Coucou, voici une chaussette !",\
+            receiver = users[1])
+        internal_message.save()
+
+        message1 = users[0].get_internal_messages(req)
+        message2 = users[1].get_internal_messages(req)
+        #print(message1)
+        #print(message2)
+
+        self.assertEqual(",".join(map(lambda m: m.__unicode__(), message1)),",".join(map(lambda m: m.__unicode__(), message2)))
+
     def test_request_get_all_requests(self):
         pla = Place()
         pla.save()
