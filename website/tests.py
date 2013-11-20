@@ -8,15 +8,53 @@ from django.utils.timezone import utc
 # Create your tests here.
 class ModelsTests(TestCase):
 
+    def test_entity_get_feedback(self):
+        users = []
+        for index in range(2):
+            pla = Place()
+            pla.save()
+            users.append(User.objects.create_user(first_name="W"+str(index), last_name="User", location=pla, confirmed_status=True, username="E"+str(index)))
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req2 = Request(name="Hello2", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        req2.save()
+        req3 = Request(name="Bouffi", category="Test", place=pla, \
+                      proposer=users[1], demander=users[0], state=Request.DONE)
+        req4 = Request(name="Coco", category="Plante", place=pla, \
+                      demander=users[0], state=Request.IN_PROGRESS)
+        req5 = Request(name="World: hello!", category="Plante", place=pla, \
+                      demander=users[0], state=Request.PROPOSAL)
+
+        req3.save()
+        req4.save()
+        req5.save()
+
+        feed1 = Feedback(feedback_demander="It was nice", \
+                         feedback_proposer="It was ugly!", request = req, \
+                         rating_demander=5, rating_proposer=1)
+        feed2 = Feedback(feedback_demander="It could be better", \
+                         feedback_proposer="Very interesting!", request = req2,\
+                         rating_demander=2, rating_proposer=4)
+        feed3 = Feedback(feedback_demander="Nice!", \
+                         feedback_proposer="Wonderful!", request = req3, \
+                         rating_demander=4, rating_proposer=5)
+
+        feed1.save()
+        feed2.save()
+        feed3.save()
+
+        print(users[0].get_feedback())
+
     def test_request_get_all_requests(self):
         users = []
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -29,7 +67,7 @@ class ModelsTests(TestCase):
         pla = Place()
         users = []
         for index in range(2):
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True)) 
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
@@ -46,10 +84,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], state=Request.PROPOSAL)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -64,10 +101,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -91,10 +127,9 @@ class ModelsTests(TestCase):
         for index in range(2):
             pla = Place()
             pla.save()
-            users.append(User(first_name="E"+str(index), last_name="User", \
+            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
                                 location=pla, confirmed_status=True, \
                               username="E"+str(index)))
-            users[index].save()
             
         coco_search = SavedSearch(entity=users[0], \
                             date=datetime.datetime.utcnow().replace(tzinfo=utc), \

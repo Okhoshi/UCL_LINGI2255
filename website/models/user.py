@@ -7,6 +7,18 @@ from django.db import models
 from django.contrib.auth.models import User as DUser
 from website.models.entity import *
 
+class SIUserManager(models.Manager):
+    def create_user(self, username, email, password, **extra_field):
+        buser = DUser.objects.create_user(username, email, password, \
+                first_name=extra_field.get('first_name', ''),
+                last_name =extra_field.get('last_name', ''))
+        user = User()
+        user.user = buser
+        user.confirmed_status = extra_field.get('confirmed_status', False)
+        user.location = extra_field.get('location')
+        user.save()
+        return user
+
 def pic_path(instance, filename):
     return 'profile_pic/' + \
            (instance.first_name + instance.last_name).__hash__()
@@ -20,6 +32,7 @@ class User(Entity):
     confirmed_status = models.BooleanField()
     picture = models.ImageField(upload_to=pic_path)
     id_card = models.ImageField(upload_to=id_path)
+    objects = SIUserManager()
 
     class Meta:
         app_label = 'website'
