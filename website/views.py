@@ -39,7 +39,6 @@ def register(request):
 
 def individual_registration(request):
     if request.method == 'POST':
-        print(request.POST)
         form = MForm(request)
         if form.is_valid:
             user = DUser.objects.create_user(request.POST['username'],\
