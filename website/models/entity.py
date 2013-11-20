@@ -6,6 +6,7 @@
 # VERSION : 2
 from django.db import models
 from place import *
+from feedback import *
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
