@@ -1,16 +1,19 @@
 # Create your views here.
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate,\
-     login as Dlogin, logout as Dlogout
-from django.contrib.auth.models import User as DUser
+from django.contrib.auth import authenticate, \
+    login as Dlogin, \
+    logout as Dlogout#, \
+    #user as DUser
 from django.contrib.auth.decorators import login_required
 from forms import MForm
 from exceptions import *
 from website.models import *
 
+
 def home(request):
     testimonies = Testimony.get_random_testimonies(3)
     return render(request, 'home.html', {'testimonies': testimonies})
+
 
 def login(request):
     message = request
@@ -32,11 +35,13 @@ def login(request):
         else:
             # Return an 'invalid login' error message.
             message = 'Invalid login'
-    return render(request, 'login.html',\
-                  {'message': message, 'redirect': request.REQUEST.get('next','')})
+    return render(request, 'login.html', \
+                  {'message': message, 'redirect': request.REQUEST.get('next', '')})
+
 
 def register(request):
     return render(request, 'register.html', {})
+
 
 def individual_registration(request):
     if request.method == 'POST':
@@ -48,7 +53,9 @@ def individual_registration(request):
                                              request.POST)
             return redirect('home')
         else:
-            dictionaries = dict(form.colors.items() + request.POST.dict().items())
+            error = True;
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items()+['errorlist', form.errorlist])
+            print(dictionaries)
             return render(request, 'individual_registration.html', dictionaries)
 
     return render(request, 'individual_registration.html', {})
@@ -57,13 +64,16 @@ def individual_registration(request):
 def organisation_registration(request):
     return render(request, 'organisation_registration.html', {})
 
+
 @login_required
 def profile(request):
     return render(request, 'profile.html', {})
 
+
 @login_required
 def add_representative(request):
     return render(request, 'add_representative.html', {})
+
 
 def logout(request):
     Dlogout(request)
