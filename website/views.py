@@ -42,8 +42,13 @@ def individual_registration(request):
         print(request.POST)
         form = MForm(request)
         if form.is_valid:
-            #TODO: create a user from the data stored inside form and redirect
-            return render(request, 'individual_registration.html', {})
+            user = DUser.objects.create_user(request.POST['username'],\
+                                            request.POST['password'],\
+                                            request.POST['email'])
+            user.last_name = request.POST['last_name']
+            user.first_name = request.POST['first_name']
+            user.user = User()
+            return redirect('home')
         else:
             dictionaries = dict(form.colors.items() + request.POST.dict().items())
             return render(request, 'individual_registration.html', dictionaries)
