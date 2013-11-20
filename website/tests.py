@@ -8,12 +8,22 @@ from django.utils.timezone import utc
 # Create your tests here.
 class ModelsTests(TestCase):
 
-    def test_entity_get_feedback(self):
+    @staticmethod
+    def generate_user(number=2):
         users = []
-        for index in range(2):
+        for index in range(number):
             pla = Place()
             pla.save()
-            users.append(User.objects.create_user(first_name="W"+str(index), last_name="User", location=pla, confirmed_status=True, username="E"+str(index)))
+            users.append(User.objects.create_user(first_name="W"+str(index), last_name="User",\
+                                                  location=pla, confirmed_status=True,\
+                                                  username="E"+str(index),email="ci@ici.be",\
+                                                  password="azerty"))
+        return users
+        
+    def test_entity_get_feedback(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -47,14 +57,29 @@ class ModelsTests(TestCase):
 
         print(users[0].get_feedback())
 
+    def test_entity_get_internal_messages(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        internal_message = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),\
+            sender = users[0],request=req , message = "Coucou, voici une chaussette !",\
+            receiver = users[1])
+        internal_message.save()
+
+        message1 = users[0].get_internal_messages(req)
+        message2 = users[1].get_internal_messages(req)
+        #print(message1)
+        #print(message2)
+
+        self.assertEqual(",".join(map(lambda m: m.__unicode__(), message1)),",".join(map(lambda m: m.__unicode__(), message2)))
+
     def test_request_get_all_requests(self):
-        users = []
-        for index in range(2):
-            pla = Place()
-            pla.save()
-            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True, \
-                              username="E"+str(index)))
+        pla = Place()
+        pla.save()
+        users = ModelsTests.generate_user()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -65,10 +90,8 @@ class ModelsTests(TestCase):
 
     def test_request_get_feedback(self):
         pla = Place()
-        users = []
-        for index in range(2):
-            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True)) 
+        pla.save()
+        users = ModelsTests.generate_user()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         feedback = Feedback(feedback_demander="Heeee", \
@@ -80,13 +103,9 @@ class ModelsTests(TestCase):
         print(feedback2)
 
     def test_request_get_initiator(self):
-        users = []
-        for index in range(2):
-            pla = Place()
-            pla.save()
-            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True, \
-                              username="E"+str(index)))
+        pla = Place()
+        pla.save()
+        users = ModelsTests.generate_user()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], state=Request.PROPOSAL)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -97,13 +116,9 @@ class ModelsTests(TestCase):
         self.assertEqual(users[1], req2.get_initiator())
 
     def test_request_get_similar_requests(self):
-        users = []
-        for index in range(2):
-            pla = Place()
-            pla.save()
-            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True, \
-                              username="E"+str(index)))
+        pla = Place()
+        pla.save()
+        users = ModelsTests.generate_user()
         req = Request(name="Hello", category="Test", place=pla, \
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req2 = Request(name="Hello2", category="Test", place=pla, \
@@ -123,13 +138,9 @@ class ModelsTests(TestCase):
         print(req.get_similar_requests())
 
     def test_request_make_request(self):
-        users = []
-        for index in range(2):
-            pla = Place()
-            pla.save()
-            users.append(User.objects.create_user(first_name="E"+str(index), last_name="User", \
-                                location=pla, confirmed_status=True, \
-                              username="E"+str(index)))
+        pla = Place()
+        pla.save()
+        users = ModelsTests.generate_user()
             
         coco_search = SavedSearch(entity=users[0], \
                             date=datetime.datetime.utcnow().replace(tzinfo=utc), \

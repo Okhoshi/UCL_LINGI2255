@@ -6,6 +6,8 @@
 # VERSION : 2
 from django.db import models
 from place import *
+from feedback import *
+from internalmessage import *
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
@@ -29,3 +31,9 @@ class Entity(models.Model):
         feedback_propos = Feedback.objects.filter(request__proposer__exact=self)
 
         return (feedback_demand, feedback_propos)
+
+
+    def get_internal_messages(self, request):
+        return InternalMessage.objects.filter(request__exact=request)
+
+    

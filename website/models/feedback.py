@@ -4,13 +4,12 @@
 # DATE_VERSION 1: 19 November 2013
 # VERSION : 1
 from django.db import models
-from entity import *
-from request import *
+#from request import *
 
 class Feedback(models.Model):
     feedback_demander = models.CharField(max_length=2048, null=True, blank=True)
     feedback_proposer = models.CharField(max_length=2048, null=True, blank=True)
-    request = models.OneToOneField(Request)
+    request = models.OneToOneField('website.Request')
     rating_demander = models.IntegerField(default=0, null=True, blank=True)
     rating_proposer = models.IntegerField(default=0, null=True, blank=True)    
 
