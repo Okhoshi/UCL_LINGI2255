@@ -114,7 +114,7 @@ class Entity(models.Model):
         #TODO
         pass
 
-    # Return a list of requests suggested by previous requests of self
+    # Return a list of requests suggested by previous requests of self d
     def get_similar_matching_requests(self, amount):
         #TODO
         pass
