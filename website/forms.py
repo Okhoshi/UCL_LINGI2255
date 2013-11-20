@@ -73,6 +73,12 @@ class MForm(forms.Form):
                 self.is_valid = False
                 self.colors['city_color'] = MForm.SOLIDAREITCOLOR
                 
+            if form['country'] != '':
+                self.city = form['country']
+            else:
+                self.is_valid = False
+                self.colors['country_color'] = MForm.SOLIDAREITCOLOR
+                
             if form['postcode'] != '' and match(r"^[0-9]{1,9}$", form['postcode']):
                 self.postcode = form['postcode']
             else:
