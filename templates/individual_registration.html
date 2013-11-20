@@ -18,7 +18,7 @@
             <div class="col-md-8 col-sm-6 col-xs-10 warning">
                 <h5>Il existe des erreurs dans le formulaire :</h5>
                 <ul>
-                {% for errorname, errordesc in errorlist %}
+                {% for errorname, errordesc in errorlist.items %}
                     <li>{{ errorname }} : {{ errordesc }}</li>
                 {% endfor %}
                 </ul>

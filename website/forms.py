@@ -22,7 +22,7 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['name'] = "Ce champ ne peut contenir que des lettres majuscules ou minuscules"
+                self.errorlist['Name'] = 'Ce champ ne peut contenir que des lettres majuscules ou minuscules'
 
             ### FIRST NAME ###
             if form['first_name'] != '' and match(r"^[a-zA-Z ]*$", form['name']):
@@ -30,6 +30,7 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['first_name_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['First name'] = 'Ce champ ne peut contenir que des lettres majuscules ou minuscules'
 
             ### USER NAME ###
             if form['user_name'] != '' and match(r"^.{3,15}$", form['user_name']):
@@ -37,6 +38,8 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['User name'] = 'Le username doit contenir '
+
 
             ### EMAIL ###
             if form['email'] != '' and match(r"[^@]+@[^@]+\.[^@]+", form['email']):
@@ -44,6 +47,7 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['email_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Email'] = 'Entrez un email valide'
             
             ### PASSWORD ###
             if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
@@ -53,6 +57,8 @@ class MForm(forms.Form):
                 self.is_valid = False
                 self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
                 self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Password'] = 'Le mot de passe doit faire entre 4 et 20 characteres et ne peut contenit que des characteres alphanumeriqes ainsi que les symboles ",;:=?./+-_)("'
+
             
             ### ADDRESS ##
             if form['street'] != ''and match(r"^[a-zA-Z0-9 ]*$", form['name']):
@@ -60,25 +66,30 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['street_color'] = MForm.SOLIDAREITCOLOR
-            
+                self.errorlist['Street'] = 'La rue ne peut contenir que des characteres alphanumeriques'
+
             if form['streetnumber'] != '' and match(r"^[0-9]{1,5}$", form['streetnumber']):
                 self.streetnumber = form['streetnumber']
             else:
                 self.is_valid = False
                 self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Street number'] = 'Le numero de rue est un numero compose de 1 a 5 chiffres'
     
-            if form['city'] != '':
+            if form['city'] != ''and match(r"^[a-zA-Z0-9 -_]*$", form['city']):
                 self.city = form['city']
             else:
                 self.is_valid = False
                 self.colors['city_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['city'] = 'La ville ne peut contenir que des characteres alphanumeriques ou les symboles "-_"'
+
                 
             if form['postcode'] != '' and match(r"^[0-9]{1,9}$", form['postcode']):
                 self.postcode = form['postcode']
             else:
                 self.is_valid = False
                 self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
-                
+                self.errorlist['postcode'] = 'Le code postal est compose nombre de 1 a 9 chiffres'
+
             self.phone = form['phone']
             self.id_card = form['id_card']
             self.facebook = form['facebook']
