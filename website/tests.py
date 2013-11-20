@@ -19,6 +19,52 @@ class ModelsTests(TestCase):
                                                   username="E"+str(index),email="ci@ici.be",\
                                                   password="azerty"))
         return users
+
+    def test_entity_get_all_requests(self):
+        users =  ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        req = Request(name="Hello kitty", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        req2 = Request(name="Kim M. gives a sock", category="Test", place=pla, \
+                      proposer=users[1], demander=users[0], state=Request.DONE)
+        req2.save()
+        req3 = Request(name="Who want to play planning poker?", category="Test", place=pla, \
+                       demander=users[1])
+        req3.save()
+
+        requests = users[0].get_all_requests()
+        self.assertTrue(req in requests) 
+        self.assertTrue(req2 in requests)
+        self.assertFalse(req3 in requests)
+
+
+    def test_entity_get_current_requests(self):
+        users =  ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        req = Request(name="Hello 1", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.IN_PROGRESS)
+        req.save()
+        req2 = Request(name="Hello 2", category="Test", place=pla, \
+                      proposer=users[1], demander=users[0], state=Request.IN_PROGRESS)
+        req2.save()
+        req3 = Request(name="Hello 3", category="Test", place=pla, \
+                       proposer=users[0], demander=users[1], state=Request.DONE)
+        req3.save()
+        req4 = Request(name="Hello 4", category="Test", place=pla, \
+                       proposer=users[1])
+        req4.save()
+
+        requests = users[0].get_current_requests()
+        self.assertTrue(req in requests) 
+        self.assertTrue(req2 in requests)
+        self.assertFalse(req3 in requests)
+        self.assertFalse(req4 in requests)
+
+
+
         
     def test_entity_get_feedback(self):
         users = ModelsTests.generate_user()
@@ -71,10 +117,99 @@ class ModelsTests(TestCase):
 
         message1 = users[0].get_internal_messages(req)
         message2 = users[1].get_internal_messages(req)
-        #print(message1)
-        #print(message2)
 
         self.assertEqual(",".join(map(lambda m: m.__unicode__(), message1)),",".join(map(lambda m: m.__unicode__(), message2)))
+
+    def test_entity_get_old_requests(self):
+        users =  ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        req = Request(name="Hello 1", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        req2 = Request(name="Hello 2", category="Test", place=pla, \
+                      proposer=users[1], demander=users[0], state=Request.DONE)
+        req2.save()
+        req3 = Request(name="Hello 3", category="Test", place=pla, \
+                       proposer=users[0], demander=users[1], state=\
+                       Request.IN_PROGRESS)
+        req3.save()
+        req4 = Request(name="Hello 4", category="Test", place=pla, \
+                       proposer=users[1])
+        req4.save()
+
+        requests = users[0].get_old_requests()
+        self.assertTrue(req in requests) 
+        self.assertTrue(req2 in requests)
+        self.assertFalse(req3 in requests)
+        self.assertFalse(req4 in requests)
+
+    def test_entity_get_rating(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req2 = Request(name="Hello2", category="Test", place=pla, \
+                      proposer=users[1], demander=users[0], state=Request.DONE)
+        req.save()
+        req2.save()
+
+        feed1 = Feedback(feedback_demander="It was nice", \
+                         feedback_proposer="It was ugly!", request = req, \
+                         rating_demander=5, rating_proposer=1)
+        feed2 = Feedback(feedback_demander="It could be better", \
+                         feedback_proposer="Very interesting!", request = req2,\
+                         rating_demander=2, rating_proposer=4)
+
+        feed1.save()
+        feed2.save()
+
+        self.assertEqual(users[0].get_rating(), 4.5)
+
+
+
+
+    def test_entity_get_searches(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        savedsearch = SavedSearch(place=pla, date=\
+            datetime.datetime.utcnow().replace(tzinfo=utc), search_field=\
+            "hello", category="test", entity=users[0])
+        savedsearch.save()
+
+        result0 = users[0].get_searches()
+        result1 = users[1].get_searches()
+
+        self.assertTrue(savedsearch in result0)
+        self.assertFalse(savedsearch in result1)
+
+
+    def test_entity_send_internal_message(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        req.save()
+        users[0].send_internal_message(request=req, text=\
+            "Coucou, do you want to meet me?", destination_entity=users[1])
+        result1 = users[0].get_internal_messages(req)
+        result2 = users[1].get_internal_messages(req)
+
+        self.assertEqual(result1[0], result2[0])
+        self.assertEqual(result1[0].message, "Coucou, do you want to meet me?") 
+
+
+    def  test_entity_set_followed(self):
+        users = ModelsTests.generate_user()
+        users[0].set_followed(users[1])
+
+        result = users[0].get_followed()
+        self.assertEqual(result[0], users[1].entity_ptr)
+        
 
     def test_request_get_all_requests(self):
         pla = Place()
