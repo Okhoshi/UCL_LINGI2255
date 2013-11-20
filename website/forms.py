@@ -10,6 +10,7 @@ class MForm(forms.Form):
     def __init__(self, request):
         form = request.POST
         self.colors = dict()
+        self.errorlist = dict()
         if form.__contains__('organisation'):
             self.type = MForm.ORG
         else:
@@ -21,6 +22,7 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['name_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['name'] = "Ce champ ne peut contenir que des lettres majuscules ou minuscules"
 
             ### FIRST NAME ###
             if form['first_name'] != '' and match(r"^[a-zA-Z ]*$", form['name']):
