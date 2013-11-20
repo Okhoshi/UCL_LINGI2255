@@ -47,20 +47,24 @@ def individual_registration(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            p = Place(country=request.POST.get('country'), postcode=request.POST.get('postcode'),\
-                      city=request.POST.get('city'), street=request.POST.get('street'),\
-                      number=request.POST.get('streetnumber'))
+            p = Place(country=form.country, postcode=form.postcode,\
+                      city=form.city, street=form.street,\
+                      number=form.streetnumber)
             p.save()
-            user = User.objects.create_user(request.POST['user_name'],\
-                                            request.POST['email'],\
-                                            request.POST['passwd'],\
-                                            first_name=request.POST.get('first_name'),\
-                                            last_name=request.POST.get('name'),\
+            user = User.objects.create_user(form.user_name,\
+                                            form.email,\
+                                            form.passwd,\
+                                            first_name=form.first_name,\
+                                            last_name=form.name,\
                                             location=p)
+            # Log on the newly created user
+            usr = authenticate(username=form.user_name, password=form.passwd)
+            Dlogin(request, usr)
             return redirect('home')
         else:
-            error = True;
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items()+['errorlist', form.errorlist])
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
             print(dictionaries)
             return render(request, 'individual_registration.html', dictionaries)
 
