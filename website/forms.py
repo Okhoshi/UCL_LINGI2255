@@ -2,6 +2,7 @@ from django import forms
 from re import match
 from django.contrib.auth.models import User
 
+
 class MForm(forms.Form):
     #Static variables
     ORG = True
@@ -12,6 +13,7 @@ class MForm(forms.Form):
         form = request.POST
         self.colors = dict()
         self.errorlist = dict()
+
         if form.__contains__('organisation'):
             self.type = MForm.ORG
         else:
@@ -35,7 +37,7 @@ class MForm(forms.Form):
 
             ### USER NAME ###
             if form['user_name'] != '' and match(r"^.{3,15}$", form['user_name']):
-                if User.objects.filter(username = form['user_name']).count() == 0:
+                if User.objects.filter(username=form['user_name']).count() == 0:
                     self.user_name = form['user_name']
                 else:
                     self.is_valid = False
@@ -58,7 +60,7 @@ class MForm(forms.Form):
             ### PASSWORD ###
             if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
                     and match(r"^[A-Za-z0-9,;:=?./+-_)(]{4,20}$", form['passwd']):
-                self.passwd = form['passwd'].__hash__()
+                self.passwd = form['passwd']
             else:
                 self.is_valid = False
                 self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
@@ -106,7 +108,3 @@ class MForm(forms.Form):
             self.phone = form['phone']
             self.id_card = form['id_card']
             self.facebook = form['facebook']
-            
-    def is_valid(self):
-        print(self.is_valid)
-        return self.is_valid

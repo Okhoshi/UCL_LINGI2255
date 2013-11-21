@@ -64,7 +64,6 @@ def individual_registration(request):
             error = True
             dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
             dictionaries['errorlist'] = form.errorlist
-            print(dictionaries)
             return render(request, 'individual_registration.html', dictionaries)
 
     return render(request, 'individual_registration.html', {})

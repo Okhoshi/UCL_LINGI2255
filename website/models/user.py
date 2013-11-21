@@ -7,11 +7,14 @@ from django.db import models
 from django.contrib.auth.models import User as DUser
 from website.models.entity import *
 
+
 class SIUserManager(models.Manager):
-    def create_user(self, username, email, password, **extra_field):
-        buser = DUser.objects.create_user(username, email, password, \
-                first_name=extra_field.get('first_name', ''),
-                last_name =extra_field.get('last_name', ''))
+
+    @staticmethod
+    def create_user(username, email, password, **extra_field):
+        buser = DUser.objects.create_user(username, email, password,
+                                          first_name=extra_field.get('first_name', ''),
+                                          last_name=extra_field.get('last_name', ''))
         user = User()
         user.user = buser
         user.confirmed_status = extra_field.get('confirmed_status', False)
@@ -19,13 +22,14 @@ class SIUserManager(models.Manager):
         user.save()
         return user
 
+
 def pic_path(instance, filename):
-    return 'profile_pic/' + \
-           (instance.first_name + instance.last_name).__hash__()
+    return 'profile_pic/' + instance.__unicode__().__hash__()
+
 
 def id_path(instance, filename):
-    return 'profile_pic/' + \
-           (instance.first_name + instance.last_name).__hash__()
+    return 'id_pic/' + instance.__unicode__().__hash__()
+
 
 class User(Entity):
     user = models.OneToOneField(DUser)
@@ -38,8 +42,6 @@ class User(Entity):
         app_label = 'website'
     
     def __unicode__(self):
-        return first_name + ' ' + last_name
-
+        return self.user.first_name + ' ' + self.user.last_name
 
     #TODO Add the methods here
-    
