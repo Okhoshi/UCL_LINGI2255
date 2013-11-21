@@ -2,8 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
-    logout as Dlogout#, \
-    #user as DUser
+    logout as Dlogout
 from django.contrib.auth.decorators import login_required
 from forms import MForm
 from exceptions import *
