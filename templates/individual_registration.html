@@ -102,6 +102,13 @@
 					<input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="Post code" style="border-color: {{ postcode_color }} !important;" value="{{ postcode }}" required>
 				</div>
 			</div>
+
+			<div class="form-group">
+				<label for="inputCity" class="col-sm-3 col-xs-12 control-label" style="color:{{ country_color }} !important;" >Country*</label>
+				<div class="col-sm-6 col-xs-8">
+					<input type="text" class="form-control" id="inputCountry" name="country" placeholder="Country" style="border-color: {{ country_color }} !important;" value="{{ country }}" required>
+				</div>
+			</div>
 			{% endblock %}
 		</div>
 	</div>

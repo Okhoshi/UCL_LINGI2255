@@ -46,7 +46,19 @@ def individual_registration(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            user = User.objects.create_user(form.user_name, form.email, form.passwd, request.POST)
+            p = Place(country=form.country, postcode=form.postcode,\
+                      city=form.city, street=form.street,\
+                      number=form.streetnumber)
+            p.save()
+            user = User.objects.create_user(form.user_name,\
+                                            form.email,\
+                                            form.passwd,\
+                                            first_name=form.first_name,\
+                                            last_name=form.name,\
+                                            location=p)
+            # Log on the newly created user
+            usr = authenticate(username=form.user_name, password=form.passwd)
+            Dlogin(request, usr)
             return redirect('home')
         else:
             error = True

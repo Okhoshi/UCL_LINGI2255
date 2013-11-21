@@ -2,9 +2,9 @@
 # AUTHOR :  Quentin De Coninck, Anh Tuan Le
 # DATE_CREATION : 17 November 2013
 # DATE_VERSION 1: 19 November 2013
-# VERSION : 1
+# DATE_VERSION 2: 20 November 2013
+# VERSION : 2
 from django.db import models
-from entity import *
 from place import *
 from pin import *
 
@@ -23,11 +23,11 @@ class Request(models.Model):
     date = models.DateTimeField('request date', null=True, blank=True)
     category = models.CharField(max_length=256)
     place = models.ForeignKey(Place)
-    proposer = models.ForeignKey(Entity, related_name='proposed', null=True, \
+    proposer = models.ForeignKey('website.Entity', related_name='proposed', null=True, \
                                  blank=True)
-    demander = models.ForeignKey(Entity, related_name='demanded', null=True, \
+    demander = models.ForeignKey('website.Entity', related_name='demanded', null=True, \
                                  blank=True)
-    candidates = models.ManyToManyField(Entity, related_name='candidated', \
+    candidates = models.ManyToManyField('website.Entity', related_name='candidated', \
                                         null=True, blank=True)
     state = models.CharField(max_length=1, choices=STATUS_CHOICES, \
                              default=PROPOSAL)
