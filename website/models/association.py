@@ -18,8 +18,9 @@ class Association(Entity):
     def __unicode__(self):
         return name
 
-    #TODO Add the methods here
     def get_employees(self):
-        return AssociatioUser.objects.filter(association__exact=self)
+        return AssociationUser.objects.filter(association__exact=self)
 
+    # No reason to create a add_employee method, since the association variable
+    # is mandatory in AssociationUser
     

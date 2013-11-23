@@ -14,15 +14,43 @@ class ModelsTests(TestCase):
         for index in range(number):
             pla = Place()
             pla.save()
-            users.append(User.objects.create_user(first_name="W"+str(index), last_name="User",\
-                                                  location=pla, confirmed_status=True,\
-                                                  username="E"+str(index),email="ci@ici.be",\
+            users.append(User.objects.create_user(first_name="W"+str(index), \
+                                                  last_name="User",\
+                                                  location=pla, \
+                                                  confirmed_status=True,\
+                                                  username="E"+str(index),\
+                                                  email="ci@ici.be",\
                                                   password="azerty"))
         return users
 
+    @staticmethod
+    def generate_association(number=2):
+        association = []
+        for index in range(number):
+            pla = Place()
+            pla.save()
+            association.append(Association(name="W"+str(index), \
+                                           description="Youpoie", location=pla))
+            association[index].save()
+        return association
+
     def test_association_get_employees(self):
-        #TODO
-        pass
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au2 = AssociationUser(username="au2", password="anzd", email="zi", \
+                              level=0, association=assoc[0])
+        au3 = AssociationUser(username="au2-3", password="anzod", email="zoi", \
+                              level=0, association=assoc[1])
+
+        au1.save()
+        au2.save()
+        au3.save()
+
+        aua0 = assoc[0].get_employees()
+        self.assertTrue(au1 in aua0)
+        self.assertTrue(au2 in aua0)
+        self.assertFalse(au3 in aua0)
     
     def test_entity_get_all_requests(self):
         users =  ModelsTests.generate_user()
@@ -71,7 +99,7 @@ class ModelsTests(TestCase):
 
         
     def test_entity_get_feedback(self):
-        users = ModelsTests.generate_user()
+        users = ModelsTests.generate_user(number=3)
         pla = Place()
         pla.save()
         req = Request(name="Hello", category="Test", place=pla, \
@@ -86,10 +114,13 @@ class ModelsTests(TestCase):
                       demander=users[0], state=Request.IN_PROGRESS)
         req5 = Request(name="World: hello!", category="Plante", place=pla, \
                       demander=users[0], state=Request.PROPOSAL)
+        req6 = Request(name="Bouffi2", category="Test", place=pla, \
+                      proposer=users[1], demander=users[2], state=Request.DONE)
 
         req3.save()
         req4.save()
         req5.save()
+        req6.save()
 
         feed1 = Feedback(feedback_demander="It was nice", \
                          feedback_proposer="It was ugly!", request = req, \
@@ -100,12 +131,24 @@ class ModelsTests(TestCase):
         feed3 = Feedback(feedback_demander="Nice!", \
                          feedback_proposer="Wonderful!", request = req3, \
                          rating_demander=4, rating_proposer=5)
+        feed4 = Feedback(feedback_demander="Nicer!", \
+                         feedback_proposer="Wonderfuler!", request = req6, \
+                         rating_demander=4, rating_proposer=5)
 
         feed1.save()
         feed2.save()
         feed3.save()
+        feed4.save()
 
-        print(users[0].get_feedback())
+        feedu0 = users[0].get_feedback()
+        self.assertFalse(feed1 in feedu0[0])
+        self.assertTrue(feed1 in feedu0[1])
+        self.assertFalse(feed2 in feedu0[0])
+        self.assertTrue(feed2 in feedu0[1])
+        self.assertTrue(feed3 in feedu0[0])
+        self.assertFalse(feed3 in feedu0[1])
+        self.assertFalse(feed4 in feedu0[0])
+        self.assertFalse(feed4 in feedu0[1])
 
     def test_entity_get_internal_messages(self):
         users = ModelsTests.generate_user()
@@ -225,7 +268,9 @@ class ModelsTests(TestCase):
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req.save()
         req2.save()
-        print(Request.get_all_requests())
+        all_req = Request.get_all_requests()
+        self.assertTrue(req in all_req)
+        self.assertTrue(req2 in all_req)
 
     def test_request_get_feedback(self):
         pla = Place()
@@ -238,8 +283,6 @@ class ModelsTests(TestCase):
                             rating_proposer=3, rating_demander=1)
         feedback2 = req.get_feedback()
         self.assertEqual(feedback, feedback2)
-        print(feedback)
-        print(feedback2)
 
     def test_request_get_initiator(self):
         pla = Place()
