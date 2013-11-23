@@ -6,11 +6,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from pin import *
-from association import *
 
 class AssociationUser(User):
     level = models.IntegerField()
-    association = models.ForeignKey(Association)
+    association = models.ForeignKey('website.Association')
 
     class Meta:
         app_label = 'website'

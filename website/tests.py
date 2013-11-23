@@ -20,6 +20,10 @@ class ModelsTests(TestCase):
                                                   password="azerty"))
         return users
 
+    def test_association_get_employees(self):
+        #TODO
+        pass
+    
     def test_entity_get_all_requests(self):
         users =  ModelsTests.generate_user()
         pla = Place()
@@ -324,4 +328,16 @@ class ModelsTests(TestCase):
             print(t1)
             self.assertEqual(len(t1), min(i, Testimony.objects.count()))
 
-                            
+    def test_user_is_verified(self):
+        user = ModelsTests.generate_user(1)
+        self.assertEquals(user[0].confirmed_status, user[0].is_verified())
+        pla = Place()
+        pla.save()
+        user2 = User.objects.create_user(first_name="W64", \
+                                         last_name="User",\
+                                         location = pla, \
+                                        username="E32", \
+                                         email="ci@ici.be",\
+                                         password="azerty")
+        self.assertEquals(user2.confirmed_status, user2.is_verified())
+        

@@ -2,7 +2,8 @@
 # AUTHORS :  Quentin De Coninck, Quentin Devos
 # DATE_CREATION : 17 November 2013
 # DATE_VERSION 1 : 18 November 2013
-# VERSION : 1
+# DATE_VERSION 2 : 23 November 2013
+# VERSION : 2
 from django.db import models
 from django.contrib.auth.models import User as DUser
 from website.models.entity import *
@@ -45,3 +46,5 @@ class User(Entity):
         return self.user.first_name + ' ' + self.user.last_name
 
     #TODO Add the methods here
+    def is_verified(self):
+        return self.confirmed_status
