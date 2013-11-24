@@ -45,6 +45,6 @@ class User(Entity):
     def __unicode__(self):
         return self.user.first_name + ' ' + self.user.last_name
 
-    #TODO Add the methods here
+    # Return True is the user was verified by the administrator of Solidare-IT
     def is_verified(self):
         return self.confirmed_status

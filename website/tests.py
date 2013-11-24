@@ -51,6 +51,71 @@ class ModelsTests(TestCase):
         self.assertTrue(au1 in aua0)
         self.assertTrue(au2 in aua0)
         self.assertFalse(au3 in aua0)
+
+    def test_associationuser_get_pin(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au2 = AssociationUser(username="au2", password="anzd", email="zi", \
+                              level=0, association=assoc[0])
+        au3 = AssociationUser(username="au2-3", password="anzod", email="zoi", \
+                              level=0, association=assoc[1])
+        au1.save()
+        au2.save()
+        au3.save()
+
+        pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
+        pin2 = PIN(first_name="bye", last_name="world", managed_by=au1)
+        pin3 = PIN(first_name="hello", last_name="kitty", managed_by=au2)
+        pin4 = PIN(first_name="bruce", last_name="willis", managed_by=au3)
+
+        pin1.save()
+        pin2.save()
+        pin3.save()
+        pin4.save()
+
+        pin_au1 = au1.get_pin()
+
+        self.assertTrue(pin1 in pin_au1)
+        self.assertTrue(pin2 in pin_au1)
+        self.assertFalse(pin3 in pin_au1)
+        self.assertFalse(pin4 in pin_au1)
+
+    def test_associationuser_set_pin(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au1.save()
+
+        au1.set_pin(first_name="Georges", last_name="Bush")
+
+        pin = au1.get_pin()[0]
+
+        self.assertEqual("Georges", pin.first_name)
+        self.assertEqual("Bush", pin.last_name)
+        self.assertEqual(au1, pin.managed_by)
+
+    def test_associationuser_get_pin(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au2 = AssociationUser(username="au2", password="anzd", email="zi", \
+                              level=0, association=assoc[0])
+        au1.save()
+        au2.save()
+
+        pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
+        pin2 = PIN(first_name="hello", last_name="kitty", managed_by=au1)
+
+        pin1.save()
+        pin2.save()
+
+        au2.transfer_pin(pin=pin1, other_au=au2)
+        au1.transfer_pin(pin=pin2, other_au=au2)
+
+        self.assertEqual(pin1.managed_by, au1)
+        self.assertEqual(pin2.managed_by, au2)
+ 
     
     def test_entity_get_all_requests(self):
         users =  ModelsTests.generate_user()
