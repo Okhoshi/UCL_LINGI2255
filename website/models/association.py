@@ -5,8 +5,8 @@
 # DATE_VERSION 2 : 23 November 2013
 # VERSION : 1
 from django.db import models
-from entity import *
-from associationuser import *
+from website.models.entity import *
+from website.models.associationuser import *
 
 class Association(Entity):
     name = models.CharField(max_length=256)
@@ -20,7 +20,7 @@ class Association(Entity):
 
     # Return the list of the AssociationUser that work for self
     def get_employees(self):
-        return AssociationUser.objects.filter(association__exact=self)
+        return AssociationUser.objects.filter(entity__exact=self)
 
     # No reason to create a add_employee method, since the association variable
     # is mandatory in AssociationUser (but we can if it's useful somewhere...)

@@ -8,15 +8,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from pin import *
 
-class AssociationUser(User):
+class AssociationUser(models.Model):
+    dj_user = models.OneToOneField(User, related_name='profile_a')
     level = models.IntegerField()
-    association = models.ForeignKey('website.Association')
+    entity = models.ForeignKey('website.Association')
 
     class Meta:
         app_label = 'website'
     
     def __unicode__(self):
-        return first_name + ' ' + last_name + ' (' + association.name + ')'
+        return self.dj_user.first_name + ' ' + self.dj_user.last_name + ' (' + self.entity.name + ')'
 
     # get_level : useless since level is a instance variable
 
@@ -37,5 +38,7 @@ class AssociationUser(User):
         if (pin.managed_by == self):
             pin.managed_by = other_au
 
-    # get_association: not useful since we have association...
+    # get_association
+    def get_association(self):
+        return self.entity
     # get_association_user: not useful (why using a ID??)

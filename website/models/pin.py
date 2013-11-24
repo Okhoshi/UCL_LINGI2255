@@ -9,7 +9,7 @@ from django.db import models
 class PIN(models.Model):
     first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
-    managed_by = models.ForeignKey('website.AssociationUser')
+    managed_by = models.ForeignKey('website.AssociationUser', related_name='manager_of')
 
     class Meta:
         app_label = 'website'

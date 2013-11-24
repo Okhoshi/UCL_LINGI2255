@@ -17,7 +17,7 @@ class SIUserManager(models.Manager):
                                           first_name=extra_field.get('first_name', ''),
                                           last_name=extra_field.get('last_name', ''))
         user = User()
-        user.user = buser
+        user.dj_user = buser
         user.confirmed_status = extra_field.get('confirmed_status', False)
         user.location = extra_field.get('location')
         user.save()
@@ -33,7 +33,7 @@ def id_path(instance, filename):
 
 
 class User(Entity):
-    user = models.OneToOneField(DUser)
+    dj_user = models.OneToOneField(DUser, related_name='profile')
     confirmed_status = models.BooleanField()
     picture = models.ImageField(upload_to=pic_path)
     id_card = models.ImageField(upload_to=id_path)
@@ -41,9 +41,14 @@ class User(Entity):
 
     class Meta:
         app_label = 'website'
+
+    def __init__(self, *args, **kwargs):
+        u = super(User, self).__init__(*args, **kwargs)
+        self.entity = self
+        return u
     
     def __unicode__(self):
-        return self.user.first_name + ' ' + self.user.last_name
+        return self.dj_user.first_name + ' ' + self.dj_user.last_name
 
     # Return True is the user was verified by the administrator of Solidare-IT
     def is_verified(self):
