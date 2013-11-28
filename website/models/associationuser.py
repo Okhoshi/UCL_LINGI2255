@@ -32,7 +32,8 @@ class AssociationUser(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        return self.dj_user.first_name + ' ' + self.dj_user.last_name + ' (' + self.entity.name + ')'
+        return self.dj_user.first_name + ' ' + self.dj_user.last_name + \
+               ' (' + self.entity.name + ')'
 
     # get_level : useless since level is a instance variable
 

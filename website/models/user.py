@@ -34,7 +34,7 @@ def id_path(instance, filename):
 
 class User(Entity):
     dj_user = models.OneToOneField(DUser, related_name='profile')
-    confirmed_status = models.BooleanField()
+    confirmed_status = models.BooleanField(default=False)
     picture = models.ImageField(upload_to=pic_path)
     id_card = models.ImageField(upload_to=id_path)
     objects = SIUserManager()

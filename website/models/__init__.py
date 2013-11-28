@@ -9,3 +9,5 @@ from associationuser import *
 from feedback import *
 from internalmessage import *
 from user import *
+from filteredrequest import *
+from agefilter import *
