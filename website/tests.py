@@ -36,16 +36,12 @@ class ModelsTests(TestCase):
 
     def test_association_get_employees(self):
         assoc = ModelsTests.generate_association()
-        au1 = AssociationUser(username="au1", password="anz", email="i", \
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
                               level=0, association=assoc[0])
-        au2 = AssociationUser(username="au2", password="anzd", email="zi", \
+        au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
                               level=0, association=assoc[0])
-        au3 = AssociationUser(username="au2-3", password="anzod", email="zoi", \
+        au3 = AssociationUser.objects.create_user(username="au2-3", password="anzod", email="zoi", \
                               level=0, association=assoc[1])
-
-        au1.save()
-        au2.save()
-        au3.save()
 
         aua0 = assoc[0].get_employees()
         self.assertTrue(au1 in aua0)
@@ -54,15 +50,12 @@ class ModelsTests(TestCase):
 
     def test_associationuser_get_pin(self):
         assoc = ModelsTests.generate_association()
-        au1 = AssociationUser(username="au1", password="anz", email="i", \
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
                               level=0, association=assoc[0])
-        au2 = AssociationUser(username="au2", password="anzd", email="zi", \
+        au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
                               level=0, association=assoc[0])
-        au3 = AssociationUser(username="au2-3", password="anzod", email="zoi", \
+        au3 = AssociationUser.objects.create_user(username="au2-3", password="anzod", email="zoi", \
                               level=0, association=assoc[1])
-        au1.save()
-        au2.save()
-        au3.save()
 
         pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
         pin2 = PIN(first_name="bye", last_name="world", managed_by=au1)
@@ -83,9 +76,8 @@ class ModelsTests(TestCase):
 
     def test_associationuser_set_pin(self):
         assoc = ModelsTests.generate_association()
-        au1 = AssociationUser(username="au1", password="anz", email="i", \
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
                               level=0, association=assoc[0])
-        au1.save()
 
         au1.set_pin(first_name="Georges", last_name="Bush")
 
@@ -97,12 +89,10 @@ class ModelsTests(TestCase):
 
     def test_associationuser_get_pin(self):
         assoc = ModelsTests.generate_association()
-        au1 = AssociationUser(username="au1", password="anz", email="i", \
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
                               level=0, association=assoc[0])
-        au2 = AssociationUser(username="au2", password="anzd", email="zi", \
+        au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
                               level=0, association=assoc[0])
-        au1.save()
-        au2.save()
 
         pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
         pin2 = PIN(first_name="hello", last_name="kitty", managed_by=au1)

@@ -8,10 +8,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from pin import *
 
+class SIAssocUserManager(models.Manager):
+
+    @staticmethod
+    def create_user(username, email, password, association, level, **extra_field):
+        buser = User.objects.create_user(username, email, password,
+                                          first_name=extra_field.get('first_name', ''),
+                                          last_name=extra_field.get('last_name', ''))
+        user = AssociationUser()
+        user.dj_user = buser
+        user.entity = association
+        user.level = level
+        user.save()
+        return user
+
 class AssociationUser(models.Model):
     dj_user = models.OneToOneField(User, related_name='profile_a')
     level = models.IntegerField()
     entity = models.ForeignKey('website.Association')
+    objects = SIAssocUserManager()
 
     class Meta:
         app_label = 'website'
