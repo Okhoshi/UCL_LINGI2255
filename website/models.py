@@ -9,5 +9,7 @@ from models.associationuser.py import *
 from models.feedback.py import *
 from models.internalmessage.py import *
 from models.user.py import *
+from models.filteredrequest.py import *
+from models.agefilter.py import *
 # In this class, only import the files from the models folder!!!
 # Don't forget to update the __init__.py file in the models folder too!!!
