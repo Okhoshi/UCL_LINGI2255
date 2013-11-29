@@ -4,6 +4,7 @@
 # DATE_VERSION 1: 19 November 2013
 # VERSION : 1
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 #from request import *
 
 class Feedback(models.Model):
@@ -17,4 +18,4 @@ class Feedback(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        return "Feedback about " + self.request.__unicode__()
+        return _("Feedback about ") + self.request.__unicode__()

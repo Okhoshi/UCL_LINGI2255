@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import ugettext_lazy as _
 from forms import MForm
 from exceptions import *
 from website.models import *
@@ -30,10 +31,11 @@ def login(request):
                     return redirect('profile')
             else:
                 # Return a 'disabled account' error message
-                message = 'Disabled Account'
+                message = _("This account has been disabled." + \
+                            "Please contact the administrator of this site.")
         else:
             # Return an 'invalid login' error message.
-            message = 'Invalid login'
+            message = _("This username or password is not valid.")
     return render(request, 'login.html', \
                   {'message': message, 'redirect': request.REQUEST.get('next', '')})
 

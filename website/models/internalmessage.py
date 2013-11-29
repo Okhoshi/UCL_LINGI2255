@@ -4,6 +4,7 @@
 # DATE_VERSION 1: 19 November 2013
 # VERSION : 1
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 #from entity import *
 #from request import *
 
@@ -18,7 +19,8 @@ class InternalMessage(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        return "From: " + self.sender.__unicode__() + " To: " + \
-               self.receiver.__unicode__() + " Message: " + self.message
+        return _("From: ") + self.sender.__unicode__() + " " + \
+               _("To: ") + self.receiver.__unicode__() + " " + \
+               _("Message: ") + self.message
 
     
