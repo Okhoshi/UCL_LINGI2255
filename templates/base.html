@@ -32,7 +32,7 @@
 				<div class="pull-right text-right" style="padding-top: 6px;">
 					{% if user.is_authenticated %}
 					    <div class="btn-group text-left">
-					    <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'profile' %}">
+					    <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'account' %}">
                             {% if user.first_name %}
                                 {{user.first_name }} {{ user.last_name }}
                             {% else %}

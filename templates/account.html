@@ -11,6 +11,7 @@
 
 
 {% block content %}
+<div class="alert alert-danger"><strong>Warning!</strong> You have 4 unread messages. You can read them in your <strong><a href="">mailbox</a></strong>.</div>
 <div class="row">
 	<div class="col-md-8 col-sm-7 text-center">
 		<h3>
@@ -27,9 +28,6 @@
 		</div>
 	</div>
 	<div class="col-md-4 col-sm-5">
-		<ul class="nav nav-pills pull-right">
-			<li class="active"><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;&nbsp;{% trans "Mailbox" %} <span class="badge">4</span></a></li>
-		</ul>
 		<div class="clearfix" style="margin:15px"></div>
 		<div class="pull-left">
 			<img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">

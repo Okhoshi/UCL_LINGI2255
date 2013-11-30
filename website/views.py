@@ -28,7 +28,7 @@ def login(request):
                 if request.REQUEST.__contains__('next'):
                     return redirect(request.REQUEST['next'])
                 else:
-                    return redirect('profile')
+                    return redirect('account')
             else:
                 # Return a 'disabled account' error message
                 message = _("This account has been disabled." + \
