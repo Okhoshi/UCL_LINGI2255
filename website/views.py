@@ -74,6 +74,9 @@ def individual_registration(request):
 def organisation_registration(request):
     return render(request, 'organisation_registration.html', {})
 
+@login_required
+def account(request):
+    return render(request, 'account.html', {})
 
 @login_required
 def profile(request):
