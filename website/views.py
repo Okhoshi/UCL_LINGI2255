@@ -31,7 +31,7 @@ def login(request):
                     return redirect('account')
             else:
                 # Return a 'disabled account' error message
-                message = _("This account has been disabled." + \
+                message = _("This account has been disabled. " + \
                             "Please contact the administrator of this site.")
         else:
             # Return an 'invalid login' error message.
