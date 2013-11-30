@@ -164,9 +164,9 @@ a:hover {
  	margin-bottom: 10px; 
  }
 
-/**********************
+/***********************************
  ***** add_representative.html *****
- **********************/
+ ***********************************/
 
  .m_tab {
  	color: #333333; 
@@ -175,3 +175,24 @@ a:hover {
  	padding-top: 10px;
  	border-radius: 0 0 4px 4px;
  }
+
+ /************************
+ ***** accountt.html *****
+ *************************/
+
+.box {
+	margin-bottom: 15px;
+}
+ .box h4 {
+	border-bottom: 2px solid #e1007a;
+	color: #e1007a;
+	padding-bottom: 5px;
+}
+
+.box ul {
+	margin-left: 15px;
+}
+
+.box ul li {
+	margin-bottom:5px;
+}
