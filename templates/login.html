@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
+
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
-	<li><a href="/">Home</a></li>
-	<li class="active">Log in</li>
+	<li><a href="/">{% trans "Home" %}</a></li>
+	<li class="active">{% trans "Log in" %}</li>
 </ol>
 {% endblock %}
 
@@ -16,11 +18,11 @@
 		<form class="form-signin" id="sign_in" method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             {% if redirect %}<input type="hidden" value="{{ redirect }}" name="next" />{% endif %}
-			<input type="text" class="form-control" placeholder="Email address" name="username" required autofocus>
-			<input type="password" class="form-control" placeholder="Password" name="password" required>
+			<input type="text" class="form-control" placeholder="{% trans "Email address" %}" name="username" required autofocus>
+			<input type="password" class="form-control" placeholder="{% trans "Password" %}" name="password" required>
 			<!--<label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label>-->
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
-			<a class="btn btn-lg btn-success btn-block" href="{% url 'register' %}">Register</a>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Log in" %}</button>
+			<a class="btn btn-lg btn-success btn-block" href="{% url 'register' %}">{% trans "Register" %}</a>
 			
 		</form>
 	</div>
