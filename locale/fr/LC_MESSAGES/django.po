@@ -24,11 +24,11 @@ msgstr "Mon Profil"
 
 #: .\templates\base.html:48
 msgid "My exchanges"
-msgstr "Mes échanges"
+msgstr "Mes echanges"
 
 #: .\templates\base.html:49
 msgid "Internal messages"
-msgstr "Messages privés"
+msgstr "Messages prives"
 
 #: .\templates\base.html:51
 msgid "Log out"
