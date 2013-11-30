@@ -1,9 +1,10 @@
 # Class that represents a Person In Need, helped by an Association(User)
-# AUTHOR :  Quentin De Coninck, Benjamin Baugnies, Anh Tuan Le
+# AUTHOR :  Quentin De Coninck, Benjamin Baugnies, Anh Tuan Le, Romain Vanwelde
 # DATE_CREATION : 17 November 2013
 # DATE_VERSION 1: 19 November 2013
 # DATE_VERSION 2: 20 November 2013
-# VERSION : 2
+# DATE_VERSION 3 : 30 November 2013
+# VERSION : 3
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 

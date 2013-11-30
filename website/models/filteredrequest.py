@@ -1,6 +1,7 @@
 # Class that represents a request where a filter is placed
 # AUTHOR :  Quentin De Coninck
 # DATE_CREATION : 28 November 2013
+# DATE_VERSION 1 : 30 November 2013
 # VERSION : 1
 from request import *
 from agefilter import *

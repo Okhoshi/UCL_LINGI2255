@@ -1,6 +1,7 @@
 # Class that represents a filter on the age
-# AUTHOR :  Quentin De Coninck
+# AUTHOR :  Quentin De Coninck, Romain Vanwelde
 # DATE_CREATION : 28 November 2013
+# DATE_VERSION 1 : 30 November 2013
 # VERSION : 1
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
