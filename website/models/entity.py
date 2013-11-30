@@ -1,6 +1,6 @@
 # Class that represents a general user/actor (registered) of the website
 # AUTHORS :  Anh Tuan Le, Romain Vanwelde, Benjamin Baugnies ,
-#            Quentin De Coninck, Quentin Devos (V3)
+#            Quentin De Coninck, Quentin Devos, Romain Vanwelde (V4)
 # DATE_CREATION : 17 November 2013
 # DATE_VERSION 1 : 18 November 2013
 # DATE_VERSION 2 : 19 November 2013
