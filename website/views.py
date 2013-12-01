@@ -82,6 +82,9 @@ def account(request):
 def profile(request):
     return render(request, 'profile.html', {})
 
+@login_required
+def create_offer_demand(request):
+    return render(request, 'create.html', {})
 
 @login_required
 def add_representative(request):

@@ -24,7 +24,7 @@
     	</h3>
     	<div class="text-center" style="margin-top:25px">
 			<a class="btn btn-primary btn-lg" style="margin-right: 15px"><i class="glyphicon glyphicon-search"></i> {% trans "Search" %}</a>
-			<a class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-pencil"></i> {% trans "Create" %}</a>
+			<a class="btn btn-primary btn-lg" href="{% url 'create_offer_demand' %}"><i class="glyphicon glyphicon-pencil"></i> {% trans "Create" %}</a>
 		</div>
 	</div>
 	<div class="col-md-4 col-sm-5">
@@ -44,7 +44,7 @@
 <div class="col-sm-6">
 	<div class="panel panel-info box">
 		<div class="panel-heading">
-			<h3 class="panel-title">{% trans "Saved matches" %}</h3>
+			<h3 class="panel-title">{% trans "Saved searches" %}</h3>
 		</div>
 		<ul class="list-unstyled">
 			<li>
@@ -62,23 +62,23 @@
 				Lorem ipsum dolor sit amet.
 				<div class="clearfix"></div>
 			</li>
+		</ul>
+	</div>
+
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Saved matches" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
 		</ul>
 	</div>
 
 	<div class="panel panel-info box">
 		<div class="panel-heading">
 			<h3 class="panel-title">{% trans "Similar offers and demands" %}</h3>
-		</div>
-		<ul class="list-unstyled">
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
-		</ul>
-	</div>
-
-	<div class="panel panel-info box">
-		<div class="panel-heading">
-			<h3 class="panel-title">{% trans "Saved searches" %}</h3>
 		</div>
 		<ul class="list-unstyled">
 			<li>Lorem ipsum dolor sit amet.</li>

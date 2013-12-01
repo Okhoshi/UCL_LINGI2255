@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %} 
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+	<li><a href="/">{% trans "Home" %}</a></li>
+	<li class="active">{% trans "Create offer or demand" %}</li>
+</ol>
+{% endblock %}
+
+
+{% block content %}
+new_offer_demand.html
+{% endblock %}
