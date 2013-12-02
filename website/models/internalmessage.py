@@ -4,7 +4,7 @@
 # DATE_VERSION 1: 19 November 2013
 # VERSION : 1
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 #from entity import *
 #from request import *
 

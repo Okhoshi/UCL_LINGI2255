@@ -15,7 +15,7 @@ from request import *
 from savedsearch import *
 import datetime
 from django.utils.timezone import utc
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
