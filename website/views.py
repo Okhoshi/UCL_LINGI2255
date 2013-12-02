@@ -28,10 +28,10 @@ def login(request):
                 if request.REQUEST.__contains__('next'):
                     return redirect(request.REQUEST['next'])
                 else:
-                    return redirect('profile')
+                    return redirect('account')
             else:
                 # Return a 'disabled account' error message
-                message = _("This account has been disabled." + \
+                message = _("This account has been disabled. " + \
                             "Please contact the administrator of this site.")
         else:
             # Return an 'invalid login' error message.
@@ -74,11 +74,17 @@ def individual_registration(request):
 def organisation_registration(request):
     return render(request, 'organisation_registration.html', {})
 
+@login_required
+def account(request):
+    return render(request, 'account.html', {})
 
 @login_required
 def profile(request):
     return render(request, 'profile.html', {})
 
+@login_required
+def create_offer_demand(request):
+    return render(request, 'create.html', {})
 
 @login_required
 def add_representative(request):

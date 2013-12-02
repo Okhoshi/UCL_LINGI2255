@@ -10,7 +10,7 @@
  -->
 <div class="row">
 	<div class="col-sm-8">
-		<h4 class="text-center">Challenge progress</h4>
+		<h4 class="text-center">{% trans "Challenge progress" %}</h4>
 		<div class="progress">
 			<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;background-color: #e1007a;">
 				<span>60%</span>
@@ -30,7 +30,7 @@
 				<div class="input-group-btn"><button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button></div>
 				<input type="search" class="form-control" id="search" placeholder="Search">
 				<span class="input-group-btn">
-					<button class="btn btn-danger" type="submit">DARE-it!</button>
+					<button class="btn btn-danger" type="submit">{% trans "DARE-it!" %}</button>
 				</span>
 			</div><!-- /input-group -->
 			<div style="height: 33px;" class="visible-xs"></div>
@@ -44,18 +44,20 @@
  -->
 <div id="home_content">
 	<div class="col-md-4 col-sm-6">
-		<h4 class="in_front">The concept</h4>
+		<h4 class="in_front">{% trans "The concept" %}</h4>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
 	</div>
 
 	<div class="col-md-4 col-sm-6">
-		<h4>Testimonies</h4>
+		<h4>{% trans "Testimonies" %}</h4>
 		{%  for testimony in testimonies  %}
 		<blockquote>
 			<p>{{ testimony.testimony }}</p>
 		</blockquote>
         {% endfor %}
 	</div>
+
+	<div class="clearfix visible-sm"></div>
 
 	<div class="col-md-4 col-sm-6">
 		<h4>&nbsp;</h4>
@@ -71,14 +73,16 @@
 	##################################################
 	 -->
 	<div class="col-md-4 col-sm-6">
-		<h4>Video manual</h4>
+		<h4>{% trans "Video manual" %}</h4>
 		<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
 			<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
 		</div>
 	</div>
 
+	<div class="clearfix visible-sm"></div>
+
 	<div class="col-md-4 col-sm-6">
-		<h4>Latest offers and demands</h4>
+		<h4>{% trans "Latest offers and demands" %}</h4>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
 	</div>
 
@@ -89,24 +93,26 @@
 		</div>
 	</div>
 
-	<div class="clearfix visible-md"></div>
+	<div class="clearfix visible-sm"></div>
 	<!--
 	########################################################
 	##### CALENDAR & NEWS / CHALLENGE MAP / DL & SHARE #####
 	########################################################
 	 -->
 	<div class="col-md-4 col-sm-6">
-		<h4>Calendar and news</h4>
+		<h4>{% trans "Calendar and news" %}</h4>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
 	</div>
 
 	<div class="col-md-4 col-sm-6">
-		<h4>Challenge map</h4>
+		<h4>{% trans "Challenge map" %}</h4>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
 	</div>
 
+	<div class="clearfix visible-sm"></div>
+
 	<div class="col-md-4 col-sm-6">
-		<h4>Download and share</h4>
+		<h4>{% trans "Download and share" %}</h4>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
 	</div>
 </div> <!-- #home_content -->
@@ -117,7 +123,7 @@
 ##### PARTNERS #####
 ####################
 -->
-<h4 style="margin-top: 40px;">Our partners:</h4>
+<h4 style="margin-top: 40px;">{% trans "Our partners:" %}</h4>
 <div class="well" id="partners">
 	<div class="row" style="margin: 0px">
 		<div class="col-md-2 col-sm-4 col-xs-6"><img src="{% static 'images/resto_coeur.png' %}" class="img-responsive" alt="Resto du coeur"></div>

@@ -13,6 +13,8 @@ urlpatterns = patterns('website.views',
     url(r'^register/individual/$', 'individual_registration'),
     url(r'^register/organisation/$', 'organisation_registration'),
     url(r'^profile/$', 'profile', name='profile'),
+    url(r'^account/$', 'account', name='account'),
+    url(r'^create/$', 'create_offer_demand', name='create_offer_demand'),
     url(r'^profile/add_representative/$', 'add_representative', name='add_representative'),
     url(r'^logout/$', 'logout', name='logout'),
     # Examples:

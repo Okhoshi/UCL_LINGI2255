@@ -1,9 +1,11 @@
 # Class that represents a request where a filter is placed
 # AUTHOR :  Quentin De Coninck
 # DATE_CREATION : 28 November 2013
+# DATE_VERSION 1 : 30 November 2013
 # VERSION : 1
 from request import *
 from agefilter import *
+from django.utils.translation import ugettext_lazy as _
 
 class FilteredRequest(Request):
 
@@ -24,7 +26,7 @@ class FilteredRequest(Request):
         app_label = 'website'
     
     def __unicode__(self):
-        return super(Request, self).__unicode__() + " filtered"
+        return super(Request, self).__unicode__() + " " + _("filtered")
 
     # Return a list of the AgeFilters of the FilteredRequest
     # If no AgeFilter is linked to FilteredRequest, then return an empty list
