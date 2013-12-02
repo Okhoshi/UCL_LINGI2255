@@ -38,3 +38,10 @@ class FilteredRequest(Request):
                 to_return.append(elem)
 
         return to_return
+
+    # Return all requests that are public, i.e. that don't have filters on it
+    # It means that the request returned are only Requests (and not FilteredRequests)
+    @staticmethod
+    def get_all_public_requests():
+        freq = FilteredRequest.objects.all()
+        return Request.objects.all().exclude(id__in=[o.request_ptr_id for o in freq])

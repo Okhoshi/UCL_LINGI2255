@@ -20,6 +20,8 @@ class SIUserManager(models.Manager):
         user.dj_user = buser
         user.confirmed_status = extra_field.get('confirmed_status', False)
         user.location = extra_field.get('location')
+        user.birth_day = extra_field.get('birth_day')
+        user.gender = extra_field.get('gender')
         user.save()
         return user
 
@@ -33,10 +35,20 @@ def id_path(instance, filename):
 
 
 class User(Entity):
+    MAN = 'M'
+    WOMAN = 'W'
+
+    GENDER_CHOICES = (
+        (MAN, 'Man'),
+        (WOMAN, 'Woman'),
+    )
+
     dj_user = models.OneToOneField(DUser, related_name='profile')
     confirmed_status = models.BooleanField(default=False)
     picture = models.ImageField(upload_to=pic_path)
     id_card = models.ImageField(upload_to=id_path)
+    birth_day = models.DateTimeField('birth day')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     objects = SIUserManager()
 
     class Meta:

@@ -20,7 +20,9 @@ class ModelsTests(TestCase):
                                                   confirmed_status=True,\
                                                   username="E"+str(index),\
                                                   email="ci@ici.be",\
-                                                  password="azerty"))
+                                                  password="azerty",
+                                                  gender="M",
+                                                  birth_day=datetime.datetime.utcnow().replace(tzinfo=utc)))
         return users
 
     @staticmethod
@@ -330,8 +332,24 @@ class ModelsTests(TestCase):
         self.assertTrue(age_req in af)
         self.assertTrue(age_req2 in af)
 
+    def test_filteredrequest_get_all_public_request(self):
+        pla = Place()
+        pla.save()
+        users = ModelsTests.generate_user()
+        req = Request(name="Hello", category="Test", place=pla, \
+                      proposer=users[0], demander=users[1], state=Request.DONE)
+        pla = Place()
+        pla.save()
+        freq = FilteredRequest(name="Hello", category="Test", place=pla, \
+                               proposer=users[0])
+        req.save()
+        freq.save()
 
-        
+        public_req = FilteredRequest.get_all_public_requests()
+
+        self.assertTrue(req in public_req)
+        self.assertFalse(freq in public_req)
+
 
     def test_request_get_all_requests(self):
         pla = Place()
@@ -447,15 +465,9 @@ class ModelsTests(TestCase):
             self.assertEqual(len(t1), min(i, Testimony.objects.count()))
 
     def test_user_is_verified(self):
-        user = ModelsTests.generate_user(1)
-        self.assertEquals(user[0].confirmed_status, user[0].is_verified())
-        pla = Place()
-        pla.save()
-        user2 = User.objects.create_user(first_name="W64", \
-                                         last_name="User",\
-                                         location = pla, \
-                                        username="E32", \
-                                         email="ci@ici.be",\
-                                         password="azerty")
-        self.assertEquals(user2.confirmed_status, user2.is_verified())
+        users = ModelsTests.generate_user(2)
+        self.assertEquals(users[0].confirmed_status, users[0].is_verified())
+        users[1].confirmed_status = True
+        users[1].save()
+        self.assertEquals(users[1].confirmed_status, users[1].is_verified())
         
