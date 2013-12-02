@@ -287,27 +287,34 @@ class ModelsTests(TestCase):
 
         self.assertTrue(savedsearch in result0)
         self.assertFalse(savedsearch in result1)
-            def test_entity_search(self):
+
+
+    def test_entity_search(self):
         users = ModelsTests.generate_user()
         pla = Place()
         pla.save()
         savedsearch = SavedSearch(place = pla, date=\
             datetime.datetime.utcnow().replace(tzinfo=utc), search_field=\
-            "Hello coucou bonjour oi salut wassup", category="test", entity=users[0])
+            "Hello coucou bonjour oi salut wassup", category="test", \
+            entity=users[0])
         savedsearch.save()
 
-        req = Request(name="Hello cat dog llama duck", category="Test", place=pla, \
-                      proposer=users[0], demander=users[1], state=Request.PROPOSAL)
-        req2 = Request(name="Hello2", category="Test", place=pla, \
-                      proposer=users[1], demander=users[0], state=Request.DONE)
-        req3 = Request(name="Goodbye", category="Not Test", place=pla, \
-                      proposer=users[1], demander=users[0], state=Request.PROPOSAL)
-        req4 = Request(name="salut coucou dead beef boob", category="Test", place=pla, \
-                      proposer=users[1], demander=users[0], state=Request.PROPOSAL)
-        req5 = Request(name="oi wassup dead beef boob", category="Test", place=pla, \
-                      proposer=users[1], demander=users[0], state=Request.PROPOSAL)
-        req6 = Request(name="salut Hello bonjour beef boob", category="Test", place=pla, \
-                      proposer=users[1], demander=users[0], state=Request.PROPOSAL)
+        req = Request(name="Hello cat dog llama duck", category="Test", \
+            place=pla, proposer=users[0], demander=users[1],\
+            state=Request.PROPOSAL)
+        req2 = Request(name="Hello2", category="Test", place=pla,\
+            proposer=users[1], demander=users[0], state=Request.DONE)
+        req3 = Request(name="Goodbye", category="Not Test", place=pla,\
+            proposer=users[1], demander=users[0], state=Request.PROPOSAL)
+        req4 = Request(name="salut coucou dead beef boob", category="Test",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.PROPOSAL)
+        req5 = Request(name="oi wassup dead beef boob", category="Test",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.PROPOSAL)
+        req6 = Request(name="salut Hello bonjour beef boob", category="Test",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.PROPOSAL)
         
 
         req.save()
@@ -325,6 +332,7 @@ class ModelsTests(TestCase):
         self.assertTrue(req4 in res)
         self.assertTrue(req5 in res)
         self.assertTrue(req6 in res)
+        
 
 
     def test_entity_send_internal_message(self):

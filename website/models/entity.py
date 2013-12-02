@@ -120,7 +120,8 @@ class Entity(models.Model):
         requests = Request.objects.filter(state__exact = \
             Request.PROPOSAL).filter(category__exact = \
             savedsearch.category)
-        returnrequests = requests.filter(reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in searchfield]))
+        returnrequests = requests.filter(reduce(lambda x, y: x | y,\
+                [Q(name__icontains=word) for word in searchfield]))
    
         relevance = []
         for req in returnrequests:
