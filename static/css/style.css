@@ -31,7 +31,7 @@
 #bonhommes_container {
     bottom: -11%;
     position: absolute;
-    right: -8%;
+    right: 0%;
     display: none;
 }
 @media (min-width: 992px) {
