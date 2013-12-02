@@ -1,11 +1,12 @@
 {% extends 'individual_registration.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
-	<li><a href="/">Home</a></li>
-	<li><a href="/register">Register</a></li>
-	<li class="active">New organisation</li>
+	<li><a href="/">{% trans "Home" %}</a></li>
+	<li><a href="/register">{% trans "Register" %}</a></li>
+	<li class="active">{% trans "New organisation" %}</li>
 </ol>
 {% endblock %}
 
@@ -17,14 +18,14 @@
 {% block first_column %}
 {{ block.super }}
 <div class="form-group">
-	<label for="inputOrgName" class="col-sm-3 col-xs-12 control-label">Organisation</label>
+	<label for="inputOrgName" class="col-sm-3 col-xs-12 control-label">{% trans "Organisation" %}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputOrgName" placeholder="Name">
+		<input type="text" class="form-control" id="inputOrgName" placeholder="{% trans "Name" %}">
 	</div>
 </div>
 {% endblock %}
 
-{% block address_placeholder %}Organisation street{% endblock %}
+{% block address_placeholder %} {% trans "Organisation street"%}{% endblock %}
 
 <!--
 ###########1############
@@ -33,30 +34,30 @@
 -->
 {% block second_column %}
 <div class="form-group">
-	<label for="inputDescription" class="col-sm-3 col-xs-12 control-label">Description</label>
+	<label for="inputDescription" class="col-sm-3 col-xs-12 control-label">{% trans "Description"%}</label>
 	<div class="col-sm-9">
-		<textarea class="form-control" id="inputDescription" placeholder="Small organisation description" rows="3"></textarea>
+		<textarea class="form-control" id="inputDescription" placeholder="{% trans "Small organisation description"%}" rows="3"></textarea>
 	</div>
 </div>
 
 <div class="form-group">
-	<label for="inputPhone" class="col-sm-3 control-label">Telephone</label>
+	<label for="inputPhone" class="col-sm-3 control-label">{% trans "Telephone"%}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputPhone" placeholder="Organisation telephone number">
+		<input type="text" class="form-control" id="inputPhone" placeholder="{% trans "Organisation telephone number"%}">
 	</div>
 </div>
 
 <div class="form-group">
-	<label for="inputVAT" class="col-sm-3 control-label">VAT*</label>
+	<label for="inputVAT" class="col-sm-3 control-label">{% trans "VAT*"%}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputVAT" placeholder="Organisation VAT number">
+		<input type="text" class="form-control" id="inputVAT" placeholder="{% trans "Organisation VAT number"%}">
 	</div>
 </div>
 
 <div class="form-group">
-	<label for="inputSite" class="col-sm-3 control-label">Website</label>
+	<label for="inputSite" class="col-sm-3 control-label">{% trans "Website"%}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputSite" placeholder="Organisation website">
+		<input type="text" class="form-control" id="inputSite" placeholder="{% trans "Organisation website"%}">
 	</div>
 </div>
 
@@ -64,13 +65,13 @@
 <div class="form-group">
 	<div class="col-sm-offset-3 col-sm-9">
 		<div class="checkbox">
-			<label><input type="checkbox"> Transfer emails to indicated address</label>
+			<label><input type="checkbox"> {% trans "Transfer emails to indicated address"%}</label>
 		</div>
 	</div>
 </div>
 
 <div class="form-group">
-	<label for="inputFacebook" class="col-sm-3 control-label">Captcha</label>
+	<label for="inputFacebook" class="col-sm-3 control-label">{% trans "Captcha"%}</label>
 	<div class="col-sm-9">
 		<img src="{% static 'images/captcha.gif' %}" class="img-responsive" alt="Captcha" style="margin: 0">
 	</div>
@@ -85,8 +86,8 @@
 {% block third_column %}
 {{ block.super }}
 <div class="col-sm-3 col-xs-6 text-center" style="">
-	<label>Organisation logo</label>
+	<label>{% trans "Organisation logo"%}</label>
 	<img src="{% static 'images/polaroid.png' %}" class="img-responsive" style="margin-bottom: 20px" alt="Profile picture">
-	<button class="btn btn-primary"><i class="glyphicon glyphicon-camera"></i>&nbsp;&nbsp;Change</button>
+	<button class="btn btn-primary"><i class="glyphicon glyphicon-camera"></i>&nbsp;&nbsp;{% trans "Change"%}</button>
 </div>
 {% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-30 20:33+0100\n"
+"POT-Creation-Date: 2013-12-02 14:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,14 +19,16 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: templates/account.html:7 templates/add_representative.html:7
-#: templates/base.html:90 templates/individual_registration.html:7
-#: templates/login.html:8 templates/profile.html:8
+#: templates/base.html:90 templates/create.html:7
+#: templates/individual_registration.html:7 templates/login.html:8
+#: templates/organisation_registration.html:7 templates/profile.html:8
+#: templates/register.html:8
 msgid "Home"
 msgstr "Accueil"
 
 #: templates/account.html:8
 msgid "Account"
-msgstr ""
+msgstr "Compte"
 
 #: templates/account.html:18
 msgid "Welcome"
@@ -46,24 +48,24 @@ msgstr "Historique"
 
 #: templates/account.html:37
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 #: templates/account.html:47
-msgid "Saved matches"
-msgstr ""
+msgid "Saved searches"
+msgstr "Recherches sauvegardees"
 
 #: templates/account.html:51 templates/account.html.py:56
 #: templates/account.html:61
 msgid "Launch"
-msgstr ""
+msgstr "Lancer"
 
 #: templates/account.html:70
-msgid "Similar offers and demands"
-msgstr "Offres et demandes similaires"
+msgid "Saved matches"
+msgstr "Resultat sauvergardees"
 
 #: templates/account.html:81
-msgid "Saved searches"
-msgstr "Recherches sauvegardees"
+msgid "Similar offers and demands"
+msgstr "Offres et demandes similaires"
 
 #: templates/account.html:94
 msgid "My summary"
@@ -75,11 +77,11 @@ msgstr "Groupe"
 
 #: templates/account.html:116
 msgid "Following"
-msgstr ""
+msgstr "Personnes suivies"
 
 #: templates/add_representative.html:8
 msgid "Organisations"
-msgstr ""
+msgstr "Organisations"
 
 #: templates/add_representative.html:10
 msgid "Add a representative"
@@ -87,15 +89,16 @@ msgstr "Rajouter un membre"
 
 #: templates/add_representative.html:19
 msgid "Enter data"
-msgstr ""
+msgstr "Entrer les donnees"
 
 #: templates/add_representative.html:20
 msgid "Upload .xls"
-msgstr ""
+msgstr "Telecharger"
 
 #: templates/add_representative.html:30
 #: templates/individual_registration.html:44
-#: templates/individual_registration.html:46 templates/profile.html:53
+#: templates/individual_registration.html:46
+#: templates/organisation_registration.html:23 templates/profile.html:53
 #: templates/profile.html.py:89 templates/profile.html:125
 #: templates/profile.html.py:161
 msgid "Name"
@@ -109,25 +112,28 @@ msgstr "Prenom"
 
 #: templates/add_representative.html:44
 msgid "E-mail"
-msgstr ""
+msgstr "E-mail"
 
 #: templates/add_representative.html:52 templates/add_representative.html:63
 #: templates/individual_registration.html:8
 #: templates/individual_registration.html:190 templates/login.html:25
+#: templates/organisation_registration.html:8 templates/register.html:9
 msgid "Register"
-msgstr ""
+msgstr "S enregistrer"
 
 #: templates/add_representative.html:59
 msgid "Upload organisation members from an Excel file (.xls)"
 msgstr ""
+"Telecharger les membres de l organisation a partir d un fichier Excel (.xls)"
 
 #: templates/add_representative.html:61
-msgid "Upload copy"
-msgstr ""
+#, fuzzy
+msgid "Upload"
+msgstr "Telecharger"
 
 #: templates/add_representative.html:61
 msgid "No file selected"
-msgstr ""
+msgstr "Aucun fichier selectione"
 
 #: templates/base.html:47
 msgid "My profile"
@@ -151,15 +157,15 @@ msgstr "Connexion"
 
 #: templates/base.html:78
 msgid "Toggle navigation"
-msgstr ""
+msgstr "Bar de navigation"
 
 #: templates/base.html:91
 msgid "Concept"
-msgstr ""
+msgstr "Concept"
 
 #: templates/base.html:92
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: templates/base.html:93
 msgid "News"
@@ -167,7 +173,7 @@ msgstr "Nouvelles"
 
 #: templates/base.html:94
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #: templates/base.html:121
 msgid "Legal mentions"
@@ -176,6 +182,86 @@ msgstr "Mention legales"
 #: templates/base.html:121
 msgid "Site map"
 msgstr "Plan du site"
+
+#: templates/create.html:8
+#, fuzzy
+msgid "Create offer or demand"
+msgstr "Dernieres offres et demandes"
+
+#: templates/create.html:17
+msgid "Person"
+msgstr ""
+
+#: templates/create.html:30
+msgid "Type"
+msgstr "Type"
+
+#: templates/create.html:35
+msgid "Offer"
+msgstr ""
+
+#: templates/create.html:41
+msgid "Demand"
+msgstr ""
+
+#: templates/create.html:48
+msgid "Where ?"
+msgstr "Ou ?"
+
+#: templates/create.html:50 templates/individual_registration.html:98
+#: templates/individual_registration.html:100
+msgid "City"
+msgstr "Ville"
+
+#: templates/create.html:53 templates/individual_registration.html:103
+msgid "Post code"
+msgstr "Code postal"
+
+#: templates/create.html:58
+msgid "When ?"
+msgstr "Quand ?"
+
+#: templates/create.html:62
+msgid "Valid from"
+msgstr "A partir de"
+
+#: templates/create.html:65
+#, fuzzy
+msgid "From"
+msgstr "De"
+
+#: templates/create.html:68 templates/create.html.py:71
+#, fuzzy
+msgid "To"
+msgstr "A"
+
+#: templates/create.html:80
+msgid "One time"
+msgstr "Une seule fois"
+
+#: templates/create.html:86
+msgid "Regularly"
+msgstr "Regulierement"
+
+#: templates/create.html:92
+msgid "Not specified"
+msgstr "Pas specifie"
+
+#: templates/create.html:99
+msgid "What ?"
+msgstr "Quoi ?"
+
+#: templates/create.html:104
+msgid "Category"
+msgstr "Categorie"
+
+#: templates/create.html:114
+msgid "Specify"
+msgstr "Specifie"
+
+#: templates/create.html:123 templates/organisation_registration.html:37
+msgid "Description"
+msgstr "Description"
 
 #: templates/home.html:13
 msgid "Challenge progress"
@@ -193,27 +279,27 @@ msgstr "Le concept"
 msgid "Testimonies"
 msgstr "Temoignages"
 
-#: templates/home.html:74
+#: templates/home.html:76
 msgid "Video manual"
 msgstr ""
 
-#: templates/home.html:81
+#: templates/home.html:85
 msgid "Latest offers and demands"
 msgstr "Dernieres offres et demandes"
 
-#: templates/home.html:99
+#: templates/home.html:103
 msgid "Calendar and news"
 msgstr "Claendrier et nouvelles"
 
-#: templates/home.html:104
+#: templates/home.html:108
 msgid "Challenge map"
 msgstr ""
 
-#: templates/home.html:109
+#: templates/home.html:115
 msgid "Download and share"
 msgstr ""
 
-#: templates/home.html:120
+#: templates/home.html:126
 msgid "Our partners:"
 msgstr "Nos partenaires:"
 
@@ -260,15 +346,6 @@ msgstr "Rue"
 msgid "N°"
 msgstr ""
 
-#: templates/individual_registration.html:98
-#: templates/individual_registration.html:100
-msgid "City"
-msgstr "Ville"
-
-#: templates/individual_registration.html:103
-msgid "Post code"
-msgstr "Code postal"
-
 #: templates/individual_registration.html:108
 #: templates/individual_registration.html:110
 msgid "Country"
@@ -311,11 +388,64 @@ msgid "Profile picture"
 msgstr ""
 
 #: templates/individual_registration.html:177
+#: templates/organisation_registration.html:91
 msgid "Change"
 msgstr ""
 
 #: templates/login.html:21
 msgid "Email address"
+msgstr ""
+
+#: templates/organisation_registration.html:9
+msgid "New organisation"
+msgstr ""
+
+#: templates/organisation_registration.html:21 templates/register.html:27
+msgid "Organisation"
+msgstr ""
+
+#: templates/organisation_registration.html:28
+msgid "Organisation street"
+msgstr ""
+
+#: templates/organisation_registration.html:39
+msgid "Small organisation description"
+msgstr ""
+
+#: templates/organisation_registration.html:44
+msgid "Telephone"
+msgstr ""
+
+#: templates/organisation_registration.html:46
+msgid "Organisation telephone number"
+msgstr ""
+
+#: templates/organisation_registration.html:51
+msgid "VAT*"
+msgstr ""
+
+#: templates/organisation_registration.html:53
+msgid "Organisation VAT number"
+msgstr ""
+
+#: templates/organisation_registration.html:58
+msgid "Website"
+msgstr ""
+
+#: templates/organisation_registration.html:60
+msgid "Organisation website"
+msgstr ""
+
+#: templates/organisation_registration.html:68
+msgid "Transfer emails to indicated address"
+msgstr ""
+
+#: templates/organisation_registration.html:74
+msgid "Captcha"
+msgstr ""
+
+#: templates/organisation_registration.html:89
+msgid "Organisation logo"
 msgstr ""
 
 #: templates/profile.html:9
@@ -349,6 +479,22 @@ msgstr "Avec"
 
 #: templates/profile.html:156
 msgid "Evaluations summary"
+msgstr ""
+
+#: templates/register.html:17
+msgid "I am an individual, I want"
+msgstr ""
+
+#: templates/register.html:17
+msgid "to create my personnal account."
+msgstr ""
+
+#: templates/register.html:18
+msgid "Individual"
+msgstr ""
+
+#: templates/register.html:26
+msgid "I want to create an account for the organisation I represent."
 msgstr ""
 
 #: website/views.py:34
