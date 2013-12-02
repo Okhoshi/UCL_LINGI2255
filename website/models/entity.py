@@ -16,6 +16,7 @@ from savedsearch import *
 import datetime
 from django.utils.timezone import utc
 from django.utils.translation import ugettext as _
+from django.db.models import Q
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
@@ -111,10 +112,31 @@ class Entity(models.Model):
 
         return proposed_request | demanded_request
 
-    # Return a list of matching requests with the savedsearch
+    # Return a list of 'amount' matching requests with the savedsearch
     def search(self, savedsearch):
-        #TODO
-        pass
+        amount = 3
+        searchfield = savedsearch.search_field.split(' ')
+        
+        requests = Request.objects.filter(state__exact = \
+            Request.PROPOSAL).filter(category__exact = \
+            savedsearch.category)
+        returnrequests = requests.filter(reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in searchfield]))
+   
+        relevance = []
+        for req in returnrequests:
+            tmp = 0
+            for word in searchfield:
+                if (word in req.name):
+                    tmp += 1
+            relevance.append([tmp, req])
+        relevance.sort
+        relevance = relevance[(len(relevance)-amount):]
+        requests = []
+        for i in relevance:
+            requests.append(i[1])
+               
+            
+        return requests 
 
     # Return a list of requests suggested by previous requests of self d
     def get_similar_matching_requests(self, amount):
