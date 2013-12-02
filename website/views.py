@@ -48,6 +48,8 @@ def individual_registration(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
+            print(request.FILES.items())
+            handle_uploaded_file(request.FILES['file'])
             p = Place(country=form.country, postcode=form.postcode,\
                       city=form.city, street=form.street,\
                       number=form.streetnumber)
@@ -69,6 +71,12 @@ def individual_registration(request):
             return render(request, 'individual_registration.html', dictionaries)
 
     return render(request, 'individual_registration.html', {})
+
+
+def handle_uploaded_file(f):
+    with open('media/profilepics/t', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 
 def organisation_registration(request):
