@@ -7,10 +7,9 @@
 	<head>
 		<title>{% block title %}Solidare-IT{% endblock %}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+		<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 		<link href="{% static 'css/style.css' %}" rel="stylesheet">
-
-		<h1>Changer de langue</h1>
+<h1>Changer de langue</h1>
 
 		{% trans "Bonjour les zéros !" %}
 
@@ -26,7 +25,6 @@
 
     		<input type="submit"/>
 		</form>
-
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -35,86 +33,83 @@
 		<![endif]-->
 	</head>
 	<body>
-		<div class="container">
-			<!--
-			##################
-			##### HEADER #####
-			##################
-			-->
-			{% block header %}
-			<div class="page-header row">
-				<div class="pull-left">
-					<img src ="{% static 'images/header.png' %}" class="img-responsive pull-left" style="margin: 10px" />
-				</div>
-
-				<div class="pull-right text-right" style="padding-top: 6px;">
-					{% if user.is_authenticated %}
-					    <div class="btn-group text-left">
-					    <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'account' %}">
+  		<div class="container">
+        {% block header %}
+            <div class="row">
+                <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <img src ="{% static 'images/header.png' %}" class="img-responsive" id="logo"/></div>
+                        <div class="col-lg-8  col-md-7" id="bonhommes_container">
+                            <img src ="{% static 'images/bonhommes.png' %}" class="img-responsive" id="bonhommes"/></div>
+                    </div>
+                </div>
+                <div class="text-right col-lg-4 col-md-6 col-sm-6 col-xs-6 social_network_logo_login">
+                    {% if user.is_authenticated %}
+                        <div class="btn-group text-left">
+                        <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'account' %}">
                             {% if user.first_name %}
                                 {{user.first_name }} {{ user.last_name }}
                             {% else %}
                                 {{ user }}
                             {% endif %}
                         </a>
-					    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-					    <span class="caret"></span>
-					    <span class="sr-only">Toggle Dropdown</span>
-					    </button>
-					    <ul class="dropdown-menu" role="menu">
-					    <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "My profile" %}</a></li>
-					    <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
-					    <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
-					    <li class="divider"></li>
-					    <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;{% trans "Log out" %}</a></li>
-					    </ul>
-					    </div>
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                        <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "My profile" %}</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;{% trans "Log out" %}</a></li>
+                        </ul>
+                        </div>
                     {% else %}
-					    <a href="{% url 'login' %}" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "Log in" %}</a><br />
-					{% endif %}
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "Log in" %}</a><br />
+                    {% endif %}
 
-					<p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
-						<a href="http://www.facebook.com/pages/Solidare-It/469548126438387" ><img src ="{% static 'images/facebook.png' %}" /></a>
-						<a href="http://www.twitter.com/@SolidareIt" ><img src ="{% static 'images/twitter.png' %}" /></a>
-						<a href="http://www.solidare-it.org" ><img src ="{% static 'images/gplus.png' %}" /></a>
-					</p>
-				</div>
-			</div>
-			<div class="clearfix"></div>
-			{% endblock %}
+                    <p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
+                        <a href="http://www.facebook.com/pages/Solidare-It/469548126438387" ><img src ="{% static 'images/facebook.png' %}" /></a>
+                        <a href="http://www.twitter.com/@SolidareIt" ><img src ="{% static 'images/twitter.png' %}" /></a>
+                        <a href="http://www.solidare-it.org" ><img src ="{% static 'images/gplus.png' %}" /></a>
+                    </p>
+                </div>
+            </div>
+            <div class="row" id="header_second_row">
+                <!--<div class="col-lg-6">
 
-			<!--
-			######################
-			##### NAVIGATION #####
-			######################
-			-->
-			{% block navigation %}
-			<nav class="navbar navbar-default" role="navigation">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						<span class="sr-only">{% trans "Toggle navigation" %}</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/"><img src ="{% static 'images/slogan.png' %}" class="img-responsive" style="margin-top: 2px;" /></a>
-				</div>
+                </div>-->
+                <div class="col-lg-12">
+                    <nav class="navbar navbar-default" role="navigation">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">{% trans "Toggle navigation" %}</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/">The real social network</a>
 
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        </div>
 
-				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="/"><i class="glyphicon glyphicon-home"></i>&nbsp;{% trans "Home" %}</a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
-					<li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
-				</ul>
-				</div><!-- /.navbar-collapse -->
-			</nav>
-			{% endblock %}
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="/"><i class="glyphicon glyphicon-home"></i>&nbsp;{% trans "Home" %}</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
+                        </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </nav>
+                </div>
+            </div>
+        {% endblock %}
 			<!--
 			################################
 			##### BREADCRUMB & CONTENT #####
