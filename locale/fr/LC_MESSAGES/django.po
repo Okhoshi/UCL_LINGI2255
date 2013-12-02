@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-02 14:05+0000\n"
-"PO-Revision-Date: 2013-12-02 17:01+0100\n"
+"PO-Revision-Date: 2013-12-02 17:50+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Offres et demandes similaires"
 
 #: templates/account.html:94
 msgid "My summary"
-msgstr "Resume"
+msgstr "Résumé"
 
 #: templates/account.html:105
 msgid "Groups"
@@ -89,11 +89,11 @@ msgstr "Rajouter un membre"
 
 #: templates/add_representative.html:19
 msgid "Enter data"
-msgstr "Entrer les donnees"
+msgstr "Entrer les données"
 
 #: templates/add_representative.html:20
 msgid "Upload .xls"
-msgstr "Telecharger"
+msgstr "Télécharger"
 
 #: templates/add_representative.html:30
 #: templates/individual_registration.html:44
@@ -108,7 +108,7 @@ msgstr "Nom"
 #: templates/individual_registration.html:53
 #: templates/individual_registration.html:55
 msgid "First name"
-msgstr "Prenom"
+msgstr "Prénom"
 
 #: templates/add_representative.html:44
 msgid "E-mail"
@@ -132,7 +132,7 @@ msgstr "Télécharger"
 
 #: templates/add_representative.html:61
 msgid "No file selected"
-msgstr "Aucun fichier selectione"
+msgstr "Aucun fichier selectioné"
 
 #: templates/base.html:47
 msgid "My profile"
@@ -144,7 +144,7 @@ msgstr "Mes échanges"
 
 #: templates/base.html:49
 msgid "Internal messages"
-msgstr "Messages prives"
+msgstr "Messages privés"
 
 #: templates/base.html:51
 msgid "Log out"
@@ -176,7 +176,7 @@ msgstr "Contact"
 
 #: templates/base.html:121
 msgid "Legal mentions"
-msgstr "Mention legales"
+msgstr "Mention légales"
 
 #: templates/base.html:121
 msgid "Site map"
@@ -188,7 +188,7 @@ msgstr "Dernières offres et demandes"
 
 #: templates/create.html:17
 msgid "Person"
-msgstr ""
+msgstr "Personne"
 
 #: templates/create.html:30
 msgid "Type"
@@ -239,11 +239,11 @@ msgstr "Une seule fois"
 
 #: templates/create.html:86
 msgid "Regularly"
-msgstr "Regulierement"
+msgstr "Régulierement"
 
 #: templates/create.html:92
 msgid "Not specified"
-msgstr "Pas specifie"
+msgstr "Pas spécifié"
 
 #: templates/create.html:99
 msgid "What ?"
@@ -255,7 +255,7 @@ msgstr "Catégorie"
 
 #: templates/create.html:114
 msgid "Specify"
-msgstr "Specifie"
+msgstr "Specifié"
 
 #: templates/create.html:123 templates/organisation_registration.html:37
 msgid "Description"
@@ -267,7 +267,7 @@ msgstr "Progression du challenge"
 
 #: templates/home.html:33
 msgid "DARE-it!"
-msgstr ""
+msgstr "DARE-it!"
 
 #: templates/home.html:47
 msgid "The concept"
@@ -279,23 +279,23 @@ msgstr "Témoignages"
 
 #: templates/home.html:76
 msgid "Video manual"
-msgstr ""
+msgstr "Manuel de la vidéo"
 
 #: templates/home.html:85
 msgid "Latest offers and demands"
-msgstr "Dernieres offres et demandes"
+msgstr "Dernières offres et demandes"
 
 #: templates/home.html:103
 msgid "Calendar and news"
-msgstr "Claendrier et nouvelles"
+msgstr "Calendrier et nouvelles"
 
 #: templates/home.html:108
 msgid "Challenge map"
-msgstr ""
+msgstr "Carte Challenge"
 
 #: templates/home.html:115
 msgid "Download and share"
-msgstr ""
+msgstr "Téléchargé et partagé"
 
 #: templates/home.html:126
 msgid "Our partners:"
@@ -303,7 +303,7 @@ msgstr "Nos partenaires:"
 
 #: templates/individual_registration.html:9
 msgid "New individual"
-msgstr ""
+msgstr "Nouvel individu"
 
 #: templates/individual_registration.html:20
 msgid "There are errors in the form :"
@@ -312,12 +312,12 @@ msgstr "Il y a des erreurs dans le formulaire :"
 #: templates/individual_registration.html:60
 #: templates/individual_registration.html:62
 msgid "User name"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
 #: templates/individual_registration.html:67
 #: templates/individual_registration.html:69
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/individual_registration.html:74
 #: templates/individual_registration.html:76 templates/login.html:22
@@ -326,7 +326,7 @@ msgstr "Mot de passe"
 
 #: templates/individual_registration.html:81
 msgid "Confirmation"
-msgstr ""
+msgstr "Confirmation"
 
 #: templates/individual_registration.html:83
 msgid "Confirm password"
@@ -342,7 +342,7 @@ msgstr "Rue"
 
 #: templates/individual_registration.html:93
 msgid "N°"
-msgstr ""
+msgstr "N°"
 
 #: templates/individual_registration.html:108
 #: templates/individual_registration.html:110
@@ -351,125 +351,125 @@ msgstr "Pays"
 
 #: templates/individual_registration.html:125
 msgid "Phone"
-msgstr "Telephone"
+msgstr "Téléphone"
 
 #: templates/individual_registration.html:127
 msgid "Phone number"
-msgstr "Numero de telephone"
+msgstr "Numéro de téléphone"
 
 #: templates/individual_registration.html:132
 msgid "ID Card"
-msgstr ""
+msgstr "Numéro de la carte d'identité"
 
 #: templates/individual_registration.html:134
 msgid "ID card number"
-msgstr ""
+msgstr "Numéro de la carte d'identité"
 
 #: templates/individual_registration.html:141
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: templates/individual_registration.html:143
 msgid "Facebook page URL"
-msgstr ""
+msgstr "URL de la page Facebook"
 
 #: templates/individual_registration.html:151
 msgid "Only show my username"
-msgstr ""
+msgstr "Montrer seulement mon nom d'utilisateur"
 
 #: templates/individual_registration.html:159
 msgid "Send mails on my personnal address"
-msgstr ""
+msgstr "Envoyer des email via mon adresse personnel"
 
 #: templates/individual_registration.html:175
 msgid "Profile picture"
-msgstr ""
+msgstr "Photo de profil"
 
 #: templates/individual_registration.html:177
 #: templates/organisation_registration.html:91
 msgid "Change"
-msgstr ""
+msgstr "Changer"
 
 #: templates/login.html:21
 msgid "Email address"
-msgstr ""
+msgstr "Adresse Email"
 
 #: templates/organisation_registration.html:9
 msgid "New organisation"
-msgstr ""
+msgstr "Nouvelle organisation"
 
 #: templates/organisation_registration.html:21 templates/register.html:27
 msgid "Organisation"
-msgstr ""
+msgstr "Organisation"
 
 #: templates/organisation_registration.html:28
 msgid "Organisation street"
-msgstr ""
+msgstr "Rue de l'organisation"
 
 #: templates/organisation_registration.html:39
 msgid "Small organisation description"
-msgstr ""
+msgstr "Petit description de l'organisation"
 
 #: templates/organisation_registration.html:44
 msgid "Telephone"
-msgstr ""
+msgstr "Téléphone"
 
 #: templates/organisation_registration.html:46
 msgid "Organisation telephone number"
-msgstr ""
+msgstr "Téléphone de l'organisation"
 
 #: templates/organisation_registration.html:51
 msgid "VAT*"
-msgstr ""
+msgstr "TVA*"
 
 #: templates/organisation_registration.html:53
 msgid "Organisation VAT number"
-msgstr ""
+msgstr "Numéro de TVA de l'organisation"
 
 #: templates/organisation_registration.html:58
 msgid "Website"
-msgstr ""
+msgstr "Site"
 
 #: templates/organisation_registration.html:60
 msgid "Organisation website"
-msgstr ""
+msgstr "Site de l'oganisation"
 
 #: templates/organisation_registration.html:68
 msgid "Transfer emails to indicated address"
-msgstr ""
+msgstr "Transférer les emails pour les adresses indiqués"
 
 #: templates/organisation_registration.html:74
 msgid "Captcha"
-msgstr ""
+msgstr "Captcha"
 
 #: templates/organisation_registration.html:89
 msgid "Organisation logo"
-msgstr ""
+msgstr "Logo de l'organisation"
 
 #: templates/profile.html:9
 msgid "Members"
-msgstr ""
+msgstr "Membres"
 
 #: templates/profile.html:48
 msgid "Current offers"
-msgstr ""
+msgstr "Offres courantes"
 
 #: templates/profile.html:54
 msgid "Demander"
-msgstr ""
+msgstr "Demandeur"
 
 #: templates/profile.html:55 templates/profile.html.py:91
 #: templates/profile.html:127 templates/profile.html.py:163
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 #: templates/profile.html:84
 msgid "Current demands"
-msgstr ""
+msgstr "Demandes actuelles"
 
 #: templates/profile.html:90
 msgid "Proposer"
-msgstr ""
+msgstr "Proposeur"
 
 #: templates/profile.html:126 templates/profile.html.py:162
 msgid "With"
@@ -477,59 +477,62 @@ msgstr "Avec"
 
 #: templates/profile.html:156
 msgid "Evaluations summary"
-msgstr ""
+msgstr "Résumé des évaluations"
 
 #: templates/register.html:17
 msgid "I am an individual, I want"
-msgstr ""
+msgstr "Je suis un individu, je veux"
 
 #: templates/register.html:17
 msgid "to create my personnal account."
-msgstr ""
+msgstr "Pour créer mon compte personnel "
 
 #: templates/register.html:18
 msgid "Individual"
-msgstr ""
+msgstr "Individuel"
 
 #: templates/register.html:26
 msgid "I want to create an account for the organisation I represent."
-msgstr ""
+msgstr "Je veux créer un compte pour une organisation que je représente"
 
 #: website/views.py:34
 msgid ""
 "This account has been disabled. Please contact the administrator of this "
 "site."
 msgstr ""
+"Ce compte a été désactivé. Veuillez contacter l'administrateur de ce site."
 
 #: website/views.py:38
 msgid "This username or password is not valid."
-msgstr ""
+msgstr "Ce nom d'utilisateur ou mot de passa est invalide"
 
 #: website/models/agefilter.py:18
 msgid "For FR"
-msgstr ""
+msgstr "Pour la requête filtrée"
 
 #: website/models/agefilter.py:18
 msgid "min: "
-msgstr ""
+msgstr "min:"
 
 #: website/models/agefilter.py:19
 msgid " max: "
-msgstr ""
+msgstr "max:"
 
 #: website/models/entity.py:28
 msgid ""
 "Entity contains no interesting information: call User or                 "
 "association user instead"
 msgstr ""
+"Entity contient aucun information intéressante: utiliser User ou association "
+"user à la place"
 
 #: website/models/feedback.py:21
 msgid "Feedback about "
-msgstr ""
+msgstr "Feedback à propos de"
 
 #: website/models/filteredrequest.py:29
 msgid "filtered"
-msgstr ""
+msgstr "filtré"
 
 #: website/models/internalmessage.py:22
 msgid "From: "
@@ -541,12 +544,12 @@ msgstr "A: "
 
 #: website/models/internalmessage.py:24
 msgid "Message: "
-msgstr ""
+msgstr "Message:"
 
 #: website/models/pin.py:20
 msgid "PIN first name: "
-msgstr ""
+msgstr "Prénom de la personne:"
 
 #: website/models/pin.py:20
 msgid "last name: "
-msgstr ""
+msgstr "Nom:"
