@@ -20,12 +20,12 @@
 <div class="form-group">
 	<label for="inputOrgName" class="col-sm-3 col-xs-12 control-label">{% trans "Organisation" %}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputOrgName" placeholder="{% trans "Name" %}">
+		<input type="text" class="form-control" id="inputOrgName" name="org_name" placeholder="{% trans "Name" %}" value="{{ org_name }}" style="border-color: {{ org_name_color }} !important;">
 	</div>
 </div>
 {% endblock %}
 
-{% block address_placeholder %} {% trans "Organisation street"%}{% endblock %}
+{% block address_placeholder %}{% trans "Organisation street"%}{% endblock %}
 
 <!--
 ###########1############
@@ -36,28 +36,28 @@
 <div class="form-group">
 	<label for="inputDescription" class="col-sm-3 col-xs-12 control-label">{% trans "Description"%}</label>
 	<div class="col-sm-9">
-		<textarea class="form-control" id="inputDescription" placeholder="{% trans "Small organisation description"%}" rows="3"></textarea>
+		<textarea class="form-control" id="inputDescription" name="description" value="{{ description }}" style="border-color: {{ description_color }} !important;" placeholder="{% trans "Small organisation description"%}" rows="3"></textarea>
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group">NIM
 	<label for="inputPhone" class="col-sm-3 control-label">{% trans "Telephone"%}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputPhone" placeholder="{% trans "Organisation telephone number"%}">
+		<input type="text" class="form-control" id="inputPhone" name="org_phone" value="{{ org_phone }}" style="border-color: {{ org_phone_color }} !important;" placeholder="{% trans "Organisation telephone number"%}">
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group">NIM
 	<label for="inputVAT" class="col-sm-3 control-label">{% trans "VAT*"%}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputVAT" placeholder="{% trans "Organisation VAT number"%}">
+		<input type="text" class="form-control" id="inputVAT" name="VAT" value="{{ VAT }}" style="border-color: {{ VAT_color }} !important;" placeholder="{% trans "Organisation VAT number"%}">
 	</div>
 </div>
 
-<div class="form-group">
+<div class="form-group">NIM
 	<label for="inputSite" class="col-sm-3 control-label">{% trans "Website"%}</label>
 	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputSite" placeholder="{% trans "Organisation website"%}">
+		<input type="text" class="form-control" id="inputSite" name="org_site" value="{{ org_site }}" style="border-color: {{ org_site_color }} !important;" placeholder="{% trans "Organisation website"%}">
 	</div>
 </div>
 

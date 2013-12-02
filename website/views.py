@@ -72,6 +72,31 @@ def individual_registration(request):
 
 
 def organisation_registration(request):
+    if request.method == 'POST':
+        form = MForm(request)
+        if form.is_valid:
+            p = Place(country=form.country, postcode=form.postcode,
+                      city=form.city, street=form.street,
+                      number=form.streetnumber)
+            p.save()
+            assoc = Association(location=p, name=form.org_name, description=form.description)
+            assoc.save()
+            user = AssociationUser.objects.create_user(form.user_name,
+                                                       form.email,
+                                                       form.passwd,
+                                                       assoc, 3,
+                                                       first_name=form.first_name,
+                                                       last_name=form.name)
+
+            usr = authenticate(username=form.user_name, password=form.passwd)
+            Dlogin(request, usr)
+            return redirect('home')
+        else:
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
+            return render(request, 'organisation_registration.html', dictionaries)
+
     return render(request, 'organisation_registration.html', {})
 
 @login_required
