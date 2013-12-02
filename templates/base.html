@@ -1,5 +1,6 @@
 {% load static %}
-{% load i18n %} 
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
 <!DOCTYPE html>
 <html>
@@ -9,7 +10,6 @@
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/style.css' %}" rel="stylesheet">
 
-		{% load i18n %}
 		<h1>Changer de langue</h1>
 
 		{% trans "Bonjour les zéros !" %}
@@ -17,10 +17,10 @@
 		<form action="/i18n/setlang/" method="post">
 			{% csrf_token %}
     		<input name="next" type="hidden" value="{{request.path}}" />
-    
+    		{{ LANGUAGE_CODE }}
     		<select name="language">
     		{% for lang in LANGUAGES %}
-        		<option value="{{ lang.0 }}">{{ lang.1 }}</option>
+        		<option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected {% endif %}>{{ lang.1 }}</option>
     		{% endfor %}
     		</select>
 
@@ -74,9 +74,9 @@
 					{% endif %}
 
 					<p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
-						<img src ="{% static 'images/facebook.png' %}" />
-						<img src ="{% static 'images/twitter.png' %}" />
-						<img src ="{% static 'images/gplus.png' %}" />
+						<a href="http://www.facebook.com/pages/Solidare-It/469548126438387" ><img src ="{% static 'images/facebook.png' %}" /></a>
+						<a href="http://www.twitter.com/@SolidareIt" ><img src ="{% static 'images/twitter.png' %}" /></a>
+						<a href="http://www.solidare-it.org" ><img src ="{% static 'images/gplus.png' %}" /></a>
 					</p>
 				</div>
 			</div>
