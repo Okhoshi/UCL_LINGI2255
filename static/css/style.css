@@ -2,17 +2,100 @@
  * Edit this CSS instead of the others ! 
  */
 
+@import url(fonts.css);
+/************************
+ ***** header.html *****
+ *************************/
+#languages {
+    background-color: transparent;
+    text-align: right;
+    padding: 5px;
+}
+#header_container {
+    padding: 0;
+    border-bottom: 1px solid #e1007a;
+}
+#header_second_row {
+    background-color: rgb(172, 173, 175);
+    border-bottom: 2px solid #e1007a;
+    margin-bottom: 20px;
+}
+#logo {
+    margin: 10px 10px 0px 10px;
+}
+.navbar {
+    margin-bottom: 0;
+    background-color: transparent;
+    border: none;
+}
+#bonhommes_container {
+    bottom: -11%;
+    position: absolute;
+    right: 0%;
+    display: none;
+}
+@media (min-width: 992px) {
+    #bonhommes_container {
+        display: block;
+    }
+}
+.social_network_logo_login {
+    padding: 4% 1% 1% 1%;
+}
+
+/* Navbar colors */
+.navbar-default {
+    /*background-color: #F8F8F8;*/
+    border-color: #E7E7E7;
+}
+.navbar-default .navbar-brand {
+    color: white;
+    font-family: antonioregular;
+    font-size: 150%;
+}
+.navbar-default .navbar-brand:hover {
+    color: #e1007a;
+}
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+.navbar-default .navbar-nav > li > a:hover {
+    color: #e1007a;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: white;
+    background-color: #e1007a;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #5E5E5E;
+    background-color: #D5D5D5;
+}
+.navbar-default .navbar-nav > li > a .caret {
+    border-top-color: #777;
+    border-bottom-color: #777;
+}
+.navbar-default .navbar-nav > li > a:hover .caret {
+    border-top-color: #333;
+    border-bottom-color: #333;
+}
+.navbar-default .navbar-nav > .open > a .caret,
+.navbar-default .navbar-nav > .open > a:hover .caret,
+.navbar-default .navbar-nav > .open > a:focus .caret {
+    border-top-color: #555;
+    border-bottom-color: #555;
+}
+
 /*********************
  ***** base.html *****
  *********************/
 
 body {
 	background-color: #eaeaea;
-}
-
-footer {
-	margin-top: 40px;
-	margin-bottom: 40px;
+    min-width: 479px;
 }
 
 a {
@@ -23,32 +106,6 @@ a:hover {
 	color:#e1007a;
 }
 
-.warning {
-    color:#e1007a;
-    background-color: rgba(248,248,248,1);
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-    
-    border: 1px solid #e1007a;
-    border-radius: 10px;
-    -webkit-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
-       -moz-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
-            box-shadow: 4px 4px 4px rgba(0,0,0,0.5);    
-}
-
-.page-header {
-	border: none;
-	height: 110px;
-	margin: 0px;
-}
-
-.page-header img {
-	margin-left: 5px;
-	margin-top: 3px;
-}
-
 .active {
 	color: #e1007a;
 }
@@ -56,10 +113,6 @@ a:hover {
 .container {
 	background-color: #FFFFFF;
 	padding-top: 0px;
-}
-
-.img-responsive {
-    margin: 0 auto;
 }
 
 .breadcrumb {
@@ -89,47 +142,6 @@ a:hover {
 	border-bottom: 2px solid #e1007a;
 	color: #e1007a;
 	padding-bottom: 5px;
-}
-
-/* Navbar colors */
-.navbar-default {
-    background-color: #F8F8F8;
-    border-color: #E7E7E7;
-}
-.navbar-default .navbar-brand {
-    color: #5E5E5E;
-}
-.navbar-default .navbar-nav > li > a {
-    color: #5E5E5E;
-}
-.navbar-default .navbar-nav > li > a:hover {
-    color: #e1007a;
-}
-.navbar-default .navbar-nav > .active > a, 
-.navbar-default .navbar-nav > .active > a:hover, 
-.navbar-default .navbar-nav > .active > a:focus {
-    color: white;
-    background-color: #e1007a;
-}
-.navbar-default .navbar-nav > .open > a, 
-.navbar-default .navbar-nav > .open > a:hover, 
-.navbar-default .navbar-nav > .open > a:focus {
-    color: #555;
-    background-color: #D5D5D5;
-}
-.navbar-default .navbar-nav > li > a .caret {
-    border-top-color: #777;
-    border-bottom-color: #777;
-}
-.navbar-default .navbar-nav > li > a:hover .caret {
-    border-top-color: #333;
-    border-bottom-color: #333;
-}
-.navbar-default .navbar-nav > .open > a .caret, 
-.navbar-default .navbar-nav > .open > a:hover .caret, 
-.navbar-default .navbar-nav > .open > a:focus .caret {
-    border-top-color: #555;
-    border-bottom-color: #555;
 }
 
 /* Responsive Youtube Video */
@@ -176,8 +188,27 @@ a:hover {
  	border-radius: 0 0 4px 4px;
  }
 
+ /**************************
+ *** Register ***
+ *****************/
+
+.warning {
+    color:#e1007a;
+    background-color: rgba(248,248,248,1);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    border: 1px solid #e1007a;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+       -moz-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+            box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
+}
+
  /************************
- ***** accountt.html *****
+ ***** account.html *****
  *************************/
 
 .box {
@@ -197,4 +228,10 @@ a:hover {
 .form-inline .form-group{
     margin-left: 0;
     margin-right: 0;
+}
+
+
+footer {
+	margin-top: 40px;
+	margin-bottom: 40px;
 }
