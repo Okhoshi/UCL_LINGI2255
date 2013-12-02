@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-29 23:34+0100\n"
+"POT-Creation-Date: 2013-11-29 22:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,79 +18,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\templates\base.html:47
+#: templates/base.html:47
 msgid "My profile"
 msgstr "Mon Profil"
 
-#: .\templates\base.html:48
+#: templates/base.html:48
 msgid "My exchanges"
-msgstr "Mes échanges"
+msgstr "Mes echanges"
 
-#: .\templates\base.html:49
+#: templates/base.html:49
 msgid "Internal messages"
-msgstr "Messages privés"
+msgstr "Messages prives"
 
-#: .\templates\base.html:51
+#: templates/base.html:51
 msgid "Log out"
 msgstr ""
 
-#: .\templates\base.html:55
+#: templates/base.html:55
 msgid "Log in"
 msgstr ""
 
-#: .\templates\base.html:78
+#: templates/base.html:78
 msgid "Toggle navigation"
 msgstr ""
 
-#: .\templates\base.html:90
+#: templates/base.html:90
 msgid "Home"
 msgstr ""
 
-#: .\templates\base.html:91
+#: templates/base.html:91
 msgid "Concept"
 msgstr ""
 
-#: .\templates\base.html:92
+#: templates/base.html:92
 msgid "FAQ"
 msgstr ""
 
-#: .\templates\base.html:93
+#: templates/base.html:93
 msgid "News"
 msgstr ""
 
-#: .\templates\base.html:94
+#: templates/base.html:94
 msgid "Contact"
 msgstr ""
 
-#: .\templates\base.html:121
+#: templates/base.html:121
 msgid "Legal mentions"
 msgstr ""
 
-#: .\templates\base.html:121
+#: templates/base.html:121
 msgid "Site map"
 msgstr ""
 
-#: .\website\views.py:34
+#: website/views.py:34
 msgid ""
 "This account has been disabled.Please contact the administrator of this site."
 msgstr ""
 
-#: .\website\views.py:38
+#: website/views.py:38
 msgid "This username or password is not valid."
 msgstr ""
 
-#: .\website\models\feedback.py:21
+#: website/models/feedback.py:21
 msgid "Feedback about "
 msgstr ""
 
-#: .\website\models\internalmessage.py:22
+#: website/models/internalmessage.py:22
 msgid "From: "
 msgstr ""
 
-#: .\website\models\internalmessage.py:23
+#: website/models/internalmessage.py:23
 msgid "To: "
 msgstr ""
 
-#: .\website\models\internalmessage.py:24
+#: website/models/internalmessage.py:24
 msgid "Message: "
 msgstr ""
