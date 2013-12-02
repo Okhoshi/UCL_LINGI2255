@@ -1,24 +1,127 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %} 
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
-	<li><a href="/">Home</a></li>
-	<li class="active">Account</li>
+	<li><a href="/">{% trans "Home" %}</a></li>
+	<li class="active">{% trans "Account" %}</li>
 </ol>
 {% endblock %}
 
 
 {% block content %}
+<div class="alert alert-danger"><strong>Warning!</strong> You have 4 unread messages. You can read them in your <strong><a href="" class="alert-link">mailbox</a></strong>.</div>
 <div class="row">
-	<div class="col-sm-8">
-		<h1>Welcome {{ user_name }}</h1>
+	<div class="col-md-8 col-sm-7 text-center">
+		<h3>
+			{% trans "Welcome" %}
+			{% if user.first_name %}
+	            {{user.first_name }} {{ user.last_name }}
+	        {% else %}
+	            {{ user }}
+	        {% endif %} !
+    	</h3>
+    	<div class="text-center" style="margin-top:25px">
+			<a class="btn btn-primary btn-lg" style="margin-right: 15px"><i class="glyphicon glyphicon-search"></i> {% trans "Search" %}</a>
+			<a class="btn btn-primary btn-lg" href="{% url 'create_offer_demand' %}"><i class="glyphicon glyphicon-pencil"></i> {% trans "Create" %}</a>
+		</div>
 	</div>
-		<div class="col-sm-8">
+	<div class="col-md-4 col-sm-5">
+		<div class="clearfix" style="margin:15px"></div>
+		<div class="pull-left">
+			<img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
+		</div>
+		<div class="text-center" style="padding-top: 30px">
+			<a class="btn btn-info btn-sm" style="width: 100px; margin-bottom: 15px">{% trans "History" %}</a><br />
+			<a class="btn btn-info btn-sm" style="width: 100px;">{% trans "Edit" %}</a>
+		</div>
+	</div>
+</div>
 
-	<div class="row">
-		here sits the notifications
+<hr />
+
+<div class="col-sm-6">
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Saved searches" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>
+				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
+				Lorem ipsum dolor sit amet.
+				<div class="clearfix"></div>
+			</li>
+			<li>
+				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
+				Lorem ipsum dolor sit amet.
+				<div class="clearfix"></div>
+			</li>
+			<li>
+				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
+				Lorem ipsum dolor sit amet.
+				<div class="clearfix"></div>
+			</li>
+		</ul>
+	</div>
+
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Saved matches" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
+	</div>
+
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Similar offers and demands" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
 	</div>
 </div>
+
+<div class="col-sm-6">
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "My summary" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
+	</div>
+
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Groups" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
+	</div>
+
+	<div class="panel panel-info box">
+		<div class="panel-heading">
+			<h3 class="panel-title">{% trans "Following" %}</h3>
+		</div>
+		<ul class="list-unstyled">
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+			<li>Lorem ipsum dolor sit amet.</li>
+		</ul>
+	</div>
 </div>
+
+
 {% endblock %}

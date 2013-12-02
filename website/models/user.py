@@ -2,7 +2,8 @@
 # AUTHORS :  Quentin De Coninck, Quentin Devos
 # DATE_CREATION : 17 November 2013
 # DATE_VERSION 1 : 18 November 2013
-# VERSION : 1
+# DATE_VERSION 2 : 23 November 2013
+# VERSION : 2
 from django.db import models
 from django.contrib.auth.models import User as DUser
 from website.models.entity import *
@@ -16,7 +17,7 @@ class SIUserManager(models.Manager):
                                           first_name=extra_field.get('first_name', ''),
                                           last_name=extra_field.get('last_name', ''))
         user = User()
-        user.user = buser
+        user.dj_user = buser
         user.confirmed_status = extra_field.get('confirmed_status', False)
         user.location = extra_field.get('location')
         user.save()
@@ -32,16 +33,23 @@ def id_path(instance, filename):
 
 
 class User(Entity):
-    user = models.OneToOneField(DUser)
-    confirmed_status = models.BooleanField()
+    dj_user = models.OneToOneField(DUser, related_name='profile')
+    confirmed_status = models.BooleanField(default=False)
     picture = models.ImageField(upload_to=pic_path)
     id_card = models.ImageField(upload_to=id_path)
     objects = SIUserManager()
 
     class Meta:
         app_label = 'website'
+
+    def __init__(self, *args, **kwargs):
+        u = super(User, self).__init__(*args, **kwargs)
+        self.entity = self
+        return u
     
     def __unicode__(self):
-        return self.user.first_name + ' ' + self.user.last_name
+        return self.dj_user.first_name + ' ' + self.dj_user.last_name
 
-    #TODO Add the methods here
+    # Return True is the user was verified by the administrator of Solidare-IT
+    def is_verified(self):
+        return self.confirmed_status

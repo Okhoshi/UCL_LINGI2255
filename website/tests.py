@@ -14,12 +14,99 @@ class ModelsTests(TestCase):
         for index in range(number):
             pla = Place()
             pla.save()
-            users.append(User.objects.create_user(first_name="W"+str(index), last_name="User",\
-                                                  location=pla, confirmed_status=True,\
-                                                  username="E"+str(index),email="ci@ici.be",\
+            users.append(User.objects.create_user(first_name="W"+str(index), \
+                                                  last_name="User",\
+                                                  location=pla, \
+                                                  confirmed_status=True,\
+                                                  username="E"+str(index),\
+                                                  email="ci@ici.be",\
                                                   password="azerty"))
         return users
 
+    @staticmethod
+    def generate_association(number=2):
+        association = []
+        for index in range(number):
+            pla = Place()
+            pla.save()
+            association.append(Association(name="W"+str(index), \
+                                           description="Youpoie", location=pla))
+            association[index].save()
+        return association
+
+    def test_association_get_employees(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
+                              level=0, association=assoc[0])
+        au3 = AssociationUser.objects.create_user(username="au2-3", password="anzod", email="zoi", \
+                              level=0, association=assoc[1])
+
+        aua0 = assoc[0].get_employees()
+        self.assertTrue(au1 in aua0)
+        self.assertTrue(au2 in aua0)
+        self.assertFalse(au3 in aua0)
+
+    def test_associationuser_get_pin(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
+                              level=0, association=assoc[0])
+        au3 = AssociationUser.objects.create_user(username="au2-3", password="anzod", email="zoi", \
+                              level=0, association=assoc[1])
+
+        pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
+        pin2 = PIN(first_name="bye", last_name="world", managed_by=au1)
+        pin3 = PIN(first_name="hello", last_name="kitty", managed_by=au2)
+        pin4 = PIN(first_name="bruce", last_name="willis", managed_by=au3)
+
+        pin1.save()
+        pin2.save()
+        pin3.save()
+        pin4.save()
+
+        pin_au1 = au1.get_pin()
+
+        self.assertTrue(pin1 in pin_au1)
+        self.assertTrue(pin2 in pin_au1)
+        self.assertFalse(pin3 in pin_au1)
+        self.assertFalse(pin4 in pin_au1)
+
+    def test_associationuser_set_pin(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+
+        au1.set_pin(first_name="Georges", last_name="Bush")
+
+        pin = au1.get_pin()[0]
+
+        self.assertEqual("Georges", pin.first_name)
+        self.assertEqual("Bush", pin.last_name)
+        self.assertEqual(au1, pin.managed_by)
+
+    def test_associationuser_get_pin(self):
+        assoc = ModelsTests.generate_association()
+        au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
+                              level=0, association=assoc[0])
+        au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
+                              level=0, association=assoc[0])
+
+        pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
+        pin2 = PIN(first_name="hello", last_name="kitty", managed_by=au1)
+
+        pin1.save()
+        pin2.save()
+
+        au2.transfer_pin(pin=pin1, other_au=au2)
+        au1.transfer_pin(pin=pin2, other_au=au2)
+
+        self.assertEqual(pin1.managed_by, au1)
+        self.assertEqual(pin2.managed_by, au2)
+ 
+    
     def test_entity_get_all_requests(self):
         users =  ModelsTests.generate_user()
         pla = Place()
@@ -67,7 +154,7 @@ class ModelsTests(TestCase):
 
         
     def test_entity_get_feedback(self):
-        users = ModelsTests.generate_user()
+        users = ModelsTests.generate_user(number=3)
         pla = Place()
         pla.save()
         req = Request(name="Hello", category="Test", place=pla, \
@@ -82,10 +169,13 @@ class ModelsTests(TestCase):
                       demander=users[0], state=Request.IN_PROGRESS)
         req5 = Request(name="World: hello!", category="Plante", place=pla, \
                       demander=users[0], state=Request.PROPOSAL)
+        req6 = Request(name="Bouffi2", category="Test", place=pla, \
+                      proposer=users[1], demander=users[2], state=Request.DONE)
 
         req3.save()
         req4.save()
         req5.save()
+        req6.save()
 
         feed1 = Feedback(feedback_demander="It was nice", \
                          feedback_proposer="It was ugly!", request = req, \
@@ -96,12 +186,24 @@ class ModelsTests(TestCase):
         feed3 = Feedback(feedback_demander="Nice!", \
                          feedback_proposer="Wonderful!", request = req3, \
                          rating_demander=4, rating_proposer=5)
+        feed4 = Feedback(feedback_demander="Nicer!", \
+                         feedback_proposer="Wonderfuler!", request = req6, \
+                         rating_demander=4, rating_proposer=5)
 
         feed1.save()
         feed2.save()
         feed3.save()
+        feed4.save()
 
-        print(users[0].get_feedback())
+        feedu0 = users[0].get_feedback()
+        self.assertFalse(feed1 in feedu0[0])
+        self.assertTrue(feed1 in feedu0[1])
+        self.assertFalse(feed2 in feedu0[0])
+        self.assertTrue(feed2 in feedu0[1])
+        self.assertTrue(feed3 in feedu0[0])
+        self.assertFalse(feed3 in feedu0[1])
+        self.assertFalse(feed4 in feedu0[0])
+        self.assertFalse(feed4 in feedu0[1])
 
     def test_entity_get_internal_messages(self):
         users = ModelsTests.generate_user()
@@ -118,7 +220,7 @@ class ModelsTests(TestCase):
         message1 = users[0].get_internal_messages(req)
         message2 = users[1].get_internal_messages(req)
 
-        self.assertEqual(",".join(map(lambda m: m.__unicode__(), message1)),",".join(map(lambda m: m.__unicode__(), message2)))
+        self.assertEqual(",".join(map(lambda m: m.__unicode__(), message1)), ",".join(map(lambda m: m.__unicode__(), message2)))
 
     def test_entity_get_old_requests(self):
         users =  ModelsTests.generate_user()
@@ -203,12 +305,32 @@ class ModelsTests(TestCase):
         self.assertEqual(result1[0].message, "Coucou, do you want to meet me?") 
 
 
-    def  test_entity_set_followed(self):
+    def test_entity_set_followed(self):
         users = ModelsTests.generate_user()
         users[0].set_followed(users[1])
 
         result = users[0].get_followed()
         self.assertEqual(result[0], users[1].entity_ptr)
+
+    def test_filteredrequest_get_age_filter(self):
+        pla = Place()
+        pla.save()
+        users = ModelsTests.generate_user()
+        freq = FilteredRequest(name="Hello", category="Test", place=pla, \
+                               proposer=users[0])
+        freq.save()
+        age_req = AgeFilter(min_age=5, max_age=10, filtered_request=freq)
+        age_req2 = AgeFilter(min_age=25, max_age=120, filtered_request=freq)
+
+        age_req.save()
+        age_req2.save()
+
+        af = freq.get_age_filter()
+
+        self.assertTrue(age_req in af)
+        self.assertTrue(age_req2 in af)
+
+
         
 
     def test_request_get_all_requests(self):
@@ -221,7 +343,9 @@ class ModelsTests(TestCase):
                       proposer=users[0], demander=users[1], state=Request.DONE)
         req.save()
         req2.save()
-        print(Request.get_all_requests())
+        all_req = Request.get_all_requests()
+        self.assertTrue(req in all_req)
+        self.assertTrue(req2 in all_req)
 
     def test_request_get_feedback(self):
         pla = Place()
@@ -234,8 +358,6 @@ class ModelsTests(TestCase):
                             rating_proposer=3, rating_demander=1)
         feedback2 = req.get_feedback()
         self.assertEqual(feedback, feedback2)
-        print(feedback)
-        print(feedback2)
 
     def test_request_get_initiator(self):
         pla = Place()
@@ -324,4 +446,16 @@ class ModelsTests(TestCase):
             print(t1)
             self.assertEqual(len(t1), min(i, Testimony.objects.count()))
 
-                            
+    def test_user_is_verified(self):
+        user = ModelsTests.generate_user(1)
+        self.assertEquals(user[0].confirmed_status, user[0].is_verified())
+        pla = Place()
+        pla.save()
+        user2 = User.objects.create_user(first_name="W64", \
+                                         last_name="User",\
+                                         location = pla, \
+                                        username="E32", \
+                                         email="ci@ici.be",\
+                                         password="azerty")
+        self.assertEquals(user2.confirmed_status, user2.is_verified())
+        

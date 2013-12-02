@@ -1,0 +1,549 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-02 14:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/account.html:7 templates/add_representative.html:7
+#: templates/base.html:90 templates/create.html:7
+#: templates/individual_registration.html:7 templates/login.html:8
+#: templates/organisation_registration.html:7 templates/profile.html:8
+#: templates/register.html:8
+msgid "Home"
+msgstr ""
+
+#: templates/account.html:8
+msgid "Account"
+msgstr ""
+
+#: templates/account.html:18
+msgid "Welcome"
+msgstr ""
+
+#: templates/account.html:26
+msgid "Search"
+msgstr ""
+
+#: templates/account.html:27
+msgid "Create"
+msgstr ""
+
+#: templates/account.html:36 templates/profile.html:120
+msgid "History"
+msgstr ""
+
+#: templates/account.html:37
+msgid "Edit"
+msgstr ""
+
+#: templates/account.html:47
+msgid "Saved searches"
+msgstr ""
+
+#: templates/account.html:51 templates/account.html.py:56
+#: templates/account.html:61
+msgid "Launch"
+msgstr ""
+
+#: templates/account.html:70
+msgid "Saved matches"
+msgstr ""
+
+#: templates/account.html:81
+msgid "Similar offers and demands"
+msgstr ""
+
+#: templates/account.html:94
+msgid "My summary"
+msgstr ""
+
+#: templates/account.html:105
+msgid "Groups"
+msgstr ""
+
+#: templates/account.html:116
+msgid "Following"
+msgstr ""
+
+#: templates/add_representative.html:8
+msgid "Organisations"
+msgstr ""
+
+#: templates/add_representative.html:10
+msgid "Add a representative"
+msgstr ""
+
+#: templates/add_representative.html:19
+msgid "Enter data"
+msgstr ""
+
+#: templates/add_representative.html:20
+msgid "Upload .xls"
+msgstr ""
+
+#: templates/add_representative.html:30
+#: templates/individual_registration.html:44
+#: templates/individual_registration.html:46
+#: templates/organisation_registration.html:23 templates/profile.html:53
+#: templates/profile.html.py:89 templates/profile.html:125
+#: templates/profile.html.py:161
+msgid "Name"
+msgstr ""
+
+#: templates/add_representative.html:37
+#: templates/individual_registration.html:53
+#: templates/individual_registration.html:55
+msgid "First name"
+msgstr ""
+
+#: templates/add_representative.html:44
+msgid "E-mail"
+msgstr ""
+
+#: templates/add_representative.html:52 templates/add_representative.html:63
+#: templates/individual_registration.html:8
+#: templates/individual_registration.html:190 templates/login.html:25
+#: templates/organisation_registration.html:8 templates/register.html:9
+msgid "Register"
+msgstr ""
+
+#: templates/add_representative.html:59
+msgid "Upload organisation members from an Excel file (.xls)"
+msgstr ""
+
+#: templates/add_representative.html:61
+msgid "Upload"
+msgstr ""
+
+#: templates/add_representative.html:61
+msgid "No file selected"
+msgstr ""
+
+#: templates/base.html:47
+msgid "My profile"
+msgstr ""
+
+#: templates/base.html:48
+msgid "My exchanges"
+msgstr ""
+
+#: templates/base.html:49
+msgid "Internal messages"
+msgstr ""
+
+#: templates/base.html:51
+msgid "Log out"
+msgstr ""
+
+#: templates/base.html:55 templates/login.html:9 templates/login.html.py:24
+msgid "Log in"
+msgstr ""
+
+#: templates/base.html:78
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/base.html:91
+msgid "Concept"
+msgstr ""
+
+#: templates/base.html:92
+msgid "FAQ"
+msgstr ""
+
+#: templates/base.html:93
+msgid "News"
+msgstr ""
+
+#: templates/base.html:94
+msgid "Contact"
+msgstr ""
+
+#: templates/base.html:121
+msgid "Legal mentions"
+msgstr ""
+
+#: templates/base.html:121
+msgid "Site map"
+msgstr ""
+
+#: templates/create.html:8
+msgid "Create offer or demand"
+msgstr ""
+
+#: templates/create.html:17
+msgid "Person"
+msgstr ""
+
+#: templates/create.html:30
+msgid "Type"
+msgstr ""
+
+#: templates/create.html:35
+msgid "Offer"
+msgstr ""
+
+#: templates/create.html:41
+msgid "Demand"
+msgstr ""
+
+#: templates/create.html:48
+msgid "Where ?"
+msgstr ""
+
+#: templates/create.html:50 templates/individual_registration.html:98
+#: templates/individual_registration.html:100
+msgid "City"
+msgstr ""
+
+#: templates/create.html:53 templates/individual_registration.html:103
+msgid "Post code"
+msgstr ""
+
+#: templates/create.html:58
+msgid "When ?"
+msgstr ""
+
+#: templates/create.html:62
+msgid "Valid from"
+msgstr ""
+
+#: templates/create.html:65
+msgid "From"
+msgstr ""
+
+#: templates/create.html:68 templates/create.html.py:71
+msgid "To"
+msgstr ""
+
+#: templates/create.html:80
+msgid "One time"
+msgstr ""
+
+#: templates/create.html:86
+msgid "Regularly"
+msgstr ""
+
+#: templates/create.html:92
+msgid "Not specified"
+msgstr ""
+
+#: templates/create.html:99
+msgid "What ?"
+msgstr ""
+
+#: templates/create.html:104
+msgid "Category"
+msgstr ""
+
+#: templates/create.html:114
+msgid "Specify"
+msgstr ""
+
+#: templates/create.html:123 templates/organisation_registration.html:37
+msgid "Description"
+msgstr ""
+
+#: templates/home.html:13
+msgid "Challenge progress"
+msgstr ""
+
+#: templates/home.html:33
+msgid "DARE-it!"
+msgstr ""
+
+#: templates/home.html:47
+msgid "The concept"
+msgstr ""
+
+#: templates/home.html:52
+msgid "Testimonies"
+msgstr ""
+
+#: templates/home.html:76
+msgid "Video manual"
+msgstr ""
+
+#: templates/home.html:85
+msgid "Latest offers and demands"
+msgstr ""
+
+#: templates/home.html:103
+msgid "Calendar and news"
+msgstr ""
+
+#: templates/home.html:108
+msgid "Challenge map"
+msgstr ""
+
+#: templates/home.html:115
+msgid "Download and share"
+msgstr ""
+
+#: templates/home.html:126
+msgid "Our partners:"
+msgstr ""
+
+#: templates/individual_registration.html:9
+msgid "New individual"
+msgstr ""
+
+#: templates/individual_registration.html:20
+msgid "There are errors in the form :"
+msgstr ""
+
+#: templates/individual_registration.html:60
+#: templates/individual_registration.html:62
+msgid "User name"
+msgstr ""
+
+#: templates/individual_registration.html:67
+#: templates/individual_registration.html:69
+msgid "Email"
+msgstr ""
+
+#: templates/individual_registration.html:74
+#: templates/individual_registration.html:76 templates/login.html:22
+msgid "Password"
+msgstr ""
+
+#: templates/individual_registration.html:81
+msgid "Confirmation"
+msgstr ""
+
+#: templates/individual_registration.html:83
+msgid "Confirm password"
+msgstr ""
+
+#: templates/individual_registration.html:88
+msgid "Address"
+msgstr ""
+
+#: templates/individual_registration.html:90
+msgid "Street"
+msgstr ""
+
+#: templates/individual_registration.html:93
+msgid "N°"
+msgstr ""
+
+#: templates/individual_registration.html:108
+#: templates/individual_registration.html:110
+msgid "Country"
+msgstr ""
+
+#: templates/individual_registration.html:125
+msgid "Phone"
+msgstr ""
+
+#: templates/individual_registration.html:127
+msgid "Phone number"
+msgstr ""
+
+#: templates/individual_registration.html:132
+msgid "ID Card"
+msgstr ""
+
+#: templates/individual_registration.html:134
+msgid "ID card number"
+msgstr ""
+
+#: templates/individual_registration.html:141
+msgid "Facebook"
+msgstr ""
+
+#: templates/individual_registration.html:143
+msgid "Facebook page URL"
+msgstr ""
+
+#: templates/individual_registration.html:151
+msgid "Only show my username"
+msgstr ""
+
+#: templates/individual_registration.html:159
+msgid "Send mails on my personnal address"
+msgstr ""
+
+#: templates/individual_registration.html:175
+msgid "Profile picture"
+msgstr ""
+
+#: templates/individual_registration.html:177
+#: templates/organisation_registration.html:91
+msgid "Change"
+msgstr ""
+
+#: templates/login.html:21
+msgid "Email address"
+msgstr ""
+
+#: templates/organisation_registration.html:9
+msgid "New organisation"
+msgstr ""
+
+#: templates/organisation_registration.html:21 templates/register.html:27
+msgid "Organisation"
+msgstr ""
+
+#: templates/organisation_registration.html:28
+msgid "Organisation street"
+msgstr ""
+
+#: templates/organisation_registration.html:39
+msgid "Small organisation description"
+msgstr ""
+
+#: templates/organisation_registration.html:44
+msgid "Telephone"
+msgstr ""
+
+#: templates/organisation_registration.html:46
+msgid "Organisation telephone number"
+msgstr ""
+
+#: templates/organisation_registration.html:51
+msgid "VAT*"
+msgstr ""
+
+#: templates/organisation_registration.html:53
+msgid "Organisation VAT number"
+msgstr ""
+
+#: templates/organisation_registration.html:58
+msgid "Website"
+msgstr ""
+
+#: templates/organisation_registration.html:60
+msgid "Organisation website"
+msgstr ""
+
+#: templates/organisation_registration.html:68
+msgid "Transfer emails to indicated address"
+msgstr ""
+
+#: templates/organisation_registration.html:74
+msgid "Captcha"
+msgstr ""
+
+#: templates/organisation_registration.html:89
+msgid "Organisation logo"
+msgstr ""
+
+#: templates/profile.html:9
+msgid "Members"
+msgstr ""
+
+#: templates/profile.html:48
+msgid "Current offers"
+msgstr ""
+
+#: templates/profile.html:54
+msgid "Demander"
+msgstr ""
+
+#: templates/profile.html:55 templates/profile.html.py:91
+#: templates/profile.html:127 templates/profile.html.py:163
+msgid "Date"
+msgstr ""
+
+#: templates/profile.html:84
+msgid "Current demands"
+msgstr ""
+
+#: templates/profile.html:90
+msgid "Proposer"
+msgstr ""
+
+#: templates/profile.html:126 templates/profile.html.py:162
+msgid "With"
+msgstr ""
+
+#: templates/profile.html:156
+msgid "Evaluations summary"
+msgstr ""
+
+#: templates/register.html:17
+msgid "I am an individual, I want"
+msgstr ""
+
+#: templates/register.html:17
+msgid "to create my personnal account."
+msgstr ""
+
+#: templates/register.html:18
+msgid "Individual"
+msgstr ""
+
+#: templates/register.html:26
+msgid "I want to create an account for the organisation I represent."
+msgstr ""
+
+#: website/views.py:34
+msgid ""
+"This account has been disabled. Please contact the administrator of this "
+"site."
+msgstr ""
+
+#: website/views.py:38
+msgid "This username or password is not valid."
+msgstr ""
+
+#: website/models/agefilter.py:18
+msgid "For FR"
+msgstr ""
+
+#: website/models/agefilter.py:18
+msgid "min: "
+msgstr ""
+
+#: website/models/agefilter.py:19
+msgid " max: "
+msgstr ""
+
+#: website/models/entity.py:28
+msgid ""
+"Entity contains no interesting information: call User or                 "
+"association user instead"
+msgstr ""
+
+#: website/models/feedback.py:21
+msgid "Feedback about "
+msgstr ""
+
+#: website/models/filteredrequest.py:29
+msgid "filtered"
+msgstr ""
+
+#: website/models/internalmessage.py:22
+msgid "From: "
+msgstr ""
+
+#: website/models/internalmessage.py:23
+msgid "To: "
+msgstr ""
+
+#: website/models/internalmessage.py:24
+msgid "Message: "
+msgstr ""
+
+#: website/models/pin.py:20
+msgid "PIN first name: "
+msgstr ""
+
+#: website/models/pin.py:20
+msgid "last name: "
+msgstr ""

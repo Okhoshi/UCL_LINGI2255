@@ -44,13 +44,17 @@ class Request(models.Model):
         return self.name
 
     #TODO Add the methods here
+
+    # Return the feedback associated to the request
     def get_feedback(self):
         return self.feedback
 
+    # Return all the requests in the database
     @staticmethod
     def get_all_requests():
         return Request.objects.all()
 
+    # Return some requests that are similar with self
     def get_similar_requests(self):
         # SHOULD BE REDONE!!!
         # Search similar names and type
@@ -87,6 +91,8 @@ class Request(models.Model):
         # else, it's the proposer
         return self.proposer
 
+    # Allows a user to create a request with a SavedSearch as basis.
+    # If the request is as proposal, isProposer must be True, else False
     @staticmethod
     def make_request(search, isProposer):
         new = Request(name=search.search_field, date=search.date, \

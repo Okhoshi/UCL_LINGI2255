@@ -41,6 +41,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,6 +78,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+gettext = lambda x: x
+LANGUAGES = (
+    ('fr', gettext('French')),
+    ('en', gettext('English')),
+    ('nl', gettext('Dutch')),
+)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -111,4 +119,14 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.i18n',
+)
 APPEND_SLASH = True  # Ajoute un slash en fin d'URL
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+    '/home/public/solidareit/locale/',
+)

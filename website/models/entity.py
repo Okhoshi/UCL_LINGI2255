@@ -1,11 +1,12 @@
 # Class that represents a general user/actor (registered) of the website
 # AUTHORS :  Anh Tuan Le, Romain Vanwelde, Benjamin Baugnies ,
-#            Quentin De Coninck, Quentin Devos (V3)
+#            Quentin De Coninck, Quentin Devos, Romain Vanwelde (V4)
 # DATE_CREATION : 17 November 2013
 # DATE_VERSION 1 : 18 November 2013
 # DATE_VERSION 2 : 19 November 2013
 # DATE_VERSION 3 : 20 November 2013 
-# VERSION : 3
+# DATE_VERSION 4 : 30 November 2013 
+# VERSION : 4
 from django.db import models
 from place import *
 from feedback import *
@@ -14,6 +15,7 @@ from request import *
 from savedsearch import *
 import datetime
 from django.utils.timezone import utc
+from django.utils.translation import ugettext as _
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
@@ -23,8 +25,8 @@ class Entity(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        return "Entity contains no interesting information: call User or \
-                association user instead"
+        return _("Entity contains no interesting information: call User or \
+                association user instead")
 
     #TODO Add the methods here
 
@@ -118,5 +120,3 @@ class Entity(models.Model):
     def get_similar_matching_requests(self, amount):
         #TODO
         pass
-
-
