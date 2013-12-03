@@ -147,12 +147,15 @@ def profile(request):
     feedbacks = []
     rating = 0
     entity = None
+    image = None
     if (is_user):
         entity = is_user[0]
+        image = entity.picture
 
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
+        image = entity.picture
 
     if (entity):
         current_offers = entity.get_current_offers()
@@ -281,10 +284,12 @@ def profile(request):
 
 
     feedbacks = feedbacks_list
+    print(image)
 
     return render(request, 'profile.html', {'entity': entity, \
         'current_offers':current_offers, 'current_demands':current_demands, \
-        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating})
+        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating, \
+        'image':image})
 
 @login_required
 def create_offer_demand(request):
