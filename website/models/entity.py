@@ -111,6 +111,8 @@ class Entity(models.Model):
         for y in feedback_propos:
             total += y.rating_demander
 
+        if (len(feedback_propos)+len(feedback_demand) == 0):
+            return 0
         return total/(len(feedback_propos)+len(feedback_demand))
 
     # Return a list of requests with the DONE state
