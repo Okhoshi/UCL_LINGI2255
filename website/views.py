@@ -12,7 +12,7 @@ from website.models import *
 
 
 def home(request):
-    testimonies = Testimony.get_random_testimonies(3)
+    testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
     return render(request, 'home.html', {'testimonies': testimonies})
 
 

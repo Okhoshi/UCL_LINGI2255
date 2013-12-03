@@ -37,7 +37,7 @@
 			                    <input name="next" type="hidden" value="{{request.path}}" />
                                 {% if LANGUAGES|length < 6 %}
     		                        {% for lang in LANGUAGES %}
-                                        <button name="language" class="language_button" {% if lang.0 == LANGUAGE_CODE %}style="background: rgb(172, 173, 175)" {% endif %}value="{{ lang.0 }}">{{ lang.0 }}</button>
+                                        <button name="language" class="language_button" {% if lang.0 == LANGUAGE_CODE %}style="background: rgba(172, 173, 175, 0.5)" {% endif %}value="{{ lang.0 }}">{{ lang.0 }}</button>
                                     {% endfor %}
                                 {% else %}
     		                            <select name="language" class="language_button" onchange='this.form.submit()'>
