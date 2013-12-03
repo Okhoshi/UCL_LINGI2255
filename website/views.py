@@ -127,12 +127,16 @@ def profile(request):
     entity = None
     if (is_user):
         entity = is_user[0]
+        print("User")
 
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
+        print("Association")
+        print(entity.description)
 
     if (entity):
+        print("OK")
         current_offers = entity.get_current_offers()
         current_demands = entity.get_current_demands()
         old_requests = entity.get_old_requests()
@@ -145,7 +149,9 @@ def profile(request):
     print(feedbacks)
     print(rating)
 
-    return render(request, 'profile.html', {})
+    return render(request, 'profile.html', {'entity': entity, \
+        'current_offers':current_offers, 'current_demands':current_demands, \
+        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating})
 
 @login_required
 def create_offer_demand(request):
