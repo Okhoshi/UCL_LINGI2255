@@ -208,6 +208,16 @@ def create_offer_demand(request):
 
 @login_required
 def add_representative(request):
+    if request.method == 'POST':
+        last_name = request.POST.getlist('last_name[]')
+        first_name = request.POST.getlist('first_name[]')
+        email = request.POST.getlist('email[]')
+        level = request.POST.getlist('memberLevel[]')
+
+        for i in range(len(last_name)):
+            print('We add ',last_name[i],first_name[i],email[i],level[i])
+            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
+    
     return render(request, 'add_representative.html', {})
 
 @login_required

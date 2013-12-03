@@ -29,31 +29,31 @@
 				<div class="col-sm-3">
 					<label for="inputName" class="col-xs-12">{% trans "Name" %}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputName" placeholder="Name" name="last_name">
+						<input type="text" class="form-control" id="inputName" placeholder="Name" name="last_name[]">
 					</div>
 				</div>
 
 				<div class="col-sm-3">
 					<label for="inputFirstName" class="col-xs-12">{% trans "First name"%}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputName" placeholder="First name" name="first_name">
+						<input type="text" class="form-control" id="inputName" placeholder="First name" name="first_name[]">
 					</div>
 				</div>
 
 				<div class="col-sm-3">
 					<label for="inputEmail" class="col-xs-12">{% trans "E-mail" %}*</label>
 					<div class="col-xs-12">
-						<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+						<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email[]">
 					</div>
 				</div>
 
 				<div class="col-sm-3">
 					<label for="inputLevel" class="col-xs-12">{% trans "Member level" %}*</label>
 					<div style="margin-right: 15px;margin-left: 15px;">
-						<select class="form-control" id="inputLevel" name="memberLevel">
-							<option>0</option>
-							<option>1</option>
-							<option>2</option>
+						<select class="form-control" id="inputLevel" name="memberLevel[]">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
 						</select>
 					</div>
 				</div>
