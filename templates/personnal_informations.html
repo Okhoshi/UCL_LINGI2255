@@ -37,8 +37,8 @@
         <div class="row form_el">
             <label for="inputBirthdate" class="col-sm-4 control-label" style="color:{{ birthdate_color }} !important;">
                     {% trans "Birthdate" %}*</label>
-            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                <input style="border-color: {{ birthdate_color }} !important;" class="form-control" size="16" type="text" name="birthdate" value="{{ birthdate }}" readonly id="inputBirthdate" required="">
+            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd/MM/yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input style="border-color: {{ birthdate_color }} !important;" class="form-control" size="16" type="text" name="birthdate" value="{{ birthdate }}" id="inputBirthdate" required placeholder="{% trans "dd/MM/yyyy" %}">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
