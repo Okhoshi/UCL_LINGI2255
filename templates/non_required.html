@@ -28,8 +28,15 @@
     </div>
     <div class="col-sm-6" id="to_align">
         <label>{% trans "Profile picture" %}</label>
-        <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="margin:auto auto 20px auto; b" alt="Profile picture">
-        <input style="margin: auto;" type=file name="file" class="btn btn-primary"></input>
+        <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="margin:auto auto 20px auto; " alt="Profile picture">
+        <div class="row">
+            <div class="col-xs-6 col-xs-offset-3 text-left">
+                <input type=file name="file" class="btn btn-primary input_file"/>
+                <div class="btn btn-primary  file_input">
+                    <span class="glyphicon glyphicon-file f_decor">{% trans "Browse" %}</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script type="text/javascript">

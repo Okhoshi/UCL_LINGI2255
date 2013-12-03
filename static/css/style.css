@@ -176,6 +176,33 @@ a:hover {
 }
 #to_align {
     text-align: center;
+}{
+    position: relative;
+    top: -10px;
+}
+.f_decor {
+
+}
+.file_input {
+    display: table;
+    vertical-align: middle;
+    width: 70%;
+    margin: auto;
+    height: 35px;
+    position: relative;
+    top: -36px;
+    border-radius: 5px;
+    z-index: 0;
+}
+.input_file {
+    position: relative;
+    margin: auto;
+    width: 70%;
+    height: 35px;
+    opacity: 0;
+    background-color: blue;
+    z-index: 10000000000000000;
+
 }
 /**********************
  ***** login.html *****
