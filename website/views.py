@@ -1,21 +1,37 @@
 # Create your views here.
 from django.shortcuts import render, redirect
+from django.conf import settings
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
 from django.contrib.auth.models import User as DUser
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
 from forms import MForm
 from exceptions import *
 from website.models import *
+
+# Non logged decorator
+def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
+    """
+    Decorator for views that checks that the user is NOT logged in, redirecting
+    to the homepage if necessary.
+    """
+    actual_decorator = user_passes_test(
+        lambda u: u.is_anonymous(),
+        login_url=redirect_to,
+        redirect_field_name=redirect_field_name
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
 
 
 def home(request):
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
     return render(request, 'home.html', {'testimonies': testimonies})
 
-
+@login_forbidden
 def login(request):
     message = request
     if request.method == 'POST':
