@@ -181,6 +181,81 @@ def profile(request):
     current_demands = current_demands_proposer_list
 
 
+    history = []
+    for elem in old_requests:
+        other = None
+        if (elem.demander.id == entity.id):
+            other = elem.proposer
+        elif (elem.proposer.id == entity.id):
+            other = elem.demander
+
+        name_other = ""
+
+        other_assoc = Association.objects.filter(entity_ptr_id__exact=other.id)
+        other_user = User.objects.filter(entity_ptr_id__exact=other.id)
+
+        if (other_assoc):
+            other = other_assoc[0]
+            name_other = other.name
+        elif (other_user): #is a User
+            other = other_user[0]
+            other = DUser.objects.get(id=other.dj_user_id)
+            name_other = other.first_name + " " + other.last_name
+        history.append((elem, name_other, elem.date))
+    old_requests = history
+
+    rating_values = ["success","","danger"]
+    feedbacks_list = []
+    for elem in feedbacks[0]:
+        other = None
+        req = elem.request
+
+        feedback = elem.feedback_proposer
+        rating = elem.rating_proposer
+        other = elem.request.proposer
+
+        name_other = ""
+
+        other_assoc = Association.objects.filter(entity_ptr_id__exact=other.id)
+        other_user = User.objects.filter(entity_ptr_id__exact=other.id)
+
+        if (other_assoc):
+            other = other_assoc[0]
+            name_other = other.name
+        elif (other_user): #is a User
+            other = other_user[0]
+            other = DUser.objects.get(id=other.dj_user_id)
+            name_other = other.first_name + " " + other.last_name
+
+        feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating-1]))
+        
+    for elem in feedbacks[1]:
+        other = None
+        req = elem.request
+
+        feedback = elem.feedback_demander
+        rating = elem.rating_demander
+        other = elem.request.demander
+
+        name_other = ""
+
+        other_assoc = Association.objects.filter(entity_ptr_id__exact=other.id)
+        other_user = User.objects.filter(entity_ptr_id__exact=other.id)
+
+        if (other_assoc):
+            other = other_assoc[0]
+            name_other = other.name
+        elif (other_user): #is a User
+            other = other_user[0]
+            other = DUser.objects.get(id=other.dj_user_id)
+            name_other = other.first_name + " " + other.last_name
+        feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating-1]))
+
+
+
+
+
+    feedbacks = feedbacks_list
 
     return render(request, 'profile.html', {'entity': entity, \
         'current_offers':current_offers, 'current_demands':current_demands, \
