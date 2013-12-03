@@ -262,15 +262,16 @@ class ModelsTests(TestCase):
 
         feed1 = Feedback(feedback_demander="It was nice", \
                          feedback_proposer="It was ugly!", request = req, \
-                         rating_demander=5, rating_proposer=1)
+                         rating_demander=3, rating_proposer=1)
         feed2 = Feedback(feedback_demander="It could be better", \
                          feedback_proposer="Very interesting!", request = req2,\
-                         rating_demander=2, rating_proposer=4)
+                         rating_demander=2, rating_proposer=2)
 
         feed1.save()
         feed2.save()
 
-        self.assertEqual(users[0].get_rating(), 4.5)
+        self.assertEqual(users[0].get_rating(), (1, 0, 1))
+        self.assertEqual(users[1].get_rating(), (0, 1, 1))
 
 
 

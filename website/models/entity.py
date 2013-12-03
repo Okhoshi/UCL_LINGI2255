@@ -95,8 +95,9 @@ class Entity(models.Model):
     def get_searches(self):
         return SavedSearch.objects.filter(entity__exact=self)
 
-    # Return the rating of self based on the rating made by other entities met 
-    # with done requests
+    # Return a tuple with the number of positive, negative and total requests based
+    # on the feedbacks made by the others
+    # Return (pos, neg, neu)
     def  get_rating(self):
          # Get the feedbacks where Entity is the demander
         feedback_demand = Feedback.objects.filter(request__demander__exact=self)
@@ -104,17 +105,28 @@ class Entity(models.Model):
         # Get the feedbacks where Entity is the proposer
         feedback_propos = Feedback.objects.filter(request__proposer__exact=self)
 
-        total = 0.0
+        pos = 0
+        neg = 0
+        neu = 0
 
         for x in feedback_demand:
-            total += x.rating_proposer
+            if (x.rating_proposer == 3):
+                pos += 1
+            elif (x.rating_proposer == 1):
+                neg += 1
+            elif (x.rating_proposer == 2):
+                neu += 1
+
 
         for y in feedback_propos:
-            total += y.rating_demander
+            if (y.rating_demander == 3):
+                pos += 1
+            elif (y.rating_demander == 1):
+                neg += 1
+            elif (y.rating_demander == 2):
+                neu += 1
 
-        if (len(feedback_propos)+len(feedback_demand) == 0):
-            return 0
-        return total/(len(feedback_propos)+len(feedback_demand))
+        return (pos, neg, neu)
 
     # Return a list of requests with the DONE state
     def get_old_requests(self):
