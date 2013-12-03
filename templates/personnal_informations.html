@@ -16,7 +16,7 @@
                 {% trans "Name" %}*</label>
 
             <div class="col-sm-8 ">
-                <input type="text" class="form-control" id="inputName" name="name" placeholder="{% trans " Name" %}"
+                <input type="text" class="form-control" id="inputName" name="name" placeholder="{% trans "Name" %}"
                 style="border-color: {{ name_color }} !important;" value="{{ name }}" required autofocus>
             </div>
         </div>
@@ -36,14 +36,14 @@
         <!-- BIRTH DATE-->
         <div class="row form_el">
             <label for="inputBirthdate" class="col-sm-4 control-label" style="color:{{ birthdate_color }} !important;">
-                {% trans "Birthdate" %}*</label>
-
-            <div class="col-sm-8">
-                <input type="datetime" class="form-control" id="inputBirthdate" name="birthdate"
-                       placeholder="{% trans "Birthdate" %}" style="border-color: {{ birthdate_color }} !important;"
-                value="{{ birthdate }}" required>
+                    {% trans "Birthdate" %}*</label>
+            <div class="input-group date form_date col-sm-8" data-date="" data-date-format="dd/MM/yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input style="border-color: {{ birthdate_color }} !important;" class="form-control" size="16" type="text" name="birthdate" value="{{ birthdate }}" id="inputBirthdate" required placeholder="{% trans "dd/MM/yyyy" %}">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
-        </div>
+				<input type="hidden" id="dtp_input2" value="" />
+            </div>
 
         <!-- GENDER -->
         <div class="row form_el">
@@ -56,7 +56,6 @@
                 value="{{ gender }}" required>
             </div>
         </div>
-
 
     </div>
     <div class="col-md-6">
