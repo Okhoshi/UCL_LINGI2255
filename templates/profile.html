@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load extra_tags %}
 
 
 {% block breadcrumb %}
@@ -58,23 +59,12 @@
 				</tr>
 				{% for elem in current_offers %}
 				<tr>
-					<td>{{ elem.name }}</td>
-					<td>{{ elem.demander.first_name }} {{ elem.demander.last_name }}</td>
-					<td>{{ elem.date }}</td>
+					{% for sub in elem %}
+					<td>{{ sub }}</td>
+					{% endfor %}					
 				</tr>
 				{% endfor %}
 
-				<tr>
-					<td>Lorem ipsum dolor sit amet.</td>
-					<td>Foo</td>
-					<td>Friday 08.30 AM</td>
-				</tr>
-
-				<tr>
-					<td>Lorem ipsum dolor sit amet.</td>
-					<td>Foo</td>
-					<td>Friday 08.30 AM</td>
-				</tr>
 			</table>
 		</div>
 
@@ -95,28 +85,12 @@
 				</tr>
 				{% for elem in current_demands %}
 				<tr>
-					<td>{{ elem.name }}</td>
-					<td>{{ elem.proposer.first_name }} {{ elem.proposer.last_name }}</td>
-					<td>{{ elem.date }}</td>
+					{% for sub in elem %}
+					<td>{{ sub }}</td>
+					{% endfor %}					
 				</tr>
 				{% endfor %}
-				<tr>
-					<td>Lorem ipsum dolor sit amet.</td>
-					<td>Foo</td>
-					<td>Friday 08.30 AM</td>
-				</tr>
 
-				<tr>
-					<td>Lorem ipsum dolor sit amet.</td>
-					<td>Foo</td>
-					<td>Friday 08.30 AM</td>
-				</tr>
-
-				<tr>
-					<td>Lorem ipsum dolor sit amet.</td>
-					<td>Foo</td>
-					<td>Friday 08.30 AM</td>
-				</tr>
 			</table>
 		</div>
 

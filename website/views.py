@@ -121,8 +121,6 @@ def profile(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    print(is_user)
-    print(is_association_user)
     current_offers = []
     current_demands = []
     old_requests = []
@@ -131,27 +129,55 @@ def profile(request):
     entity = None
     if (is_user):
         entity = is_user[0]
-        print("User")
 
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
-        print("Association")
-        print(entity.description)
 
     if (entity):
-        print("OK")
         current_offers = entity.get_current_offers()
         current_demands = entity.get_current_demands()
         old_requests = entity.get_old_requests()
         feedbacks = entity.get_feedback()
         rating = entity.get_rating()
 
-    print(current_offers)
-    print(current_demands)
-    print(old_requests)
-    print(feedbacks)
-    print(rating)
+    current_offers_demander_list = []
+    for elem in current_offers:
+        demand = elem.demander
+        name_demand = ""
+        demand_assoc = Association.objects.filter(entity_ptr_id__exact=demand.id)
+        demand_user = User.objects.filter(entity_ptr_id__exact=demand.id)
+
+
+        if (demand_assoc):
+            demand = demand_assoc[0]
+            name_demand = demand.name
+        elif (demand_user): #is a User
+            demand = demand_user[0]
+            demand = DUser.objects.get(id=demand.dj_user_id)
+            name_demand = demand.first_name + " " + demand.last_name
+        current_offers_demander_list.append((elem, name_demand, elem.date))
+    current_offers = current_offers_demander_list
+
+
+    current_demands_proposer_list = []
+    for elem in current_demands:
+        proposer = elem.proposer
+        name_proposer = ""
+
+        proposer_assoc = Association.objects.filter(entity_ptr_id__exact=proposer.id)
+        proposer_user = User.objects.filter(entity_ptr_id__exact=proposer.id)
+        if (proposer_assoc):
+            proposer = proposer_assoc[0]
+            name_proposer = proposer.name
+        elif (proposer_user): #is a User
+            proposer = proposer_user[0]
+            proposer = DUser.objects.get(id=proposer.dj_user_id)
+            name_proposer = proposer.first_name + " " + proposer.last_name
+        current_demands_proposer_list.append((elem, name_proposer, elem.date))
+    current_demands = current_demands_proposer_list
+
+
 
     return render(request, 'profile.html', {'entity': entity, \
         'current_offers':current_offers, 'current_demands':current_demands, \
