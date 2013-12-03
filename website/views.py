@@ -43,6 +43,9 @@ def login(request):
 def concept(request):
     return render(request, 'concept.html', {})
 
+def contact(request):
+    return render(request, 'contact.html', {})
+
 
 
 def register(request):

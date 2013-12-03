@@ -33,12 +33,15 @@
         {% csrf_token %}
         <div class="row form_blck">
             {% include 'personnal_informations.html' %}
-            {% include 'address.html' %}
+            <div class="row">
+                {% include 'address.html' %}
+                {% include 'address_right.html' %}
+
+            </div>
         </div>
 
         <div class="row form_blck">
-            {% include 'personnal_informations.html' %}
-            {% include 'address.html' %}
+
         </div>
 
         <!--
