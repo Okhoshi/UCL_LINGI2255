@@ -167,7 +167,8 @@ def profile(request):
         old_requests = entity.get_old_requests()
         feedbacks = entity.get_feedback()
         tuple_rating = entity.get_rating()
-        global_rating = 100.0 * float(tuple_rating[2]+tuple_rating[0]) / float(sum(tuple_rating))
+        value_rating = 100.0 * float(tuple_rating[2]+tuple_rating[0]) / float(sum(tuple_rating))
+        global_rating = (value_rating,sum(tuple_rating))
     current_offers_demander_list = []
     for elem in current_offers:
         demand = elem.demander
