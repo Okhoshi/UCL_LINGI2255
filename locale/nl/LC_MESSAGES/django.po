@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2013-12-03 09:44+0000\n"
+=======
+"POT-Creation-Date: 2013-12-03 09:10+0000\n"
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+<<<<<<< HEAD
 #: solidareit/settings.py:83
 msgid "French"
 msgstr ""
@@ -27,6 +32,17 @@ msgid "English"
 msgstr ""
 
 #: solidareit/settings.py:85
+=======
+#: solidareit/settings.py:84
+msgid "French"
+msgstr ""
+
+#: solidareit/settings.py:85
+msgid "English"
+msgstr ""
+
+#: solidareit/settings.py:86
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 msgid "Dutch"
 msgstr ""
 
@@ -574,9 +590,7 @@ msgid "The VAT of the organisation"
 msgstr ""
 
 #: website/views.py:34
-msgid ""
-"This account has been disabled. Please contact the administrator of this "
-"site."
+msgid "This account has been disabled. "
 msgstr ""
 
 #: website/views.py:38

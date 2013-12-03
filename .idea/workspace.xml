@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a52d7dc3-87a0-4a26-a3fd-623066889aa7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/models/filteredrequest.py" afterPath="$PROJECT_DIR$/website/models/filteredrequest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/tests.py" afterPath="$PROJECT_DIR$/website/tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/website/models/user.py" afterPath="$PROJECT_DIR$/website/models/user.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="UCL_LINGI2255.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,7 +47,7 @@
       <file leaf-file-name="tests.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/website/tests.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="471" column="61" selection-start="19533" selection-end="19533" vertical-scroll-proportion="0.75390625" vertical-offset="8038" max-vertical-offset="8568">
+            <state line="518" column="8" selection-start="21321" selection-end="21321" vertical-scroll-proportion="0.75390625" vertical-offset="8884" max-vertical-offset="9396">
               <folding />
             </state>
           </provider>
@@ -77,8 +76,10 @@
       <file leaf-file-name="entity.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/website/models/entity.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="45" selection-start="649" selection-end="649" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2304">
-              <folding />
+            <state line="18" column="30" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="2718">
+              <folding>
+                <element signature="e#400#428#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -458,8 +459,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/website/models/entity.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="45" selection-start="649" selection-end="649" vertical-scroll-proportion="0.0" vertical-offset="1779" max-vertical-offset="2304">
-          <folding />
+        <state line="18" column="30" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="2718">
+          <folding>
+            <element signature="e#400#428#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -472,7 +475,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/website/tests.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="471" column="61" selection-start="19533" selection-end="19533" vertical-scroll-proportion="0.75390625" vertical-offset="8038" max-vertical-offset="8568">
+        <state line="518" column="8" selection-start="21321" selection-end="21321" vertical-scroll-proportion="0.75390625" vertical-offset="8884" max-vertical-offset="9396">
           <folding />
         </state>
       </provider>
