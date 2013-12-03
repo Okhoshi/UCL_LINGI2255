@@ -1,21 +1,37 @@
 # Create your views here.
 from django.shortcuts import render, redirect
+from django.conf import settings
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
 from django.contrib.auth.models import User as DUser
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
 from forms import MForm
 from exceptions import *
 from website.models import *
+
+# Non logged decorator
+def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
+    """
+    Decorator for views that checks that the user is NOT logged in, redirecting
+    to the homepage if necessary.
+    """
+    actual_decorator = user_passes_test(
+        lambda u: u.is_anonymous(),
+        login_url=redirect_to,
+        redirect_field_name=redirect_field_name
+    )
+    if function:
+        return actual_decorator(function)
+    return actual_decorator
 
 
 def home(request):
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
     return render(request, 'home.html', {'testimonies': testimonies})
 
-
+@login_forbidden
 def login(request):
     message = request
     if request.method == 'POST':
@@ -267,6 +283,16 @@ def create_offer_demand(request):
 
 @login_required
 def add_representative(request):
+    if request.method == 'POST':
+        last_name = request.POST.getlist('last_name[]')
+        first_name = request.POST.getlist('first_name[]')
+        email = request.POST.getlist('email[]')
+        level = request.POST.getlist('memberLevel[]')
+
+        for i in range(len(last_name)):
+            print('We add ',last_name[i],first_name[i],email[i],level[i])
+            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
+    
     return render(request, 'add_representative.html', {})
 
 @login_required

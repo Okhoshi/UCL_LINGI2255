@@ -33,15 +33,34 @@
         {% csrf_token %}
         <div class="row form_blck">
             {% include 'personnal_informations.html' %}
-            <div class="row">
-                {% include 'address.html' %}
-                {% include 'address_right.html' %}
-
-            </div>
+            {% include 'address.html' %}
         </div>
 
         <div class="row form_blck">
+            {% include 'non_required.html' %}
+        </div>
+        <div class="row form_blck">
+            <div class="col-xs-6">
+            <span class="validation_error">{{ captcha_response }}</span>
 
+            <script type="text/javascript"
+            src="http://api.recaptcha.net/challenge?k={{ RECAPTCHA_PUBLIC_KEY }}">
+            </script>
+
+            <noscript>
+            <iframe src="http://api.recaptcha.net/noscript?k={{ RECAPTCHA_PUBLIC_KEY }}"
+            height="300" width="500" frameborder="0"></iframe><br>
+            <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+            </textarea>
+            <input type="hidden" name="recaptcha_response_field"
+            value="manual_challenge">
+            </noscript>
+            </div>
+            <div class="col-xs-6 text-right">
+                <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
+                    <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
+                </div>
+            </div>
         </div>
 
         <!--
@@ -50,11 +69,7 @@
         ##########################
         -->
         <div class="row">
-            <div class="col-xs-12 text-right">
-                <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
-                        <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
-                </div>
-            </div>
+
         </div>
     </form>
 {% endblock %}
