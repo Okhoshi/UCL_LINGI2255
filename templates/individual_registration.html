@@ -32,15 +32,12 @@
     <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row form_blck">
-            <!-- PERSONNAL INFORMATIONS :
-                                            - NAME
-                                            - FIRST NAME
-                                            - USER NAME
-                                            - MAIL
-                                            - PASSWORD & CONFIRMATION
-            -->
             {% include 'personnal_informations.html' %}
-            <hr/>
+            {% include 'address.html' %}
+        </div>
+
+        <div class="row form_blck">
+            {% include 'personnal_informations.html' %}
             {% include 'address.html' %}
         </div>
 
