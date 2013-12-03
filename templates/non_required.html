@@ -25,11 +25,10 @@
                 <input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="{% trans "Post code" %}" style="border-color: {{ postcode_color }} !important;" value="{{ postcode }}" required>
             </div>
         </div>
-    </div>
-    <div class="col-md-6" style="margin-top: 15px;">
-            <div class="row form_el">
+
+        <div class="row form_el">
             <!-- COUNTRY -->
-            <label for="inputCountry" class="col-sm-3 col-xs-12 control-label" style="color:{{ country_color }} !important;" >{% trans "Country" %}*</label>
+            <label for="inputCountry" class="col-sm-3 col-sm-offset-1 col-xs-12 control-label" style="color:{{ country_color }} !important;" >{% trans "Country" %}*</label>
             <div class="col-sm-8 col-xs-8">
                 <input type="text" class="form-control" id="inputCountry" name="country" placeholder="{% trans "Country" %}" style="border-color: {{ country_color }} !important;" value="{{ country }}" required>
             </div>

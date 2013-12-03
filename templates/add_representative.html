@@ -23,35 +23,49 @@
 <!-- Tab panes -->
 <div class="tab-content">
 	<div class="tab-pane active m_tab" id="enter_data">
-		<form class="form-horizontal"role="form">
-			{% for i in "xxx" %}
-			<div class="row" style="margin-bottom: 20px;">
-				<div class="col-sm-4">
+		<form class="form-horizontal" role="form" method="post">
+			{% csrf_token %}
+			<div class="to_duplicate row" style="margin-bottom: 20px;">
+				<div class="col-sm-3">
 					<label for="inputName" class="col-xs-12">{% trans "Name" %}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputName" placeholder="Name" name="last_name" required>
+						<input type="text" class="form-control" id="inputName" placeholder="Name" name="last_name">
 					</div>
 				</div>
 
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<label for="inputFirstName" class="col-xs-12">{% trans "First name"%}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputName" placeholder="First name" name="first_name" required>
+						<input type="text" class="form-control" id="inputName" placeholder="First name" name="first_name">
 					</div>
 				</div>
 
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<label for="inputEmail" class="col-xs-12">{% trans "E-mail" %}*</label>
 					<div class="col-xs-12">
-						<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email" required>
+						<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email">
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<label for="inputLevel" class="col-xs-12">{% trans "Member level" %}*</label>
+					<div style="margin-right: 15px;margin-left: 15px;">
+						<select class="form-control" id="inputLevel" name="memberLevel">
+							<option>0</option>
+							<option>1</option>
+							<option>2</option>
+						</select>
 					</div>
 				</div>
 			</div>
-			{% endfor %}
-
-			<button type="submit" class="btn btn-success pull-right" style="margin: 17px">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
-
-			<div class="clearfix"></div>
+			<div class="row" style="padding:15px">
+				<div class="col-xs-6 text-left">
+					<a class="btn btn-primary" id="add"><i class="glyphicon glyphicon-plus"></i> {% trans "Add line" %}</a>
+				</div>	
+				<div class="col-xs-6 text-right">
+					<button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
+				</div>
+			</div>
 		</form>
 	</div>
 	

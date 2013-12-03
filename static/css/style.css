@@ -239,3 +239,10 @@ a:hover {
 .foot {
     border-top: 2px solid #e1007a;
 }
+
+/**************************
+******* contact.html *******
+****************************/
+textarea{
+    resize: none;
+}

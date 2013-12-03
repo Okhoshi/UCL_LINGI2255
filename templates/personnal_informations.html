@@ -51,9 +51,12 @@
                 {% trans "Gender" %}*</label>
 
             <div class="col-sm-8">
-                <input type="text" class="form-control" id="inputGender" name="gender"
-                       placeholder="{% trans "Gender" %}" style="border-color: {{ gender_color }} !important;"
-                value="{{ gender }}" required>
+                <select class="form-control" id="inputGender" name="gender"
+                       placeholder="{% trans "Gender" %}" style="border-color: {{ gender_color }} !important;" required>
+                <option value="0" {% if gender == 0 %}selected{% endif %} >{% trans "Male" %}</option>
+                <option value="1" {% if gender == 0 %}selected{% endif %} >{% trans "Female" %}</option>
+                <option value="2" {% if gender == 0 %}selected{% endif %} >{% trans "Unspecified" %}</option>
+                </select>
             </div>
         </div>
 
@@ -75,7 +78,7 @@
         <div class=" row form_el">
             <label for="inputEmail" class="col-md-offset-0  col-sm-3  col-sm-offset-1 control-label" style="color:{{ email_color }} !important;">{% trans " Email" %}*</label>
             <div class="col-sm-8">
-                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="{% trans " Email" %}"
+                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="{% trans "Email" %}"
                 style="border-color: {{ email_color }} !important;" value="{{ email }}"required>
             </div>
         </div>
@@ -84,7 +87,7 @@
             <label for="inputPassword3" class="col-md-offset-0  col-sm-3  col-sm-offset-1 control-label" style="color:{{ passwd_color }} !important;">{% trans " Password" %}*</label>
             <div class="col-sm-8">
                 <input type="password" class="form-control" id="inputPassword3" name="passwd"
-                       placeholder="{% trans " Password" %}" style="border-color: {{ passwd_color }} !important;" required>
+                       placeholder="{% trans "Password" %}" style="border-color: {{ passwd_color }} !important;" required>
             </div>
         </div>
 
@@ -92,7 +95,7 @@
             <label for="inputConfirmation" class="col-md-offset-0  col-sm-3  col-sm-offset-1 control-label" style="color:{{ passwdC_color }} !important;">{% trans "Confirmation" %}*</label>
 
             <div class="col-sm-8">
-                <input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="{% trans " Confirm password" %}" style="border-color: {{ passwdC_color }} !important;" required>
+                <input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="{% trans "Confirm password" %}" style="border-color: {{ passwdC_color }} !important;" required>
             </div>
         </div>
 
