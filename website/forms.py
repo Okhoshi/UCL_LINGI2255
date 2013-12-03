@@ -1,8 +1,9 @@
 from django import forms
 from re import match
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
-
+from django.utils.translation import ugettext as _
+from recaptcha.client import captcha
+from django.conf import settings
 
 class MForm(forms.Form):
     #Static variables
@@ -14,6 +15,10 @@ class MForm(forms.Form):
         form = request.POST
         self.colors = dict()
         self.errorlist = dict()
+        ### CAPTCHA ###
+        response = captcha.submit(form.get('recaptcha_challenge_field'), form.get('recaptcha_response_field'), settings.RECAPTCHA_PRIVATE_KEY, request.META.get('REMOTE_ADDR'))
+
+        self.is_valid = response.is_valid
 
         ### LAST NAME ###
         if form['name'] != ''and match(r"^[a-zA-Z ]*$", form['name']):
