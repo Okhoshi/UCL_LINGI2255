@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-03 13:07+0000\n"
-"PO-Revision-Date: 2013-12-02 17:50+0100\n"
+"PO-Revision-Date: 2013-12-03 14:20+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: FR\n"
@@ -381,7 +381,7 @@ msgstr "Témoignages"
 
 #: templates/home.html:76
 msgid "Video manual"
-msgstr "Manuel de la vidéo"
+msgstr "Tutorial du site en vidéo"
 
 #: templates/home.html:85
 msgid "Latest offers and demands"
