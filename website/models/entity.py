@@ -6,7 +6,8 @@
 # DATE_VERSION 2 : 19 November 2013
 # DATE_VERSION 3 : 20 November 2013 
 # DATE_VERSION 4 : 30 November 2013 
-# VERSION : 4
+# DATE_VERSION 5 : 3 December 2013
+# VERSION : 5
 from django.db import models
 from place import *
 from feedback import *
@@ -62,6 +63,16 @@ class Entity(models.Model):
             Request.IN_PROGRESS).filter(demander__exact=self)
 
         return proposed_request | demanded_request
+
+    # Return a list of requests where self is the proposer and is not done
+    def get_current_offers(self):
+        return Request.objects.all().exclude(state__exact=\
+            Request.DONE).filter(proposer__exact=self)
+
+    # Return a list of requests where self is the demander and is not done
+    def get_current_demands(self):
+        return Request.objects.all().exclude(state__exact=\
+            Request.DONE).filter(demander__exact=self)
 
     # Create an internal message about request with text to destination_entity
     # and saves it in the database
