@@ -130,3 +130,8 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
     '/home/public/solidareit/locale/',
 )
+
+# reCaptcha account
+RECAPTCHA_PUBLIC_KEY = '6LdiPOsSAAAAAOdcfqV19AdZFWYKvU2HsemxtVc1'
+RECAPTCHA_PRIVATE_KEY = '6LdiPOsSAAAAAEumrYk2-eXAmGvqEeAOomTNslXN'
+RECAPTCHA_USE_SSL = True
