@@ -146,7 +146,9 @@ def profile(request):
     current_demands = []
     old_requests = []
     feedbacks = []
-    rating = 0
+    rating = 0;
+    global_rating = 0
+    tuple_rating = None
     entity = None
     image = None
     if (is_user):
@@ -164,8 +166,8 @@ def profile(request):
         current_demands = entity.get_current_demands()
         old_requests = entity.get_old_requests()
         feedbacks = entity.get_feedback()
-        rating = entity.get_rating()
-
+        tuple_rating = entity.get_rating()
+        global_rating = 100.0 * float(tuple_rating[2]+tuple_rating[0]) / float(sum(tuple_rating))
     current_offers_demander_list = []
     for elem in current_offers:
         demand = elem.demander
@@ -286,11 +288,9 @@ def profile(request):
 
 
     feedbacks = feedbacks_list
-    print(image)
-
     return render(request, 'profile.html', {'entity': entity, \
         'current_offers':current_offers, 'current_demands':current_demands, \
-        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating, \
+        'old_requests':old_requests, 'feedbacks':feedbacks , 'global_rating':global_rating, \
         'image':image, 'is_verified':is_verified})
 
 @login_required
