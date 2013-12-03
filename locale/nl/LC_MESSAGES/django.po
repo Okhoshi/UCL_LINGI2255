@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2013-12-03 09:44+0000\n"
+=======
 "POT-Creation-Date: 2013-12-03 09:10+0000\n"
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +22,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+<<<<<<< HEAD
+#: solidareit/settings.py:83
+msgid "French"
+msgstr ""
+
+#: solidareit/settings.py:84
+msgid "English"
+msgstr ""
+
+#: solidareit/settings.py:85
+=======
 #: solidareit/settings.py:84
 msgid "French"
 msgstr ""
@@ -27,6 +42,7 @@ msgid "English"
 msgstr ""
 
 #: solidareit/settings.py:86
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 msgid "Dutch"
 msgstr ""
 
@@ -505,6 +521,72 @@ msgstr ""
 
 #: templates/register.html:26
 msgid "I want to create an account for the organisation I represent."
+msgstr ""
+
+#: website/forms.py:24 website/forms.py:32
+msgid "This field can only contain uppercase and lowercase letters"
+msgstr ""
+
+#: website/forms.py:41
+msgid "This username is already used"
+msgstr ""
+
+#: website/forms.py:45
+msgid "The username must be between 3 and 15 characters"
+msgstr ""
+
+#: website/forms.py:54
+msgid "Insert a valid email"
+msgstr ""
+
+#: website/forms.py:64
+msgid ""
+"The password must be between 4 and 20 characters and only contain "
+"alphanumeric characters and the ',;:=?./+-_)('"
+msgstr ""
+
+#: website/forms.py:72
+msgid "This street"
+msgstr ""
+
+#: website/forms.py:72 website/forms.py:121
+msgid "can only contain alphanumeric characters"
+msgstr ""
+
+#: website/forms.py:79
+msgid "The street number"
+msgstr ""
+
+#: website/forms.py:79
+msgid "is a number composed of 1 to 5 digits"
+msgstr ""
+
+#: website/forms.py:86
+msgid "The city"
+msgstr ""
+
+#: website/forms.py:86 website/forms.py:94 website/forms.py:113
+msgid "can only contain alphanumeric characters or symbols"
+msgstr ""
+
+#: website/forms.py:94
+msgid "The country"
+msgstr ""
+
+#: website/forms.py:101
+msgid "The post code"
+msgstr ""
+
+#: website/forms.py:101
+msgid "is a number composed of 1 to 9 digits"
+msgstr ""
+
+#: website/forms.py:113
+msgid "The organisation name"
+msgstr ""
+
+#: website/forms.py:121
+msgid "The VAT of the organisation"
 msgstr ""
 
 #: website/views.py:34

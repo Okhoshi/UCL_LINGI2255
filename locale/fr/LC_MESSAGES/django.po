@@ -7,8 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2013-12-03 09:44+0000\n"
+"PO-Revision-Date: 2013-12-03 10:51+0100\n"
+=======
 "POT-Creation-Date: 2013-12-03 09:10+0000\n"
 "PO-Revision-Date: 2013-12-02 17:50+0100\n"
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: FR\n"
@@ -18,6 +23,19 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.7\n"
 
+<<<<<<< HEAD
+#: solidareit/settings.py:83
+msgid "French"
+msgstr "Français"
+
+#: solidareit/settings.py:84
+msgid "English"
+msgstr "Anglais"
+
+#: solidareit/settings.py:85
+msgid "Dutch"
+msgstr "Néerlandais"
+=======
 #: solidareit/settings.py:84
 msgid "French"
 msgstr ""
@@ -29,6 +47,7 @@ msgstr ""
 #: solidareit/settings.py:86
 msgid "Dutch"
 msgstr ""
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 
 #: templates/account.html:7 templates/add_representative.html:7
 #: templates/base.html:102 templates/create.html:7
@@ -148,7 +167,11 @@ msgstr "Aucun fichier selectioné"
 
 #: templates/base.html:14
 msgid "Bonjour les zéros !"
+<<<<<<< HEAD
+msgstr "Bonjour les zéros!"
+=======
 msgstr ""
+>>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 
 #: templates/base.html:62
 msgid "My profile"
@@ -509,6 +532,74 @@ msgstr "Individuel"
 #: templates/register.html:26
 msgid "I want to create an account for the organisation I represent."
 msgstr "Je veux créer un compte pour une organisation que je représente"
+
+#: website/forms.py:24 website/forms.py:32
+msgid "This field can only contain uppercase and lowercase letters"
+msgstr "Ce champ peut seulement contenir the lettres majuscules et minuscules"
+
+#: website/forms.py:41
+msgid "This username is already used"
+msgstr "Ce nom d'utilisateur est déjà utilisé"
+
+#: website/forms.py:45
+msgid "The username must be between 3 and 15 characters"
+msgstr "Le username doit contenir entre 3 et 15 charactères"
+
+#: website/forms.py:54
+msgid "Insert a valid email"
+msgstr "Insérer une adresse email valide"
+
+#: website/forms.py:64
+msgid ""
+"The password must be between 4 and 20 characters and only contain "
+"alphanumeric characters and the ',;:=?./+-_)('"
+msgstr ""
+"Le mot de passe doit contenir entre 4 et 20 caractères et peut seulement "
+"contenir de caractères alphanumériques et les symboles ',;:=?./+-_)('"
+
+#: website/forms.py:72
+msgid "This street"
+msgstr "Cette rue"
+
+#: website/forms.py:72 website/forms.py:121
+msgid "can only contain alphanumeric characters"
+msgstr "peut seulement contenir des caractères alphanumériques"
+
+#: website/forms.py:79
+msgid "The street number"
+msgstr "Le numéro de la rue"
+
+#: website/forms.py:79
+msgid "is a number composed of 1 to 5 digits"
+msgstr "est un nombre composé de 1 à 5 chiffres"
+
+#: website/forms.py:86
+msgid "The city"
+msgstr "Le ville"
+
+#: website/forms.py:86 website/forms.py:94 website/forms.py:113
+msgid "can only contain alphanumeric characters or symbols"
+msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
+
+#: website/forms.py:94
+msgid "The country"
+msgstr "Le pays"
+
+#: website/forms.py:101
+msgid "The post code"
+msgstr "Le code postal"
+
+#: website/forms.py:101
+msgid "is a number composed of 1 to 9 digits"
+msgstr "est un nombre composé de 1 à 9 chiffres"
+
+#: website/forms.py:113
+msgid "The organisation name"
+msgstr "Le nom de l'organisation"
+
+#: website/forms.py:121
+msgid "The VAT of the organisation"
+msgstr "Le numéro de TVA de l'organisation"
 
 #: website/views.py:34
 msgid "This account has been disabled. "
