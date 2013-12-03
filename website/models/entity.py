@@ -18,6 +18,7 @@ import datetime
 from django.utils.timezone import utc
 from django.utils.translation import ugettext as _
 from django.db.models import Q
+from math import floor
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
@@ -126,8 +127,8 @@ class Entity(models.Model):
         return proposed_request | demanded_request
 
     # Return a list of 'amount' matching requests with the savedsearch
-    def search(self, savedsearch):
-        amount = 3
+    def search(self, savedsearch, amount):
+        
         searchfield = savedsearch.search_field.split(' ')
         
         requests = Request.objects.filter(state__exact = \
@@ -143,8 +144,11 @@ class Entity(models.Model):
                 if (word in req.name):
                     tmp += 1
             relevance.append([tmp, req])
-        relevance.sort
-        relevance = relevance[(len(relevance)-amount):]
+            
+        relevance.sort()
+        relevance.reverse()
+        if (len(relevance)>amount):
+            relevance = relevance[:amount]
         requests = []
         for i in relevance:
             requests.append(i[1])
@@ -152,7 +156,68 @@ class Entity(models.Model):
             
         return requests 
 
-    # Return a list of requests suggested by previous requests of self d
+    # Return a list of 'amount' requests suggested by previous requests of self
+    # uses full history
     def get_similar_matching_requests(self, amount):
-        #TODO
-        pass
+        dreq = Request.objects.filter(state__exact = Request.DONE)
+        requests = dreq.filter(demander__exact = self) | \
+                   dreq.filter(proposer__exact = self)
+
+        wordl = []
+        catl = []
+        for req in requests:
+            wordl += req.name.split(' ')
+            catl.append(req.category)
+        wordl =  wordl.sort()
+        catl.sort()
+
+        curword = wordl[0]
+        mostused= []
+        tmp = 1
+        for i in range(1, len(wordl)):
+            if (wordl[i] == curword):
+                tmp += 1
+            else :
+                curword = wordl[i]
+                tmp = 1
+                mostused.append([tmp, curword])
+
+        curword = catl[0]
+        tmp = 1
+        bestcat = []
+        for i in range(1, len(catl)):
+            if (catl[i] == curword):
+                tmp += 1
+            else :
+                curword = catl[i]
+                tmp = 1
+                bestcat.append([tmp, curword])
+
+        mostused.sort()
+        mostused.reverse()
+        bestcat.sort()
+        bestcat.reverse()
+        bestcat=bestcat[:3]
+        searchfield = ''
+        tmp = 0
+
+        while (len(searchfield) < 512):
+            searchfield += mostused[tmp][1]
+
+        pla = Place()
+        pla.save()
+
+        totalcat = 0
+        for cat in bestcat:
+            totalcat += cat[0]
+
+        requests = []
+
+        for cat in bestcat:
+            savedsearch = SavedSearch(place = pla, date=\
+                datetime.datetime.utcnow().replace(tzinfo=utc), search_field=\
+                searchfield, category=cat[1], entity=users[0])
+            requests += self.search(savedsearch, floor(cat[0]/totalcat))
+
+        return requests
+            

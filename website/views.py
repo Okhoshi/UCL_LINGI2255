@@ -40,6 +40,10 @@ def login(request):
     return render(request, 'login.html', \
                   {'message': message, 'redirect': request.REQUEST.get('next', '')})
 
+def concept(request):
+    return render(request, 'concept.html', {})
+
+
 
 def register(request):
     return render(request, 'register.html', {})

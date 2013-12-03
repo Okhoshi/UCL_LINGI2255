@@ -7,13 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2013-12-03 09:44+0000\n"
-"PO-Revision-Date: 2013-12-03 10:51+0100\n"
-=======
-"POT-Creation-Date: 2013-12-03 09:10+0000\n"
+"POT-Creation-Date: 2013-12-03 11:29+0000\n"
 "PO-Revision-Date: 2013-12-02 17:50+0100\n"
->>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: FR\n"
@@ -23,7 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.7\n"
 
-<<<<<<< HEAD
 #: solidareit/settings.py:83
 msgid "French"
 msgstr "Français"
@@ -35,19 +29,6 @@ msgstr "Anglais"
 #: solidareit/settings.py:85
 msgid "Dutch"
 msgstr "Néerlandais"
-=======
-#: solidareit/settings.py:84
-msgid "French"
-msgstr ""
-
-#: solidareit/settings.py:85
-msgid "English"
-msgstr ""
-
-#: solidareit/settings.py:86
-msgid "Dutch"
-msgstr ""
->>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 
 #: templates/account.html:7 templates/add_representative.html:7
 #: templates/base.html:102 templates/create.html:7
@@ -167,11 +148,7 @@ msgstr "Aucun fichier selectioné"
 
 #: templates/base.html:14
 msgid "Bonjour les zéros !"
-<<<<<<< HEAD
 msgstr "Bonjour les zéros!"
-=======
-msgstr ""
->>>>>>> 4ed3434eb3d64e31af80a1a552d4f2fb9eb40f2e
 
 #: templates/base.html:62
 msgid "My profile"
@@ -220,6 +197,71 @@ msgstr "Mention légales"
 #: templates/base.html:134
 msgid "Site map"
 msgstr "Plan du site"
+
+#: templates/concept.html:10
+msgid ""
+"\n"
+"            Solidare-it! is an initiative that tries to enhance the "
+"solidarity and the exchange between\n"
+"            citizens of all layers of society. From the name “Solidare-it !” "
+"we can distill the following things\n"
+"            : “solidarity”, “dare it !” and “IT”. We try to stimulate people "
+"to dare becoming involved in real\n"
+"            solidarity through information technology. The internet and the "
+"social networks which arise from it are\n"
+"            used as tools to obtain this goal.\"\n"
+"            "
+msgstr ""
+
+#: templates/concept.html:19
+msgid ""
+"\n"
+"            \"Solidare-it! is an internet platform that acts as a meeting "
+"place to facilitate the contact\n"
+"            and exchange between its users and to connect people throughout "
+"all layers of society. The primary purpose\n"
+"            of the plat- form is to create a bridge and an exchange between "
+"local civilians who could use some help,\n"
+"            and those who are willing to offer their assistance. The group "
+"of people in need can be very diverse. It\n"
+"            can be families with financial problems, refugees looking for a "
+"new home, an old lady needing some help\n"
+"            with a move, etc. Supportive local civilians can offer a bed, a "
+"shower, a meal, administrative help,\n"
+"            clothes, simply a conversation, or other things. The exchange "
+"offers the people in need in the first place\n"
+"            a temporary solution for an urgent problem. It can however "
+"enhance long term benefits. If a connection\n"
+"            between two people from different backgrounds is made, both will "
+"exchange culture, knowledge, stories\n"
+"            and experiences. This may generate and enhance mutual "
+"understanding, empathy and involvement. People will\n"
+"            inspire and motivate each other. And finally this can lead to "
+"the emergence of friendships and a\n"
+"            reinforcement of the social fabric.\n"
+"            "
+msgstr ""
+
+#: templates/concept.html:35
+msgid ""
+"\n"
+"            In addition to individual citizens, social organisations play an "
+"important role in this network\n"
+"            too, since they are often confronted with people in need. By "
+"using the network, social organisations are\n"
+"            able to facilitate their work by finding civilian support. "
+"Through the social organisations, people in\n"
+"            need without internet access, mobile devices, or computer skills "
+"can also become part of the network.\n"
+"            By using the network, social organisations get more visibility "
+"and recognition for their work. The network\n"
+"            is for everybody that instead of simply accepting things as they "
+"are, want to make a difference and believe\n"
+"            that they have the responsibility and possibility of being part "
+"of the change towards a more inclusive\n"
+"            world.\n"
+"            "
+msgstr ""
 
 #: templates/create.html:8
 msgid "Create offer or demand"
@@ -602,7 +644,9 @@ msgid "The VAT of the organisation"
 msgstr "Le numéro de TVA de l'organisation"
 
 #: website/views.py:34
-msgid "This account has been disabled. "
+msgid ""
+"This account has been disabled. Please contact the administrator of this "
+"site."
 msgstr ""
 
 #: website/views.py:38
@@ -656,9 +700,3 @@ msgstr "Prénom de la personne:"
 #: website/models/pin.py:20
 msgid "last name: "
 msgstr "Nom:"
-
-#~ msgid ""
-#~ "This account has been disabled. Please contact the administrator of this "
-#~ "site."
-#~ msgstr ""
-#~ "Ce compte a été désactivé. Veuillez contacter l'administrateur de ce site."
