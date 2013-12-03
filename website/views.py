@@ -141,18 +141,23 @@ def profile(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    is_verified = None
     current_offers = []
     current_demands = []
     old_requests = []
     feedbacks = []
     rating = 0
     entity = None
+    image = None
     if (is_user):
         entity = is_user[0]
-
+        image = entity.picture
+        is_verified = entity.is_verified
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
+        image = entity.picture
+        is_verified = 1
 
     if (entity):
         current_offers = entity.get_current_offers()
@@ -281,10 +286,12 @@ def profile(request):
 
 
     feedbacks = feedbacks_list
+    print(image)
 
     return render(request, 'profile.html', {'entity': entity, \
         'current_offers':current_offers, 'current_demands':current_demands, \
-        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating})
+        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating, \
+        'image':image, 'is_verified':is_verified})
 
 @login_required
 def create_offer_demand(request):
