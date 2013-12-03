@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from forms import MForm
 from exceptions import *
 from website.models import *
+from django.utils.translation import ugettext as _
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -163,10 +164,12 @@ def profile(request):
     current_offers_demander_list = []
     for elem in current_offers:
         demand = elem.demander
-        name_demand = ""
-        demand_assoc = Association.objects.filter(entity_ptr_id__exact=demand.id)
-        demand_user = User.objects.filter(entity_ptr_id__exact=demand.id)
-
+        name_demand = "/"
+        demand_assoc = []
+        demand_user = []
+        if (demand):
+        	demand_assoc = Association.objects.filter(entity_ptr_id__exact=demand.id)
+        	demand_user = User.objects.filter(entity_ptr_id__exact=demand.id)
 
         if (demand_assoc):
             demand = demand_assoc[0]
@@ -183,9 +186,12 @@ def profile(request):
     for elem in current_demands:
         proposer = elem.proposer
         name_proposer = ""
+        proposer_assoc = []
+        proposer_user = []
+        if (proposer):
+        	proposer_assoc = Association.objects.filter(entity_ptr_id__exact=proposer.id)
+        	proposer_user = User.objects.filter(entity_ptr_id__exact=proposer.id)
 
-        proposer_assoc = Association.objects.filter(entity_ptr_id__exact=proposer.id)
-        proposer_user = User.objects.filter(entity_ptr_id__exact=proposer.id)
         if (proposer_assoc):
             proposer = proposer_assoc[0]
             name_proposer = proposer.name
@@ -200,12 +206,15 @@ def profile(request):
     history = []
     for elem in old_requests:
         other = None
+        type_req = ""
         if (elem.demander.id == entity.id):
             other = elem.proposer
+            type_req = _('demanded')
         elif (elem.proposer.id == entity.id):
             other = elem.demander
+            type_req = _('proposed')
 
-        name_other = ""
+        name_other = "/"
 
         other_assoc = Association.objects.filter(entity_ptr_id__exact=other.id)
         other_user = User.objects.filter(entity_ptr_id__exact=other.id)
@@ -217,7 +226,7 @@ def profile(request):
             other = other_user[0]
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
-        history.append((elem, name_other, elem.date))
+        history.append((elem, type_req, name_other, elem.date))
     old_requests = history
 
     rating_values = ["success","","danger"]
