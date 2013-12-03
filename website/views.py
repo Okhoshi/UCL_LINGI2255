@@ -220,7 +220,7 @@ def profile(request):
         history.append((elem, name_other, elem.date))
     old_requests = history
 
-    rating_values = ["success","","danger"]
+    rating_values = ["danger","","success"]
     feedbacks_list = []
     for elem in feedbacks[0]:
         other = None
