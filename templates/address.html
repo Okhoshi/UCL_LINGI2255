@@ -1,0 +1,31 @@
+{% load static %}
+{% load i18n %}
+<div class="col-md-6">
+    <!-- NAME -->
+    <div class=" row form_el">
+        <label for="inputStreet" class="col-sm-3 col-xs-12 control-label" style="color:{{ street_color }} !important;" >{% trans "Address" %}*</label>
+        <div class="col-sm-7 col-xs-9">
+            <input type="text" class="form-control" id="inputStreet" name="street" placeholder="{% block address_placeholder %}{% trans "Street" %}{% endblock %}" style="border-color: {{ street_color }} !important;"  value="{{ street }}"required>
+        </div>
+        <div class="col-sm-2 col-xs-3">
+            <input type="text" class="form-control" id="inputNumber" name="streetnumber" placeholder="{% trans "N°" %} " style="border-color: {{ streetnumber_color }} !important;" value="{{ streetnumber}}"required>
+        </div>
+    </div>
+
+    <div class="row form_el">
+        <label for="inputCity" class="col-sm-3 col-xs-12 control-label" style="color:{{ city_color }} !important;" >{% trans "City" %}*</label>
+        <div class="col-sm-6 col-xs-8">
+            <input type="text" class="form-control" id="inputCity" name="city" placeholder="{% trans "City" %}" style="border-color: {{ city_color }} !important;" value="{{ city }}" required>
+        </div>
+        <div class="col-sm-3 col-xs-4">
+            <input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="{% trans "Post code" %}" style="border-color: {{ postcode_color }} !important;" value="{{ postcode }}" required>
+        </div>
+    </div>
+
+    <div class="row form_el">
+        <label for="inputCity" class="col-sm-3 col-xs-12 control-label" style="color:{{ country_color }} !important;" >{% trans "Country" %}*</label>
+        <div class="col-sm-6 col-xs-8">
+            <input type="text" class="form-control" id="inputCountry" name="country" placeholder="{% trans "Country" %}" style="border-color: {{ country_color }} !important;" value="{{ country }}" required>
+        </div>
+    </div>
+</div>

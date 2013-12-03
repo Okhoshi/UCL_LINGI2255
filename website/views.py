@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
+from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext_lazy as _
 from forms import MForm
@@ -38,6 +39,10 @@ def login(request):
             message = _("This username or password is not valid.")
     return render(request, 'login.html', \
                   {'message': message, 'redirect': request.REQUEST.get('next', '')})
+
+def concept(request):
+    return render(request, 'concept.html', {})
+
 
 
 def register(request):
@@ -113,7 +118,44 @@ def account(request):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html', {})
+    this_user = DUser.objects.get(username=request.user)
+    is_user = User.objects.filter(dj_user__exact=this_user.id)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    print(is_user)
+    print(is_association_user)
+    current_offers = []
+    current_demands = []
+    old_requests = []
+    feedbacks = []
+    rating = 0
+    entity = None
+    if (is_user):
+        entity = is_user[0]
+        print("User")
+
+    elif (is_association_user):
+        au = is_association_user[0]
+        entity = au.entity
+        print("Association")
+        print(entity.description)
+
+    if (entity):
+        print("OK")
+        current_offers = entity.get_current_offers()
+        current_demands = entity.get_current_demands()
+        old_requests = entity.get_old_requests()
+        feedbacks = entity.get_feedback()
+        rating = entity.get_rating()
+
+    print(current_offers)
+    print(current_demands)
+    print(old_requests)
+    print(feedbacks)
+    print(rating)
+
+    return render(request, 'profile.html', {'entity': entity, \
+        'current_offers':current_offers, 'current_demands':current_demands, \
+        'old_requests':old_requests, 'feedbacks':feedbacks , 'rating':rating})
 
 @login_required
 def create_offer_demand(request):

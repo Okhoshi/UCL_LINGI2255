@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-03 09:10+0000\n"
-"PO-Revision-Date: 2013-12-02 17:50+0100\n"
+"POT-Creation-Date: 2013-12-03 13:07+0000\n"
+"PO-Revision-Date: 2013-12-03 14:20+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: FR\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#: solidareit/settings.py:84
+#: solidareit/settings.py:83
 msgid "French"
-msgstr ""
+msgstr "Français"
+
+#: solidareit/settings.py:84
+msgid "English"
+msgstr "Anglais"
 
 #: solidareit/settings.py:85
-msgid "English"
-msgstr ""
-
-#: solidareit/settings.py:86
 msgid "Dutch"
-msgstr ""
+msgstr "Néerlandais"
 
 #: templates/account.html:7 templates/add_representative.html:7
 #: templates/base.html:102 templates/create.html:7
@@ -54,7 +54,7 @@ msgstr "Recherche"
 msgid "Create"
 msgstr "Créer"
 
-#: templates/account.html:36 templates/profile.html:120
+#: templates/account.html:36 templates/profile.html:129
 msgid "History"
 msgstr "Historique"
 
@@ -107,18 +107,16 @@ msgstr "Entrer les données"
 msgid "Upload .xls"
 msgstr "Télécharger"
 
-#: templates/add_representative.html:30
-#: templates/individual_registration.html:44
-#: templates/individual_registration.html:46
-#: templates/organisation_registration.html:23 templates/profile.html:53
-#: templates/profile.html.py:89 templates/profile.html:125
-#: templates/profile.html.py:161
+#: templates/add_representative.html:30 templates/address.html:7
+#: templates/organisation_registration.html:23
+#: templates/personnal_informations.html:7 templates/profile.html:55
+#: templates/profile.html.py:92 templates/profile.html:134
+#: templates/profile.html.py:170
 msgid "Name"
 msgstr "Nom"
 
-#: templates/add_representative.html:37
-#: templates/individual_registration.html:53
-#: templates/individual_registration.html:55
+#: templates/add_representative.html:37 templates/address.html:18
+#: templates/personnal_informations.html:18
 msgid "First name"
 msgstr "Prénom"
 
@@ -128,7 +126,7 @@ msgstr "E-mail"
 
 #: templates/add_representative.html:52 templates/add_representative.html:63
 #: templates/individual_registration.html:8
-#: templates/individual_registration.html:215 templates/login.html:25
+#: templates/individual_registration.html:53 templates/login.html:25
 #: templates/organisation_registration.html:8 templates/register.html:9
 msgid "Register"
 msgstr "S'enregistrer"
@@ -146,9 +144,33 @@ msgstr "Télécharger"
 msgid "No file selected"
 msgstr "Aucun fichier selectioné"
 
+#: templates/address.html:10 templates/personnal_informations.html:10
+#, fuzzy
+msgid " Name"
+msgstr "Nom"
+
+#: templates/address.html:22 templates/personnal_informations.html:22
+#, fuzzy
+msgid " First name"
+msgstr "Prénom"
+
+#: templates/address.html:30 templates/personnal_informations.html:30
+msgid "User name"
+msgstr "Nom d'utilisateur"
+
+#: templates/address.html:34 templates/personnal_informations.html:34
+#, fuzzy
+msgid " User name"
+msgstr "Nom d'utilisateur"
+
+#: templates/address.html:45 templates/personnal_informations.html:45
+#, fuzzy
+msgid " Email"
+msgstr "Email"
+
 #: templates/base.html:14
 msgid "Bonjour les zéros !"
-msgstr ""
+msgstr "Bonjour les zéros!"
 
 #: templates/base.html:62
 msgid "My profile"
@@ -190,13 +212,78 @@ msgstr "Nouvelles"
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:134
+#: templates/base.html:136
 msgid "Legal mentions"
 msgstr "Mention légales"
 
-#: templates/base.html:134
+#: templates/base.html:136
 msgid "Site map"
 msgstr "Plan du site"
+
+#: templates/concept.html:10
+msgid ""
+"\n"
+"            Solidare-it! is an initiative that tries to enhance the "
+"solidarity and the exchange between\n"
+"            citizens of all layers of society. From the name “Solidare-it !” "
+"we can distill the following things\n"
+"            : “solidarity”, “dare it !” and “IT”. We try to stimulate people "
+"to dare becoming involved in real\n"
+"            solidarity through information technology. The internet and the "
+"social networks which arise from it are\n"
+"            used as tools to obtain this goal.\"\n"
+"            "
+msgstr ""
+
+#: templates/concept.html:19
+msgid ""
+"\n"
+"            Solidare-it! is an internet platform that acts as a meeting "
+"place to facilitate the contact\n"
+"            and exchange between its users and to connect people throughout "
+"all layers of society. The primary purpose\n"
+"            of the plat- form is to create a bridge and an exchange between "
+"local civilians who could use some help,\n"
+"            and those who are willing to offer their assistance. The group "
+"of people in need can be very diverse. It\n"
+"            can be families with financial problems, refugees looking for a "
+"new home, an old lady needing some help\n"
+"            with a move, etc. Supportive local civilians can offer a bed, a "
+"shower, a meal, administrative help,\n"
+"            clothes, simply a conversation, or other things. The exchange "
+"offers the people in need in the first place\n"
+"            a temporary solution for an urgent problem. It can however "
+"enhance long term benefits. If a connection\n"
+"            between two people from different backgrounds is made, both will "
+"exchange culture, knowledge, stories\n"
+"            and experiences. This may generate and enhance mutual "
+"understanding, empathy and involvement. People will\n"
+"            inspire and motivate each other. And finally this can lead to "
+"the emergence of friendships and a\n"
+"            reinforcement of the social fabric.\n"
+"            "
+msgstr ""
+
+#: templates/concept.html:35
+msgid ""
+"\n"
+"            In addition to individual citizens, social organisations play an "
+"important role in this network\n"
+"            too, since they are often confronted with people in need. By "
+"using the network, social organisations are\n"
+"            able to facilitate their work by finding civilian support. "
+"Through the social organisations, people in\n"
+"            need without internet access, mobile devices, or computer skills "
+"can also become part of the network.\n"
+"            By using the network, social organisations get more visibility "
+"and recognition for their work. The network\n"
+"            is for everybody that instead of simply accepting things as they "
+"are, want to make a difference and believe\n"
+"            that they have the responsibility and possibility of being part "
+"of the change towards a more inclusive\n"
+"            world.\n"
+"            "
+msgstr ""
 
 #: templates/create.html:8
 msgid "Create offer or demand"
@@ -222,12 +309,11 @@ msgstr "Demande"
 msgid "Where ?"
 msgstr "Où ?"
 
-#: templates/create.html:50 templates/individual_registration.html:98
-#: templates/individual_registration.html:100
+#: templates/create.html:50
 msgid "City"
 msgstr "Ville"
 
-#: templates/create.html:53 templates/individual_registration.html:103
+#: templates/create.html:53
 msgid "Post code"
 msgstr "Code postal"
 
@@ -295,7 +381,7 @@ msgstr "Témoignages"
 
 #: templates/home.html:76
 msgid "Video manual"
-msgstr "Manuel de la vidéo"
+msgstr "Tutorial du site en vidéo"
 
 #: templates/home.html:85
 msgid "Latest offers and demands"
@@ -325,85 +411,13 @@ msgstr "Nouvel individu"
 msgid "There are errors in the form :"
 msgstr "Il y a des erreurs dans le formulaire :"
 
-#: templates/individual_registration.html:60
-#: templates/individual_registration.html:62
-msgid "User name"
-msgstr "Nom d'utilisateur"
-
-#: templates/individual_registration.html:67
-#: templates/individual_registration.html:69
-msgid "Email"
-msgstr "Email"
-
-#: templates/individual_registration.html:74
-#: templates/individual_registration.html:76 templates/login.html:22
-msgid "Password"
-msgstr "Mot de passe"
-
-#: templates/individual_registration.html:81
-msgid "Confirmation"
-msgstr "Confirmation"
-
-#: templates/individual_registration.html:83
-msgid "Confirm password"
-msgstr "Confirmer le mot de passe"
-
-#: templates/individual_registration.html:88
-msgid "Address"
-msgstr "Adresse"
-
-#: templates/individual_registration.html:90
-msgid "Street"
-msgstr "Rue"
-
-#: templates/individual_registration.html:93
-msgid "N°"
-msgstr "N°"
-
-#: templates/individual_registration.html:108
-#: templates/individual_registration.html:110
-msgid "Country"
-msgstr "Pays"
-
-#: templates/individual_registration.html:125
-msgid "Phone"
-msgstr "Téléphone"
-
-#: templates/individual_registration.html:127
-msgid "Phone number"
-msgstr "Numéro de téléphone"
-
-#: templates/individual_registration.html:132
-msgid "ID Card"
-msgstr "Numéro de la carte d'identité"
-
-#: templates/individual_registration.html:134
-msgid "ID card number"
-msgstr "Numéro de la carte d'identité"
-
-#: templates/individual_registration.html:141
-msgid "Facebook"
-msgstr "Facebook"
-
-#: templates/individual_registration.html:143
-msgid "Facebook page URL"
-msgstr "URL de la page Facebook"
-
-#: templates/individual_registration.html:151
-msgid "Only show my username"
-msgstr "Montrer seulement mon nom d'utilisateur"
-
-#: templates/individual_registration.html:159
-msgid "Send mails on my personnal address"
-msgstr "Envoyer des email via mon adresse personnel"
-
-#: templates/individual_registration.html:175
-msgid "Profile picture"
-msgstr "Photo de profil"
-
 #: templates/login.html:21
 msgid "Email address"
 msgstr "Adresse Email"
+
+#: templates/login.html:22
+msgid "Password"
+msgstr "Mot de passe"
 
 #: templates/organisation_registration.html:9
 msgid "New organisation"
@@ -465,32 +479,32 @@ msgstr "Changer"
 msgid "Members"
 msgstr "Membres"
 
-#: templates/profile.html:48
+#: templates/profile.html:50
 msgid "Current offers"
 msgstr "Offres courantes"
 
-#: templates/profile.html:54
+#: templates/profile.html:56
 msgid "Demander"
 msgstr "Demandeur"
 
-#: templates/profile.html:55 templates/profile.html.py:91
-#: templates/profile.html:127 templates/profile.html.py:163
+#: templates/profile.html:57 templates/profile.html.py:94
+#: templates/profile.html:136 templates/profile.html.py:172
 msgid "Date"
 msgstr "Date"
 
-#: templates/profile.html:84
+#: templates/profile.html:87
 msgid "Current demands"
 msgstr "Demandes actuelles"
 
-#: templates/profile.html:90
+#: templates/profile.html:93
 msgid "Proposer"
 msgstr "Proposeur"
 
-#: templates/profile.html:126 templates/profile.html.py:162
+#: templates/profile.html:135 templates/profile.html.py:171
 msgid "With"
 msgstr "Avec"
 
-#: templates/profile.html:156
+#: templates/profile.html:165
 msgid "Evaluations summary"
 msgstr "Résumé des évaluations"
 
@@ -510,11 +524,81 @@ msgstr "Individuel"
 msgid "I want to create an account for the organisation I represent."
 msgstr "Je veux créer un compte pour une organisation que je représente"
 
-#: website/views.py:34
-msgid "This account has been disabled. "
+#: website/forms.py:24 website/forms.py:32
+msgid "This field can only contain uppercase and lowercase letters"
+msgstr "Ce champ peut seulement contenir the lettres majuscules et minuscules"
+
+#: website/forms.py:41
+msgid "This username is already used"
+msgstr "Ce nom d'utilisateur est déjà utilisé"
+
+#: website/forms.py:45
+msgid "The username must be between 3 and 15 characters"
+msgstr "Le username doit contenir entre 3 et 15 charactères"
+
+#: website/forms.py:54
+msgid "Insert a valid email"
+msgstr "Insérer une adresse email valide"
+
+#: website/forms.py:64
+msgid ""
+"The password must be between 4 and 20 characters and only contain "
+"alphanumeric characters and the ',;:=?./+-_)('"
+msgstr ""
+"Le mot de passe doit contenir entre 4 et 20 caractères et peut seulement "
+"contenir de caractères alphanumériques et les symboles ',;:=?./+-_)('"
+
+#: website/forms.py:72
+msgid "This street"
+msgstr "Cette rue"
+
+#: website/forms.py:72 website/forms.py:121
+msgid "can only contain alphanumeric characters"
+msgstr "peut seulement contenir des caractères alphanumériques"
+
+#: website/forms.py:79
+msgid "The street number"
+msgstr "Le numéro de la rue"
+
+#: website/forms.py:79
+msgid "is a number composed of 1 to 5 digits"
+msgstr "est un nombre composé de 1 à 5 chiffres"
+
+#: website/forms.py:86
+msgid "The city"
+msgstr "Le ville"
+
+#: website/forms.py:86 website/forms.py:94 website/forms.py:113
+msgid "can only contain alphanumeric characters or symbols"
+msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
+
+#: website/forms.py:94
+msgid "The country"
+msgstr "Le pays"
+
+#: website/forms.py:101
+msgid "The post code"
+msgstr "Le code postal"
+
+#: website/forms.py:101
+msgid "is a number composed of 1 to 9 digits"
+msgstr "est un nombre composé de 1 à 9 chiffres"
+
+#: website/forms.py:113
+msgid "The organisation name"
+msgstr "Le nom de l'organisation"
+
+#: website/forms.py:121
+msgid "The VAT of the organisation"
+msgstr "Le numéro de TVA de l'organisation"
+
+#: website/views.py:35
+msgid ""
+"This account has been disabled. Please contact the administrator of this "
+"site."
 msgstr ""
 
-#: website/views.py:38
+#: website/views.py:39
 msgid "This username or password is not valid."
 msgstr "Ce nom d'utilisateur ou mot de passa est invalide"
 
@@ -530,7 +614,7 @@ msgstr "min:"
 msgid " max: "
 msgstr "max:"
 
-#: website/models/entity.py:29
+#: website/models/entity.py:31
 msgid ""
 "Entity contains no interesting information: call User or                 "
 "association user instead"
@@ -566,8 +650,47 @@ msgstr "Prénom de la personne:"
 msgid "last name: "
 msgstr "Nom:"
 
-#~ msgid ""
-#~ "This account has been disabled. Please contact the administrator of this "
-#~ "site."
-#~ msgstr ""
-#~ "Ce compte a été désactivé. Veuillez contacter l'administrateur de ce site."
+#~ msgid "Confirmation"
+#~ msgstr "Confirmation"
+
+#~ msgid "Confirm password"
+#~ msgstr "Confirmer le mot de passe"
+
+#~ msgid "Address"
+#~ msgstr "Adresse"
+
+#~ msgid "Street"
+#~ msgstr "Rue"
+
+#~ msgid "N°"
+#~ msgstr "N°"
+
+#~ msgid "Country"
+#~ msgstr "Pays"
+
+#~ msgid "Phone"
+#~ msgstr "Téléphone"
+
+#~ msgid "Phone number"
+#~ msgstr "Numéro de téléphone"
+
+#~ msgid "ID Card"
+#~ msgstr "Numéro de la carte d'identité"
+
+#~ msgid "ID card number"
+#~ msgstr "Numéro de la carte d'identité"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Facebook page URL"
+#~ msgstr "URL de la page Facebook"
+
+#~ msgid "Only show my username"
+#~ msgstr "Montrer seulement mon nom d'utilisateur"
+
+#~ msgid "Send mails on my personnal address"
+#~ msgstr "Envoyer des email via mon adresse personnel"
+
+#~ msgid "Profile picture"
+#~ msgstr "Photo de profil"

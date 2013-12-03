@@ -1,0 +1,65 @@
+{% load static %}
+{% load i18n %}
+<div class="col-md-6">
+    <!-- NAME -->
+    <div class=" row form_el">
+        <label for="inputName" class="col-sm-4 control-label" style="color:{{ name_color }} !important;">
+            {% trans "Name" %}*</label>
+
+        <div class="col-sm-8 ">
+            <input type="text" class="form-control" id="inputName" name="name" placeholder="{% trans " Name" %}"
+            style="border-color: {{ name_color }} !important;" value="{{ name }}" required autofocus>
+        </div>
+    </div>
+
+    <!-- FIRST NAME -->
+    <div class="row form_el">
+        <label for="inputFirstName" class="col-sm-4 control-label" style="color:{{ first_name_color }} !important;">
+            {% trans "First name" %}*</label>
+
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputFirstName" name="first_name"
+                   placeholder="{% trans "First name" %}" style="border-color: {{ first_name_color }} !important;"
+            value="{{ first_name }}" required>
+        </div>
+    </div>
+
+    <!-- USER NAME -->
+    <div class="row form_el">
+        <label for="inputUserName" class="col-sm-4 control-label" style="color:{{ user_name_color }} !important;">
+            {% trans "User name" %}*</label>
+
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="inputUserName" name="user_name"
+                   placeholder="{% trans "User name" %}" style="border-color: {{ user_name_color }} !important;"
+            value="{{ user_name }}"required>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class=" row form_el">
+        <label for="inputEmail" class="col-sm-3 control-label" style="color:{{ email_color }} !important;">{% trans " Email" %}*</label>
+        <div class="col-sm-9">
+            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="{% trans " Email" %}"
+            style="border-color: {{ email_color }} !important;" value="{{ email }}"required>
+        </div>
+    </div>
+
+    <div class=" row form_el">
+        <label for="inputPassword3" class="col-sm-3 control-label" style="color:{{ passwd_color }} !important;">{% trans " Password" %}*</label>
+
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="inputPassword3" name="passwd"
+                   placeholder="{% trans " Password" %}" style="border-color: {{ passwd_color }} !important;" required>
+        </div>
+    </div>
+
+    <div class=" row form_el">
+        <label for="inputConfirmation" class="col-sm-3 control-label" style="color:{{ passwdC_color }} !important;">{% trans "Confirmation" %}*</label>
+
+        <div class="col-sm-9">
+            <input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="{% trans " Confirm password" %}" style="border-color: {{ passwdC_color }} !important;" required>
+        </div>
+    </div>
+
+</div>

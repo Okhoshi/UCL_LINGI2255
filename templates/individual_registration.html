@@ -29,192 +29,32 @@
 
     {% endif %}
 
-        <form class="form-horizontal" role="form" method="post" action="?POST" autocomplete="on" enctype="multipart/form-data">
-            <div class="row">
-                {% csrf_token %}
-                <!--
-                #######################
-                #### FIRST COLUMN #####
-                #######################
-                -->
-                <div class="col-md-5">
-                    <div class="col-md-12 col-sm-9">
-                        {% block first_column %}
-                        <div class="form-group">
-                            <label for="inputName" class="col-sm-3 control-label" style="color:{{ name_color }} !important;">{% trans "Name" %}*</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputName" name="name" placeholder="{% trans "Name" %}" style="border-color: {{ name_color }} !important;"
-                                        value="{{ name }}"
-                                required autofocus>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputFirstName" class="col-sm-3 control-label" style="color:{{ first_name_color }} !important;">{% trans "First name" %}*</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="{% trans "First name" %}" style="border-color: {{ first_name_color }} !important;" value="{{ first_name }}" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputUserName" class="col-sm-3 control-label" style="color:{{ user_name_color }} !important;">{% trans "User name" %}*</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputUserName" name="user_name" placeholder="{% trans "User name" %}" style="border-color: {{ user_name_color }} !important;" value="{{ user_name }}"required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputEmail" class="col-sm-3 control-label" style="color:{{ email_color }} !important;">{% trans "Email" %}*</label>
-                            <div class="col-sm-9">
-                                <input type="email" class="form-control" id="inputEmail" name="email" placeholder="{% trans "Email" %}" style="border-color: {{ email_color }} !important;" value="{{ email }}"required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputPassword3" class="col-sm-3 control-label" style="color:{{ passwd_color }} !important;">{% trans "Password" %}*</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputPassword3" name="passwd" placeholder="{% trans "Password" %}" style="border-color: {{ passwd_color }} !important;" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputConfirmation" class="col-sm-3 control-label" style="color:{{ passwdC_color }} !important;">{% trans "Confirmation" %}*</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="inputConfirmation" name="passwdC" placeholder="{% trans "Confirm password" %}" style="border-color: {{ passwdC_color }} !important;" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputStreet" class="col-sm-3 col-xs-12 control-label" style="color:{{ street_color }} !important;" >{% trans "Address" %}*</label>
-                            <div class="col-sm-7 col-xs-9">
-                                <input type="text" class="form-control" id="inputStreet" name="street" placeholder="{% block address_placeholder %}{% trans "Street" %}{% endblock %}" style="border-color: {{ street_color }} !important;"  value="{{ street }}"required>
-                            </div>
-                            <div class="col-sm-2 col-xs-3">
-                                <input type="text" class="form-control" id="inputNumber" name="streetnumber" placeholder="{% trans "N°" %} " style="border-color: {{ streetnumber_color }} !important;" value="{{ streetnumber}}"required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputCity" class="col-sm-3 col-xs-12 control-label" style="color:{{ city_color }} !important;" >{% trans "City" %}*</label>
-                            <div class="col-sm-6 col-xs-8">
-                                <input type="text" class="form-control" id="inputCity" name="city" placeholder="{% trans "City" %}" style="border-color: {{ city_color }} !important;" value="{{ city }}" required>
-                            </div>
-                            <div class="col-sm-3 col-xs-4">
-                                <input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="{% trans "Post code" %}" style="border-color: {{ postcode_color }} !important;" value="{{ postcode }}" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputCity" class="col-sm-3 col-xs-12 control-label" style="color:{{ country_color }} !important;" >{% trans "Country" %}*</label>
-                            <div class="col-sm-6 col-xs-8">
-                                <input type="text" class="form-control" id="inputCountry" name="country" placeholder="{% trans "Country" %}" style="border-color: {{ country_color }} !important;" value="{{ country }}" required>
-                            </div>
-                        </div>
-                        {% endblock %}
-                    </div>
-                </div>
-                <!--
-                ########################
-                #### SECOND COLUMN #####
-                ########################
-                -->
-                <div class="col-md-7">
-                    <div class="col-sm-9">
-                        {% block second_column %}
-                        <div class="form-group">
-                            <label for="inputPhoneNumber" class="col-sm-3 col-xs-12 control-label" >{% trans "Phone" %}</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputPhoneNumber" name="phone" placeholder="{% trans "Phone number" %}" value="{{ phone }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputIDCard" class="col-sm-3 control-label">{% trans "ID Card" %}</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputIDCard" name="id_card" placeholder="{% trans "ID card number" %}" value="{{ id_card }}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            {% block facebook_field %}
-                            <div class="form-group">
-                                <label for="inputFacebook" class="col-sm-3 control-label">{% trans "Facebook" %}</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="inputFacebook" name="facebook" placeholder="{% trans "Facebook page URL" %}" value="{{ facebook }}">
-                                </div>
-                            </div>
-                            {% endblock %}
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="cb_only_username" value="{{ cb_only_username }}"> {% trans "Only show my username" %}</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-3 col-sm-9">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="cb_personnal_address" value="{{ cb_personnal_address }}"> {% trans "Send mails on my personnal address" %}</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endblock %}
-                    </div>
-
-                    <!--
-                    #######################
-                    #### THIRD COLUMN #####
-                    #######################
-                    -->
-                    {% block third_column %}
-                    <div class="clearfix visible-xs"></div>
-                    <div class="col-sm-3 col-xs-6 text-center" style="margin-bottom: 15px;">
-                        <label>{% trans "Profile picture" %}</label>
-
-                        <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="margin-bottom: 20px" alt="Profile picture">
-
-                        <script typ="text/javascript">
-
-                            window.onload = function() {
-                                var fileInput = document.getElementById('fileInput');
-                                var fileDisplayArea = document.getElementById('fileDisplayArea');
-
-                                fileInput.addEventListener('change', function(e) {
-                                    if (file.type.match(textType)) {
-                                      var reader = new FileReader();
-
-                                      reader.onload = function(e) {
-                                        fileDisplayArea.innerText = reader.result;
-                                      }
-
-                                      reader.readAsText(file);
-                                    } else {
-                                      fileDisplayArea.innerText = "File not supported!";
-                                    }
-                                });
-                            }
-                        </script>
-
-                        <input type=file name="file" class="btn btn-primary"></input>
-                    </div>
-                    {% endblock %}
-                </div>
-            </div>
-
-            <!--
-            ##########################
-            #### REGISTER BUTTON #####
-            ##########################
+    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row form_blck">
+            <!-- PERSONNAL INFORMATIONS :
+                                            - NAME
+                                            - FIRST NAME
+                                            - USER NAME
+                                            - MAIL
+                                            - PASSWORD & CONFIRMATION
             -->
-            <div class="row">
-                <div class="col-xs-12 text-right">
-                    <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
-                            <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
-                    </div>
+            {% include 'personnal_informations.html' %}
+            <hr/>
+            {% include 'address.html' %}
+        </div>
+
+        <!--
+        ##########################
+        #### REGISTER BUTTON #####
+        ##########################
+        -->
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
+                        <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
                 </div>
             </div>
+        </div>
     </form>
 {% endblock %}

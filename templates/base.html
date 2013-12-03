@@ -110,7 +110,7 @@
 
                         <ul class="nav navbar-nav navbar-right">
                             <li class="active"><a href="/"><i class="glyphicon glyphicon-home"></i>&nbsp;{% trans "Home" %}</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
+                            <li><a href="{% url 'concept' %}"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
@@ -128,7 +128,9 @@
 			{% block breadcrumb %}{% endblock %}
 
 			{% block content %}{% endblock %}
-			<!--
+            </div>
+            <div class="container foot">
+            <!--
 			##################
 			##### FOOTER #####
 			##################
@@ -146,8 +148,7 @@
 				</div>
 			</footer>
 			{% endblock %}
-		</div>
-
+            </div>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://code.jquery.com/jquery.js"></script>

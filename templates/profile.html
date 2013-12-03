@@ -20,7 +20,9 @@
 	<div class="col-sm-10">
 		<h4 style="pull-left">{{ user }}{% if user.is_verified %}<span class="label label-success" style="font-size:0.7em;">Verified</span>{% endif %}</h4>
 		<hr>
-		(Description) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a dui lorem. Nulla facilisi. Maecenas vel nunc non massa volutpat pretium eget vel nisl. Phasellus et purus et mi pharetra molestie nullam.
+		{% if is_association_user|length > 0 %}
+			{{ entity.description }}
+		{% endif %}
 
 		<div class="clearfix" style="margin-top: 30px"></div>
 
@@ -54,12 +56,13 @@
 					<th style="width: 25%">{% trans "Demander" %}</th>
 					<th style="width: 25%">{% trans "Date" %}</th>
 				</tr>
-
+				{% for elem in current_offers %}
 				<tr>
-					<td>Apprendre à donner cours</td>
-					<td>Kim Mens</td>
-					<td>Tuesday 10.45 AM</td>
+					<td>{{ elem.name }}</td>
+					<td>{{ elem.demander.first_name }} {{ elem.demander.last_name }}</td>
+					<td>{{ elem.date }}</td>
 				</tr>
+				{% endfor %}
 
 				<tr>
 					<td>Lorem ipsum dolor sit amet.</td>
@@ -90,7 +93,13 @@
 					<th style="width: 25%">{% trans "Proposer" %}</th>
 					<th style="width: 25%">{% trans "Date" %}</th>
 				</tr>
-
+				{% for elem in current_demands %}
+				<tr>
+					<td>{{ elem.name }}</td>
+					<td>{{ elem.proposer.first_name }} {{ elem.proposer.last_name }}</td>
+					<td>{{ elem.date }}</td>
+				</tr>
+				{% endfor %}
 				<tr>
 					<td>Lorem ipsum dolor sit amet.</td>
 					<td>Foo</td>
