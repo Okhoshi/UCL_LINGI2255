@@ -326,7 +326,7 @@ class ModelsTests(TestCase):
         req5.save()
         req6.save()
 
-        res = users[0].search(savedsearch)
+        res = users[0].search(savedsearch, 3)
 
         self.assertFalse(req in res)
         self.assertFalse(req2 in res)
