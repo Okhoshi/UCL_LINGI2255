@@ -18,7 +18,7 @@ import datetime
 from django.utils.timezone import utc
 from django.utils.translation import ugettext as _
 from django.db.models import Q
-from math import floor
+
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
@@ -175,12 +175,15 @@ class Entity(models.Model):
         requests = dreq.filter(demander__exact = self) | \
                    dreq.filter(proposer__exact = self)
 
+
         wordl = []
         catl = []
         for req in requests:
-            wordl += req.name.split(' ')
+            name = req.name
+            name = name.split(' ')
+            wordl += name
             catl.append(req.category)
-        wordl =  wordl.sort()
+        wordl.sort()
         catl.sort()
 
         curword = wordl[0]
@@ -190,10 +193,11 @@ class Entity(models.Model):
             if (wordl[i] == curword):
                 tmp += 1
             else :
+                if (len(curword)>2):
+                    mostused.append([tmp, curword])
                 curword = wordl[i]
                 tmp = 1
-                mostused.append([tmp, curword])
-
+        mostused.append([tmp, curword])
         curword = catl[0]
         tmp = 1
         bestcat = []
@@ -201,9 +205,10 @@ class Entity(models.Model):
             if (catl[i] == curword):
                 tmp += 1
             else :
+                bestcat.append([tmp, curword])
                 curword = catl[i]
                 tmp = 1
-                bestcat.append([tmp, curword])
+        bestcat.append([tmp, curword])
 
         mostused.sort()
         mostused.reverse()
@@ -213,23 +218,38 @@ class Entity(models.Model):
         searchfield = ''
         tmp = 0
 
-        while (len(searchfield) < 512):
-            searchfield += mostused[tmp][1]
+        while (len(searchfield) < 512 and tmp < len(mostused)):
+            for i in range(mostused[tmp][0]):
+                searchfield += mostused[tmp][1] + ' '
+            tmp += 1
 
         pla = Place()
         pla.save()
 
-        totalcat = 0
-        for cat in bestcat:
-            totalcat += cat[0]
+        if (amount%3 == 0):
+            bestcat[0][0]=amount/3
+            bestcat[1][0]=amount/3
+            bestcat[2][0]=amount/3
+        if (amount%3 == 1):
+            bestcat[0][0]=amount/3+1
+            bestcat[1][0]=amount/3
+            bestcat[2][0]=amount/3
+        if (amount%3 == 2):
+            bestcat[0][0]=amount/3+1
+            bestcat[1][0]=amount/3+1
+            bestcat[2][0]=amount/3
+        
+            
 
         requests = []
 
         for cat in bestcat:
             savedsearch = SavedSearch(place = pla, date=\
                 datetime.datetime.utcnow().replace(tzinfo=utc), search_field=\
-                searchfield, category=cat[1], entity=users[0])
-            requests += self.search(savedsearch, floor(cat[0]/totalcat))
+                searchfield, category=cat[1], entity=self)
+            
+            tmp = self.search(savedsearch, cat[0])
+            requests += tmp
 
         return requests
             
