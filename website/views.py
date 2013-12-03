@@ -222,7 +222,7 @@ def profile(request):
 
     rating_values = ["danger","","success"]
     feedbacks_list = []
-    for elem in feedbacks[1]:
+    for elem in feedbacks[0]:
         other = None
         req = elem.request
 
@@ -245,7 +245,7 @@ def profile(request):
 
         feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating-1]))
         
-    for elem in feedbacks[0]:
+    for elem in feedbacks[1]:
         other = None
         req = elem.request
 
