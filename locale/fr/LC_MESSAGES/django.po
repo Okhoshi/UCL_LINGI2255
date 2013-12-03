@@ -7,19 +7,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 14:05+0000\n"
-"PO-Revision-Date: 2013-12-02 17:50+0100\n"
+"POT-Creation-Date: 2013-12-03 09:44+0000\n"
+"PO-Revision-Date: 2013-12-03 10:51+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.7\n"
-"Language: FR\n"
+
+#: solidareit/settings.py:83
+msgid "French"
+msgstr "Français"
+
+#: solidareit/settings.py:84
+msgid "English"
+msgstr "Anglais"
+
+#: solidareit/settings.py:85
+msgid "Dutch"
+msgstr "Néerlandais"
 
 #: templates/account.html:7 templates/add_representative.html:7
-#: templates/base.html:90 templates/create.html:7
+#: templates/base.html:102 templates/create.html:7
 #: templates/individual_registration.html:7 templates/login.html:8
 #: templates/organisation_registration.html:7 templates/profile.html:8
 #: templates/register.html:8
@@ -116,7 +128,7 @@ msgstr "E-mail"
 
 #: templates/add_representative.html:52 templates/add_representative.html:63
 #: templates/individual_registration.html:8
-#: templates/individual_registration.html:190 templates/login.html:25
+#: templates/individual_registration.html:215 templates/login.html:25
 #: templates/organisation_registration.html:8 templates/register.html:9
 msgid "Register"
 msgstr "S'enregistrer"
@@ -134,51 +146,55 @@ msgstr "Télécharger"
 msgid "No file selected"
 msgstr "Aucun fichier selectioné"
 
-#: templates/base.html:47
+#: templates/base.html:14
+msgid "Bonjour les zéros !"
+msgstr "Bonjour les zéros!"
+
+#: templates/base.html:62
 msgid "My profile"
 msgstr "Mon Profil"
 
-#: templates/base.html:48
+#: templates/base.html:63
 msgid "My exchanges"
 msgstr "Mes échanges"
 
-#: templates/base.html:49
+#: templates/base.html:64
 msgid "Internal messages"
 msgstr "Messages privés"
 
-#: templates/base.html:51
+#: templates/base.html:66
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: templates/base.html:55 templates/login.html:9 templates/login.html.py:24
+#: templates/base.html:70 templates/login.html:9 templates/login.html.py:24
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/base.html:78
+#: templates/base.html:89
 msgid "Toggle navigation"
 msgstr "Bar de navigation"
 
-#: templates/base.html:91
+#: templates/base.html:103
 msgid "Concept"
 msgstr "Concept"
 
-#: templates/base.html:92
+#: templates/base.html:104
 msgid "FAQ"
 msgstr "FAQ"
 
-#: templates/base.html:93
+#: templates/base.html:105
 msgid "News"
 msgstr "Nouvelles"
 
-#: templates/base.html:94
+#: templates/base.html:106
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:121
+#: templates/base.html:134
 msgid "Legal mentions"
 msgstr "Mention légales"
 
-#: templates/base.html:121
+#: templates/base.html:134
 msgid "Site map"
 msgstr "Plan du site"
 
@@ -285,19 +301,19 @@ msgstr "Manuel de la vidéo"
 msgid "Latest offers and demands"
 msgstr "Dernières offres et demandes"
 
-#: templates/home.html:103
+#: templates/home.html:102
 msgid "Calendar and news"
 msgstr "Calendrier et nouvelles"
 
-#: templates/home.html:108
+#: templates/home.html:107
 msgid "Challenge map"
 msgstr "Carte Challenge"
 
-#: templates/home.html:115
+#: templates/home.html:114
 msgid "Download and share"
 msgstr "Téléchargé et partagé"
 
-#: templates/home.html:126
+#: templates/home.html:125
 msgid "Our partners:"
 msgstr "Nos partenaires:"
 
@@ -385,11 +401,6 @@ msgstr "Envoyer des email via mon adresse personnel"
 msgid "Profile picture"
 msgstr "Photo de profil"
 
-#: templates/individual_registration.html:177
-#: templates/organisation_registration.html:91
-msgid "Change"
-msgstr "Changer"
-
 #: templates/login.html:21
 msgid "Email address"
 msgstr "Adresse Email"
@@ -446,6 +457,10 @@ msgstr "Captcha"
 msgid "Organisation logo"
 msgstr "Logo de l'organisation"
 
+#: templates/organisation_registration.html:91
+msgid "Change"
+msgstr "Changer"
+
 #: templates/profile.html:9
 msgid "Members"
 msgstr "Membres"
@@ -495,6 +510,74 @@ msgstr "Individuel"
 msgid "I want to create an account for the organisation I represent."
 msgstr "Je veux créer un compte pour une organisation que je représente"
 
+#: website/forms.py:24 website/forms.py:32
+msgid "This field can only contain uppercase and lowercase letters"
+msgstr "Ce champ peut seulement contenir the lettres majuscules et minuscules"
+
+#: website/forms.py:41
+msgid "This username is already used"
+msgstr "Ce nom d'utilisateur est déjà utilisé"
+
+#: website/forms.py:45
+msgid "The username must be between 3 and 15 characters"
+msgstr "Le username doit contenir entre 3 et 15 charactères"
+
+#: website/forms.py:54
+msgid "Insert a valid email"
+msgstr "Insérer une adresse email valide"
+
+#: website/forms.py:64
+msgid ""
+"The password must be between 4 and 20 characters and only contain "
+"alphanumeric characters and the ',;:=?./+-_)('"
+msgstr ""
+"Le mot de passe doit contenir entre 4 et 20 caractères et peut seulement "
+"contenir de caractères alphanumériques et les symboles ',;:=?./+-_)('"
+
+#: website/forms.py:72
+msgid "This street"
+msgstr "Cette rue"
+
+#: website/forms.py:72 website/forms.py:121
+msgid "can only contain alphanumeric characters"
+msgstr "peut seulement contenir des caractères alphanumériques"
+
+#: website/forms.py:79
+msgid "The street number"
+msgstr "Le numéro de la rue"
+
+#: website/forms.py:79
+msgid "is a number composed of 1 to 5 digits"
+msgstr "est un nombre composé de 1 à 5 chiffres"
+
+#: website/forms.py:86
+msgid "The city"
+msgstr "Le ville"
+
+#: website/forms.py:86 website/forms.py:94 website/forms.py:113
+msgid "can only contain alphanumeric characters or symbols"
+msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
+
+#: website/forms.py:94
+msgid "The country"
+msgstr "Le pays"
+
+#: website/forms.py:101
+msgid "The post code"
+msgstr "Le code postal"
+
+#: website/forms.py:101
+msgid "is a number composed of 1 to 9 digits"
+msgstr "est un nombre composé de 1 à 9 chiffres"
+
+#: website/forms.py:113
+msgid "The organisation name"
+msgstr "Le nom de l'organisation"
+
+#: website/forms.py:121
+msgid "The VAT of the organisation"
+msgstr "Le numéro de TVA de l'organisation"
+
 #: website/views.py:34
 msgid ""
 "This account has been disabled. Please contact the administrator of this "
@@ -518,7 +601,7 @@ msgstr "min:"
 msgid " max: "
 msgstr "max:"
 
-#: website/models/entity.py:28
+#: website/models/entity.py:29
 msgid ""
 "Entity contains no interesting information: call User or                 "
 "association user instead"

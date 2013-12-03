@@ -1,6 +1,7 @@
 from django import forms
 from re import match
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 
 class MForm(forms.Form):
@@ -20,7 +21,7 @@ class MForm(forms.Form):
         else:
             self.is_valid = False
             self.colors['name_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Name'] = 'Ce champ ne peut contenir que des lettres majuscules ou minuscules'
+            self.errorlist['Name'] = _("This field can only contain uppercase and lowercase letters")
 
         ### FIRST NAME ###
         if form['first_name'] != '' and match(r"^[a-zA-Z ]*$", form['name']):
@@ -28,7 +29,7 @@ class MForm(forms.Form):
         else:
             self.is_valid = False
             self.colors['first_name_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['First name'] = 'Ce champ ne peut contenir que des lettres majuscules ou minuscules'
+            self.errorlist['First name'] = _("This field can only contain uppercase and lowercase letters")
 
         ### USER NAME ###
         if form['user_name'] != '' and match(r"^.{3,15}$", form['user_name']):
@@ -37,11 +38,11 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['User name'] = 'Ce username est deja utilise'
+                self.errorlist['User name'] = _("This username is already used")
         else:
             self.is_valid = False
             self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['User name'] = 'Le username doit faire entre 3 et 15 caracteres'
+            self.errorlist['User name'] = _("The username must be between 3 and 15 characters")
 
 
         ### EMAIL ###
@@ -50,7 +51,7 @@ class MForm(forms.Form):
         else:
             self.is_valid = False
             self.colors['email_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Email'] = 'Entrez un email valide'
+            self.errorlist['Email'] = _("Insert a valid email")
             
         ### PASSWORD ###
         if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
@@ -60,7 +61,7 @@ class MForm(forms.Form):
             self.is_valid = False
             self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
             self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Password'] = 'Le mot de passe doit faire entre 4 et 20 characteres et ne peut contenit que des characteres alphanumeriqes ainsi que les symboles ",;:=?./+-_)("'
+            self.errorlist['Password'] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
             
         ### ADDRESS ##
         if form['street'] != ''and match(r"^[a-zA-Z0-9 ]*$", form['name']):
@@ -68,21 +69,21 @@ class MForm(forms.Form):
         else:
             self.is_valid = False
             self.colors['street_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Street'] = 'La rue ne peut contenir que des characteres alphanumeriques'
+            self.errorlist['Street'] = _("This street") + " " +_("can only contain alphanumeric characters")
 
         if form['streetnumber'] != '' and match(r"^[0-9]{1,5}$", form['streetnumber']):
             self.streetnumber = form['streetnumber']
         else:
             self.is_valid = False
             self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Street number'] = 'Le numero de rue est un numero compose de 1 a 5 chiffres'
+            self.errorlist['Street number'] = _("The street number")+ " "+  _("is a number composed of 1 to 5 digits")
     
         if form['city'] != '' and match(r"^[a-zA-Z0-9 -_]*$", form['city']):
             self.city = form['city']
         else:
             self.is_valid = False
             self.colors['city_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['city'] = 'La ville ne peut contenir que des caracteres alphanumeriques ou les symboles "-_"'
+            self.errorlist['city'] = _("The city") + " " + _("can only contain alphanumeric characters or symbols")
 
                 
         if form['country'] != '' and match(r"^[a-zA-Z0-9 -_]*$", form['country']):
@@ -90,14 +91,14 @@ class MForm(forms.Form):
         else:
             self.is_valid = False
             self.colors['country_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['country'] = 'Le pays ne peut contenir que des caracteres alphabetiques ou les symboles "-_"'
+            self.errorlist['country'] = _("The country") + " " + _("can only contain alphanumeric characters or symbols")
                 
         if form['postcode'] != '' and match(r"^[0-9]{1,9}$", form['postcode']):
             self.postcode = form['postcode']
         else:
             self.is_valid = False
             self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['postcode'] = 'Le code postal est compose nombre de 1 a 9 chiffres'
+            self.errorlist['postcode'] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
 
         self.facebook = form['facebook']
 
@@ -109,7 +110,7 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['org_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['org_name'] = 'Le nom de l\'organisation...'
+                self.errorlist['org_name'] = _("The organisation name") + " "+ _("can only contain alphanumeric characters or symbols")
                 
             
             if form['VAT'] == '' or match(r"^[A-Z0-9]*$", form['VAT']):
@@ -117,7 +118,7 @@ class MForm(forms.Form):
             else:
                 self.is_valid = False
                 self.colors['VAT_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['VAT'] = 'Le numero de TVA de l\'organisation...'
+                self.errorlist['VAT'] = _("The VAT of the organisation") + " "+ _("can only contain alphanumeric characters")
             
             self.org_site = form['org_site']
             self.org_phone = form['org_phone']
