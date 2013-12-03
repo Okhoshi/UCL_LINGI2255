@@ -2,10 +2,17 @@
 {% load static %}
 {% load i18n %}
 
+{% block breadcrumb %}
+<ol class="breadcrumb">
+	<li><a href="/">{% trans "Home" %}</a></li>
+	<li><a href="active">{% trans "Concept" %}</a></li>
+</ol>
+{% endblock %}
+
 {% block content %}
 <div class="row">
 	<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
-        <h2> {% trans Concept %}</h2>
+        <h4 class="in_front"> {% trans "The Concept" %} </h4>
         <p>
             {% blocktrans %}
             Solidare-it! is an initiative that tries to enhance the solidarity and the exchange between
@@ -14,7 +21,7 @@
             solidarity through information technology. The internet and the social networks which arise from it are
             used as tools to obtain this goal."
             {% endblocktrans %}
-         </p>
+        </p>
         <p>
             {% blocktrans %}
             Solidare-it! is an internet platform that acts as a meeting place to facilitate the contact
@@ -30,7 +37,7 @@
             inspire and motivate each other. And finally this can lead to the emergence of friendships and a
             reinforcement of the social fabric.
             {% endblocktrans %}
-         </p>
+        </p>
         <p>
             {% blocktrans %}
             In addition to individual citizens, social organisations play an important role in this network
@@ -43,6 +50,7 @@
             world.
             {% endblocktrans %}
         </p>
+
 	</div>
 </div>
 

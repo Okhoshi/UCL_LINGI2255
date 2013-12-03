@@ -8,6 +8,7 @@ import random
 
 class Testimony(models.Model):
     testimony = models.CharField(max_length=512) # Value can be changed
+    lang = models.CharField(max_length=16, default="EN")
 
     class Meta:
         app_label = 'website'
@@ -19,11 +20,11 @@ class Testimony(models.Model):
         If there are less testimonies available in the database, return
         all the testimonies."""
     @staticmethod
-    def get_random_testimonies(number):
+    def get_random_testimonies(number, lang="EN"):
         # It would be not the best implementation, thought it will works
         # 1 Go fetch all the Testimonies
         # 2 Choose randomly number Testimonies to return
-        testimonies = list(Testimony.objects.all())
+        testimonies = list(Testimony.objects.filter(lang__iexact=lang).all())
         total = Testimony.objects.count()
         if (number >= total):
             return testimonies

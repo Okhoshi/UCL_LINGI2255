@@ -9,22 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 		<link href="{% static 'css/style.css' %}" rel="stylesheet">
-<h1>Changer de langue</h1>
 
-		{% trans "Bonjour les zéros !" %}
-
-		<form action="/i18n/setlang/" method="post">
-			{% csrf_token %}
-    		<input name="next" type="hidden" value="{{request.path}}" />
-    		{{ LANGUAGE_CODE }}
-    		<select name="language">
-    		{% for lang in LANGUAGES %}
-        		<option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected {% endif %}>{{ lang.1 }}</option>
-    		{% endfor %}
-    		</select>
-
-    		<input type="submit"/>
-		</form>
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -45,36 +30,61 @@
                     </div>
                 </div>
                 <div class="text-right col-lg-4 col-md-6 col-sm-6 col-xs-6 social_network_logo_login">
-                    {% if user.is_authenticated %}
-                        <div class="btn-group text-left">
-                        <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'account' %}">
-                            {% if user.first_name %}
-                                {{user.first_name }} {{ user.last_name }}
-                            {% else %}
-                                {{ user }}
-                            {% endif %}
-                        </a>
-                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                        <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "My profile" %}</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
-                        <li class="divider"></li>
-                        <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;{% trans "Log out" %}</a></li>
-                        </ul>
+                    <div class="row" style="margin-bottom: 4px;">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <form action="/i18n/setlang/" method="post">
+                                {% csrf_token %}
+			                    <input name="next" type="hidden" value="{{request.path}}" />
+                                {% if LANGUAGES|length < 6 %}
+    		                        {% for lang in LANGUAGES %}
+                                        <button name="language" class="language_button" {% if lang.0 == LANGUAGE_CODE %}style="background: rgba(172, 173, 175, 0.5)" {% endif %}value="{{ lang.0 }}">{{ lang.0 }}</button>
+                                    {% endfor %}
+                                {% else %}
+    		                            <select name="language" class="language_button" onchange='this.form.submit()'>
+    		                            {% for lang in LANGUAGES %}
+        		                            <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected {% endif %}>{{ lang.1 }}</option>
+    		                            {% endfor %}
+    		                            </select>
+                                {% endif %}
+		                     </form>
                         </div>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "Log in" %}</a><br />
-                    {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% if user.is_authenticated %}
+                                <div class="btn-group text-left">
+                                <a class="btn btn-primary btn-xs" style="text-transform: uppercase" href="{% url 'account' %}">
+                                    {% if user.first_name %}
+                                        {{user.first_name }} {{ user.last_name }}
+                                    {% else %}
+                                        {{ user }}
+                                    {% endif %}
+                                </a>
+                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">{% trans "Toggle Dropdown" %}</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "My profile" %}</a></li>
+                                    <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
+                                    <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;{% trans "Log out" %}</a></li>
+                                </ul>
+                                </div>
+                            {% else %}
+                                <a href="{% url 'login' %}" class="btn btn-primary btn-xs" style="text-transform: uppercase"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "Log in" %}</a><br />
+                            {% endif %}
+                        </div>
+                    </div>
 
-                    <p style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
-                        <a href="http://www.facebook.com/pages/Solidare-It/469548126438387" ><img src ="{% static 'images/facebook.png' %}" /></a>
-                        <a href="http://www.twitter.com/@SolidareIt" ><img src ="{% static 'images/twitter.png' %}" /></a>
-                        <a href="http://www.solidare-it.org" ><img src ="{% static 'images/gplus.png' %}" /></a>
-                    </p>
+                    <div class="row" style="text-transform: uppercase; font-size: 0.85em; font-weight: bold;margin-top: 4px;">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <a href="http://www.facebook.com/pages/Solidare-It/469548126438387" ><img src ="{% static 'images/facebook.png' %}" /></a>
+                            <a href="http://www.twitter.com/@SolidareIt" ><img src ="{% static 'images/twitter.png' %}" /></a>
+                            <a href="http://www.solidare-it.org" ><img src ="{% static 'images/gplus.png' %}" /></a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row" id="header_second_row">
@@ -91,7 +101,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="/">The real social network</a>
+                            <a class="navbar-brand" href="/">{% trans "The real social network" %}</a>
 
                         </div>
 
@@ -103,7 +113,7 @@
                             <li><a href="{% url 'concept' %}"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
-                            <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
+                            <li><a href="{% url 'contact' %}"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
                         </ul>
                         </div><!-- /.navbar-collapse -->
                     </nav>
@@ -118,7 +128,9 @@
 			{% block breadcrumb %}{% endblock %}
 
 			{% block content %}{% endblock %}
-			<!--
+            </div>
+            <div class="container foot">
+            <!--
 			##################
 			##### FOOTER #####
 			##################
@@ -136,8 +148,7 @@
 				</div>
 			</footer>
 			{% endblock %}
-		</div>
-
+            </div>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script src="https://code.jquery.com/jquery.js"></script>

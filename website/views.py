@@ -12,7 +12,7 @@ from website.models import *
 
 
 def home(request):
-    testimonies = Testimony.get_random_testimonies(3)
+    testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
     return render(request, 'home.html', {'testimonies': testimonies})
 
 
@@ -43,6 +43,9 @@ def login(request):
 def concept(request):
     return render(request, 'concept.html', {})
 
+def contact(request):
+    return render(request, 'contact.html', {})
+
 
 
 def register(request):
@@ -68,7 +71,7 @@ def individual_registration(request):
             # Log on the newly created user
             usr = authenticate(username=form.user_name, password=form.passwd)
             Dlogin(request, usr)
-            return redirect('home')
+            return redirect('account')
         else:
             error = True
             dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
@@ -97,13 +100,13 @@ def organisation_registration(request):
             user = AssociationUser.objects.create_user(form.user_name,
                                                        form.email,
                                                        form.passwd,
-                                                       assoc, 3,
+                                                       assoc, 0,
                                                        first_name=form.first_name,
                                                        last_name=form.name)
 
             usr = authenticate(username=form.user_name, password=form.passwd)
             Dlogin(request, usr)
-            return redirect('home')
+            return redirect('account')
         else:
             error = True
             dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
@@ -191,7 +194,7 @@ def create_offer_demand(request):
 def add_representative(request):
     return render(request, 'add_representative.html', {})
 
-
+@login_required
 def logout(request):
     Dlogout(request)
     return redirect('home')

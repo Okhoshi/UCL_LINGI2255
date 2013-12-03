@@ -18,6 +18,7 @@ urlpatterns = patterns('website.views',
     url(r'^profile/add_representative/$', 'add_representative', name='add_representative'),
     url(r'^logout/$', 'logout', name='logout'),
     url(r'^concept/$', 'concept', name="concept"),
+    url(r'^contact/$', 'contact', name="contact"),
     # Examples:
     # url(r'^$', 'solidareit.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
