@@ -180,9 +180,6 @@ a:hover {
     position: relative;
     top: -10px;
 }
-.f_decor {
-
-}
 .file_input {
     display: table;
     vertical-align: middle;
@@ -200,8 +197,7 @@ a:hover {
     width: 70%;
     height: 35px;
     opacity: 0;
-    background-color: blue;
-    z-index: 10000000000000000;
+    z-index: 10;
 
 }
 /**********************
