@@ -29,30 +29,32 @@
 
     {% endif %}
 
-        <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="row form_blck">
-                <!-- PERSONNAL INFORMATIONS :
-                                                - NAME
-                                                - FIRST NAME
-                                                - USER NAME
-                                                - MAIL
-                                                - PASSWORD & CONFIRMATION
-                -->
-                {% include 'personnal_informations.html' %}
-                {% include 'address.html' %}       </div>
-
-            <!--
-            ##########################
-            #### REGISTER BUTTON #####
-            ##########################
+    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row form_blck">
+            <!-- PERSONNAL INFORMATIONS :
+                                            - NAME
+                                            - FIRST NAME
+                                            - USER NAME
+                                            - MAIL
+                                            - PASSWORD & CONFIRMATION
             -->
-            <div class="row">
-                <div class="col-xs-12 text-right">
-                    <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
-                            <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
-                    </div>
+            {% include 'personnal_informations.html' %}
+            <hr/>
+            {% include 'address.html' %}
+        </div>
+
+        <!--
+        ##########################
+        #### REGISTER BUTTON #####
+        ##########################
+        -->
+        <div class="row">
+            <div class="col-xs-12 text-right">
+                <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
+                        <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
                 </div>
             </div>
+        </div>
     </form>
 {% endblock %}
