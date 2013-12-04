@@ -170,10 +170,8 @@ def account(request):
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
     
     saved_searches = []
-    saved_matches = None
-    similar = None
+    similar = []
     summary = None
-    group = None
     following = []
 
     ## GET CURRENT ENTITY AND PICTURE
@@ -207,8 +205,13 @@ def account(request):
     for elem in objects_saved_searches:
         saved_searches.append((elem, elem.search_field))
 
+    ## GET SIMILAR
+    similar_objects = entity.get_similar_matching_requests(3)
+    for elem in similar_objects:
+        similar.append((elem,elem.name))
 
-    return render(request, 'account.html', {'image':image,'following':following,'saved_searches':saved_searches})
+    return render(request, 'account.html', {'image':image,'following':following,\
+        'saved_searches':saved_searches,'similar':similar})
 
 
 @login_required

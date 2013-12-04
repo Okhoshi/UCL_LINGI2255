@@ -47,21 +47,13 @@
 			<h3 class="panel-title">{% trans "Saved searches" %}</h3>
 		</div>
 		<ul class="list-unstyled">
+			{% for elem in saved_searches %}
 			<li>
 				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
-				Lorem ipsum dolor sit amet.
+				{{ elem.1 }}
 				<div class="clearfix"></div>
 			</li>
-			<li>
-				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
-				Lorem ipsum dolor sit amet.
-				<div class="clearfix"></div>
-			</li>
-			<li>
-				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
-				Lorem ipsum dolor sit amet.
-				<div class="clearfix"></div>
-			</li>
+			{% endfor %}
 		</ul>
 	</div>
 
@@ -81,9 +73,9 @@
 			<h3 class="panel-title">{% trans "Similar offers and demands" %}</h3>
 		</div>
 		<ul class="list-unstyled">
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
+			{% for elem in similar %}
+			<li>{{ elem.1 }}</li>
+			{% endfor %}
 		</ul>
 	</div>
 </div>
@@ -116,9 +108,9 @@
 			<h3 class="panel-title">{% trans "Following" %}</h3>
 		</div>
 		<ul class="list-unstyled">
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
+			{% for elem in following %}
+			<li>{{elem}}</li>
+			{% endfor %}
 		</ul>
 	</div>
 </div>
