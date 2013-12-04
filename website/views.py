@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, \
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
-from forms import MForm
+from forms import MForm,RForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
@@ -94,9 +94,38 @@ def contact(request):
 
     return render(request, 'contact.html', {})
 
-
+@login_forbidden()
 def register(request):
-    return render(request, 'register.html', {})
+    if request.method == 'GET':
+        type = request.GET.get('type', False)
+        if type:
+            print(type)
+            if type == "1":
+                return render(request, 'individual_registration.html', {})
+            elif type == "2":
+                return render(request, 'organisation_registration.html', {})
+            else:
+                return render(request, 'register.html', {})
+        else:
+            return render(request, 'register.html', {})
+    elif request.method =='POST':
+        print("holly crap")
+        return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {})
+
+@login_required
+def add_representative(request):
+    if request.method == 'POST':
+        form = RForm(request)
+
+        
+
+        # for i in range(len(last_name)):
+        #     print('We add ', last_name[i], first_name[i], email[i], level[i])
+            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
+
+    return render(request, 'add_representative.html', {})
 
 
 def individual_registration(request):
@@ -282,24 +311,13 @@ def create_offer_demand(request):
 
 
 @login_required
-def add_representative(request):
-    if request.method == 'POST':
-        last_name = request.POST.getlist('last_name[]')
-        first_name = request.POST.getlist('first_name[]')
-        email = request.POST.getlist('email[]')
-        level = request.POST.getlist('memberLevel[]')
-
-        for i in range(len(last_name)):
-            print('We add ', last_name[i], first_name[i], email[i], level[i])
-            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
-
-    return render(request, 'add_representative.html', {})
-
-
-@login_required
 def logout(request):
     Dlogout(request)
     return redirect('home')
+
+@login_required
+def messages(request):
+    return render(request, 'messages.html', {'messages': list(range(18))})
 
 
 ###############################################################################
