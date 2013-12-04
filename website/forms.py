@@ -5,6 +5,69 @@ from django.utils.translation import ugettext as _
 from recaptcha.client import captcha
 from django.conf import settings
 
+# Form to add representatives
+class RForm(forms.Form):
+    SOLIDAREITCOLOR = '#e1007a'
+
+    def __init__(self, request):
+        form = request.POST
+        self.colors = dict()
+        self.errorlist = dict()
+
+        self.is_valid = True
+
+        all_valid = True
+        last_names = request.POST.getlist('last_name[]')
+        for last_name in last_names:
+            if not (last_name and match(r"^[a-zA-Z ]*$", last_name)):
+                print('Noooo')
+                all_valid = False
+                self.is_valid = False
+                self.colors['last_name_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Name'] = _("This field can only contain uppercase and lowercase letters")
+        if all_valid:
+            self.last_names = last_names
+
+        all_valid = True
+        first_names = request.POST.getlist('first_name[]')
+        for first_name in first_names:
+            if not (first_name and match(r"^[a-zA-Z ]*$", first_name)):
+                all_valid = False
+                self.is_valid = False
+                self.colors['first_name_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['First name'] = _("This field can only contain uppercase and lowercase letters")
+        if all_valid:
+            self.first_names = first_names
+
+        all_valid = True
+        emails = request.POST.getlist('email[]')
+        for email in emails:
+            if not (email and match(r"[^@]+@[^@]+\.[^@]+", email)):
+                all_valid = False
+                self.is_valid = False
+                self.colors['email_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Email'] = _("Insert a valid email")
+        if all_valid:
+            self.emails = emails
+
+        all_valid = True
+        levels = request.POST.getlist('memberLevel[]')
+        for level in levels:
+            if not (level != '' and match(r"^[0-9]{1,9}$", level)):
+                all_valid = False
+                self.is_valid = False
+                self.colors['level_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Level'] = _("The level should be a number")
+        if all_valid:
+            self.levels = levels
+
+        if self.is_valid:
+            print(self.last_names)
+            print(self.first_names)
+            print(self.emails)
+            print(self.levels)
+
+
 class MForm(forms.Form):
     #Static variables
     ORG = True
