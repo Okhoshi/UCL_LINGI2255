@@ -58,10 +58,12 @@ class Entity(models.Model):
     # Return a list of requests with the IN_PROGRESS state
     def get_current_requests(self):
         proposed_request = Request.objects.filter(state__exact=\
-            Request.IN_PROGRESS).filter(proposer__exact=self)
+            Request.IN_PROGRESS).filter(proposer__exact=self).order_by( \
+            'date')
 
         demanded_request = Request.objects.filter(state__exact=\
-            Request.IN_PROGRESS).filter(demander__exact=self)
+            Request.IN_PROGRESS).filter(demander__exact=self).order_by( \
+            'date')
 
         return proposed_request | demanded_request
 
