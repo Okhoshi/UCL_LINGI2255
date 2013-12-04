@@ -360,8 +360,11 @@ def exchanges(request):
         sum_req = (len(posted_req),len(candidate_req),\
             len(incoming_req),len(realised_req),len(feedback_req))
         total = sum(sum_req)
-        for elem in sum_req:
-            percentage_req.append((elem * 100) / total)
+        if total == 0:
+            percentage_req = (0,0,0,0,0)
+        else:
+            for elem in sum_req:
+               percentage_req.append((elem * 100) / total)
 
     return render(request, 'exchanges.html', {'posted_req':posted_req, \
         'candidate_req':candidate_req, 'incoming_req':incoming_req, \
