@@ -69,7 +69,6 @@ def faq(request):
 
 
 def contact(request):
-    print(request)
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
@@ -363,10 +362,32 @@ def exchanges(request):
 
 @login_required()
 def search(request):
-    return render(request, 'search.html', {})
+    search_results = []
+    usr = DUser.objects.get(username=request.user)
+
+    if User.is_user(usr.id):
+        usr_entity = User.objects.get(dj_user=usr.id)
+    elif AssociationUser.is_assoc_user(usr.id):
+        usr_entity = AssociationUser.objects.get(dj_user=usr.id).entity
+    else:
+        return redirect('login')
+
+    if request.method == 'POST':
+        search_field = request.POST['search']
+        print(search_field)
+        search_object = SavedSearch(search_field=search_field, category="Jardin")
+        search_results = usr_entity.search(search_object, 1)
+        print(search_results)
+    return render(request, 'search.html', {'search_results':search_results})
+
+
+
+
 ###############################################################################
 ########################SUBROUTINES IMPLEMENTED HERE###########################
 ###############################################################################
+
+
 def profile_current_offers(current_offers):
     """
     Method that format the current_offers from the models for the template

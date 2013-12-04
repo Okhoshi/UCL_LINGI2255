@@ -146,13 +146,15 @@ class Entity(models.Model):
         return proposed_request | demanded_request
 
     # Return a list of 'amount' matching requests with the savedsearch
-    def search(self, savedsearch, amount):
+    def search(self, savedsearch, amount, category_filter=False):
         
         searchfield = savedsearch.search_field.split(' ')
         
         requests = Request.objects.filter(state__exact = \
-            Request.PROPOSAL).filter(category__exact = \
-            savedsearch.category).filter(~Q(proposer__exact=self), ~Q(demander__exact=self))
+            Request.PROPOSAL).filter(~Q(proposer__exact=self), ~Q(demander__exact=self))
+        if category_filter:
+            requests = requests.filter(category__exact = \
+            savedsearch.category)
         requests = requests.filter(reduce(lambda x, y: x | y,\
                 [Q(name__icontains=word) for word in searchfield]))
         
