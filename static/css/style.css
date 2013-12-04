@@ -230,10 +230,26 @@ a:hover {
     min-height: 110px;
     max-height: 600px;
 }
+#organisation #non_required {
+    width: 100%;
+}
 #organisation #non_required label{
-    background-color: red;
     margin-left: 0;
 }
+@media (min-width: 768px) {
+    #organisation #non_required label{
+        margin-left: 8.33333333%;
+    }
+}
+@media (min-width: 992px) {
+        #organisation #non_required {
+        width: 50%;
+    }
+    #organisation #non_required label{
+        margin-left: 0;
+    }
+}
+
 /**********************
  ***** login.html *****
  **********************/

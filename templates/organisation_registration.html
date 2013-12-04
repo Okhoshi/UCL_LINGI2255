@@ -44,6 +44,12 @@
                 {% include 'non_required.html' %}
             </div>
         </div>
+
+        <div class="row form_blck">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Photos" %}</span></div>
+            {% include 'profile_pic.html' %}
+            {% include 'org_pic.html' %}
+        </div>
         <div class="row form_blck">
             <div class=" text-center"><span class="form_blck_title">{% trans "Form validation" %}</span></div>
             <div class="col-md-offset-1 col-sm-5 " id="captcha">
@@ -61,7 +67,6 @@
             $(window).on("load resize", function(e) {
                if (once != 1) {
                     once = 1;
-                    centerVertically('to_align', 'ancre');
                     centerVertically('captcha', 'submit_button');
                 }
               });
