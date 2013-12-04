@@ -63,6 +63,7 @@ def login(request):
 def concept(request):
     return render(request, 'concept.html', {})
 
+
 def faq(request):
     return render(request, 'faq.html', {})
 
@@ -99,6 +100,7 @@ def contact(request):
 
     return render(request, 'contact.html', {})
 
+
 @login_forbidden()
 def register(request):
     """ handle the registration of a user
@@ -117,25 +119,6 @@ def register(request):
     else:
         return render(request, 'register.html', {})
 
-def analyse_request(request, type):
-    form = MForm(request)
-    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
-    if form.is_valid:
-        if type == "1":
-            # individual code
-            create_new_user(request, form)
-        elif type == "2":
-            # organisation code
-            create_new_organisation(request, form)
-        else:
-            return render(request, 'register.html', request.POST)
-        return render(request, pages[type], request.POST)
-    else:
-        error = True
-        dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-        dictionaries['errorlist'] = form.errorlist
-        print(form.type)
-        return render(request, pages[type], dictionaries)
 
 @login_required
 def add_representative(request):
@@ -164,80 +147,6 @@ def add_representative(request):
 
     return render(request, 'add_representative.html', {'rows':[{}]})
 
-def create_new_user(request, form):
-    handle_uploaded_file(request.FILES['profile_pic'], 'media/pic/' + form.user_name)
-    handle_uploaded_file(request.FILES['id_card_pic'], 'media/id_card/' + form.user_name)
-    p = Place(country=form.country, postcode=form.postcode,
-              city=form.city, street=form.street,
-              number=form.streetnumber)
-    p.save()
-    user = User.objects.create_user(form.user_name,
-                                    form.email,
-                                    form.passwd,
-                                    first_name=form.first_name,
-                                    last_name=form.name,
-                                    location=p, birth_day=form.birthdate, gender=form.gender)
-    # Log on the newly created user
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
-    return redirect('account')
-
-
-def create_new_organisation(request, form):
-    p = Place(country=form.country, postcode=form.postcode,
-              city=form.city, street=form.street,
-              number=form.streetnumber)
-    p.save()
-    assoc = Association(location=p, name=form.org_name, description=form.description)
-    assoc.save()
-    user = AssociationUser.objects.create_user(form.user_name,
-                                               form.email,
-                                               form.passwd,
-                                               assoc, 0,
-                                               first_name=form.first_name,
-                                               last_name=form.name)
-
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
-    return redirect('account')
-
-def handle_uploaded_file(f, path):
-    with open(path, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-
-def organisation_registration(request):
-    if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            p = Place(country=form.country, postcode=form.postcode,
-                      city=form.city, street=form.street,
-                      number=form.streetnumber)
-            p.save()
-            assoc = Association(location=p, name=form.org_name, description=form.description)
-            assoc.save()
-            user = AssociationUser.objects.create_user(form.user_name,
-                                                       form.email,
-                                                       form.passwd,
-                                                       assoc, 0,
-                                                       first_name=form.first_name,
-                                                       last_name=form.name)
-
-            usr = authenticate(username=form.user_name, password=form.passwd)
-            Dlogin(request, usr)
-            return redirect('account')
-        else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, 'organisation_registration.html', dictionaries)
-
-    return render(request, 'organisation_registration.html', {})
-
-
-def faq(request):
-    return render(request, 'faq.html', {})
 
 @login_required
 def account(request):
@@ -371,11 +280,15 @@ def logout(request):
     Dlogout(request)
     return redirect('home')
 
+
 @login_required
 def messages(request):
     return render(request, 'messages.html', {'messages': list(range(18))})
 
 
+@login_required()
+def search(request):
+    return render(request, 'search.html', {})
 ###############################################################################
 ########################SUBROUTINES IMPLEMENTED HERE###########################
 ###############################################################################
@@ -556,6 +469,67 @@ def profile_feedbacks(feedbacks):
 
     return feedbacks_list
 
-def search(request):
-    return render(request, 'search.html', {})
 
+def analyse_request(request, type):
+    form = MForm(request)
+    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+    if form.is_valid:
+        if type == "1":
+            # individual code
+            create_new_user(request, form)
+        elif type == "2":
+            # organisation code
+            create_new_organisation(request, form)
+        else:
+            return render(request, 'register.html', request.POST)
+        return render(request, pages[type], request.POST)
+    else:
+        error = True
+        dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+        dictionaries['errorlist'] = form.errorlist
+        print(form.type)
+        return render(request, pages[type], dictionaries)
+
+
+def create_new_user(request, form):
+    handle_uploaded_file(request.FILES['profile_pic'], 'media/pic/' + form.user_name)
+    handle_uploaded_file(request.FILES['id_card_pic'], 'media/id_card/' + form.user_name)
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    user = User.objects.create_user(form.user_name,
+                                    form.email,
+                                    form.passwd,
+                                    first_name=form.first_name,
+                                    last_name=form.name,
+                                    location=p, birth_day=form.birthdate, gender=form.gender)
+    # Log on the newly created user
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+
+def create_new_organisation(request, form):
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    assoc = Association(location=p, name=form.org_name, description=form.description)
+    assoc.save()
+    user = AssociationUser.objects.create_user(form.user_name,
+                                               form.email,
+                                               form.passwd,
+                                               assoc, 0,
+                                               first_name=form.first_name,
+                                               last_name=form.name)
+
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+
+def handle_uploaded_file(f, path):
+    with open(path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
