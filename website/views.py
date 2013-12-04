@@ -209,9 +209,14 @@ def account(request):
     for elem in similar_objects:
         similar.append((elem,elem.name))
 
+    ## GET UPCOMING REQUESTS
+    upcoming_requests = entity.get_current_requests()
+    
+
+
     ## GET # OLD REQUEST
     old_requests = entity.get_old_requests().count()
-    in_progress_requests = entity.get_current_requests().count()
+    in_progress_requests = upcoming_requests.count()
     proposal_requests = entity.get_current_offers().count() + \
         entity.get_current_demands().count() - in_progress_requests
     summary = (proposal_requests,in_progress_requests,old_requests)
