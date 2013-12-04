@@ -199,10 +199,14 @@ def account(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    
+
+
     saved_searches = []
     similar = []
     following = []
+    image = None
+    upcoming_requests = []
+    summary = []
 
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
@@ -215,45 +219,46 @@ def account(request):
         image = entity.picture
         #is_verified = 1
 
-    ## GET FOLLOWING LIST
-    following_entity = entity.get_followed()
-    for person in following_entity:
-        person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
-        person_user = User.objects.filter(entity_ptr_id__exact=person.id)
+    if (is_user or is_association_user):
+        ## GET FOLLOWING LIST
+        following_entity = entity.get_followed()
+        for person in following_entity:
+            person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
+            person_user = User.objects.filter(entity_ptr_id__exact=person.id)
 
-        if (person_assoc):
-            person = person_assoc[0]
-            name_person = person.name
-        elif (person_user): #is a User
-            person = person_user[0]
-            person = DUser.objects.get(id=person.dj_user_id)
-            name_person = person.first_name + " " + person.last_name
-        following.append(name_person)
+            if (person_assoc):
+                person = person_assoc[0]
+                name_person = person.name
+            elif (person_user): #is a User
+                person = person_user[0]
+                person = DUser.objects.get(id=person.dj_user_id)
+                name_person = person.first_name + " " + person.last_name
+            following.append(name_person)
 
-    ## GET SAVED SEARCHES
-    objects_saved_searches = entity.get_searches()
-    for elem in objects_saved_searches:
-        saved_searches.append((elem, elem.search_field))
+        ## GET SAVED SEARCHES
+        objects_saved_searches = entity.get_searches()
+        for elem in objects_saved_searches:
+            saved_searches.append((elem, elem.search_field))
 
-    ## GET SIMILAR
-    similar_objects = entity.get_similar_matching_requests(3)
-    for elem in similar_objects:
-        similar.append((elem,elem.name))
+        ## GET SIMILAR
+        similar_objects = entity.get_similar_matching_requests(3)
+        for elem in similar_objects:
+            similar.append((elem,elem.name))
 
-    ## GET UPCOMING REQUESTS
-    upcoming_requests = []
-    upcoming_objects = entity.get_current_requests()
-    for elem in upcoming_objects:
-        upcoming_requests.append((elem,elem.date))
+        ## GET UPCOMING REQUESTS
+        upcoming_requests = []
+        upcoming_objects = entity.get_current_requests()
+        for elem in upcoming_objects:
+            upcoming_requests.append((elem,elem.date))
     
 
 
-    ## GET # OLD REQUEST
-    old_requests = entity.get_old_requests().count()
-    in_progress_requests = upcoming_objects.count()
-    proposal_requests = entity.get_current_offers().count() + \
-        entity.get_current_demands().count() - in_progress_requests
-    summary = (proposal_requests,in_progress_requests,old_requests)
+        ## GET # OLD REQUEST
+        old_requests = entity.get_old_requests().count()
+        in_progress_requests = upcoming_objects.count()
+        proposal_requests = entity.get_current_offers().count() + \
+            entity.get_current_demands().count() - in_progress_requests
+        summary = (proposal_requests,in_progress_requests,old_requests)
 
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
