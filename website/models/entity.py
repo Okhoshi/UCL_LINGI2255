@@ -58,10 +58,12 @@ class Entity(models.Model):
     # Return a list of requests with the IN_PROGRESS state
     def get_current_requests(self):
         proposed_request = Request.objects.filter(state__exact=\
-            Request.IN_PROGRESS).filter(proposer__exact=self)
+            Request.IN_PROGRESS).filter(proposer__exact=self).order_by( \
+            'date')
 
         demanded_request = Request.objects.filter(state__exact=\
-            Request.IN_PROGRESS).filter(demander__exact=self)
+            Request.IN_PROGRESS).filter(demander__exact=self).order_by( \
+            'date')
 
         return proposed_request | demanded_request
 
@@ -146,11 +148,12 @@ class Entity(models.Model):
         requests = Request.objects.filter(state__exact = \
             Request.PROPOSAL).filter(category__exact = \
             savedsearch.category)
-        returnrequests = requests.filter(reduce(lambda x, y: x | y,\
+        requests = requests.filter(reduce(lambda x, y: x | y,\
                 [Q(name__icontains=word) for word in searchfield]))
+        
    
         relevance = []
-        for req in returnrequests:
+        for req in requests:
             tmp = 0
             for word in searchfield:
                 if (word in req.name):
@@ -226,29 +229,41 @@ class Entity(models.Model):
         pla = Place()
         pla.save()
 
-        if (amount%3 == 0):
-            bestcat[0][0]=amount/3
-            bestcat[1][0]=amount/3
-            bestcat[2][0]=amount/3
-        if (amount%3 == 1):
-            bestcat[0][0]=amount/3+1
-            bestcat[1][0]=amount/3
-            bestcat[2][0]=amount/3
-        if (amount%3 == 2):
-            bestcat[0][0]=amount/3+1
-            bestcat[1][0]=amount/3+1
-            bestcat[2][0]=amount/3
+        if (len(bestcat) == 3):
+            if (amount%3 == 0):
+                bestcat[0][0]=amount/3
+                bestcat[1][0]=amount/3
+                bestcat[2][0]=amount/3
+            if (amount%3 == 1):
+                bestcat[0][0]=amount/3+1
+                bestcat[1][0]=amount/3
+                bestcat[2][0]=amount/3
+            if (amount%3 == 2):
+                bestcat[0][0]=amount/3+1
+                bestcat[1][0]=amount/3+1
+                bestcat[2][0]=amount/3
+        elif (len(bestcat)==2):
+            if (amount%2 == 0):
+                bestcat[0][0]=amount/2
+                bestcat[1][0]=amount/2
+            else :
+                bestcat[0][0]=amount/2+1
+                bestcat[1][0]=amount/2
+        elif (len(bestcat) == 1):
+            bestcat[0][0]=amount
         
             
 
         requests = []
 
-        for cat in bestcat:
+        for i in range(len(bestcat)):
             savedsearch = SavedSearch(place = pla, date=\
                 datetime.datetime.utcnow().replace(tzinfo=utc), search_field=\
-                searchfield, category=cat[1], entity=self)
+                searchfield, category=bestcat[i][1], entity=self)
             
-            tmp = self.search(savedsearch, cat[0])
+            tmp = self.search(savedsearch, bestcat[i][0])
+            if (len(tmp)<bestcat[i][0] and (i+1)< len(bestcat)):
+                bestcat[i+1][0] += (bestcat[i][0]-len(tmp))
             requests += tmp
 
         return requests

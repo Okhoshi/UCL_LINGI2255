@@ -25,7 +25,7 @@ class Testimony(models.Model):
         # 1 Go fetch all the Testimonies
         # 2 Choose randomly number Testimonies to return
         testimonies = list(Testimony.objects.filter(lang__iexact=lang).all())
-        total = Testimony.objects.count()
+        total = len(testimonies)
         if (number >= total):
             return testimonies
         # else
