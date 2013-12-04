@@ -524,3 +524,7 @@ def profile_feedbacks(feedbacks):
         feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
 
     return feedbacks_list
+
+def search(request):
+    return render(request, 'search.html', {})
+
