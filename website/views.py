@@ -63,6 +63,9 @@ def login(request):
 def concept(request):
     return render(request, 'concept.html', {})
 
+def faq(request):
+    return render(request, 'faq.html', {})
+
 
 def contact(request):
     print(request)
