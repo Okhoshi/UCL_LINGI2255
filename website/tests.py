@@ -403,13 +403,13 @@ class ModelsTests(TestCase):
         req3 = Request(name="Goodbye", category="Not Test", place=pla,\
             proposer=users[1], demander=users[0], state=Request.PROPOSAL)
         req4 = Request(name="salut coucou dead beef boob", category="Test",\
-            place=pla, proposer=users[1], demander=users[0],\
+            place=pla, proposer=users[1], demander=users[1],\
             state=Request.PROPOSAL)
         req5 = Request(name="oi wassup dead beef boob", category="Test",\
-            place=pla, proposer=users[1], demander=users[0],\
+            place=pla, proposer=users[1], demander=users[1],\
             state=Request.PROPOSAL)
         req6 = Request(name="salut Hello bonjour beef boob", category="Test",\
-            place=pla, proposer=users[1], demander=users[0],\
+            place=pla, proposer=users[1], demander=users[1],\
             state=Request.PROPOSAL)
         
 

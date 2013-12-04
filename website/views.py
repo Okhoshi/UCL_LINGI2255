@@ -137,6 +137,33 @@ def analyse_request(request, type):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+@login_required
+def add_representative(request):
+    if request.method == 'POST':
+        form = RForm(request)
+        if form.is_valid:
+            for row in form.rows:
+                this_user = DUser.objects.get(username=request.user)
+                is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+
+                if (is_association_user):
+                    au = is_association_user[0]
+                    entity = au.entity
+                    print('Yess')
+
+                # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+                # auser = AssociationUser.objects.create_user(username="au1", \
+                #     password="anz", email="i", level=0, association=)
+                # auser.save()
+        else:
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_representative.html', \
+                {'errorlist':form.errorlist,\
+                 'rows':rows})
+
+    return render(request, 'add_representative.html', {'rows':[{}]})
+
 def create_new_user(request, form):
     handle_uploaded_file(request.FILES['profile_pic'], 'media/pic/' + form.user_name)
     handle_uploaded_file(request.FILES['id_card_pic'], 'media/id_card/' + form.user_name)
@@ -179,21 +206,45 @@ def handle_uploaded_file(f, path):
         for chunk in f.chunks():
             destination.write(chunk)
 
-@login_required
-def add_representative(request):
-        # for i in range(len(last_name)):
-        #     print('We add ', last_name[i], first_name[i], email[i], level[i])
-        # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :)
 
-    return render(request, 'add_representative.html', {})
+def organisation_registration(request):
+    if request.method == 'POST':
+        form = MForm(request)
+        if form.is_valid:
+            p = Place(country=form.country, postcode=form.postcode,
+                      city=form.city, street=form.street,
+                      number=form.streetnumber)
+            p.save()
+            assoc = Association(location=p, name=form.org_name, description=form.description)
+            assoc.save()
+            user = AssociationUser.objects.create_user(form.user_name,
+                                                       form.email,
+                                                       form.passwd,
+                                                       assoc, 0,
+                                                       first_name=form.first_name,
+                                                       last_name=form.name)
+
+            usr = authenticate(username=form.user_name, password=form.passwd)
+            Dlogin(request, usr)
+            return redirect('account')
+        else:
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
+            return render(request, 'organisation_registration.html', dictionaries)
+
+    return render(request, 'organisation_registration.html', {})
+
+
+def faq(request):
+    return render(request, 'faq.html', {})
 
 @login_required
 def account(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-
-
+    
     saved_searches = []
     similar = []
     following = []
