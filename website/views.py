@@ -72,7 +72,7 @@ def contact(request):
             user = settings.EMAIL_HOST_USER
             pwd = settings.EMAIL_HOST_PASSWORD
             admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
-                     'quentin.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
                      'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
             data = request.POST.dict()
             message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
