@@ -17,7 +17,7 @@
 		<h3>
 			{% trans "Welcome" %}
 			{% if user.first_name %}
-	            {{user.first_name }} {{ user.last_name }}
+	            {{ user.first_name }} {{ user.last_name }}
 	        {% else %}
 	            {{ user }}
 	        {% endif %} !
@@ -30,7 +30,11 @@
 	<div class="col-md-4 col-sm-5">
 		<div class="clearfix" style="margin:15px"></div>
 		<div class="col-xs-6">
+			{% if image == "null" or not image %}
 			<img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
+			{% else %}
+			<img src={{ image }} alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
+			{% endif %}
 		</div>
 		<div  class="col-xs-6">
 			<a class="btn btn-info btn-sm" style="width: 100px; margin-bottom: 15px">{% trans "History" %}</a><br />
@@ -86,9 +90,9 @@
 			<h3 class="panel-title">{% trans "My summary" %}</h3>
 		</div>
 		<ul class="list-unstyled">
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
+			<li>{{ summary.0 }} {% trans "requests are waiting for a matching" %}</li>
+			<li>{{ summary.1 }} {% trans "requests are planed to be realised" %}</li>
+			<li>{{ summary.2 }} {% trans "requests have been successfully realised" %}</li>
 		</ul>
 	</div>
 
@@ -109,7 +113,7 @@
 		</div>
 		<ul class="list-unstyled">
 			{% for elem in following %}
-			<li>{{elem}}</li>
+			<li>{{ elem }}</li>
 			{% endfor %}
 		</ul>
 	</div>
