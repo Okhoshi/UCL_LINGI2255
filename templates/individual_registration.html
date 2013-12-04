@@ -31,32 +31,37 @@
         {% endif %}
 
         <div class="row form_blck">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Mandatory personal informations" %}</span></div>
             {% include 'personnal_informations.html' %}
             {% include 'address.html' %}
         </div>
 
         <div class="row form_blck">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Optional personal informations" %}</span></div>
             {% include 'non_required.html' %}
 
         </div>
         <div class="row form_blck">
-            <div class="col-md-offset-1 col-xs-4 ">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Form validation" %}</span></div>
+            <div class="col-md-offset-1 col-sm-5 " id="captcha">
                 {% include 'captcha.html' %}
             </div>
-            <div class="col-xs-6 text-right">
-                <div class="form-group" style="margin-right: 25px; margin-top: 10px;">
+            <div class="col-sm-6 text-right" >
+                <div class="form-group" style="margin-right: 25px;" id="submit_button">
                     <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
                 </div>
             </div>
         </div>
-
-        <!--
-        ##########################
-        #### REGISTER BUTTON #####
-        ##########################
-        -->
-        <div class="row">
-
-        </div>
+        <script type="text/javascript">
+        /* centers vertically the elements*/
+        var once = '';
+            $(window).on("load resize", function(e) {
+               if (once != 1) {
+                    once = 1;
+                    centerVertically('to_align', 'ancre');
+                    centerVertically('captcha', 'submit_button');
+                }
+              });
+        </script>
     </form>
 {% endblock %}

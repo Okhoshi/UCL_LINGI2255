@@ -1,93 +1,66 @@
-{% extends 'individual_registration.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
 	<li><a href="/">{% trans "Home" %}</a></li>
-	<li><a href="/register">{% trans "Register" %}</a></li>
-	<li class="active">{% trans "New organisation" %}</li>
+	<li><a href="/register/">{% trans "Register" %}</a></li>
+	<li class="active">{% trans "New individual" %}</li>
 </ol>
 {% endblock %}
 
-<!--
-#######################
-#### FIRST COLUMN #####
-#######################
--->
-{% block first_column %}
-{{ block.super }}
-<div class="form-group">
-	<label for="inputOrgName" class="col-sm-3 col-xs-12 control-label">{% trans "Organisation" %}</label>
-	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputOrgName" name="org_name" placeholder="{% trans "Name" %}" value="{{ org_name }}" style="border-color: {{ org_name_color }} !important;">
-	</div>
-</div>
-{% endblock %}
 
-{% block address_placeholder %}{% trans "Organisation street"%}{% endblock %}
+{% block content %}
 
-<!--
-###########1############
-#### SECOND COLUMN #####
-############1###########
--->
-{% block second_column %}
-<div class="form-group">
-	<label for="inputDescription" class="col-sm-3 col-xs-12 control-label">{% trans "Description"%}</label>
-	<div class="col-sm-9">
-		<textarea class="form-control" id="inputDescription" name="description" value="{{ description }}" style="border-color: {{ description_color }} !important;" placeholder="{% trans "Small organisation description"%}" rows="3"></textarea>
-	</div>
-</div>
 
-<div class="form-group">NIM
-	<label for="inputPhone" class="col-sm-3 control-label">{% trans "Telephone"%}</label>
-	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputPhone" name="org_phone" value="{{ org_phone }}" style="border-color: {{ org_phone_color }} !important;" placeholder="{% trans "Organisation telephone number"%}">
-	</div>
-</div>
+    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+        {% csrf_token %}
 
-<div class="form-group">NIM
-	<label for="inputVAT" class="col-sm-3 control-label">{% trans "VAT*"%}</label>
-	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputVAT" name="VAT" value="{{ VAT }}" style="border-color: {{ VAT_color }} !important;" placeholder="{% trans "Organisation VAT number"%}">
-	</div>
-</div>
+        {% if error %}
+            <div class="row warning">
+                <div class="col-md-12 ">
+                    <h5>{% trans "There are errors in the form :" %}</h5>
+                    <ul>
+                    {% for errorname, errordesc in errorlist.items %}
+                        <li>{{ errorname }} : {{ errordesc }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
 
-<div class="form-group">NIM
-	<label for="inputSite" class="col-sm-3 control-label">{% trans "Website"%}</label>
-	<div class="col-sm-9">
-		<input type="text" class="form-control" id="inputSite" name="org_site" value="{{ org_site }}" style="border-color: {{ org_site_color }} !important;" placeholder="{% trans "Organisation website"%}">
-	</div>
-</div>
+        <div class="row form_blck">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Person of reference informations" %}</span></div>
+            {% include 'personnal_informations.html' %}
+        </div>
 
-{% block facebook_field %}{{ block.super }}{% endblock %}
-<div class="form-group">
-	<div class="col-sm-offset-3 col-sm-9">
-		<div class="checkbox">
-			<label><input type="checkbox"> {% trans "Transfer emails to indicated address"%}</label>
-		</div>
-	</div>
-</div>
+        <div class="row form_blck">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Optional personal informations" %}</span></div>
+            {% include 'non_required.html' %}
 
-<div class="form-group">
-	<label for="inputFacebook" class="col-sm-3 control-label">{% trans "Captcha"%}</label>
-	<div class="col-sm-9">
-		<img src="{% static 'images/captcha.gif' %}" class="img-responsive" alt="Captcha" style="margin: 0">
-	</div>
-</div>
-{% endblock %}
-
-<!--
-#######################
-#### THIRD COLUMN #####
-#######################
--->
-{% block third_column %}
-{{ block.super }}
-<div class="col-sm-3 col-xs-6 text-center" style="">
-	<label>{% trans "Organisation logo"%}</label>
-	<img src="{% static 'images/polaroid.png' %}" class="img-responsive" style="margin-bottom: 20px" alt="Profile picture">
-	<button class="btn btn-primary"><i class="glyphicon glyphicon-camera"></i>&nbsp;&nbsp;{% trans "Change"%}</button>
-</div>
+        </div>
+        <div class="row form_blck">
+            <div class=" text-center"><span class="form_blck_title">{% trans "Form validation" %}</span></div>
+            <div class="col-md-offset-1 col-sm-5 " id="captcha">
+                {% include 'captcha.html' %}
+            </div>
+            <div class="col-sm-6 text-right" >
+                <div class="form-group" style="margin-right: 25px;" id="submit_button">
+                    <button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+        /* centers vertically the elements*/
+        var once = '';
+            $(window).on("load resize", function(e) {
+               if (once != 1) {
+                    once = 1;
+                    centerVertically('to_align', 'ancre');
+                    centerVertically('captcha', 'submit_button');
+                }
+              });
+        </script>
+    </form>
 {% endblock %}

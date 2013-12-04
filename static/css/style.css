@@ -48,24 +48,32 @@
     border-color: #E7E7E7;
 }
 .navbar-default .navbar-brand {
-    color: white;
+    color: #e1007a;
     font-family: antonioregular;
     font-size: 150%;
+    margin-top: 2px;
 }
 .navbar-default .navbar-brand:hover {
     color: #e1007a;
+    margin-top: 0px;
+    border-top: 2px solid  #e1007a;
 }
 .navbar-default .navbar-nav > li > a {
     color: white;
+    margin-top: 2px;
 }
 .navbar-default .navbar-nav > li > a:hover {
     color: #e1007a;
+    border-top: 2px solid  #e1007a;
+    margin-top: 0px;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
     color: white;
     background-color: #e1007a;
+    border-top: 2px solid  #e1007a;
+    margin-top: 0px;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
@@ -161,9 +169,19 @@ a:hover {
 /**********************
  *** register.html ****
  **********************/
+.warning {
+    color:#e1007a;
+    background-color: rgba(172, 173, 175, 0.20);
+    padding: 0px 10px 0px 10px;
+    margin: 0 10px 20px;
+
+
+    border: 1px solid #e1007a;
+    border-radius: 5px;
+}
 .form_blck {
     margin: 0 10px 20px;
-    padding: 10px 0px;
+    padding: 10px 0px 10px;
     background: rgba(172, 173, 175, 0.20);
     border-radius: 5px;
     border: 1px solid rgb(172, 173, 175);
@@ -176,9 +194,6 @@ a:hover {
 }
 #to_align {
     text-align: center;
-}{
-    position: relative;
-    top: -10px;
 }
 .file_input {
     display: table;
@@ -200,6 +215,16 @@ a:hover {
     z-index: 10;
 
 }
+.form_blck_title {
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: auto;
+    position: relative;
+    top: -23px;
+    background-color: rgba(255, 255, 255, 0.60);
+    border-radius: 10px;
+    color: #e1007a;
+}
 /**********************
  ***** login.html *****
  **********************/
@@ -217,20 +242,6 @@ a:hover {
  	padding-top: 10px;
  	border-radius: 0 0 4px 4px;
  }
-
- /**************************
- *** Register ***
- *****************/
-.warning {
-    color:#e1007a;
-    background-color: rgba(172, 173, 175, 0.20);
-    padding: 0px 10px 0px 10px;
-    margin: 0 10px 20px;
-
-
-    border: 1px solid #e1007a;
-    border-radius: 5px;
-}
 
  /************************
  ***** account.html *****

@@ -40,18 +40,6 @@
     </div>
 
     <script type="text/javascript">
-        /* centers vertically the element of id ancre according to the element of id to_align */
-        var once = '';
-            $(window).on("load resize", function(e) {
-                var profilePicHeight = document.getElementById('to_align').offsetHeight;
-                if (profilePicHeight != once) {
-                    once = profilePicHeight;
-                    var ancre = document.getElementById('ancre').offsetHeight;
-                    var difference = ((profilePicHeight - ancre) / 2) + 5;
-                    $('#ancre').css('margin-top', difference + 'px');
-                }
-            });
-
         /* change the button content according to the file beeing selected */
         $('input[type=file]').change(function(e){
         var ins=$(this);
