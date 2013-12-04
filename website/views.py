@@ -165,7 +165,50 @@ def organisation_registration(request):
 
 @login_required
 def account(request):
-    return render(request, 'account.html', {})
+    this_user = DUser.objects.get(username=request.user)
+    is_user = User.objects.filter(dj_user__exact=this_user.id)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    
+    saved_searches = []
+    saved_matches = None
+    similar = None
+    summary = None
+    group = None
+    following = []
+
+    ## GET CURRENT ENTITY AND PICTURE
+    if (is_user):
+        entity = is_user[0]
+        image = entity.picture
+        #is_verified = entity.is_verified
+    elif (is_association_user):
+        au = is_association_user[0]
+        entity = au.entity
+        image = entity.picture
+        #is_verified = 1
+
+    ## GET FOLLOWING LIST
+    following_entity = entity.get_followed()
+    for person in following_entity:
+        person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
+        person_user = User.objects.filter(entity_ptr_id__exact=person.id)
+
+        if (person_assoc):
+            person = person_assoc[0]
+            name_person = person.name
+        elif (person_user): #is a User
+            person = person_user[0]
+            person = DUser.objects.get(id=person.dj_user_id)
+            name_person = person.first_name + " " + person.last_name
+        following.append(name_person)
+
+    ## GET SAVED SEARCHES
+    objects_saved_searches = entity.get_searches()
+    for elem in objects_saved_searches:
+        saved_searches.append((elem, elem.search_field))
+
+
+    return render(request, 'account.html', {'image':image,'following':following,'saved_searches':saved_searches})
 
 
 @login_required
