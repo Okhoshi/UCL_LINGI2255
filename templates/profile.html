@@ -28,7 +28,7 @@
 		{% if global_rating.1 > 0 %}
 			{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
 		{% else %}
-			{% trans "No evluations" %}
+			{% trans "No evaluations" %}
 		{% endif %}
 		{% if is_association_user|length > 0 %}
 			{{ entity.description }}
