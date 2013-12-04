@@ -286,6 +286,60 @@ def messages(request):
     return render(request, 'messages.html', {'messages': list(range(18))})
 
 
+@login_required
+def exchanges(request):
+    # First, check if the current user is a User or a AssociationUser
+    this_user = DUser.objects.get(username=request.user)
+    is_user = User.objects.filter(dj_user__exact=this_user.id)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    this_entity = None
+    if is_user:
+        this_entity = is_user[0]
+    elif is_association_user:
+        au = is_association_user[0]
+        this_entity = au.entity
+
+    # Then, fetch some useful data from the models
+    posted_req = []
+    candidate_req = []
+    incoming_req = []
+    realised_req = []
+    feedback_req = []
+
+    percentage_req = []
+
+    # Should always pass, except if user is a superuser
+    if this_entity:
+        all_req = this_entity.get_all_requests()
+        for elem in all_req:
+            if elem.state == Request.PROPOSAL:
+                if elem.candidates.all():
+                    candidate_req.append(elem)
+                else:
+                    posted_req.append(elem)
+            if elem.state == Request.IN_PROGRESS:
+                incoming_req.append(elem)
+            if elem.state == Request.DONE:
+                if elem.get_feedback().rating_demander > 0: #TODO FALSE
+                    feedback_req.append(elem)
+                else:
+                    realised_req.append(elem)
+
+
+        sum_req = (len(posted_req),len(candidate_req),\
+            len(incoming_req),len(realised_req),len(feedback_req))
+        total = sum(sum_req)
+        if total == 0:
+            percentage_req = (0,0,0,0,0)
+        else:
+            for elem in sum_req:
+               percentage_req.append((elem * 100) / total)
+
+    return render(request, 'exchanges.html', {'posted_req':posted_req, \
+        'candidate_req':candidate_req, 'incoming_req':incoming_req, \
+        'realised_req':realised_req,'feedback_req':feedback_req,\
+        'percentage_req':percentage_req})
+
 @login_required()
 def search(request):
     return render(request, 'search.html', {})
