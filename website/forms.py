@@ -37,17 +37,18 @@ class MForm(forms.Form):
             self.errorlist['First name'] = _("This field can only contain uppercase and lowercase letters")
 
         ### USER NAME ###
-        if form['user_name'] != '' and match(r"^.{3,15}$", form['user_name']):
-            if User.objects.filter(username=form['user_name']).count() == 0:
-                self.user_name = form['user_name']
+        if form.__contains__('user_name'):
+            if form['user_name'] != '' and match(r"^.{3,15}$", form['user_name']):
+                if User.objects.filter(username=form['user_name']).count() == 0:
+                    self.user_name = form['user_name']
+                else:
+                    self.is_valid = False
+                    self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
+                    self.errorlist['User name'] = _("This username is already used")
             else:
                 self.is_valid = False
                 self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['User name'] = _("This username is already used")
-        else:
-            self.is_valid = False
-            self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['User name'] = _("The username must be between 3 and 15 characters")
+                self.errorlist['User name'] = _("The username must be between 3 and 15 characters")
 
 
         ### EMAIL ###
@@ -59,15 +60,16 @@ class MForm(forms.Form):
             self.errorlist['Email'] = _("Insert a valid email")
             
         ### PASSWORD ###
-        if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
-                and match(r"^[A-Za-z0-9,;:=?./+-_)(]{4,20}$", form['passwd']):
-            self.passwd = form['passwd']
-        else:
-            self.is_valid = False
-            self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
-            self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Password'] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
-            
+        if form.__contains__('passwd'):
+            if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
+                    and match(r"^[A-Za-z0-9,;:=?./+-_)(]{4,20}$", form['passwd']):
+                self.passwd = form['passwd']
+            else:
+                self.is_valid = False
+                self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
+                self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
+                self.errorlist['Password'] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
+
         ### ADDRESS ##
         if form['street'] != ''and match(r"^[a-zA-Z0-9 ]*$", form['name']):
             self.street = form['street']
@@ -105,7 +107,8 @@ class MForm(forms.Form):
             self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
             self.errorlist['postcode'] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
 
-        self.facebook = form['facebook']
+        if form.__contains__('facebook'):
+            self.facebook = form['facebook']
 
         if form.__contains__('org_name'):
             self.type = MForm.ORG
@@ -131,5 +134,7 @@ class MForm(forms.Form):
             
         else:
             self.type = MForm.IND
-            self.phone = form['phone']
-            self.id_card = form['id_card']
+            if form.__contains__('phone'):
+                self.phone = form['phone']
+            if form.__contains__('id_card'):
+                self.id_card = form['id_card']

@@ -63,10 +63,10 @@ def concept(request):
 def contact(request):
     print(request)
     if request.method == 'POST':
-        #form = MForm(request)
-        #if form.is_valid:
+        form = MForm(request)
+        if form.is_valid:
             print(request.FILES.items())
-            #handle_uploaded_file(request.FILES['file'])
+            handle_uploaded_file(request.FILES['file'])
             #p = Place(country=form.country, postcode=form.postcode,\
             #          city=form.city, street=form.street,\
             #         number=form.streetnumber)
@@ -81,13 +81,13 @@ def contact(request):
             #usr = authenticate(username=form.user_name, password=form.passwd)
             #Dlogin(request, usr)
             #return redirect('account')
-        #else:
-            #error = True
-            #dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            #dictionaries['errorlist'] = form.errorlist
+        else:
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
             #return render(request, 'contact.html', {})
 
-            #return render(request, 'contact.html', dictionaries)
+            return render(request, 'contact.html', dictionaries)
 
     return render(request, 'contact.html', {})
 
