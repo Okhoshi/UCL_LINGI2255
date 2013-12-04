@@ -27,11 +27,11 @@ class SIUserManager(models.Manager):
 
 
 def pic_path(instance, filename):
-    return 'profile_pic/' + instance.__unicode__().__hash__()
+    return 'pic/' + str(instance.__unicode__().__hash__()) + filename
 
 
 def id_path(instance, filename):
-    return 'id_pic/' + instance.__unicode__().__hash__()
+    return 'id_card/' + str(instance.__unicode__().__hash__()) + filename
 
 
 class User(Entity):
