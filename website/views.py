@@ -529,5 +529,8 @@ def profile_feedbacks(feedbacks):
     return feedbacks_list
 
 def search(request):
+
+    new_search = SavedSearch()
+
     return render(request, 'search.html', {})
 
