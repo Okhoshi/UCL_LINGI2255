@@ -8,9 +8,13 @@ from django.db import models
 from website.models.entity import *
 from website.models.associationuser import *
 
+def pic_path(instance, filename):
+    return 'profile_pic/' + instance.__unicode__().__hash__()
+
 class Association(Entity):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=2048)
+    picture = models.ImageField(upload_to=pic_path)
 
     class Meta:
         app_label = 'website'

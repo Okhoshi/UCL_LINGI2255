@@ -1,0 +1,28 @@
+{% load static %}
+{% load i18n %}
+<div class="col-sm-6" id="to_align">
+    <label>{% trans "Profile picture" %}</label>
+    <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="margin:auto auto 20px auto; " alt="Profile picture">
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-left">
+            <input type=file name="profile_pic" class="btn btn-primary input_file"/>
+            <div class="btn btn-primary  file_input">
+                <span class="glyphicon glyphicon-file f_decor"> {% trans "Browse" %}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /* change the button content according to the file beeing selected */
+    $('input[type=file]').change(function(e){
+        var ins=$(this);
+        var t = jQuery.trim(ins.val());
+        var final_t = t;
+        var s = 20;
+            if (t.length > s) {
+                final_t = " ... "+t.substring(t.length-s, t.length);
+             }
+        $(".f_decor").text(" "+final_t);
+    });
+</script>

@@ -48,24 +48,32 @@
     border-color: #E7E7E7;
 }
 .navbar-default .navbar-brand {
-    color: white;
+    color: #e1007a;
     font-family: antonioregular;
     font-size: 150%;
+    margin-top: 2px;
 }
 .navbar-default .navbar-brand:hover {
     color: #e1007a;
+    margin-top: 0px;
+    border-top: 2px solid  #e1007a;
 }
 .navbar-default .navbar-nav > li > a {
     color: white;
+    margin-top: 2px;
 }
 .navbar-default .navbar-nav > li > a:hover {
     color: #e1007a;
+    border-top: 2px solid  #e1007a;
+    margin-top: 0px;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
     color: white;
     background-color: #e1007a;
+    border-top: 2px solid  #e1007a;
+    margin-top: 0px;
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
@@ -161,22 +169,87 @@ a:hover {
 /**********************
  *** register.html ****
  **********************/
+.warning {
+    color:#e1007a;
+    background-color: rgba(172, 173, 175, 0.20);
+    padding: 0px 10px 0px 10px;
+    margin: 0 10px 20px;
 
 
+    border: 1px solid #e1007a;
+    border-radius: 5px;
+}
 .form_blck {
     margin: 0 10px 20px;
-    padding: 10px 0px;
+    padding: 10px 0px 10px;
     background: rgba(172, 173, 175, 0.20);
     border-radius: 5px;
     border: 1px solid rgb(172, 173, 175);
 }
-
 .form_el {
     margin-bottom: 5px;
     padding-right: 10px;
     padding-left: 10px;
 
 }
+#to_align {
+    text-align: center;
+}
+.file_input {
+    display: table;
+    vertical-align: middle;
+    width: 70%;
+    margin: auto;
+    height: 35px;
+    position: relative;
+    top: -36px;
+    border-radius: 5px;
+    z-index: 0;
+}
+.input_file {
+    position: relative;
+    margin: auto;
+    width: 70%;
+    height: 35px;
+    opacity: 0;
+    z-index: 10;
+
+}
+.form_blck_title {
+    padding-left: 2px;
+    padding-right: 2px;
+    margin: auto;
+    position: relative;
+    top: -23px;
+    background-color: rgba(255, 255, 255, 0.60);
+    border-radius: 10px;
+    color: #e1007a;
+}
+.resizable {
+    resize: vertical;
+    min-height: 110px;
+    max-height: 600px;
+}
+#organisation #non_required {
+    width: 100%;
+}
+#organisation #non_required label{
+    margin-left: 0;
+}
+@media (min-width: 768px) {
+    #organisation #non_required label{
+        margin-left: 8.33333333%;
+    }
+}
+@media (min-width: 992px) {
+        #organisation #non_required {
+        width: 50%;
+    }
+    #organisation #non_required label{
+        margin-left: 0;
+    }
+}
+
 /**********************
  ***** login.html *****
  **********************/
@@ -194,24 +267,6 @@ a:hover {
  	padding-top: 10px;
  	border-radius: 0 0 4px 4px;
  }
-
- /**************************
- *** Register ***
- *****************/
-.warning {
-    color:#e1007a;
-    background-color: rgba(248,248,248,1);
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    border: 1px solid #e1007a;
-    border-radius: 10px;
-    -webkit-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
-       -moz-box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
-            box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
-}
 
  /************************
  ***** account.html *****
@@ -270,4 +325,8 @@ textarea{
     border-right:1px solid rgb(172, 173, 175);
     overflow-y:scroll;
     max-height:600px;
+}
+
+.message-list {
+    border-right:none;
 }

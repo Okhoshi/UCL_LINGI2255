@@ -1,3 +1,4 @@
+# -*- coding: cp1252 -*-
 from django.test import TestCase
 from models import *
 import datetime
@@ -262,15 +263,16 @@ class ModelsTests(TestCase):
 
         feed1 = Feedback(feedback_demander="It was nice", \
                          feedback_proposer="It was ugly!", request = req, \
-                         rating_demander=5, rating_proposer=1)
+                         rating_demander=3, rating_proposer=1)
         feed2 = Feedback(feedback_demander="It could be better", \
                          feedback_proposer="Very interesting!", request = req2,\
-                         rating_demander=2, rating_proposer=4)
+                         rating_demander=2, rating_proposer=2)
 
         feed1.save()
         feed2.save()
 
-        self.assertEqual(users[0].get_rating(), 4.5)
+        self.assertEqual(users[0].get_rating(), (1, 0, 1))
+        self.assertEqual(users[1].get_rating(), (0, 1, 1))
 
 
 
@@ -289,6 +291,98 @@ class ModelsTests(TestCase):
 
         self.assertTrue(savedsearch in result0)
         self.assertFalse(savedsearch in result1)
+
+    def test_entity_get_similar_matching_requests(self):
+        users = ModelsTests.generate_user()
+        pla = Place()
+        pla.save()
+        
+        req1 = Request(name="Je cherche 3 paires de chaussettes noires", category="Clothes", \
+            place=pla, proposer=users[0], demander=users[1],\
+            state=Request.DONE)
+        req1.save()
+        req2 = Request(name="J'ai faim et il me faudrait donc logiquement un nain de jardin", category="Food", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.DONE)
+        req2.save()
+        req3 = Request(name="J'organise un barbeque pour 10 personnes", category="Food", place=pla,\
+            proposer=users[1], demander=users[0], state=Request.DONE)
+        req3.save()
+        req4 = Request(name="Bonjour, je donne un manteau et une paire de chaussures", category="Clothes",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.DONE)
+        req4.save()
+        req5 = Request(name="J'ai besoin d'aide pour construire un meuble IKEA", category="Service",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.DONE)
+        req5.save()
+        req6 = Request(name="J'offre 3h de tutorat si vous avez besoin d' aide en math ou physique", category="Service",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.DONE)
+        req6.save()
+        req7 = Request(name="J'organise un paint-ball pour 12 personnes. Je fourni le materiel", category="Game", \
+            place=pla, proposer=users[0], demander=users[1],\
+            state=Request.DONE)
+        req7.save()
+        req8 = Request(name="Je cuisine un repas chaud pour 1 personne", category="Food", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.DONE)
+        req8.save()
+        req9 = Request(name="je cherche un manteau chaud pour l'hiver", category="Clothes", place=pla,\
+            proposer=users[1], demander=users[0], state=Request.DONE)
+        req9.save()
+        req10 = Request(name="Salut, je cherche quelqu'un qui pourrait me conduire a un entretient d'embauche a Bruxelles", category="Service",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.DONE)
+        req10.save()
+        req11 = Request(name="je donne 4 paires de chaussettes, des gants et deux bonnets", category="Clothes",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.DONE)
+        req11.save()
+        req12 = Request(name="j'offre des vieux meubles : une armoire, une table et trois chaises", category="Furniture",\
+            place=pla, proposer=users[1], demander=users[0],\
+            state=Request.DONE)
+        req12.save()
+
+        prop1 = Request(name="Il me faudrait des nouveaux vetements pour l'hiver", category="Clothes", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop1.save()
+        prop2 = Request(name="J'ai des vieux jeux PC a donner: Age of Empire 2, ...", category="Game", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop2.save()
+        prop3 = Request(name="J'ai des vieux jeux PS a donner: Call of Duty, ...", category="Game", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop3.save()
+        prop4 = Request(name="Echarpe rouge a donner", category="Clothes", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop4.save()
+        prop5 = Request(name="Je cherche un pantalon chaud", category="Clothes", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop5.save()
+        prop6 = Request(name="J'ai un peu de tout mais surtout pas de chaussettes noires il fait chaud", category="Clothes", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop6.save()
+        prop7 = Request(name="Je voudrais un cafe chaud", category="Food", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop7.save()
+        prop8 = Request(name="Buffet fruit et legumes de saison", category="Food", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop8.save()
+        prop9 = Request(name="champignons de saison en rab. Il ont l'air un peu louches mais ils sont bons. Bon apres y'a un elephant rose qui essaye d'les voler", category="Food", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop9.save()
+        prop10 = Request(name="j'ai besoin d'aide pour cuisiner un repas de noel pour 15 personnes", category="Service", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop10.save()
+        prop11 = Request(name="Je peux vous aider a demenager. J'ai une camionnette assez grande pour la plupart des meubles", category="Service", place=pla,\
+            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+        prop11.save()
+
+        res = users[0].get_similar_matching_requests(5)
+        for i in res:
+            print(i.name)
+
+        self.assertTrue(len(res)==5)
+        
+        
 
 
     def test_entity_search(self):

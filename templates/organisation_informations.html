@@ -1,0 +1,53 @@
+{% load static %}
+{% load i18n %}
+
+<!-- ORGANISATION INFORMATIONS :
+                                    - NAME
+
+-->
+<div class="row">
+    <div class="col-md-6">
+        <!-- NAME -->
+        <div class=" row form_el">
+            <label for="inputOrgName" class="col-sm-4 control-label">{% trans "Organisation" %}*</label>
+	        <div class="col-sm-8">
+		        <input type="text" class="form-control" id="inputOrgName" name="org_name"
+                        placeholder="{% trans "Name of the organisation" %}" value="{{ org_name }}"
+                        style="border-color: {{ org_name_color }} !important;" required>
+	        </div>
+        </div>
+
+        <div class=" row form_el">
+            <label for="inputSite" class="col-sm-4 control-label">{% trans "Website"%}</label>
+	        <div class="col-sm-8">
+		        <input type="text" class="form-control" id="inputSite" name="org_site" value="{{ org_site }}" style="border-color: {{ org_site_color }} !important;" placeholder="{% trans "Organisation website"%}">
+	        </div>
+        </div>
+
+        <!-- USER NAME -->
+        <div class="row form_el">
+            <label for="inputPhone" class="col-sm-4 control-label">{% trans "Telephone"%}</label>
+            <div class="col-sm-8">
+		        <input type="text" class="form-control" id="inputPhone" name="org_phone" value="{{ org_phone }}" style="border-color: {{ org_phone_color }} !important;" placeholder="{% trans "Organisation telephone number"%}">
+	        </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+
+
+        <!-- FIRST NAME -->
+        <div class="row form_el">
+            <label for="inputDescription" class="col-md-offset-0  col-sm-3  col-sm-offset-1  control-label">{% trans "Description"%}</label>
+	        <div class="col-sm-8">
+		        <textarea class="form-control resizable" id="inputDescription" name="description"
+                          value="{{ description }}" style="border-color: {{ description_color }} !important;"
+                          placeholder="{% trans "Small organisation description"%}" rows="3"></textarea>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

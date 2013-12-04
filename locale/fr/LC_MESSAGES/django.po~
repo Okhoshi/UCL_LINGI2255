@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-04 12:44+0000\n"
+"POT-Creation-Date: 2013-12-03 20:48+0000\n"
 "PO-Revision-Date: 2013-12-03 14:20+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Dutch"
 msgstr "Néerlandais"
 
 #: templates/account.html:7 templates/add_representative.html:7
-#: templates/base.html:127 templates/concept.html:7 templates/contact.html:7
+#: templates/base.html:111 templates/concept.html:7 templates/contact.html:7
 #: templates/create.html:7 templates/individual_registration.html:7
 #: templates/login.html:8 templates/organisation_registration.html:7
 #: templates/profile.html:9 templates/register.html:8
@@ -54,7 +54,7 @@ msgstr "Recherche"
 msgid "Create"
 msgstr "Créer"
 
-#: templates/account.html:36 templates/profile.html:108
+#: templates/account.html:36 templates/profile.html:103
 msgid "History"
 msgstr "Historique"
 
@@ -107,16 +107,17 @@ msgstr "Entrer les données"
 msgid "Upload .xls"
 msgstr "Télécharger"
 
-#: templates/add_representative.html:30 templates/contact.html:69
+#: templates/add_representative.html:30 templates/contact.html:60
+#: templates/organisation_registration.html:23
 #: templates/personnal_informations.html:16
-#: templates/personnal_informations.html:19 templates/profile.html:61
-#: templates/profile.html.py:87 templates/profile.html:113
-#: templates/profile.html.py:139
+#: templates/personnal_informations.html:19 templates/profile.html:56
+#: templates/profile.html.py:82 templates/profile.html:108
+#: templates/profile.html.py:134
 msgid "Name"
 msgstr "Nom"
 
-#: templates/add_representative.html:37 templates/contact.html:81
-#: templates/contact.html.py:85 templates/personnal_informations.html:27
+#: templates/add_representative.html:37 templates/contact.html:72
+#: templates/contact.html.py:76 templates/personnal_informations.html:27
 #: templates/personnal_informations.html:31
 msgid "First name"
 msgstr "Prénom"
@@ -135,10 +136,9 @@ msgid "Add line"
 msgstr ""
 
 #: templates/add_representative.html:66 templates/add_representative.html:77
-#: templates/individual_registration.html:8
-#: templates/individual_registration.html:54 templates/login.html:25
-#: templates/organisation_registration.html:8
-#: templates/organisation_registration.html:54 templates/register.html:9
+#: templates/contact.html:167 templates/individual_registration.html:8
+#: templates/individual_registration.html:61 templates/login.html:25
+#: templates/organisation_registration.html:8 templates/register.html:9
 msgid "Register"
 msgstr "S'enregistrer"
 
@@ -155,88 +155,93 @@ msgstr "Télécharger"
 msgid "No file selected"
 msgstr "Aucun fichier selectioné"
 
-#: templates/address.html:7 templates/contact.html:105
+#: templates/address.html:7 templates/contact.html:95
+#: templates/non_required.html:7
 msgid "Address"
 msgstr "Adresse"
 
-#: templates/address.html:9 templates/contact.html:108
+#: templates/address.html:9 templates/contact.html:98
+#: templates/non_required.html:9
 msgid "Street"
 msgstr "Rue"
 
-#: templates/address.html:13 templates/contact.html:114
+#: templates/address.html:13 templates/contact.html:104
+#: templates/non_required.html:13
 msgid "N°"
 msgstr "N°"
 
 #: templates/address.html:19 templates/address.html.py:21
-#: templates/contact.html:122 templates/contact.html.py:125
-#: templates/create.html:50
+#: templates/contact.html:112 templates/contact.html.py:115
+#: templates/create.html:50 templates/non_required.html:19
+#: templates/non_required.html.py:21
 msgid "City"
 msgstr "Ville"
 
-#: templates/address.html:25 templates/contact.html:131
-#: templates/create.html:53
+#: templates/address.html:25 templates/contact.html:121
+#: templates/create.html:53 templates/non_required.html:25
 msgid "Post code"
 msgstr "Code postal"
 
-#: templates/address.html:31 templates/address.html.py:33
-#: templates/contact.html:139 templates/contact.html.py:142
+#: templates/address.html:32 templates/address.html.py:34
+#: templates/contact.html:129 templates/contact.html.py:132
+#: templates/non_required.html:31 templates/non_required.html.py:33
 msgid "Country"
 msgstr "Pays"
 
-#: templates/base.html:82
+#: templates/base.html:66
 msgid "Toggle Dropdown"
 msgstr ""
 
-#: templates/base.html:85
+#: templates/base.html:69
 msgid "My profile"
 msgstr "Mon Profil"
 
-#: templates/base.html:86
+#: templates/base.html:70
 msgid "My exchanges"
 msgstr "Mes échanges"
 
-#: templates/base.html:87
+#: templates/base.html:71
 msgid "Internal messages"
 msgstr "Messages privés"
 
-#: templates/base.html:89
+#: templates/base.html:73
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: templates/base.html:93 templates/login.html:9 templates/login.html.py:24
+#: templates/base.html:77 templates/login.html:9 templates/login.html.py:24
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/base.html:115
+#: templates/base.html:99
 msgid "Toggle navigation"
 msgstr "Bar de navigation"
 
-#: templates/base.html:120
+#: templates/base.html:104
 msgid "The real social network"
 msgstr ""
 
-#: templates/base.html:128 templates/concept.html:8
+#: templates/base.html:112 templates/concept.html:8
 msgid "Concept"
 msgstr "Concept"
 
-#: templates/base.html:129
+#: templates/base.html:113
 msgid "FAQ"
 msgstr "FAQ"
 
-#: templates/base.html:130
+#: templates/base.html:114
 msgid "News"
 msgstr "Nouvelles"
 
-#: templates/base.html:131 templates/contact.html:8
-#: templates/contact.html.py:178
+#: templates/base.html:115 templates/contact.html:8
+#: templates/contact.html.py:16
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:161
+#: templates/base.html:145
 msgid "Legal mentions"
 msgstr "Mention légales"
 
-#: templates/base.html:161
+#: templates/base.html:145
 msgid "Site map"
 msgstr "Plan du site"
 
@@ -310,11 +315,6 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/contact.html:16
-#, fuzzy
-msgid "Contact us"
-msgstr "Contact"
-
 #: templates/contact.html:18
 msgid ""
 "\n"
@@ -332,44 +332,48 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/contact.html:37 templates/individual_registration.html:23
-#: templates/organisation_registration.html:23
-msgid "There are errors in the form :"
-msgstr "Il y a des erreurs dans le formulaire :"
+#: templates/contact.html:33
+#, fuzzy
+msgid "Contact us"
+msgstr "Contact"
 
-#: templates/contact.html:52
+#: templates/contact.html:43
 msgid "Title"
 msgstr ""
 
-#: templates/contact.html:57
+#: templates/contact.html:48
 msgid "Mr."
 msgstr ""
 
-#: templates/contact.html:58
+#: templates/contact.html:49
 msgid "Ms."
 msgstr ""
 
-#: templates/contact.html:59
+#: templates/contact.html:50
 msgid "Mrs."
 msgstr ""
 
-#: templates/contact.html:60
+#: templates/contact.html:51
 msgid "Miss"
 msgstr ""
 
-#: templates/contact.html:73
+#: templates/contact.html:64
 #, fuzzy
 msgid " Name"
 msgstr "Nom"
 
-#: templates/contact.html:93 templates/contact.html.py:96
+#: templates/contact.html:84 templates/contact.html.py:87
 #: templates/personnal_informations.html:79
 #, fuzzy
 msgid " Email"
 msgstr "Email"
 
-#: templates/contact.html:157
+#: templates/contact.html:142
 msgid " Your request or comments"
+msgstr ""
+
+#: templates/contact.html:146
+msgid "Your request or comments"
 msgstr ""
 
 #: templates/create.html:8
@@ -438,7 +442,7 @@ msgstr "Catégorie"
 msgid "Specify"
 msgstr "Specifié"
 
-#: templates/create.html:123 templates/organisation_informations.html:41
+#: templates/create.html:123 templates/organisation_registration.html:37
 msgid "Description"
 msgstr "Description"
 
@@ -486,19 +490,9 @@ msgstr "Nos partenaires:"
 msgid "New individual"
 msgstr "Nouvel individu"
 
-#: templates/individual_registration.html:34
-msgid "Mandatory personal informations"
-msgstr ""
-
-#: templates/individual_registration.html:40
-msgid "Optional personal informations"
-msgstr ""
-
-#: templates/individual_registration.html:48
-#: templates/organisation_registration.html:48
-#, fuzzy
-msgid "Form validation"
-msgstr "Résumé des évaluations"
+#: templates/individual_registration.html:20
+msgid "There are errors in the form :"
+msgstr "Il y a des erreurs dans le formulaire :"
 
 #: templates/login.html:21
 msgid "Email address"
@@ -508,71 +502,61 @@ msgstr "Adresse Email"
 msgid "Password"
 msgstr "Mot de passe"
 
-#: templates/non_required.html:6
-msgid "Phone"
-msgstr "Téléphone"
-
-#: templates/non_required.html:8
-msgid "Phone number"
-msgstr "Numéro de téléphone"
-
-#: templates/non_required.html:14
-msgid "ID Card"
-msgstr "Numéro de la carte d'identité"
-
-#: templates/non_required.html:16
-msgid "ID card number"
-msgstr "Numéro de la carte d'identité"
-
-#: templates/non_required.html:22
-msgid "Facebook"
-msgstr "Facebook"
-
-#: templates/non_required.html:24
-msgid "Facebook page URL"
-msgstr "URL de la page Facebook"
-
-#: templates/organisation_informations.html:12 templates/register.html:27
-msgid "Organisation"
-msgstr "Organisation"
-
-#: templates/organisation_informations.html:15
-#, fuzzy
-msgid "Name of the organisation"
-msgstr "Le numéro de TVA de l'organisation"
-
-#: templates/organisation_informations.html:21
-msgid "Website"
-msgstr "Site"
-
-#: templates/organisation_informations.html:23
-msgid "Organisation website"
-msgstr "Site de l'oganisation"
-
-#: templates/organisation_informations.html:29
-msgid "Telephone"
-msgstr "Téléphone"
-
-#: templates/organisation_informations.html:31
-msgid "Organisation telephone number"
-msgstr "Téléphone de l'organisation"
-
-#: templates/organisation_informations.html:45
-msgid "Small organisation description"
-msgstr "Petit description de l'organisation"
-
 #: templates/organisation_registration.html:9
 msgid "New organisation"
 msgstr "Nouvelle organisation"
 
-#: templates/organisation_registration.html:34
-msgid "Person of reference informations"
-msgstr ""
+#: templates/organisation_registration.html:21 templates/register.html:27
+msgid "Organisation"
+msgstr "Organisation"
+
+#: templates/organisation_registration.html:28
+msgid "Organisation street"
+msgstr "Rue de l'organisation"
 
 #: templates/organisation_registration.html:39
-#, fuzzy
-msgid "Oganisation informations"
+msgid "Small organisation description"
+msgstr "Petit description de l'organisation"
+
+#: templates/organisation_registration.html:44
+msgid "Telephone"
+msgstr "Téléphone"
+
+#: templates/organisation_registration.html:46
+msgid "Organisation telephone number"
+msgstr "Téléphone de l'organisation"
+
+#: templates/organisation_registration.html:51
+msgid "VAT*"
+msgstr "TVA*"
+
+#: templates/organisation_registration.html:53
+msgid "Organisation VAT number"
+msgstr "Numéro de TVA de l'organisation"
+
+#: templates/organisation_registration.html:58
+msgid "Website"
+msgstr "Site"
+
+#: templates/organisation_registration.html:60
+msgid "Organisation website"
+msgstr "Site de l'oganisation"
+
+#: templates/organisation_registration.html:68
+msgid "Transfer emails to indicated address"
+msgstr "Transférer les emails pour les adresses indiqués"
+
+#: templates/organisation_registration.html:74
+msgid "Captcha"
+msgstr "Captcha"
+
+#: templates/organisation_registration.html:89
+msgid "Organisation logo"
 msgstr "Logo de l'organisation"
+
+#: templates/organisation_registration.html:91
+msgid "Change"
+msgstr "Changer"
 
 #: templates/personnal_informations.html:39
 msgid "Birthdate"
@@ -628,60 +612,43 @@ msgstr "Confirmer le mot de passe"
 msgid "Members"
 msgstr "Membres"
 
-#: templates/profile.html:28
-msgid "of positive evaluations."
-msgstr ""
-
-#: templates/profile.html:28
-#, fuzzy
-msgid "evaluations"
-msgstr "Résumé des évaluations"
-
-#: templates/profile.html:56
+#: templates/profile.html:51
 msgid "Current offers"
 msgstr "Offres courantes"
 
-#: templates/profile.html:62
+#: templates/profile.html:57
 msgid "Demander"
 msgstr "Demandeur"
 
-#: templates/profile.html:63 templates/profile.html.py:89
-#: templates/profile.html:116
+#: templates/profile.html:58 templates/profile.html.py:84
+#: templates/profile.html:111
 msgid "Date"
 msgstr "Date"
 
-#: templates/profile.html:82
+#: templates/profile.html:77
 msgid "Current demands"
 msgstr "Demandes actuelles"
 
-#: templates/profile.html:88
+#: templates/profile.html:83
 msgid "Proposer"
 msgstr "Proposeur"
 
-#: templates/profile.html:114
+#: templates/profile.html:109
 msgid "Action"
 msgstr "Action"
 
-#: templates/profile.html:115 templates/profile.html.py:140
+#: templates/profile.html:110 templates/profile.html.py:135
 msgid "With"
 msgstr "Avec"
 
-#: templates/profile.html:134
+#: templates/profile.html:129
 msgid "Evaluations summary"
 msgstr "Résumé des évaluations"
 
-#: templates/profile.html:141
+#: templates/profile.html:136
 #, fuzzy
 msgid "Evaluation"
 msgstr "Résumé des évaluations"
-
-#: templates/profile_pic.html:4
-msgid "Profile picture"
-msgstr "Photo de profil"
-
-#: templates/profile_pic.html:10
-msgid "Browse"
-msgstr ""
 
 #: templates/register.html:17
 msgid "I am an individual, I want"
@@ -699,23 +666,23 @@ msgstr "Individuel"
 msgid "I want to create an account for the organisation I represent."
 msgstr "Je veux créer un compte pour une organisation que je représente"
 
-#: website/forms.py:29 website/forms.py:37
+#: website/forms.py:24 website/forms.py:32
 msgid "This field can only contain uppercase and lowercase letters"
 msgstr "Ce champ peut seulement contenir the lettres majuscules et minuscules"
 
-#: website/forms.py:47
+#: website/forms.py:41
 msgid "This username is already used"
 msgstr "Ce nom d'utilisateur est déjà utilisé"
 
-#: website/forms.py:51
+#: website/forms.py:45
 msgid "The username must be between 3 and 15 characters"
 msgstr "Le username doit contenir entre 3 et 15 charactères"
 
-#: website/forms.py:60
+#: website/forms.py:54
 msgid "Insert a valid email"
 msgstr "Insérer une adresse email valide"
 
-#: website/forms.py:71
+#: website/forms.py:64
 msgid ""
 "The password must be between 4 and 20 characters and only contain "
 "alphanumeric characters and the ',;:=?./+-_)('"
@@ -723,66 +690,64 @@ msgstr ""
 "Le mot de passe doit contenir entre 4 et 20 caractères et peut seulement "
 "contenir de caractères alphanumériques et les symboles ',;:=?./+-_)('"
 
-#: website/forms.py:79
+#: website/forms.py:72
 msgid "This street"
 msgstr "Cette rue"
 
-#: website/forms.py:79 website/forms.py:129
+#: website/forms.py:72 website/forms.py:121
 msgid "can only contain alphanumeric characters"
 msgstr "peut seulement contenir des caractères alphanumériques"
 
-#: website/forms.py:86
+#: website/forms.py:79
 msgid "The street number"
 msgstr "Le numéro de la rue"
 
-#: website/forms.py:86
+#: website/forms.py:79
 msgid "is a number composed of 1 to 5 digits"
 msgstr "est un nombre composé de 1 à 5 chiffres"
 
-#: website/forms.py:93
+#: website/forms.py:86
 msgid "The city"
 msgstr "Le ville"
 
-#: website/forms.py:93 website/forms.py:101 website/forms.py:121
+#: website/forms.py:86 website/forms.py:94 website/forms.py:113
 msgid "can only contain alphanumeric characters or symbols"
 msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
 
-#: website/forms.py:101
+#: website/forms.py:94
 msgid "The country"
 msgstr "Le pays"
 
-#: website/forms.py:108
+#: website/forms.py:101
 msgid "The post code"
 msgstr "Le code postal"
 
-#: website/forms.py:108
+#: website/forms.py:101
 msgid "is a number composed of 1 to 9 digits"
 msgstr "est un nombre composé de 1 à 9 chiffres"
 
-#: website/forms.py:121
+#: website/forms.py:113
 msgid "The organisation name"
 msgstr "Le nom de l'organisation"
 
-#: website/forms.py:129
+#: website/forms.py:121
 msgid "The VAT of the organisation"
 msgstr "Le numéro de TVA de l'organisation"
 
 #: website/views.py:52
-msgid ""
-"This account has been disabled. Please contact the administrator of this "
-"site."
+msgid "This account has been disabled. "
 msgstr ""
 
 #: website/views.py:56
 msgid "This username or password is not valid."
 msgstr "Ce nom d'utilisateur ou mot de passa est invalide"
 
-#: website/views.py:249
+#: website/views.py:212
 #, fuzzy
 msgid "demanded"
 msgstr "Demandeur"
 
-#: website/views.py:252
+#: website/views.py:215
 #, fuzzy
 msgid "proposed"
 msgstr "Proposeur"
@@ -835,24 +800,6 @@ msgstr "Prénom de la personne:"
 msgid "last name: "
 msgstr "Nom:"
 
-#~ msgid "Organisation street"
-#~ msgstr "Rue de l'organisation"
-
-#~ msgid "VAT*"
-#~ msgstr "TVA*"
-
-#~ msgid "Organisation VAT number"
-#~ msgstr "Numéro de TVA de l'organisation"
-
-#~ msgid "Transfer emails to indicated address"
-#~ msgstr "Transférer les emails pour les adresses indiqués"
-
-#~ msgid "Captcha"
-#~ msgstr "Captcha"
-
-#~ msgid "Change"
-#~ msgstr "Changer"
-
 #, fuzzy
 #~ msgid " First name"
 #~ msgstr "Prénom"
@@ -864,8 +811,29 @@ msgstr "Nom:"
 #~ msgid "Bonjour les zéros !"
 #~ msgstr "Bonjour les zéros!"
 
+#~ msgid "Phone"
+#~ msgstr "Téléphone"
+
+#~ msgid "Phone number"
+#~ msgstr "Numéro de téléphone"
+
+#~ msgid "ID Card"
+#~ msgstr "Numéro de la carte d'identité"
+
+#~ msgid "ID card number"
+#~ msgstr "Numéro de la carte d'identité"
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Facebook page URL"
+#~ msgstr "URL de la page Facebook"
+
 #~ msgid "Only show my username"
 #~ msgstr "Montrer seulement mon nom d'utilisateur"
 
 #~ msgid "Send mails on my personnal address"
 #~ msgstr "Envoyer des email via mon adresse personnel"
+
+#~ msgid "Profile picture"
+#~ msgstr "Photo de profil"
