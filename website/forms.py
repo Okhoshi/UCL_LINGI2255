@@ -6,6 +6,8 @@ from recaptcha.client import captcha
 from django.conf import settings
 
 # Form to add representatives
+
+
 class RForm(forms.Form):
     SOLIDAREITCOLOR = '#e1007a'
 
@@ -74,125 +76,126 @@ class MForm(forms.Form):
         self.colors = dict()
         self.errorlist = dict()
         ### CAPTCHA ###
-        response = captcha.submit(form.get('recaptcha_challenge_field'), form.get('recaptcha_response_field'), settings.RECAPTCHA_PRIVATE_KEY, request.META.get('REMOTE_ADDR'))
+        response = captcha.submit(form.get('recaptcha_challenge_field'),
+                                  form.get('recaptcha_response_field'),
+                                  settings.RECAPTCHA_PRIVATE_KEY,
+                                  request.META.get('REMOTE_ADDR'))
+        if not response.is_valid:
+            self.errorlist[_("Captcha")] = _("The captcha is invalid")
 
         self.is_valid = response.is_valid
 
         ### LAST NAME ###
-        if form['name'] != ''and match(r"^[a-zA-Z ]*$", form['name']):
-            self.name = form['name']
+        if form.get('name', '') != '' and match(r"^[a-zA-Z ]*$", form.get('name', '')):
+            self.name = form.get('name', '')
         else:
             self.is_valid = False
             self.colors['name_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Name'] = _("This field can only contain uppercase and lowercase letters")
+            self.errorlist[_("Name")] = _("This field can only contain uppercase and lowercase letters")
 
         ### FIRST NAME ###
-        if form['first_name'] != '' and match(r"^[a-zA-Z ]*$", form['name']):
-            self.first_name = form['first_name']
+        if form.get('first_name', '') != '' and match(r"^[a-zA-Z ]*$", form.get('first_name', '')):
+            self.first_name = form.get('first_name', '')
         else:
             self.is_valid = False
             self.colors['first_name_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['First name'] = _("This field can only contain uppercase and lowercase letters")
+            self.errorlist[_("First name")] = _("This field can only contain uppercase and lowercase letters")
+
+        ### BIRTHDATE ###
+        if form.get('birthdate', '') != '':
+            self.birthdate = form.get('birthdate', '')
+        else:
+            self.is_valid = False
+            self.colors['birthdate_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Birthdate")] = _("This field can only contain a birthdate")
+
+        self.gender = form.get('gender')
 
         ### USER NAME ###
-        if form.__contains__('user_name'):
-            if form['user_name'] != '' and match(r"^.{3,15}$", form['user_name']):
-                if User.objects.filter(username=form['user_name']).count() == 0:
-                    self.user_name = form['user_name']
-                else:
-                    self.is_valid = False
-                    self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-                    self.errorlist['User name'] = _("This username is already used")
+        if form.get('user_name', '') != '' and match(r"^.{3,15}$", form.get('user_name', '')):
+            if User.objects.filter(username=form.get('user_name', '')).count() == 0:
+                self.user_name = form.get('user_name', '')
             else:
                 self.is_valid = False
                 self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['User name'] = _("The username must be between 3 and 15 characters")
+                self.errorlist[_("User name")] = _("This username is already used")
+        else:
+            self.is_valid = False
+            self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("User name")] = _("The username must be between 3 and 15 characters")
 
 
         ### EMAIL ###
-        if form['email'] != '' and match(r"[^@]+@[^@]+\.[^@]+", form['email']):
-            self.email = form['email']
+        if form.get('email', '') != '' and match(r"[^@]+@[^@]+\.[^@]+", form.get('email', '')):
+            self.email = form.get('email', '')
         else:
             self.is_valid = False
             self.colors['email_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Email'] = _("Insert a valid email")
+            self.errorlist[_("Email")] = _("Insert a valid email")
             
         ### PASSWORD ###
-        if form.__contains__('passwd'):
-            if form['passwd'] == form['passwdC'] and form['passwd'] != ''\
-                    and match(r"^[A-Za-z0-9,;:=?./+-_)(]{4,20}$", form['passwd']):
-                self.passwd = form['passwd']
-            else:
-                self.is_valid = False
-                self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
-                self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['Password'] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
+        if form.get('passwd', '') == form.get('passwdC', '') and form.get('passwd', '') != ''\
+                and match(r"^[A-Za-z0-9,;:=?./+-_)(]{4,20}$", form.get('passwd', '')):
+            self.passwd = form.get('passwd', '')
+        else:
+            self.is_valid = False
+            self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
+            self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Password")] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
 
         ### ADDRESS ##
-        if form['street'] != ''and match(r"^[a-zA-Z0-9 ]*$", form['name']):
-            self.street = form['street']
+        if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ]*$", form.get('street', '')):
+            self.street = form.get('street', '')
         else:
             self.is_valid = False
             self.colors['street_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Street'] = _("This street") + " " +_("can only contain alphanumeric characters")
+            self.errorlist[_("Street")] = _("This street") + " " +_("can only contain alphanumeric characters")
 
-        if form['streetnumber'] != '' and match(r"^[0-9]{1,5}$", form['streetnumber']):
-            self.streetnumber = form['streetnumber']
+        if form.get('streetnumber', '') != '' and match(r"^[0-9]{1,5}$", form.get('streetnumber', '')):
+            self.streetnumber = form.get('streetnumber', '')
         else:
             self.is_valid = False
             self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['Street number'] = _("The street number")+ " "+  _("is a number composed of 1 to 5 digits")
+            self.errorlist[_("Street number")] = _("The street number")+ " "+  _("is a number composed of 1 to 5 digits")
     
-        if form['city'] != '' and match(r"^[a-zA-Z0-9 -_]*$", form['city']):
-            self.city = form['city']
+        if form.get('city', '') != '' and match(r"^[a-zA-Z0-9 -_]*$", form.get('city', '')):
+            self.city = form.get('city', '')
         else:
             self.is_valid = False
             self.colors['city_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['city'] = _("The city") + " " + _("can only contain alphanumeric characters or symbols")
-
+            self.errorlist[_("City")] = _("The city") + " " + _("can only contain alphanumeric characters or symbols")
                 
-        if form['country'] != '' and match(r"^[a-zA-Z0-9 -_]*$", form['country']):
-            self.country = form['country']
+        if form.get('country', '') != '' and match(r"^[a-zA-Z0-9 -_]*$", form.get('country', '')):
+            self.country = form.get('country', '')
         else:
             self.is_valid = False
             self.colors['country_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['country'] = _("The country") + " " + _("can only contain alphanumeric characters or symbols")
+            self.errorlist[_("Country")] = _("The country") + " " + _("can only contain alphanumeric characters or symbols")
                 
-        if form['postcode'] != '' and match(r"^[0-9]{1,9}$", form['postcode']):
-            self.postcode = form['postcode']
+        if form.get('postcode', '') != '' and match(r"^[0-9]{1,9}$", form.get('postcode', '')):
+            self.postcode = form.get('postcode', '')
         else:
             self.is_valid = False
             self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist['postcode'] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
+            self.errorlist[_("Postcode")] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
 
-        if form.__contains__('facebook'):
-            self.facebook = form['facebook']
+        self.facebook = form.get('facebook', '')
 
         if form.__contains__('org_name'):
             self.type = MForm.ORG
 
-            if form['org_name'] != '' and match(r"^[A-Za-z0-9,;:=?./+-_]*$", form['org_name']):
-                self.org_name = form['org_name']
+            if form.get('org_name', '') != '' and match(r"^[A-Za-z0-9,;:=?./+-_]*$", form.get('org_name', '')):
+                self.org_name = form.get('org_name', '')
             else:
                 self.is_valid = False
                 self.colors['org_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['org_name'] = _("The organisation name") + " "+ _("can only contain alphanumeric characters or symbols")
-                
-            
-            if form['VAT'] == '' or match(r"^[A-Z0-9]*$", form['VAT']):
-                self.VAT = form['VAT']
-            else:
-                self.is_valid = False
-                self.colors['VAT_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['VAT'] = _("The VAT of the organisation") + " "+ _("can only contain alphanumeric characters")
-            
-            self.org_site = form['org_site']
-            self.org_phone = form['org_phone']
-            self.description = form['description']
+                self.errorlist[_("Organisation name")] = _("The organisation name") + " "+ _("can only contain alphanumeric characters or symbols")
+
+            self.org_site = form.get('org_site', '')
+            self.org_phone = form.get('org_phone', '')
+            self.description = form.get('description', '')
             
         else:
             self.type = MForm.IND
-            if form.__contains__('phone'):
-                self.phone = form['phone']
-            if form.__contains__('id_card'):
-                self.id_card = form['id_card']
+            self.phone = form.get('phone', '')
+            self.id_card = form.get('id_card', '')
