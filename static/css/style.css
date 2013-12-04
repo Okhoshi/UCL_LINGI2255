@@ -168,7 +168,9 @@ a:hover {
         only screen and (device-width: 800px), only screen and (max-width: 767px) {
 	.flex-video { padding-top: 0; }
 }
-
+.modal_custom {
+    padding-top: 100px;
+}
 /**********************
  *** register.html ****
  **********************/

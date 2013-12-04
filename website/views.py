@@ -94,9 +94,25 @@ def contact(request):
 
     return render(request, 'contact.html', {})
 
-
+@login_forbidden()
 def register(request):
-    return render(request, 'register.html', {})
+    if request.method == 'GET':
+        type = request.GET.get('type', False)
+        if type:
+            print(type)
+            if type == "1":
+                return render(request, 'individual_registration.html', {})
+            elif type == "2":
+                return render(request, 'organisation_registration.html', {})
+            else:
+                return render(request, 'register.html', {})
+        else:
+            return render(request, 'register.html', {})
+    elif request.method =='POST':
+        print("holly crap")
+        return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {})
 
 
 def individual_registration(request):
