@@ -546,8 +546,8 @@ def analyse_request(request, type):
 
 
 def create_new_user(request, form):
-    handle_uploaded_file(request.FILES['profile_pic'], 'media/pic/' + form.user_name)
-    handle_uploaded_file(request.FILES['id_card_pic'], 'media/id_card/' + form.user_name)
+    handle_uploaded_file(request.FILES.get('profile_pic'), 'media/pic/' + form.user_name)
+    handle_uploaded_file(request.FILES.get('id_card_pic'), 'media/id_card/' + form.user_name)
     p = Place(country=form.country, postcode=form.postcode,
               city=form.city, street=form.street,
               number=form.streetnumber)
@@ -584,6 +584,7 @@ def create_new_organisation(request, form):
 
 
 def handle_uploaded_file(f, path):
-    with open(path, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
+    if f is not None:
+        with open(path, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
