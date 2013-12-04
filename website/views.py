@@ -103,20 +103,14 @@ def contact(request):
 def register(request):
     """ handle the registration of a user
     """
+    type = request.GET.get('type', False)
+
     if request.method == 'GET':
-        type = request.GET.get('type', False)
-        if type:
-            if type == "1":
-                return render(request, 'individual_registration.html', {})
-            elif type == "2":
-                return render(request, 'organisation_registration.html', {})
-            else:
-                return render(request, 'register.html', {})
-        else:
-            return render(request, 'register.html', {})
-    elif request.method =='POST':
-        type = request.GET.get('type', False)
-        if type:
+        pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+        return render(request, pages.get(type, 'register.html'), {})
+
+    elif request.method == 'POST':
+        if request.GET.get('type', False):
             return analyse_request(request, type)
         else:
             return render(request, 'register.html', {})
@@ -126,16 +120,64 @@ def register(request):
 def analyse_request(request, type):
     form = MForm(request)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
-    if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            print("do something !")
-            return render(request, pages[type], request.POST)
+    if form.is_valid:
+        if type == "1":
+            # individual code
+            create_new_user(request, form)
+        elif type == "2":
+            # organisation code
+            create_new_organisation(request, form)
         else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, pages[type], dictionaries)
+            return render(request, 'register.html', request.POST)
+        return render(request, pages[type], request.POST)
+    else:
+        error = True
+        dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+        dictionaries['errorlist'] = form.errorlist
+        print(form.type)
+        return render(request, pages[type], dictionaries)
+
+def create_new_user(request, form):
+    handle_uploaded_file(request.FILES['profile_pic'], 'media/pic/' + form.user_name)
+    handle_uploaded_file(request.FILES['id_card_pic'], 'media/id_card/' + form.user_name)
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    user = User.objects.create_user(form.user_name,
+                                    form.email,
+                                    form.passwd,
+                                    first_name=form.first_name,
+                                    last_name=form.name,
+                                    location=p, birth_day=form.birthdate, gender=form.gender)
+    # Log on the newly created user
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+
+def create_new_organisation(request, form):
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    assoc = Association(location=p, name=form.org_name, description=form.description)
+    assoc.save()
+    user = AssociationUser.objects.create_user(form.user_name,
+                                               form.email,
+                                               form.passwd,
+                                               assoc, 0,
+                                               first_name=form.first_name,
+                                               last_name=form.name)
+
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+def handle_uploaded_file(f, path):
+    with open(path, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 @login_required
 def add_representative(request):
@@ -144,71 +186,6 @@ def add_representative(request):
         # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :)
 
     return render(request, 'add_representative.html', {})
-
-
-def individual_registration(request):
-    if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            print(request.FILES.items())
-            handle_uploaded_file(request.FILES['file'])
-            p = Place(country=form.country, postcode=form.postcode, \
-                      city=form.city, street=form.street, \
-                      number=form.streetnumber)
-            p.save()
-            user = User.objects.create_user(form.user_name, \
-                                            form.email, \
-                                            form.passwd, \
-                                            first_name=form.first_name, \
-                                            last_name=form.name, \
-                                            location=p)
-            # Log on the newly created user
-            usr = authenticate(username=form.user_name, password=form.passwd)
-            Dlogin(request, usr)
-            return redirect('account')
-        else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, 'individual_registration.html', dictionaries)
-
-    return render(request, 'individual_registration.html', {})
-
-
-def handle_uploaded_file(f):
-    with open('media/profilepics/t', 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-
-def organisation_registration(request):
-    if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            p = Place(country=form.country, postcode=form.postcode,
-                      city=form.city, street=form.street,
-                      number=form.streetnumber)
-            p.save()
-            assoc = Association(location=p, name=form.org_name, description=form.description)
-            assoc.save()
-            user = AssociationUser.objects.create_user(form.user_name,
-                                                       form.email,
-                                                       form.passwd,
-                                                       assoc, 0,
-                                                       first_name=form.first_name,
-                                                       last_name=form.name)
-
-            usr = authenticate(username=form.user_name, password=form.passwd)
-            Dlogin(request, usr)
-            return redirect('account')
-        else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, 'organisation_registration.html', dictionaries)
-
-    return render(request, 'organisation_registration.html', {})
-
 
 @login_required
 def account(request):

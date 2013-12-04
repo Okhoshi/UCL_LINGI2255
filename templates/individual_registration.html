@@ -21,11 +21,11 @@
             <div class="row warning">
                 <div class="col-md-12 ">
                     <h5>{% trans "There are errors in the form :" %}</h5>
-                    <ul>
+                    <dl class="dl-horizontal">
                     {% for errorname, errordesc in errorlist.items %}
-                        <li>{{ errorname }} : {{ errordesc }}</li>
+                        <dt>{{ errorname }} :</dt><dd>{{ errordesc }}</dd>
                     {% endfor %}
-                    </ul>
+                    </dl>
                 </div>
             </div>
         {% endif %}
