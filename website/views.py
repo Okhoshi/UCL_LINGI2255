@@ -119,14 +119,27 @@ def add_representative(request):
     if request.method == 'POST':
         form = RForm(request)
         if form.is_valid:
-            pass
-            # return redirect('account')
-        else:
-            print(form.errorlist)
-            return render(request, 'add_representative.html', \
-                {'errorlist':form.errorlist})
+            for row in form.rows:
+                this_user = DUser.objects.get(username=request.user)
+                is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
 
-    return render(request, 'add_representative.html', {})
+                if (is_association_user):
+                    au = is_association_user[0]
+                    entity = au.entity
+                    print('Yess')
+
+                # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+                # auser = AssociationUser.objects.create_user(username="au1", \
+                #     password="anz", email="i", level=0, association=)
+                # auser.save()
+        else:
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_representative.html', \
+                {'errorlist':form.errorlist,\
+                 'rows':rows})
+
+    return render(request, 'add_representative.html', {'rows':[{}]})
 
 
 def individual_registration(request):
