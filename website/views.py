@@ -118,12 +118,13 @@ def register(request):
 def add_representative(request):
     if request.method == 'POST':
         form = RForm(request)
-
-        
-
-        # for i in range(len(last_name)):
-        #     print('We add ', last_name[i], first_name[i], email[i], level[i])
-            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
+        if form.is_valid:
+            pass
+            # return redirect('account')
+        else:
+            print(form.errorlist)
+            return render(request, 'add_representative.html', \
+                {'errorlist':form.errorlist})
 
     return render(request, 'add_representative.html', {})
 
