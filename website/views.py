@@ -214,3 +214,7 @@ def add_representative(request):
 def logout(request):
     Dlogout(request)
     return redirect('home')
+
+@login_required
+def messages(request):
+    return render(request, 'messages.html', {'range': list(range(18))})
