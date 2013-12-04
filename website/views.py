@@ -603,14 +603,10 @@ def create_new_organisation(request, form):
         handle_uploaded_file(request.FILES.get('profile_pic'),
                              request.FILES.get('profile_pic').name,
                              'media/pic/' + form.user_name)
-    if request.FILES.get('id_card_pic') is not None:
-        handle_uploaded_file(request.FILES.get('id_card_pic'),
-                             request.FILES.get('profile_pic').name,
-                             'media/id_card/' + form.user_name)
-    if request.FILES.get('profile_pic') is not None:
+    if request.FILES.get('org_pic') is not None:
         handle_uploaded_file(request.FILES.get('org_pic'),
                              request.FILES.get('org_pic').name,
-                             'media/pic/' + form.user_name)
+                             'media/pic/' + form.org_name)
     p = Place(country=form.country, postcode=form.postcode,
               city=form.city, street=form.street,
               number=form.streetnumber)
