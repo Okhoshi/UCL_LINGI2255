@@ -11,7 +11,7 @@
 
 
 {% block content %}
-<div class="alert alert-danger"><strong>Warning!</strong> You have 4 unread messages. You can read them in your <strong><a href="" class="alert-link">mailbox</a></strong>.</div>
+<div class="alert alert-danger"><strong>{% trans "Warning!" %}</strong> {% trans "You have " %}4 {% trans "unread messages."%} {% trans "You can read them in your" %} <strong><a href="" class="alert-link">{% trans "mailbox" %}</a></strong>.</div>
 <div class="row">
 	<div class="col-md-8 col-sm-7 text-center">
 		<h3>
@@ -98,12 +98,12 @@
 
 	<div class="panel panel-info box">
 		<div class="panel-heading">
-			<h3 class="panel-title">{% trans "Groups" %}</h3>
+			<h3 class="panel-title">{% trans "Upcoming requests" %}</h3>
 		</div>
 		<ul class="list-unstyled">
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
-			<li>Lorem ipsum dolor sit amet.</li>
+			{% for elem in upcoming_requests %}
+			<li>{{ elem.0 }} - {{ elem.1 }}</li>
+			{% endfor %}
 		</ul>
 	</div>
 
