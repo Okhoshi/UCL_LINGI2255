@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from django.utils.translation import ugettext as _
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -80,10 +79,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+gettext = lambda x: x
 LANGUAGES = (
-    ('fr', _('French')),
-    ('en', _('English')),
-    ('nl', _('Dutch')),
+    ('fr', gettext('French')),
+    ('en', gettext('English')),
+    ('nl', gettext('Dutch')),
 )
 
 
