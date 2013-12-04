@@ -404,10 +404,12 @@ def search(request):
 
     if request.method == 'POST':
         search_field = request.POST['search']
-        print(search_field)
         search_object = SavedSearch(search_field=search_field, category="Jardin")
-        search_results = usr_entity.search(search_object, 1)
-        print(search_results)
+        search_results_request = usr_entity.search(search_object, 1)
+        for request in search_results_request:
+            print(request)
+            (req_initiator, req_type) = request.get_initiator()
+            search_results.append((request))
     return render(request, 'search.html', {'search_results':search_results})
 
 
