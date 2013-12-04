@@ -319,7 +319,8 @@ def profile(request):
     current_offers = profile_current_offers(current_offers)
     current_demands = profile_current_demands(current_demands)
     old_requests = profile_old_requests(old_requests, this_entity)
-    feedbacks = profile_feedbacks(feedbacks)
+    if feedbacks:
+        feedbacks = profile_feedbacks(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
