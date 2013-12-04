@@ -51,6 +51,8 @@
                     $('#ancre').css('margin-top', difference + 'px');
                 }
             });
+
+        /* change the button content according to the file beeing selected */
         $('input[type=file]').change(function(e){
         var ins=$(this);
         var t = jQuery.trim(ins.val());
