@@ -16,57 +16,52 @@ class RForm(forms.Form):
 
         self.is_valid = True
 
-        all_valid = True
         last_names = request.POST.getlist('last_name[]')
-        for last_name in last_names:
-            if not (last_name and match(r"^[a-zA-Z ]*$", last_name)):
-                print('Noooo')
-                all_valid = False
-                self.is_valid = False
-                self.colors['last_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['Name'] = _("This field can only contain uppercase and lowercase letters")
-        if all_valid:
-            self.last_names = last_names
-
-        all_valid = True
         first_names = request.POST.getlist('first_name[]')
-        for first_name in first_names:
-            if not (first_name and match(r"^[a-zA-Z ]*$", first_name)):
-                all_valid = False
-                self.is_valid = False
-                self.colors['first_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['First name'] = _("This field can only contain uppercase and lowercase letters")
-        if all_valid:
-            self.first_names = first_names
-
-        all_valid = True
         emails = request.POST.getlist('email[]')
-        for email in emails:
-            if not (email and match(r"[^@]+@[^@]+\.[^@]+", email)):
-                all_valid = False
-                self.is_valid = False
-                self.colors['email_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['Email'] = _("Insert a valid email")
-        if all_valid:
-            self.emails = emails
-
-        all_valid = True
         levels = request.POST.getlist('memberLevel[]')
-        for level in levels:
-            if not (level != '' and match(r"^[0-9]{1,9}$", level)):
-                all_valid = False
+
+        self.rows = []
+        for index,_ in enumerate(last_names):
+            row = {}
+            isEmpty = True
+            if last_names[index] and match(r"^[a-zA-Z ]*$", last_names[index]):
+                row['last_name'] = last_names[index]
+                isEmpty = False
+            else:
+                row['last_name'] = u''
+                row['last_name_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.colors['level_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist['Level'] = _("The level should be a number")
-        if all_valid:
-            self.levels = levels
+                self.errorlist['Name'] = "This field can only contain uppercase and lowercase letters"
 
-        if self.is_valid:
-            print(self.last_names)
-            print(self.first_names)
-            print(self.emails)
-            print(self.levels)
+            if first_names[index] and match(r"^[a-zA-Z ]*$", first_names[index]):
+                row['first_name'] = first_names[index]
+                isEmpty = False
+            else:
+                row['first_name'] = u''
+                row['first_name_color'] = MForm.SOLIDAREITCOLOR
+                self.is_valid = False
+                self.errorlist['First name'] = "This field can only contain uppercase and lowercase letters"
 
+            if emails[index] and match(r"[^@]+@[^@]+\.[^@]+", emails[index]):
+                row['email'] = emails[index]
+                isEmpty = False
+            else:
+                row['email'] = u''
+                row['email_color'] = MForm.SOLIDAREITCOLOR
+                self.is_valid = False
+                self.errorlist['Email'] = "Insert a valid email" # TODO : TRADUIRE ET AJOUTER _() !!
+
+            if levels[index] != '' and match(r"^[0-9]{1,9}$", levels[index]):
+                row['level'] = levels[index]
+            else:
+                row['level'] = u''
+                row['level_color'] = MForm.SOLIDAREITCOLOR
+                self.is_valid = False
+                self.errorlist['Level'] = "The level should be a number"
+
+            if not isEmpty:
+                self.rows.append(row)
 
 class MForm(forms.Form):
     #Static variables

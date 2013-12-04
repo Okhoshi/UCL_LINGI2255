@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="/">{% trans "Home" %}</a></li>
+    <li><a href="active">{% trans "FAQ" %}</a></li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+        <h3 class="in_front"> {% trans "FAQ" %} </h3>
+        <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+            <h4 class="in_front"> {% trans "How can I get started?" %} </h4>
+            <p>
+                {% blocktrans %}
+                The "LOG IN" button in the top-right corner will take you to the registration page. Simply fill ou the form to join the community!
+                {% endblocktrans %}
+            </p>
+        </div>
+        <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+            <h4 class="in_front"> {% trans "What if I have nothing to give?" %} </h4>
+            <p>
+                {% blocktrans %}
+                Solidarity is not only about material goods. Offer a bit of your time to help someone out and you can already make a difference.
+                {% endblocktrans %}
+            </p>
+        </div>
+        <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+            <h4 class="in_front"> {% trans "What is the 'verified' status?" %} </h4>
+            <p>
+                {% blocktrans %}
+                The verified status is given only by staff of the Solidare-IT team to members who have given sufficient information to verify their identity.
+                {% endblocktrans %}
+            </p>
+        </div>
+        <div class="col-lg-8 col-lg-offset-0 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+            <h4 class="in_front"> {% trans "No one replies to my requests, what can I do?" %} </h4>
+            <p>
+                {% blocktrans %}
+                Make sure to give relevant names to your requests to get as many matches as possible. You can also try replying to others and get your rating up. Finally, you can submit a scan of your ID card to obtain the verified status; people are more likely to trust those who have been checked by our organisation.
+                {% endblocktrans %}
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

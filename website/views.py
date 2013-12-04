@@ -118,14 +118,28 @@ def register(request):
 def add_representative(request):
     if request.method == 'POST':
         form = RForm(request)
+        if form.is_valid:
+            for row in form.rows:
+                this_user = DUser.objects.get(username=request.user)
+                is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
 
-        
+                if (is_association_user):
+                    au = is_association_user[0]
+                    entity = au.entity
+                    print('Yess')
 
-        # for i in range(len(last_name)):
-        #     print('We add ', last_name[i], first_name[i], email[i], level[i])
-            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
+                # TODO : Enregistrer les utilisateurs et envoyer le mail
 
-    return render(request, 'add_representative.html', {})
+                # auser = AssociationUser.objects.create_user(username="au1", \
+                #     password="anz", email="i", level=0, association=)
+                # auser.save()
+        else:
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_representative.html', \
+                {'errorlist':form.errorlist,\
+                 'rows':rows})
+
+    return render(request, 'add_representative.html', {'rows':[{}]})
 
 
 def individual_registration(request):
@@ -191,6 +205,11 @@ def organisation_registration(request):
 
     return render(request, 'organisation_registration.html', {})
 
+def search(request):
+    return render(request, 'search.html', {})
+
+def faq(request):
+    return render(request, 'faq.html', {})
 
 @login_required
 def account(request):

@@ -147,7 +147,7 @@ class Entity(models.Model):
         
         requests = Request.objects.filter(state__exact = \
             Request.PROPOSAL).filter(category__exact = \
-            savedsearch.category)
+            savedsearch.category).filter(~Q(proposer__exact=self), ~Q(demander__exact=self))
         requests = requests.filter(reduce(lambda x, y: x | y,\
                 [Q(name__icontains=word) for word in searchfield]))
         
@@ -251,9 +251,8 @@ class Entity(models.Model):
                 bestcat[1][0]=amount/2
         elif (len(bestcat) == 1):
             bestcat[0][0]=amount
-        
-            
 
+        
         requests = []
 
         for i in range(len(bestcat)):
