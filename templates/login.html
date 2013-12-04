@@ -21,10 +21,42 @@
 			<input type="text" class="form-control" placeholder="{% trans "Email address" %}" name="username" required autofocus>
 			<input type="password" class="form-control" placeholder="{% trans "Password" %}" name="password" required>
 			<!--<label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label>-->
-			<button class="btn btn-lg btn-primary btn-block" type="submit">{% trans "Log in" %}</button>
-			<a class="btn btn-lg btn-success btn-block" href="{% url 'register' %}">{% trans "Register" %}</a>
+			<button class="btn btn-lg btn-success btn-block" type="submit">{% trans "Log in" %}</button>
+			<a class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#modal_account_type" >{% trans "Register" %}</a>
 			
 		</form>
 	</div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_account_type" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
+    <div class="modal-dialog modal_custom">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{% trans "Choose your account type" %}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-5 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+                        <div class="well">
+                            <h4 class="text-center">{% trans "I am an individual, I want"%}<br /> {% trans "to create my personnal account."%}</h4>
+                            <a  class="btn btn-primary btn-lg btn-block" href="{% url "register" %}?type=1">{% trans "Individual"%}</a>
+                        </div>
+                    </div>
+                    <div class="clearfix visible-xs"></div>
+                    <div class="col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+                        <div class="well">
+                            <h4 class="text-center">{% trans "I want to create an account for the organisation I represent."%}</h4>
+                            <a  class="btn btn-primary btn-lg btn-block" href="{% url "register" %}"?type=2>{% trans "Organisation"%}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}

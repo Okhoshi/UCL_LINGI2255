@@ -7,10 +7,11 @@ from django.contrib.auth import authenticate, \
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
-from forms import MForm
+from forms import MForm,RForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
+from django.core.mail import send_mail
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -63,104 +64,88 @@ def concept(request):
     return render(request, 'concept.html', {})
 
 
+def faq(request):
+    return render(request, 'faq.html', {})
+
+
 def contact(request):
     print(request)
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            print(request.FILES.items())
-            handle_uploaded_file(request.FILES['file'])
-            #p = Place(country=form.country, postcode=form.postcode,\
-            #          city=form.city, street=form.street,\
-            #         number=form.streetnumber)
-            #p.save()
-            #user = User.objects.create_user(form.user_name,\
-            #                               form.email,\
-            #                                form.passwd,\
-            #                                first_name=form.first_name,\
-            #                                last_name=form.name,\
-            #                                location=p)
-            # Log on the newly created user
-            #usr = authenticate(username=form.user_name, password=form.passwd)
-            #Dlogin(request, usr)
-            #return redirect('account')
+            user = settings.EMAIL_HOST_USER
+            pwd = settings.EMAIL_HOST_PASSWORD
+            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
+                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+            data = request.POST.dict()
+            message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
+                      data.get('first_name') + "\n \n"
+            message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
+                        data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
+            message += "Email of the user : " + data.get('email') + "\n \n"
+            message += "Comments  : \n" + data.get('comments')
+
+            print(message)
+
+            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+
+            return render(request, 'contact.html', {'request_done': True})
         else:
             error = True
             dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
             dictionaries['errorlist'] = form.errorlist
-            #return render(request, 'contact.html', {})
 
             return render(request, 'contact.html', dictionaries)
 
     return render(request, 'contact.html', {})
 
 
+@login_forbidden()
 def register(request):
-    return render(request, 'register.html', {})
+    """ handle the registration of a user
+    """
+    type = request.GET.get('type', False)
 
+    if request.method == 'GET':
+        pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+        return render(request, pages.get(type, 'register.html'), {})
 
-def individual_registration(request):
-    if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            print(request.FILES.items())
-            handle_uploaded_file(request.FILES['file'])
-            p = Place(country=form.country, postcode=form.postcode, \
-                      city=form.city, street=form.street, \
-                      number=form.streetnumber)
-            p.save()
-            user = User.objects.create_user(form.user_name, \
-                                            form.email, \
-                                            form.passwd, \
-                                            first_name=form.first_name, \
-                                            last_name=form.name, \
-                                            location=p)
-            # Log on the newly created user
-            usr = authenticate(username=form.user_name, password=form.passwd)
-            Dlogin(request, usr)
-            return redirect('account')
+    elif request.method == 'POST':
+        if request.GET.get('type', False):
+            return analyse_request(request, type)
         else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, 'individual_registration.html', dictionaries)
-
-    return render(request, 'individual_registration.html', {})
+            return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {})
 
 
-def handle_uploaded_file(f):
-    with open('media/profilepics/t', 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-
-
-def organisation_registration(request):
+@login_required
+def add_representative(request):
     if request.method == 'POST':
-        form = MForm(request)
+        form = RForm(request)
         if form.is_valid:
-            p = Place(country=form.country, postcode=form.postcode,
-                      city=form.city, street=form.street,
-                      number=form.streetnumber)
-            p.save()
-            assoc = Association(location=p, name=form.org_name, description=form.description)
-            assoc.save()
-            user = AssociationUser.objects.create_user(form.user_name,
-                                                       form.email,
-                                                       form.passwd,
-                                                       assoc, 0,
-                                                       first_name=form.first_name,
-                                                       last_name=form.name)
+            for row in form.rows:
+                this_user = DUser.objects.get(username=request.user)
+                is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
 
-            usr = authenticate(username=form.user_name, password=form.passwd)
-            Dlogin(request, usr)
-            return redirect('account')
+                if (is_association_user):
+                    au = is_association_user[0]
+                    entity = au.entity
+                    print('Yess')
+
+                # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+                # auser = AssociationUser.objects.create_user(username="au1", \
+                #     password="anz", email="i", level=0, association=)
+                # auser.save()
         else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, 'organisation_registration.html', dictionaries)
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_representative.html', \
+                {'errorlist':form.errorlist,\
+                 'rows':rows})
 
-    return render(request, 'organisation_registration.html', {})
+    return render(request, 'add_representative.html', {'rows':[{}]})
 
 
 @login_required
@@ -172,6 +157,9 @@ def account(request):
     saved_searches = []
     similar = []
     following = []
+    image = None
+    upcoming_requests = []
+    summary = (0,0,0)
 
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
@@ -184,40 +172,50 @@ def account(request):
         image = entity.picture
         #is_verified = 1
 
-    ## GET FOLLOWING LIST
-    following_entity = entity.get_followed()
-    for person in following_entity:
-        person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
-        person_user = User.objects.filter(entity_ptr_id__exact=person.id)
+    if (is_user or is_association_user):
+        ## GET FOLLOWING LIST
+        following_entity = entity.get_followed()
+        for person in following_entity:
+            person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
+            person_user = User.objects.filter(entity_ptr_id__exact=person.id)
 
-        if (person_assoc):
-            person = person_assoc[0]
-            name_person = person.name
-        elif (person_user): #is a User
-            person = person_user[0]
-            person = DUser.objects.get(id=person.dj_user_id)
-            name_person = person.first_name + " " + person.last_name
-        following.append(name_person)
+            if (person_assoc):
+                person = person_assoc[0]
+                name_person = person.name
+            elif (person_user): #is a User
+                person = person_user[0]
+                person = DUser.objects.get(id=person.dj_user_id)
+                name_person = person.first_name + " " + person.last_name
+            following.append(name_person)
 
-    ## GET SAVED SEARCHES
-    objects_saved_searches = entity.get_searches()
-    for elem in objects_saved_searches:
-        saved_searches.append((elem, elem.search_field))
+        ## GET SAVED SEARCHES
+        objects_saved_searches = entity.get_searches()
+        for elem in objects_saved_searches:
+            saved_searches.append((elem, elem.search_field))
 
-    ## GET SIMILAR
-    similar_objects = entity.get_similar_matching_requests(3)
-    for elem in similar_objects:
-        similar.append((elem,elem.name))
+        ## GET SIMILAR
+        similar_objects = entity.get_similar_matching_requests(3)
+        for elem in similar_objects:
+            similar.append((elem,elem.name))
 
-    ## GET # OLD REQUEST
-    old_requests = entity.get_old_requests().count()
-    in_progress_requests = entity.get_current_requests().count()
-    proposal_requests = entity.get_current_offers().count() + \
-        entity.get_current_demands().count() - in_progress_requests
-    summary = (proposal_requests,in_progress_requests,old_requests)
+        ## GET UPCOMING REQUESTS
+        upcoming_requests = []
+        upcoming_objects = entity.get_current_requests()
+        for elem in upcoming_objects:
+            upcoming_requests.append((elem,elem.date))
+    
+
+
+        ## GET # OLD REQUEST
+        old_requests = entity.get_old_requests().count()
+        in_progress_requests = upcoming_objects.count()
+        proposal_requests = entity.get_current_offers().count() + \
+            entity.get_current_demands().count() - in_progress_requests
+        summary = (proposal_requests,in_progress_requests,old_requests)
 
     return render(request, 'account.html', {'image':image,'following':following,\
-        'saved_searches':saved_searches,'similar':similar,'summary':summary})
+        'saved_searches':saved_searches,'similar':similar,\
+        'upcoming_requests':upcoming_requests,'summary':summary})
 
 
 @login_required
@@ -254,14 +252,19 @@ def profile(request):
         old_requests = this_entity.get_old_requests()
         feedbacks = this_entity.get_feedback()
         tuple_rating = this_entity.get_rating()
-        value_rating = 100.0 * float(tuple_rating[2] + tuple_rating[0]) / float(sum(tuple_rating))
+        total_rating = sum(tuple_rating)
+        if total_rating != 0:
+            value_rating = 100.0 * float(tuple_rating[2] + tuple_rating[0]) / float(sum(tuple_rating))
+        else:
+            value_rating = 0
         global_rating = (value_rating, sum(tuple_rating))
 
     # Then format the data for the template
     current_offers = profile_current_offers(current_offers)
     current_demands = profile_current_demands(current_demands)
     old_requests = profile_old_requests(old_requests, this_entity)
-    feedbacks = profile_feedbacks(feedbacks)
+    if feedbacks:
+        feedbacks = profile_feedbacks(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
@@ -277,24 +280,10 @@ def create_offer_demand(request):
 
 
 @login_required
-def add_representative(request):
-    if request.method == 'POST':
-        last_name = request.POST.getlist('last_name[]')
-        first_name = request.POST.getlist('first_name[]')
-        email = request.POST.getlist('email[]')
-        level = request.POST.getlist('memberLevel[]')
-
-        for i in range(len(last_name)):
-            print('We add ', last_name[i], first_name[i], email[i], level[i])
-            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
-
-    return render(request, 'add_representative.html', {})
-
-
-@login_required
 def logout(request):
     Dlogout(request)
     return redirect('home')
+
 
 @login_required
 def messages(request):
@@ -318,6 +307,63 @@ def messages(request):
     return render(request, 'messages.html', {'threads': threads})
 
 
+@login_required
+def exchanges(request):
+    # First, check if the current user is a User or a AssociationUser
+    this_user = DUser.objects.get(username=request.user)
+    is_user = User.objects.filter(dj_user__exact=this_user.id)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    this_entity = None
+    if is_user:
+        this_entity = is_user[0]
+    elif is_association_user:
+        au = is_association_user[0]
+        this_entity = au.entity
+
+    # Then, fetch some useful data from the models
+    posted_req = []
+    candidate_req = []
+    incoming_req = []
+    realised_req = []
+    feedback_req = []
+
+    percentage_req = []
+
+    # Should always pass, except if user is a superuser
+    if this_entity:
+        all_req = this_entity.get_all_requests()
+        for elem in all_req:
+            if elem.state == Request.PROPOSAL:
+                if elem.candidates.all():
+                    candidate_req.append(elem)
+                else:
+                    posted_req.append(elem)
+            if elem.state == Request.IN_PROGRESS:
+                incoming_req.append(elem)
+            if elem.state == Request.DONE:
+                if elem.get_feedback().rating_demander > 0: #TODO FALSE
+                    feedback_req.append(elem)
+                else:
+                    realised_req.append(elem)
+
+
+        sum_req = (len(posted_req),len(candidate_req),\
+            len(incoming_req),len(realised_req),len(feedback_req))
+        total = sum(sum_req)
+        if total == 0:
+            percentage_req = (0,0,0,0,0)
+        else:
+            for elem in sum_req:
+               percentage_req.append((elem * 100) / total)
+
+    return render(request, 'exchanges.html', {'posted_req':posted_req, \
+        'candidate_req':candidate_req, 'incoming_req':incoming_req, \
+        'realised_req':realised_req,'feedback_req':feedback_req,\
+        'percentage_req':percentage_req})
+
+@login_required()
+def search(request):
+    return render(request, 'search.html', {})
 ###############################################################################
 ########################SUBROUTINES IMPLEMENTED HERE###########################
 ###############################################################################
@@ -505,3 +551,68 @@ def name(entity):
         return Association.objects.get(entity_ptr=entity).__unicode__()
     else:
         return entity.__unicode__()
+
+def analyse_request(request, type):
+    form = MForm(request)
+    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+    if form.is_valid:
+        if type == "1":
+            # individual code
+            create_new_user(request, form)
+        elif type == "2":
+            # organisation code
+            create_new_organisation(request, form)
+        else:
+            return render(request, 'register.html', request.POST)
+        return render(request, pages[type], request.POST)
+    else:
+        error = True
+        dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+        dictionaries['errorlist'] = form.errorlist
+        print(form.type)
+        return render(request, pages[type], dictionaries)
+
+
+def create_new_user(request, form):
+    handle_uploaded_file(request.FILES.get('profile_pic'), 'media/pic/' + form.user_name)
+    handle_uploaded_file(request.FILES.get('id_card_pic'), 'media/id_card/' + form.user_name)
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    user = User.objects.create_user(form.user_name,
+                                    form.email,
+                                    form.passwd,
+                                    first_name=form.first_name,
+                                    last_name=form.name,
+                                    location=p, birth_day=form.birthdate, gender=form.gender)
+    # Log on the newly created user
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+
+def create_new_organisation(request, form):
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    assoc = Association(location=p, name=form.org_name, description=form.description)
+    assoc.save()
+    user = AssociationUser.objects.create_user(form.user_name,
+                                               form.email,
+                                               form.passwd,
+                                               assoc, 0,
+                                               first_name=form.first_name,
+                                               last_name=form.name)
+
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+
+def handle_uploaded_file(f, path):
+    if f is not None:
+        with open(path, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)

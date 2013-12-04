@@ -343,37 +343,37 @@ class ModelsTests(TestCase):
         req12.save()
 
         prop1 = Request(name="Il me faudrait des nouveaux vetements pour l'hiver", category="Clothes", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop1.save()
         prop2 = Request(name="J'ai des vieux jeux PC a donner: Age of Empire 2, ...", category="Game", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop2.save()
         prop3 = Request(name="J'ai des vieux jeux PS a donner: Call of Duty, ...", category="Game", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop3.save()
         prop4 = Request(name="Echarpe rouge a donner", category="Clothes", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop4.save()
         prop5 = Request(name="Je cherche un pantalon chaud", category="Clothes", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop5.save()
         prop6 = Request(name="J'ai un peu de tout mais surtout pas de chaussettes noires il fait chaud", category="Clothes", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop6.save()
         prop7 = Request(name="Je voudrais un cafe chaud", category="Food", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop7.save()
         prop8 = Request(name="Buffet fruit et legumes de saison", category="Food", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop8.save()
         prop9 = Request(name="champignons de saison en rab. Il ont l'air un peu louches mais ils sont bons. Bon apres y'a un elephant rose qui essaye d'les voler", category="Food", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop9.save()
         prop10 = Request(name="j'ai besoin d'aide pour cuisiner un repas de noel pour 15 personnes", category="Service", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop10.save()
         prop11 = Request(name="Je peux vous aider a demenager. J'ai une camionnette assez grande pour la plupart des meubles", category="Service", place=pla,\
-            proposer=users[0], demander=users[1], state=Request.PROPOSAL)
+            proposer=users[1], demander=users[1], state=Request.PROPOSAL)
         prop11.save()
 
         res = users[0].get_similar_matching_requests(5)
@@ -403,13 +403,13 @@ class ModelsTests(TestCase):
         req3 = Request(name="Goodbye", category="Not Test", place=pla,\
             proposer=users[1], demander=users[0], state=Request.PROPOSAL)
         req4 = Request(name="salut coucou dead beef boob", category="Test",\
-            place=pla, proposer=users[1], demander=users[0],\
+            place=pla, proposer=users[1], demander=users[1],\
             state=Request.PROPOSAL)
         req5 = Request(name="oi wassup dead beef boob", category="Test",\
-            place=pla, proposer=users[1], demander=users[0],\
+            place=pla, proposer=users[1], demander=users[1],\
             state=Request.PROPOSAL)
         req6 = Request(name="salut Hello bonjour beef boob", category="Test",\
-            place=pla, proposer=users[1], demander=users[0],\
+            place=pla, proposer=users[1], demander=users[1],\
             state=Request.PROPOSAL)
         
 

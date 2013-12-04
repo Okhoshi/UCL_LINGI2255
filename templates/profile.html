@@ -23,12 +23,17 @@
 	</div>
 
 	<div class="col-sm-10">
-		<h4 style="pull-left">{{ user }} &nbsp; {% if is_verified %}<span class="label label-success" style="font-size:0.7em;">Verified</span>{% endif %}</h4>
+		<h4 style="pull-left">{{ user }} &nbsp; {% if is_verified %}<span class="label label-success" style="font-size:0.7em;">{% trans "Verified" %}</span>{% endif %}</h4>
 		<hr>
-		{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
+		{% if global_rating.1 > 0 %}
+			{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
+		{% else %}
+			{% trans "No evaluations" %}
+		{% endif %}
 		{% if is_association_user|length > 0 %}
 			{{ entity.description }}
 		{% endif %}
+		
 
 		<div class="clearfix" style="margin-top: 30px"></div>
 

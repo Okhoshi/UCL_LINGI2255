@@ -84,6 +84,7 @@
                                 <ul class="dropdown-menu" role="menu" style="left: auto;right: 0;">
                                     <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "My profile" %}</a></li>
                                     <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
+                                    <li><a href="{% url 'exchanges' %}"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
                                     <li><a href="{% url 'messages' %}"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
                                     <li class="divider"></li>
                                     <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;{% trans "Log out" %}</a></li>
@@ -126,7 +127,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li{% if request.path == '/' %} class="active" {% endif %}><a href="/"><i class="glyphicon glyphicon-home"></i>&nbsp;{% trans "Home" %}</a></li>
                             <li{% if request.path == '/concept/' %} class="active" {% endif %}><a href="{% url 'concept' %}"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
-                            <li{% if request.path == 'index' %} class="active" {% endif %}><a href="#"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
+                            <li{% if request.path == '/faq/' %} class="active" {% endif %}><a href="{% url 'faq' %}"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
                             <li{% if request.path == 'index' %} class="active" {% endif %}><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
                             <li{% if request.path == '/contact/' %} class="active" {% endif %}><a href="{% url 'contact' %}"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
                         </ul>

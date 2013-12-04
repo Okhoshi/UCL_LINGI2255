@@ -5,9 +5,9 @@
     <img src="{% static 'images/polaroid.png' %}" class="img-responsive" style="margin:auto auto 20px auto; " alt="Profile picture">
     <div class="row">
         <div class="col-xs-6 col-xs-offset-3 text-left">
-            <input type=file name="org_pic" class="btn btn-primary input_file"/>
+            <input type=file name="org_pic" class="btn btn-primary input_file" id="org_pic_input"/>
             <div class="btn btn-primary  file_input">
-                <span class="glyphicon glyphicon-file f_decor"> {% trans "Browse" %}</span>
+                <span class="glyphicon glyphicon-file f_decor" id="orga_pic"> {% trans "Browse" %}</span>
             </div>
         </div>
     </div>
@@ -15,7 +15,7 @@
 
 <script type="text/javascript">
     /* change the button content according to the file beeing selected */
-    $('input[type=file]').change(function(e){
+    $('#profile_pic_input').change(function(e){
         var ins=$(this);
         var t = jQuery.trim(ins.val());
         var final_t = t;
@@ -23,6 +23,6 @@
             if (t.length > s) {
                 final_t = " ... "+t.substring(t.length-s, t.length);
              }
-        $(".f_decor").text(" "+final_t);
+        $("#orga_pic").text(" "+final_t);
     });
 </script>
