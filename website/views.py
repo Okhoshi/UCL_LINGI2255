@@ -344,14 +344,14 @@ def exchanges(request):
         all_req = this_entity.get_all_requests()
         for elem in all_req:
             if elem.state == Request.PROPOSAL:
-                if elem.candidates:
+                if elem.candidates.all():
                     candidate_req.append(elem)
                 else:
                     posted_req.append(elem)
             if elem.state == Request.IN_PROGRESS:
                 incoming_req.append(elem)
             if elem.state == Request.DONE:
-                if elem.get_feedback(): #TODO FALSE
+                if elem.get_feedback().rating_demander > 0: #TODO FALSE
                     feedback_req.append(elem)
                 else:
                     realised_req.append(elem)
