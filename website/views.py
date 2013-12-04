@@ -309,6 +309,15 @@ def messages(request):
 
 @login_required
 def exchanges(request):
+    if request.method == 'POST':
+        req_id = request.POST.get('request_id')
+        req_to_mod = Request.objects.get(id=req_id)
+        req_to_mod.is_suspicious = True
+        req_to_mod.save()
+        
+
+
+
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
@@ -333,18 +342,43 @@ def exchanges(request):
     if this_entity:
         all_req = this_entity.get_all_requests()
         for elem in all_req:
-            if elem.state == Request.PROPOSAL:
-                if elem.candidates.all():
-                    candidate_req.append(elem)
-                else:
-                    posted_req.append(elem)
+
+
+
+
+            if (elem.state == Request.PROPOSAL) and elem.candidates.all():
+                offer = profile_current_offers( [elem] )[0][1]
+                demander = profile_current_demands([elem])[0][1]
+                candidate_req.append((elem,offer,demander))
+
+
+
+            if (elem.state == Request.PROPOSAL) and not elem.candidates.all():
+                offer = profile_current_offers( [elem] )[0][1]
+                demander = profile_current_demands([elem])[0][1]
+                posted_req.append((elem,offer,demander))
+
+
+
+
             if elem.state == Request.IN_PROGRESS:
-                incoming_req.append(elem)
-            if elem.state == Request.DONE:
-                if elem.get_feedback().rating_demander > 0: #TODO FALSE
-                    feedback_req.append(elem)
-                else:
-                    realised_req.append(elem)
+                offer = profile_current_offers([elem])[0][1]
+                demander = profile_current_demands([elem])[0][1]
+                incoming_req.append((elem,offer,demander))
+
+            #TODO FALSE
+            if elem.state == Request.DONE and elem.get_feedback().rating_demander > 0:
+                offer = profile_current_offers([elem])[0][1]
+                demander = profile_current_demands([elem])[0][1]
+                feedback_req.append((elem,offer,demander))
+
+
+
+
+            if elem.state == Request.DONE and elem.get_feedback().rating_demander <= 0:
+                offer = profile_current_offers([elem])[0][1]
+                demander = profile_current_demands([elem])[0][1]
+                realised_req.append((elem,offer,demander))
 
 
         sum_req = (len(posted_req),len(candidate_req),\

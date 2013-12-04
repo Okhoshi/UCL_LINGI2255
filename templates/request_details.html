@@ -1,19 +1,37 @@
 {% load static %}
 {% load i18n %}
 <!-- Modal -->
-<div class="modal fade" id="TON_ID_ICI" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
+<div class="modal fade" id="TON_ID_ICI{{elem.0.id}}" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
     <div class="modal-dialog modal_custom">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">{% trans "TON TITRE ICI" %}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ elem.0.name }}</h4>
             </div>
             <div class="modal-body">
+                {% if elem.0.state == 'P' %} 
+                    {% trans "State :" %} {% trans "Proposal" %}<br>
+                {% elif elem.0.state == 'I' %}
+                    {% trans "State :" %} {% trans "In progress" %} <br>
+                {% elif elem.0.state == 'D' %}
+                    {% trans "State :"%} {% trans "Done" %}<br>
+                {% endif %}
+
+                {% trans "Category" %} : {{ elem.0.category }} <br>
+                {% trans "Proposer" %} : {{ elem.1 }} <br>
+                {% trans "Demander" %} : {{ elem.2 }} <br>
+                {% trans "Date" %} : {{ elem.0.date }} <br><br>
 
 
-                <!-- TON CODE ICI -->
-
-
+                <form action="." method="POST">
+                    {% csrf_token %}
+                <input name="request_id" value="{{ elem.0.id }}" type="hidden" readonly/>
+                 <button type="submit" class="btn btn-default" style="position:absolute; right:20px">
+                     <span class="glyphicon glyphicon-warning-sign custom_alert"></span>
+                 </button>
+                </form>
+                
+               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
