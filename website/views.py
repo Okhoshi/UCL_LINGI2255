@@ -11,7 +11,6 @@ from forms import MForm,RForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
-from django.core.mail import send_mail
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -69,28 +68,27 @@ def contact(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            user = settings.EMAIL_HOST_USER
-            pwd = settings.EMAIL_HOST_PASSWORD
-            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
-                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
-                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
-            data = request.POST.dict()
-            message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
-                      data.get('first_name') + "\n \n"
-            message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
-                        data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
-            message += "Email of the user : " + data.get('email') + "\n \n"
-            message += "Comments  : \n" + data.get('comments')
-
-            print(message)
-
-            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
-
-            return render(request, 'contact.html', {'request_done': True})
+            print(request.FILES.items())
+            handle_uploaded_file(request.FILES['file'])
+            #p = Place(country=form.country, postcode=form.postcode,\
+            #          city=form.city, street=form.street,\
+            #         number=form.streetnumber)
+            #p.save()
+            #user = User.objects.create_user(form.user_name,\
+            #                               form.email,\
+            #                                form.passwd,\
+            #                                first_name=form.first_name,\
+            #                                last_name=form.name,\
+            #                                location=p)
+            # Log on the newly created user
+            #usr = authenticate(username=form.user_name, password=form.passwd)
+            #Dlogin(request, usr)
+            #return redirect('account')
         else:
             error = True
             dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
             dictionaries['errorlist'] = form.errorlist
+            #return render(request, 'contact.html', {})
 
             return render(request, 'contact.html', dictionaries)
 
@@ -98,11 +96,10 @@ def contact(request):
 
 @login_forbidden()
 def register(request):
-    """ handle the registration of a user
-    """
     if request.method == 'GET':
         type = request.GET.get('type', False)
         if type:
+            print(type)
             if type == "1":
                 return render(request, 'individual_registration.html', {})
             elif type == "2":
@@ -112,35 +109,37 @@ def register(request):
         else:
             return render(request, 'register.html', {})
     elif request.method =='POST':
-        type = request.GET.get('type', False)
-        if type:
-            return analyse_request(request, type)
-        else:
-            return render(request, 'register.html', {})
+        print("holly crap")
+        return render(request, 'register.html', {})
     else:
         return render(request, 'register.html', {})
 
-def analyse_request(request, type):
-    form = MForm(request)
-    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
-    if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            print("do something !")
-            return render(request, pages[type], request.POST)
-        else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
-            return render(request, pages[type], dictionaries)
-
 @login_required
 def add_representative(request):
-        # for i in range(len(last_name)):
-        #     print('We add ', last_name[i], first_name[i], email[i], level[i])
-        # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :)
+    if request.method == 'POST':
+        form = RForm(request)
+        if form.is_valid:
+            for row in form.rows:
+                this_user = DUser.objects.get(username=request.user)
+                is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
 
-    return render(request, 'add_representative.html', {})
+                if (is_association_user):
+                    au = is_association_user[0]
+                    entity = au.entity
+                    print('Yess')
+
+                # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+                # auser = AssociationUser.objects.create_user(username="au1", \
+                #     password="anz", email="i", level=0, association=)
+                # auser.save()
+        else:
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_representative.html', \
+                {'errorlist':form.errorlist,\
+                 'rows':rows})
+
+    return render(request, 'add_representative.html', {'rows':[{}]})
 
 
 def individual_registration(request):
@@ -206,20 +205,21 @@ def organisation_registration(request):
 
     return render(request, 'organisation_registration.html', {})
 
+def search(request):
+    return render(request, 'search.html', {})
+
+def faq(request):
+    return render(request, 'faq.html', {})
 
 @login_required
 def account(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-
-
+    
     saved_searches = []
     similar = []
     following = []
-    image = None
-    upcoming_requests = []
-    summary = (0,0,0)
 
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
@@ -230,50 +230,40 @@ def account(request):
         entity = au.entity
         image = entity.picture
 
-    if (is_user or is_association_user):
-        ## GET FOLLOWING LIST
-        following_entity = entity.get_followed()
-        for person in following_entity:
-            person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
-            person_user = User.objects.filter(entity_ptr_id__exact=person.id)
+    ## GET FOLLOWING LIST
+    following_entity = entity.get_followed()
+    for person in following_entity:
+        person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
+        person_user = User.objects.filter(entity_ptr_id__exact=person.id)
 
-            if (person_assoc):
-                person = person_assoc[0]
-                name_person = person.name
-            elif (person_user): #is a User
-                person = person_user[0]
-                person = DUser.objects.get(id=person.dj_user_id)
-                name_person = person.first_name + " " + person.last_name
-            following.append(name_person)
+        if (person_assoc):
+            person = person_assoc[0]
+            name_person = person.name
+        elif (person_user): #is a User
+            person = person_user[0]
+            person = DUser.objects.get(id=person.dj_user_id)
+            name_person = person.first_name + " " + person.last_name
+        following.append(name_person)
 
-        ## GET SAVED SEARCHES
-        objects_saved_searches = entity.get_searches()
-        for elem in objects_saved_searches:
-            saved_searches.append((elem, elem.search_field))
+    ## GET SAVED SEARCHES
+    objects_saved_searches = entity.get_searches()
+    for elem in objects_saved_searches:
+        saved_searches.append((elem, elem.search_field))
 
-        ## GET SIMILAR
-        similar_objects = entity.get_similar_matching_requests(3)
-        for elem in similar_objects:
-            similar.append((elem,elem.name))
+    ## GET SIMILAR
+    similar_objects = entity.get_similar_matching_requests(3)
+    for elem in similar_objects:
+        similar.append((elem,elem.name))
 
-        ## GET UPCOMING REQUESTS
-        upcoming_requests = []
-        upcoming_objects = entity.get_current_requests()
-        for elem in upcoming_objects:
-            upcoming_requests.append((elem,elem.date))
-    
-
-
-        ## GET # OLD REQUEST
-        old_requests = entity.get_old_requests().count()
-        in_progress_requests = upcoming_objects.count()
-        proposal_requests = entity.get_current_offers().count() + \
-            entity.get_current_demands().count() - in_progress_requests
-        summary = (proposal_requests,in_progress_requests,old_requests)
+    ## GET # OLD REQUEST
+    old_requests = entity.get_old_requests().count()
+    in_progress_requests = entity.get_current_requests().count()
+    proposal_requests = entity.get_current_offers().count() + \
+        entity.get_current_demands().count() - in_progress_requests
+    summary = (proposal_requests,in_progress_requests,old_requests)
 
     return render(request, 'account.html', {'image':image,'following':following,\
-        'saved_searches':saved_searches,'similar':similar,\
-        'upcoming_requests':upcoming_requests,'summary':summary})
+        'saved_searches':saved_searches,'similar':similar,'summary':summary})
 
 
 @login_required
@@ -317,8 +307,7 @@ def profile(request):
     current_offers = profile_current_offers(current_offers)
     current_demands = profile_current_demands(current_demands)
     old_requests = profile_old_requests(old_requests, this_entity)
-    if feedbacks:
-        feedbacks = profile_feedbacks(feedbacks)
+    feedbacks = profile_feedbacks(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
@@ -573,7 +562,3 @@ def profile_feedbacks(feedbacks):
         feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
 
     return feedbacks_list
-
-def search(request):
-    return render(request, 'search.html', {})
-
