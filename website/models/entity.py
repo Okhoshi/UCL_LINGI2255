@@ -178,6 +178,9 @@ class Entity(models.Model):
         requests = dreq.filter(demander__exact = self) | \
                    dreq.filter(proposer__exact = self)
 
+        if (len(requests) == 0)
+            return requests
+
 
         wordl = []
         catl = []
