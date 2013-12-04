@@ -33,7 +33,11 @@
         <div class="row form_blck">
             <div class=" text-center"><span class="form_blck_title">{% trans "Mandatory personal informations" %}</span></div>
             {% include 'personnal_informations.html' %}
-            <div class="row">{% include 'address.html' %}</div>
+            <div class="row">
+                <div class="col-md-6" style="margin-top: 15px;">
+                    {% include 'address.html' %}
+                </div>
+            </div>
         </div>
 
         <div class="row form_blck">

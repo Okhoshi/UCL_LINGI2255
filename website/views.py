@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, \
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
-from forms import MForm,RForm
+from forms import MForm,RForm,SolidareForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
@@ -275,6 +275,36 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
+    # if request.method == 'POST':
+    #     form = RForm(request)
+    #     if form.is_valid:
+    #         for row in form.rows:
+    #             this_user = DUser.objects.get(username=request.user)
+    #             is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+
+    #             if (is_association_user):
+    #                 au = is_association_user[0]
+    #                 entity = au.entity
+    #                 print('Yess')
+
+    #             # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+    #             # auser = AssociationUser.objects.create_user(username="au1", \
+    #             #     password="anz", email="i", level=0, association=)
+    #             # auser.save()
+    #     else:
+    #         rows = form.rows if form.rows else [{}]
+    #         return render(request, 'add_representative.html', \
+    #             {'errorlist':form.errorlist,\
+    #              'rows':rows})
+
+    if request.method == 'POST':
+        form = SolidareForm(request)
+        if form.is_valid:
+            pass
+        else:
+            pass
+
     return render(request, 'create.html', {})
 
 
@@ -624,14 +654,10 @@ def create_new_organisation(request, form):
         handle_uploaded_file(request.FILES.get('profile_pic'),
                              request.FILES.get('profile_pic').name,
                              'media/pic/' + form.user_name)
-    if request.FILES.get('id_card_pic') is not None:
-        handle_uploaded_file(request.FILES.get('id_card_pic'),
-                             request.FILES.get('profile_pic').name,
-                             'media/id_card/' + form.user_name)
-    if request.FILES.get('profile_pic') is not None:
+    if request.FILES.get('org_pic') is not None:
         handle_uploaded_file(request.FILES.get('org_pic'),
                              request.FILES.get('org_pic').name,
-                             'media/pic/' + form.user_name)
+                             'media/pic/' + form.org_name)
     p = Place(country=form.country, postcode=form.postcode,
               city=form.city, street=form.street,
               number=form.streetnumber)

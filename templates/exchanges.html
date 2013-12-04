@@ -10,9 +10,9 @@
 </ol>
 {% endblock %}
 
-
+{% load static %}
+{% load i18n %}
 {% block content %}
-
 
 <div class="col-sm-12">
 	<div class="panel panel-info box">
@@ -34,7 +34,8 @@
 			<table class="table table-striped table-bordered">
 				{% for elem in posted_req%}
 				<tr>
-					<td>{{ elem }}</td>
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI" style="cursor: pointer;">{{ elem }}</td>
 				</tr>
 				{% endfor %}
 			</table>
