@@ -219,7 +219,7 @@ def account(request):
     following = []
     image = None
     upcoming_requests = []
-    summary = []
+    summary = (0,0,0)
 
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
