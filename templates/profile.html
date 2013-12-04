@@ -15,7 +15,7 @@
 
 {% block content %}
 	<div class="col-sm-2" style="text-align:center;">
-		{% if image == "null" %}
+		{% if image == "null" or not image %}
 		<img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
 		{% else %}
 		<img src={{ image }} alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
@@ -141,7 +141,7 @@
 					<th style="width: 50%">{% trans "Evaluation" %}</th>
 				</tr>
 				{% for elem in feedbacks %}
-				<tr class={{elem.1}}>
+				<tr class={{ elem.1 }}>
 					{% for sub in elem.0 %}
 					<td>{{ sub }}</td>
 					{% endfor %}					
