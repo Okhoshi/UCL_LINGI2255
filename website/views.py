@@ -433,9 +433,9 @@ def profile_feedbacks(feedbacks):
         if other_assoc: # is a Association
             other = other_assoc[0]
             name_other = other.name
-            if elem.pin_proposer:
-                    name_other += ' (' + elem.pin_proposer.first_name + ' ' + \
-                                  elem.pin_proposer.last_name + ')'
+            if elem.request.pin_proposer:
+                    name_other += ' (' + elem.request.pin_proposer.first_name + ' ' + \
+                                  elem.request.pin_proposer.last_name + ')'
         elif other_user: #is a User
             other = other_user[0]
             other = DUser.objects.get(id=other.dj_user_id)
@@ -457,13 +457,13 @@ def profile_feedbacks(feedbacks):
         if other_assoc: # is a Association
             other = other_assoc[0]
             name_other = other.name
-            if elem.pin_demander:
-                    name_other += ' (' + elem.pin_demander.first_name + ' ' + \
-                                  elem.pin_demander.last_name + ')'
+            if elem.request.pin_demander:
+                    name_other += ' (' + elem.request.pin_demander.first_name + ' ' + \
+                                  elem.request.pin_demander.last_name + ')'
         elif other_user: #is a User
             other = other_user[0]
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
         feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
-        
+
     return feedbacks_list
