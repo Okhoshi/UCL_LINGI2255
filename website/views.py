@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, \
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
-from forms import MForm,RForm
+from forms import MForm,RForm,SolidareForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
@@ -276,6 +276,36 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
+    # if request.method == 'POST':
+    #     form = RForm(request)
+    #     if form.is_valid:
+    #         for row in form.rows:
+    #             this_user = DUser.objects.get(username=request.user)
+    #             is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+
+    #             if (is_association_user):
+    #                 au = is_association_user[0]
+    #                 entity = au.entity
+    #                 print('Yess')
+
+    #             # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+    #             # auser = AssociationUser.objects.create_user(username="au1", \
+    #             #     password="anz", email="i", level=0, association=)
+    #             # auser.save()
+    #     else:
+    #         rows = form.rows if form.rows else [{}]
+    #         return render(request, 'add_representative.html', \
+    #             {'errorlist':form.errorlist,\
+    #              'rows':rows})
+
+    if request.method == 'POST':
+        form = SolidareForm(request)
+        if form.is_valid:
+            pass
+        else:
+            pass
+
     return render(request, 'create.html', {})
 
 
