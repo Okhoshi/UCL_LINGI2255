@@ -96,10 +96,11 @@ def contact(request):
 
 @login_forbidden()
 def register(request):
+    """ handle the registration of a user
+    """
     if request.method == 'GET':
         type = request.GET.get('type', False)
         if type:
-            print(type)
             if type == "1":
                 return render(request, 'individual_registration.html', {})
             elif type == "2":
@@ -109,21 +110,33 @@ def register(request):
         else:
             return render(request, 'register.html', {})
     elif request.method =='POST':
-        print("holly crap")
-        return render(request, 'register.html', {})
+        type = request.GET.get('type', False)
+        if type:
+            return analyse_request(request, type)
+        else:
+            return render(request, 'register.html', {})
     else:
         return render(request, 'register.html', {})
 
+def analyse_request(request, type):
+    form = MForm(request)
+    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+    if request.method == 'POST':
+        form = MForm(request)
+        if form.is_valid:
+            print("do something !")
+            return render(request, pages[type], request.POST)
+        else:
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
+            return render(request, pages[type], dictionaries)
+
 @login_required
 def add_representative(request):
-    if request.method == 'POST':
-        form = RForm(request)
-
-        
-
         # for i in range(len(last_name)):
         #     print('We add ', last_name[i], first_name[i], email[i], level[i])
-            # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :) 
+        # TODOOOOO - Je ferai ca ce soir ou demain matin apres avoir lu la doc :)
 
     return render(request, 'add_representative.html', {})
 
