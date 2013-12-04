@@ -11,6 +11,7 @@ from forms import MForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
+from django.core.mail import send_mail
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -65,27 +66,28 @@ def contact(request):
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
-            print(request.FILES.items())
-            handle_uploaded_file(request.FILES['file'])
-            #p = Place(country=form.country, postcode=form.postcode,\
-            #          city=form.city, street=form.street,\
-            #         number=form.streetnumber)
-            #p.save()
-            #user = User.objects.create_user(form.user_name,\
-            #                               form.email,\
-            #                                form.passwd,\
-            #                                first_name=form.first_name,\
-            #                                last_name=form.name,\
-            #                                location=p)
-            # Log on the newly created user
-            #usr = authenticate(username=form.user_name, password=form.passwd)
-            #Dlogin(request, usr)
-            #return redirect('account')
+            user = settings.EMAIL_HOST_USER
+            pwd = settings.EMAIL_HOST_PASSWORD
+            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
+                     'quentin.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+            data = request.POST.dict()
+            message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
+                      data.get('first_name') + "\n \n"
+            message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
+                        data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
+            message += "Email of the user : " + data.get('email') + "\n \n"
+            message += "Comments  : \n" + data.get('comments')
+
+            print(message)
+
+            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+
+            return render(request, 'contact.html', {'request_done': True})
         else:
             error = True
             dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
             dictionaries['errorlist'] = form.errorlist
-            #return render(request, 'contact.html', {})
 
             return render(request, 'contact.html', dictionaries)
 

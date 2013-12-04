@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block content %}
-<p> In Progress </p>
 <div class="row">
    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 coll-xs-offset-1">
         <h4 class="in_front"> {% trans "Contact us" %} </h4>
@@ -28,6 +27,14 @@
     </div>
 </div>
 
+{% if request_done == True %}
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 coll-xs-offset-1">
+        <h5>{% trans "Your request or comment has been transmitted to the admins" %}</h5>
+    </div>
+</div>
+{% else %}
+
 <div class="row">
     <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
        {% csrf_token %}
@@ -43,6 +50,7 @@
                 </div>
             </div>
         {% endif %}
+
         <div class="row form_blck">
             <div class="col-md-6">
 
@@ -52,12 +60,12 @@
                         {% trans "Title" %}</label>
 
                     <div class="col-sm-8">
-                        <select id="inputTitle" class="form-control" onchange="VerifListe();"
+                        <select id="inputTitle" name="title" class="form-control" onchange="VerifListe();"
                                 style="border-color: {{ gender_color }}" >
-                             <option value="{{ Mr }}">{% trans "Mr." %}</option>
-                             <option value="{{ Ms }}">{% trans "Ms." %}</option>
-                             <option value="{{ Mrs }}">{% trans "Mrs." %}</option>
-                             <option value="{{ Miss }}">{% trans "Miss" %}</option>
+                             <option value="Mr">{% trans "Mr." %}</option>
+                             <option value="Ms">{% trans "Ms." %}</option>
+                             <option value="Mrs">{% trans "Mrs." %}</option>
+                             <option value="Miss">{% trans "Miss" %}</option>
                         </select>
                     </div>
                 </div>
@@ -102,7 +110,7 @@
                 <!-- STREET -->
                 <div class=" row form_el">
                     <label for="inputStreet" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label"
-                           style="color:{{ street_color }} !important;" >{% trans "Address" %}</label>
+                           style="color:{{ street_color }} !important;" >{% trans "Address" %}*</label>
                     <div class="col-sm-6 col-xs-9">
                         <input type="text" class="form-control" id="inputStreet" name="street"
                                placeholder="{% block address_placeholder %}{% trans "Street" %}
@@ -157,7 +165,7 @@
                     !important;">{% trans " Your request or comments" %}</label>
                     <div class="col-sm-7">
                         <textarea class="form-control" id="inputComments" name="comments" rows="8" disable= yes
-                         autofocus=yes  value="{{ comments }}" style="resize: vertical;"></textarea>
+                         autofocus=yes  style="resize: vertical;" !important; value="{{ comments }}" required></textarea>
                     </div>
                 </div>
             </div>
@@ -179,7 +187,8 @@
                 </div>
             </div>
         </div>
-
     </form>
 </div>
+{% endif %}
+
 {% endblock %}
