@@ -3,6 +3,7 @@ from django.test import TestCase
 from models import *
 import datetime
 from django.utils.timezone import utc
+from django.utils.translation import ugettext as _
 
 
 
@@ -527,8 +528,8 @@ class ModelsTests(TestCase):
                       demander=users[1], state=Request.PROPOSAL)
         req.save()
         req2.save()
-        self.assertEqual(users[0], req.get_initiator())
-        self.assertEqual(users[1], req2.get_initiator())
+        self.assertEqual((users[0], _('Proposal')), req.get_initiator())
+        self.assertEqual((users[1], _('Demand')), req2.get_initiator())
 
     def test_request_get_similar_requests(self):
         pla = Place()

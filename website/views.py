@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, \
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
-from forms import MForm,RForm
+from forms import MForm,RForm,SolidareForm
 from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
@@ -69,7 +69,6 @@ def faq(request):
 
 
 def contact(request):
-    print(request)
     if request.method == 'POST':
         form = MForm(request)
         if form.is_valid:
@@ -276,6 +275,36 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
+    # if request.method == 'POST':
+    #     form = RForm(request)
+    #     if form.is_valid:
+    #         for row in form.rows:
+    #             this_user = DUser.objects.get(username=request.user)
+    #             is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+
+    #             if (is_association_user):
+    #                 au = is_association_user[0]
+    #                 entity = au.entity
+    #                 print('Yess')
+
+    #             # TODO : Enregistrer les utilisateurs et envoyer le mail
+
+    #             # auser = AssociationUser.objects.create_user(username="au1", \
+    #             #     password="anz", email="i", level=0, association=)
+    #             # auser.save()
+    #     else:
+    #         rows = form.rows if form.rows else [{}]
+    #         return render(request, 'add_representative.html', \
+    #             {'errorlist':form.errorlist,\
+    #              'rows':rows})
+
+    if request.method == 'POST':
+        form = SolidareForm(request)
+        if form.is_valid:
+            pass
+        else:
+            pass
+
     return render(request, 'create.html', {})
 
 
@@ -397,10 +426,34 @@ def exchanges(request):
 
 @login_required()
 def search(request):
-    return render(request, 'search.html', {})
+    search_results = []
+    usr = DUser.objects.get(username=request.user)
+
+    if User.is_user(usr.id):
+        usr_entity = User.objects.get(dj_user=usr.id)
+    elif AssociationUser.is_assoc_user(usr.id):
+        usr_entity = AssociationUser.objects.get(dj_user=usr.id).entity
+    else:
+        return redirect('login')
+
+    if request.method == 'POST':
+        search_field = request.POST['search']
+        search_object = SavedSearch(search_field=search_field, category="Jardin")
+        search_results_request = usr_entity.search(search_object, 1)
+        for request in search_results_request:
+            print(request)
+            (req_initiator, req_type) = request.get_initiator()
+            search_results.append((request))
+    return render(request, 'search.html', {'search_results':search_results})
+
+
+
+
 ###############################################################################
 ########################SUBROUTINES IMPLEMENTED HERE###########################
 ###############################################################################
+
+
 def profile_current_offers(current_offers):
     """
     Method that format the current_offers from the models for the template
@@ -578,6 +631,7 @@ def profile_feedbacks(feedbacks):
 
     return feedbacks_list
 
+
 def name(entity):
     if User.objects.filter(entity_ptr__exact=entity).count() != 0:
         return User.objects.get(entity_ptr=entity).__unicode__()
@@ -586,19 +640,19 @@ def name(entity):
     else:
         return entity.__unicode__()
 
+
 def analyse_request(request, type):
     form = MForm(request)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
     if form.is_valid:
         if type == "1":
             # individual code
-            create_new_user(request, form)
+            return create_new_user(request, form)
         elif type == "2":
             # organisation code
-            create_new_organisation(request, form)
+            return create_new_organisation(request, form)
         else:
             return render(request, 'register.html', request.POST)
-        return render(request, pages[type], request.POST)
     else:
         error = True
         dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
@@ -608,14 +662,7 @@ def analyse_request(request, type):
 
 
 def create_new_user(request, form):
-    if request.FILES.get('profile_pic') is not None:
-        handle_uploaded_file(request.FILES.get('profile_pic'),
-                             request.FILES.get('profile_pic').name,
-                             'media/pic/' + form.user_name)
-    if request.FILES.get('id_card_pic') is not None:
-        handle_uploaded_file(request.FILES.get('id_card_pic'),
-                             request.FILES.get('profile_pic').name,
-                             'media/id_card/' + form.user_name)
+
     p = Place(country=form.country, postcode=form.postcode,
               city=form.city, street=form.street,
               number=form.streetnumber)
@@ -626,6 +673,15 @@ def create_new_user(request, form):
                                     first_name=form.first_name,
                                     last_name=form.name,
                                     location=p, birth_day=form.birthdate, gender=form.gender)
+    if request.FILES.get('profile_pic') is not None:
+        user.picture.save(request.FILES.get('profile_pic').name,
+                          request.FILES.get('profile_pic'),
+                          save=False)
+    if request.FILES.get('id_card_pic') is not None:
+        user.id_card.save(request.FILES.get('id_card_pic').name,
+                          request.FILES.get('id_card_pic'),
+                          save=False)
+    user.save()
     # Log on the newly created user
     usr = authenticate(username=form.user_name, password=form.passwd)
     Dlogin(request, usr)
@@ -633,14 +689,7 @@ def create_new_user(request, form):
 
 
 def create_new_organisation(request, form):
-    if request.FILES.get('profile_pic') is not None:
-        handle_uploaded_file(request.FILES.get('profile_pic'),
-                             request.FILES.get('profile_pic').name,
-                             'media/pic/' + form.user_name)
-    if request.FILES.get('org_pic') is not None:
-        handle_uploaded_file(request.FILES.get('org_pic'),
-                             request.FILES.get('org_pic').name,
-                             'media/pic/' + form.org_name)
+
     p = Place(country=form.country, postcode=form.postcode,
               city=form.city, street=form.street,
               number=form.streetnumber)
@@ -654,8 +703,20 @@ def create_new_organisation(request, form):
                                                first_name=form.first_name,
                                                last_name=form.name)
 
+    if request.FILES.get('profile_pic') is not None:
+        user.picture.save(request.FILES.get('profile_pic').name,
+                          request.FILES.get('profile_pic'),
+                          save=False)
+    if request.FILES.get('org_pic') is not None:
+        assoc.picture.save(request.FILES.get('org_pic').name,
+                          request.FILES.get('org_pic'),
+                          save=False)
+    assoc.save()
+    user.save()
     usr = authenticate(username=form.user_name, password=form.passwd)
     Dlogin(request, usr)
+
+
     return redirect('account')
 
 

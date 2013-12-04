@@ -5,9 +5,26 @@ from django.utils.translation import ugettext as _
 from recaptcha.client import captcha
 from django.conf import settings
 
+
+class SolidareForm(forms.Form):
+    SOLIDAREITCOLOR = '#e1007a'
+    def __init__(self,request):
+        form = request.POST
+        self.colors = dict()
+        self.errorlist = dict()
+
+        self.is_valid = True
+
+        myType = request.POST.get('type')
+        date = request.POST.get('date')
+        city = request.POST.get('city')
+        postcode = request.POST.get('postcode')
+        category = request.POST.get('category')
+        description = request.POST.get('description')
+
+        print(myType,date,city,postcode,category,description)
+
 # Form to add representatives
-
-
 class RForm(forms.Form):
     SOLIDAREITCOLOR = '#e1007a'
 

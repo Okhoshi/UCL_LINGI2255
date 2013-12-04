@@ -22,10 +22,16 @@ class SIAssocUserManager(models.Manager):
         user.save()
         return user
 
+    
+def pic_path(instance, filename):
+    return 'pic/' + str(instance.__unicode__().__hash__()) + filename
+
+
 class AssociationUser(models.Model):
     dj_user = models.OneToOneField(User, related_name='profile_a')
     level = models.IntegerField()
     entity = models.ForeignKey('website.Association')
+    picture = models.ImageField(upload_to=pic_path)
     objects = SIAssocUserManager()
 
     class Meta:

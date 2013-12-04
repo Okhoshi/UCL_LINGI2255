@@ -18,7 +18,7 @@
 		<form class="form-signin" id="sign_in" method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             {% if redirect %}<input type="hidden" value="{{ redirect }}" name="next" />{% endif %}
-			<input type="text" class="form-control" placeholder="{% trans "Email address" %}" name="username" required autofocus>
+			<input type="text" class="form-control" placeholder="{% trans "Username" %}" name="username" required autofocus>
 			<input type="password" class="form-control" placeholder="{% trans "Password" %}" name="password" required>
 			<!--<label class="checkbox"><input type="checkbox" value="remember-me"> Remember me</label>-->
 			<button class="btn btn-lg btn-success btn-block" type="submit">{% trans "Log in" %}</button>
