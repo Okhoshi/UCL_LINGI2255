@@ -329,13 +329,19 @@ textarea{
 }
 
 .message-desc {
-    color: gray;
+    color: rgb(172, 173, 175);
+}
+
+.message-date {
+    color: rgb(172, 173, 175);
+    font-size: small;
 }
 
 .message-col {
     padding:0;
     border-right:1px solid rgb(172, 173, 175);
     overflow-y:scroll;
+    overflow-x: hidden;
     max-height:600px;
 }
 

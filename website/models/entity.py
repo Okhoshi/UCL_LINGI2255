@@ -48,12 +48,17 @@ class Entity(models.Model):
         return InternalMessage.objects.filter(request__exact=request)
 
     # Return a list of all the requests made by the Entity
-    def get_all_requests(self):
+    def get_all_requests(self, include_candidates = False):
         proposed_request = Request.objects.filter(proposer__exact=self)
 
         demanded_request = Request.objects.filter(demander__exact=self)
 
-        return proposed_request | demanded_request
+        if include_candidates:
+            candidates_request = Request.objects.filter(candidates__exact=self)
+        else:
+            candidates_request = Request.objects.none()
+
+        return proposed_request | demanded_request | candidates_request
 
     # Return a list of requests with the IN_PROGRESS state
     def get_current_requests(self):
@@ -265,4 +270,3 @@ class Entity(models.Model):
             requests += tmp
 
         return requests
-            

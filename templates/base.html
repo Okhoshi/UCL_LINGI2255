@@ -84,7 +84,7 @@
                                 <ul class="dropdown-menu" role="menu" style="left: auto;right: 0;">
                                     <li><a href="{% url 'profile' %}"><i class="glyphicon glyphicon-user"></i>&nbsp;{% trans "My profile" %}</a></li>
                                     <li><a href="#"><i class="glyphicon glyphicon-transfer"></i>&nbsp;{% trans "My exchanges" %}</a></li>
-                                    <li><a href="#" data-toggle="modal" data-target="#MODAL" ><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
+                                    <li><a href="{% url 'messages' %}"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Internal messages" %}</a></li>
                                     <li class="divider"></li>
                                     <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i>&nbsp;{% trans "Log out" %}</a></li>
                                 </ul>
@@ -164,24 +164,6 @@
 			</footer>
 			{% endblock %}
             </div>
-
-                    <div class="modal fade" id="MODAL" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                          <div class="modal-dialog">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Modal title</h4>
-                                  </div>
-                                  <div class="modal-body">
-                                    <p>One fine body&hellip;</p>
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                  </div>
-                                </div><!-- /.modal-content -->
-                              </div><!-- /.modal-dialog -->
-                    </div>
 
         <script type="text/javascript" src="{% static 'js/bootstrap_datetimepicker.js' %}" charset="UTF-8"></script>
         <script type="text/javascript" src="{% static 'js/add_line_representative.js' %}" charset="UTF-8"></script>

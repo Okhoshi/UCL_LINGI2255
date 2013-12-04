@@ -20,7 +20,7 @@ class Association(Entity):
         app_label = 'website'
     
     def __unicode__(self):
-        return name
+        return self.name
 
     # Return the list of the AssociationUser that work for self
     def get_employees(self):

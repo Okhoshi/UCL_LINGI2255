@@ -58,3 +58,7 @@ class AssociationUser(models.Model):
     def get_association(self):
         return self.entity
     # get_association_user: not useful (why using a ID??)
+    
+    @staticmethod
+    def is_assoc_user(user_id):
+        return AssociationUser.objects.filter(dj_user__exact=user_id).count() == 1

@@ -11,33 +11,50 @@
 {% endblock %}
 
 {% block content %}
-{% if messages %}
+{% if threads %}
 <div class="row" style="margin:0 2%;">
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 message-col">
-        {% for i in messages %}
+        {% for thread in threads %}
         <div class="row message-thread">
             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0;">
                 <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="width:50px;" />
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding-left:5px">
-                <span class="message-username">User Name</span><br />
-                <span class="message-desc">Description</span>
+                <span class="message-username">{{ thread.0}}</span><br />
+                <span class="message-desc">{{ thread.1 }}</span>
             </div>
         </div>
         {% endfor %}
 	</div>
     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 message-col message-list">
+    {% if messages %}
         {% for i in messages %}
         <div class="row message-thread">
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding: 0;">
                 <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="width:50px;" />
             </div>
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="padding: 0;">
-                <span class="message-username">User Name</span><br />
-                <p>Description</p>
+                <div class="row">
+                    <div class="col-xs-8" >
+                        <span class="message-username">User Name</span>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <span class="message-date">Date of the message</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam scelerisque ullamcorper fringilla. Praesent quis purus in ipsum ultrices vulputate. Praesent facilisis, arcu nec gravida pellentesque, nulla massa feugiat velit, id sodales neque ligula at tellus. Nullam gravida sagittis libero ut laoreet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla libero risus, malesuada sed quam vel, cursus rhoncus leo. Integer venenatis venenatis justo, nec dapibus orci iaculis ut. Nunc velit tellus, lobortis eu porta vitae, dictum id orci. Donec tempor feugiat justo, nec fringilla massa lobortis tempor. Aliquam sed nibh eros. Aliquam erat volutpat. Proin porta sapien et mauris sodales, sit amet rhoncus dolor consectetur. Cras ac commodo leo. Nam laoreet non nibh ac tincidunt. Curabitur pretium arcu sed condimentum sollicitudin. Maecenas ultricies suscipit nulla vitae ultrices.</p>
+                        <p>Etiam at purus nunc. Suspendisse in laoreet metus. Aenean mollis vulputate laoreet. Vivamus diam risus, molestie eu interdum ut, eleifend eget justo. Curabitur ultricies arcu a viverra convallis. Sed vel lacus pulvinar, rhoncus libero vel, mattis arcu. In suscipit placerat dictum. Morbi gravida at lectus vitae tincidunt. Sed ac mauris est. Etiam posuere diam et nulla dapibus hendrerit.</p>
+                        <p>Donec aliquam, nunc sed eleifend interdum, quam nisi feugiat leo, at tempor ipsum elit sed eros. Donec eu tristique ipsum, et auctor leo. Donec sit amet ultricies massa. Praesent nec sem non orci tempus facilisis. Aenean non placerat purus, non volutpat elit. Fusce tincidunt scelerisque nulla, ac accumsan nisi dapibus eu. Nulla ultricies eu lectus et blandit. Ut eget aliquam purus. Sed nec turpis magna. Etiam non tortor ut purus adipiscing sodales. Aenean vitae consequat orci. Mauris pulvinar porta facilisis. Duis turpis eros, egestas vitae turpis sed, pulvinar consectetur nulla. </p>
+                    </div>
+                </div>
             </div>
         </div>
         {% endfor %}
+    {% else %}
+        <h4 style="text-align:center;">{% trans "Select a thread to display the messages." %}</h4>
+    {% endif%}
     </div>
 </div>
 {% else %}

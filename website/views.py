@@ -298,7 +298,24 @@ def logout(request):
 
 @login_required
 def messages(request):
-    return render(request, 'messages.html', {'messages': list(range(18))})
+
+    def qs_add(qs, item):
+        qs.add(item)
+        return qs
+
+    usr = DUser.objects.get(username=request.user)
+
+    if User.is_user(usr.id):
+        entity = User.objects.get(dj_user=usr.id)
+    elif AssociationUser.is_assoc_user(usr.id):
+        entity = AssociationUser.objects.get(dj_user=usr.id).entity
+    else:
+        return redirect('home')
+        
+    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
+    threads = map(lambda t: ( t.name, ",".join(map(lambda m: name(m), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
+
+    return render(request, 'messages.html', {'threads': threads})
 
 
 ###############################################################################
@@ -480,3 +497,11 @@ def profile_feedbacks(feedbacks):
         feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
 
     return feedbacks_list
+
+def name(entity):
+    if User.objects.filter(entity_ptr__exact=entity).count() != 0:
+        return User.objects.get(entity_ptr=entity).__unicode__()
+    elif Association.objects.filter(entity_ptr__exact=entity).count() != 0:
+        return Association.objects.get(entity_ptr=entity).__unicode__()
+    else:
+        return entity.__unicode__()

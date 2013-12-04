@@ -37,10 +37,12 @@ def id_path(instance, filename):
 class User(Entity):
     MAN = 'M'
     WOMAN = 'W'
+    UNSPECIFIED = 'U'
 
     GENDER_CHOICES = (
         (MAN, 'Man'),
         (WOMAN, 'Woman'),
+        (UNSPECIFIED, 'Unspecified'),
     )
 
     dj_user = models.OneToOneField(DUser, related_name='profile')
@@ -65,3 +67,7 @@ class User(Entity):
     # Return True is the user was verified by the administrator of Solidare-IT
     def is_verified(self):
         return self.confirmed_status
+
+    @staticmethod
+    def is_user(user_id):
+        return User.objects.filter(dj_user__exact=user_id).count() == 1
