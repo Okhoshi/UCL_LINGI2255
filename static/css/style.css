@@ -315,3 +315,32 @@ a:hover {
 textarea{
     resize: none;
 }
+
+/**************************
+******* messages.html *******
+****************************/
+.message-thread {
+    margin: 0;
+    padding: 2px;
+    border-bottom: 1px solid rgb(172, 173, 175);
+}
+
+.message-username {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.message-desc {
+    color: gray;
+}
+
+.message-col {
+    padding:0;
+    border-right:1px solid rgb(172, 173, 175);
+    overflow-y:scroll;
+    max-height:600px;
+}
+
+.message-list {
+    border-right:none;
+}
