@@ -33,12 +33,15 @@
         <div class="row form_blck">
             <div class=" text-center"><span class="form_blck_title">{% trans "Mandatory personal informations" %}</span></div>
             {% include 'personnal_informations.html' %}
-            {% include 'address.html' %}
+            <div class="row">{% include 'address.html' %}</div>
         </div>
 
         <div class="row form_blck">
             <div class=" text-center"><span class="form_blck_title">{% trans "Optional personal informations" %}</span></div>
-            {% include 'non_required.html' %}
+            <div class="row">
+                {% include 'non_required.html' %}
+                {% include 'profile_pic.html' %}
+                </div>
 
         </div>
         <div class="row form_blck">
@@ -58,7 +61,7 @@
             $(window).on("load resize", function(e) {
                if (once != 1) {
                     once = 1;
-                    centerVertically('to_align', 'ancre');
+                    centerVertically('to_align', 'non_required');
                     centerVertically('captcha', 'submit_button');
                 }
               });

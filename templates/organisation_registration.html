@@ -6,7 +6,7 @@
 <ol class="breadcrumb">
 	<li><a href="/">{% trans "Home" %}</a></li>
 	<li><a href="/register/">{% trans "Register" %}</a></li>
-	<li class="active">{% trans "New individual" %}</li>
+	<li class="active">{% trans "New organisation" %}</li>
 </ol>
 {% endblock %}
 
@@ -14,7 +14,7 @@
 {% block content %}
 
 
-    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data" id="organisation">
         {% csrf_token %}
 
         {% if error %}
@@ -36,9 +36,13 @@
         </div>
 
         <div class="row form_blck">
-            <div class=" text-center"><span class="form_blck_title">{% trans "Optional personal informations" %}</span></div>
-            {% include 'non_required.html' %}
+            <div class=" text-center"><span class="form_blck_title">{% trans "Oganisation informations" %}</span></div>
+            {% include 'organisation_informations.html' %}
 
+            <div class="row">
+                {% include 'address.html' %}
+                {% include 'non_required.html' %}
+            </div>
         </div>
         <div class="row form_blck">
             <div class=" text-center"><span class="form_blck_title">{% trans "Form validation" %}</span></div>
