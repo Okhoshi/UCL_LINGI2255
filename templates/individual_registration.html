@@ -14,7 +14,7 @@
 {% block content %}
 
 
-    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+    <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data" id="individual">
         {% csrf_token %}
 
         {% if error %}
@@ -41,7 +41,8 @@
             <div class="row">
                 {% include 'non_required.html' %}
                 {% include 'profile_pic.html' %}
-                </div>
+                {% include 'id_card_pic.html' %}
+            </div>
 
         </div>
         <div class="row form_blck">
@@ -61,7 +62,7 @@
             $(window).on("load resize", function(e) {
                if (once != 1) {
                     once = 1;
-                    centerVertically('to_align', 'non_required');
+                    centerVertically('profile_pic', 'non_required');
                     centerVertically('captcha', 'submit_button');
                 }
               });

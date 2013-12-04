@@ -162,7 +162,10 @@ a:hover {
 	width: 100%;
 	height: 100%;
 }
-@media only screen and (max-device-width: 800px), only screen and (device-width: 1024px) and (device-height: 600px), only screen and (width: 1280px) and (orientation: landscape), only screen and (device-width: 800px), only screen and (max-width: 767px) {
+@media only screen and (max-device-width: 800px),
+        only screen and (device-width: 1024px) and (device-height: 600px),
+        only screen and (width: 1280px) and (orientation: landscape),
+        only screen and (device-width: 800px), only screen and (max-width: 767px) {
 	.flex-video { padding-top: 0; }
 }
 
@@ -192,8 +195,9 @@ a:hover {
     padding-left: 10px;
 
 }
-#to_align {
+#id_card_scan, #profile_pic, #org_pic {
     text-align: center;
+
 }
 .file_input {
     display: table;
@@ -236,19 +240,27 @@ a:hover {
 #organisation #non_required label{
     margin-left: 0;
 }
+#individual #non_required, #individual #profile_pic, #individual #org_pic, #individual #id_card_scan{
+        width: 100%;
+    }
 @media (min-width: 768px) {
     #organisation #non_required label{
         margin-left: 8.33333333%;
     }
+    #individual #non_required, #individual #profile_pic, #individual #org_pic, #individual #id_card_scan{
+        width: 100%;
+    }
 }
 @media (min-width: 992px) {
-        #organisation #non_required {
+    #organisation #non_required {
         width: 50%;
     }
     #organisation #non_required label{
         margin-left: 0;
     }
-}
+    #individual #non_required, #individual #profile_pic, #individual #org_pic, #individual #id_card_scan{
+        width: 33.33333333%;
+    }}
 
 /**********************
  ***** login.html *****
