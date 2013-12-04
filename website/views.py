@@ -252,7 +252,11 @@ def profile(request):
         old_requests = this_entity.get_old_requests()
         feedbacks = this_entity.get_feedback()
         tuple_rating = this_entity.get_rating()
-        value_rating = 100.0 * float(tuple_rating[2] + tuple_rating[0]) / float(sum(tuple_rating))
+        total_rating = sum(tuple_rating)
+        if total_rating != 0:
+            value_rating = 100.0 * float(tuple_rating[2] + tuple_rating[0]) / float(sum(tuple_rating))
+        else:
+            value_rating = 0
         global_rating = (value_rating, sum(tuple_rating))
 
     # Then format the data for the template
