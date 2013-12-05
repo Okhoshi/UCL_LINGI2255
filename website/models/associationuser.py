@@ -28,11 +28,24 @@ def pic_path(instance, filename):
 
 
 class AssociationUser(models.Model):
+
+    MAN = 'M'
+    WOMAN = 'W'
+    UNSPECIFIED = 'U'
+
+    GENDER_CHOICES = (
+        (MAN, 'Man'),
+        (WOMAN, 'Woman'),
+        (UNSPECIFIED, 'Unspecified'),
+    )
+
     dj_user = models.OneToOneField(User, related_name='profile_a')
     level = models.IntegerField()
     entity = models.ForeignKey('website.Association')
     picture = models.ImageField(upload_to=pic_path)
     objects = SIAssocUserManager()
+    birth_day = models.DateTimeField('birth day')
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 
     class Meta:
         app_label = 'website'

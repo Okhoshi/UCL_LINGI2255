@@ -13,7 +13,6 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
-from datetime import datetime
 from django.templatetags.static import static
 
 # Non logged decorator
@@ -174,13 +173,39 @@ def edit_profile(request):
         else:
             type = "0"
         pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
-        return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, 'first_name':usr.first_name, 'birthdate':my_child.birth_day, 'gender':my_child.gender, 'user_name':usr.username, 'email':usr.email, 'street':my_child.location.street})
+        if is_user:
+            return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
+                                                                      'first_name':usr.first_name, \
+                                                                      'birthdate':my_child.birth_day, \
+                                                                      'gender':my_child.gender, \
+                                                                      'user_name':usr.username, \
+                                                                      'email':usr.email, \
+                                                                      'street':my_child.location.street, \
+                                                                      'streetnumber':my_child.location.number, \
+                                                                      'city':my_child.location.city, \
+                                                                      'postcode':my_child.location.postcode, \
+                                                                      'country':my_child.location.country, \
+                                                                      'profile_pic':my_child.picture, \
+                                                                      'id_card':my_child.id_card})
+        if is_association_user:
+            assoc = my_child.entity
+            return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
+                                                                      'first_name':usr.first_name, \
+                                                                      'birthdate':my_child.birth_day, \
+                                                                      'gender':my_child.gender, \
+                                                                      'user_name':usr.username, \
+                                                                      'email':usr.email, \
+                                                                      'street':assoc.location.street, \
+                                                                      'streetnumber':assoc.location.number, \
+                                                                      'city':assoc.location.city, \
+                                                                      'postcode':assoc.location.postcode, \
+                                                                      'country':assoc.location.country, \
+                                                                      'profile_pic':my_child.picture, \
+                                                                      'org_name':assoc.name, \
+                                                                      'org_pic':assoc.picture})
 
     elif request.method == 'POST':
-        if request.GET.get('type', False):
-            return analyse_request(request, type)
-        else:
-            return render(request, 'register.html', {})
+        return analyse_request_edit(request, type)
     else:
         return render(request, 'register.html', {})
 
@@ -267,6 +292,12 @@ def add_representative(request):
 
     return render(request, 'add_representative.html', {'rows':[{}]})
 
+@login_required
+def add_pins(request):
+    return render(request, 'add_pins.html', {'rows':[{}]})
+
+
+
 
 @login_required
 def account(request):
@@ -323,8 +354,11 @@ def account(request):
         ## GET SIMILAR
         similar_objects = entity.get_similar_matching_requests(3)
         for elem in similar_objects:
-            similar.append((elem,elem.name))
-
+            a=(elem, profile_current_offers([elem])[0][1], profile_current_demands([elem])[0][1], elem.name)
+            similar.append(a)
+            print('##########' , a)
+                
+    
         ## GET UPCOMING REQUESTS
         upcoming_requests = []
         upcoming_objects = entity.get_current_requests()
@@ -403,6 +437,7 @@ def profile(request):
     current_offers_tuples=[]
     current_demands_tuples = []
     old_tuples = []
+    feedback_tuples = []
     for req in current_offers:
         current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
     for req in current_demands:
@@ -412,11 +447,13 @@ def profile(request):
         old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
+        for feed in feedbacks:
+            feedback_tuples.append((feed[0][0], profile_current_demands([feed[0][0]])[0][1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
                                             'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
-                                            'old_requests': old_tuples, 'feedbacks': feedbacks, \
+                                            'old_requests': old_tuples, 'feedbacks': feedback_tuples, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
                                             'image': image, 'is_verified': is_verified})
 
@@ -620,8 +657,6 @@ def exchanges(request):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
-                print('###########')
-                print([elem])
 
 
 
@@ -660,7 +695,6 @@ def exchanges(request):
         'realised_req':realised_req,'feedback_req':feedback_req,\
         'percentage_req':percentage_req})
 
-
 @login_required()
 def search(request):
     search_results = []
@@ -678,16 +712,12 @@ def search(request):
         search_field = request.POST['search']
 
         if 'search_saved' in request.POST.dict():
-            if search_field == "":
-                return render(request, 'search.html', {'search_saved_invalid': "True", 'search_results':search_results,
-                                                     'max_times':max_times, 'searched':searched})
-            else:
-                pla = Place()
-                pla.save()
-                savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
-                savedsearch.save()
-                return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
-                                                       'max_times':max_times, 'searched':searched})
+            pla = Place()
+            pla.save()
+            savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
+            savedsearch.save()
+            return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
         else:
             search_object = SavedSearch(search_field=search_field, category="Jardin")
             search_objects = usr_entity.search(search_object, 9)
@@ -811,11 +841,11 @@ def profile_old_requests(old_requests, this_entity):
         other_is_demander = False
         if elem.demander.id == this_entity.id:
             other = elem.proposer
-            type_req = _('demanded')
+            is_offer = (False)
             other_is_demander = False
         elif elem.proposer.id == this_entity.id:
             other = elem.demander
-            type_req = _('proposed')
+            is_offer = (True)
             other_is_demander = True
 
         name_other = "/"
@@ -839,7 +869,7 @@ def profile_old_requests(old_requests, this_entity):
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
 
-        history.append((elem, type_req, name_other, elem.date))
+        history.append((elem, is_offer, name_other, elem.date))
 
     return history
 
@@ -860,6 +890,7 @@ def profile_feedbacks(feedbacks):
         feedback = elem.feedback_proposer
         rating = elem.rating_proposer
         other = elem.request.proposer
+        is_offer = False
 
         name_other = ""
 
@@ -877,13 +908,14 @@ def profile_feedbacks(feedbacks):
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
 
-        feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
+        feedbacks_list.append(((elem.request, name_other, feedback, is_offer), rating_values[rating - 1]))
 
     # Then check the feedback of its offers
     for elem in feedbacks[1]:
         feedback = elem.feedback_demander
         rating = elem.rating_demander
         other = elem.request.demander
+        is_offer = True
 
         name_other = ""
 
@@ -900,7 +932,7 @@ def profile_feedbacks(feedbacks):
             other = other_user[0]
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
-        feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
+        feedbacks_list.append(((elem.request, name_other, feedback, is_offer), rating_values[rating - 1]))
 
     return feedbacks_list
 
@@ -913,6 +945,24 @@ def sol_user(entity):
     else:
         return entity
 
+def analyse_request_edit(request, type):
+    form = MForm(request)
+    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+    if form.is_valid:
+        if type == "1":
+            # individual code
+            return modify_user(request, form)
+        elif type == "2":
+            # organisation code
+            return modify_organisation(request, form)
+        else:
+            return render(request, 'register.html', request.POST)
+    else:
+        error = True
+        dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+        dictionaries['errorlist'] = form.errorlist
+        print(form.type)
+        return render(request, pages[type], dictionaries)
 
 def analyse_request(request, type):
     form = MForm(request)
@@ -933,6 +983,40 @@ def analyse_request(request, type):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+def modify_user(request, form):
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    dusr = DUser.objects.get(username=request.user)
+    dusr.username = form.user_name
+    dusr.email = form.email
+    dusr.passwd = form.passwd
+    usr = User.objects.get(dj_user=dusr)
+    usr.first_name = form.first_name
+    usr.last_name = form.name
+    usr.location = p
+    usr.birth_day = form.birthdate
+    usr.gender = form.gender
+    if request.FILES.get('profile_pic') is not None:
+        usr.picture.save(request.FILES.get('profile_pic').name,
+                          request.FILES.get('profile_pic'),
+                          save=False)
+    if request.FILES.get('id_card_pic') is not None:
+        usr.id_card.save(request.FILES.get('id_card_pic').name,
+                          request.FILES.get('id_card_pic'),
+                          save=False)
+    dusr.save()
+    usr.save()
+    print("Fin du sauver edit user")
+    # Log on the newly created user
+    Dlogout(request)
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+def modify_organisation(request, form):
+    pass
 
 def create_new_user(request, form):
 

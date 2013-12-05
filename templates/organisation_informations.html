@@ -11,7 +11,7 @@
         <div class=" row form_el">
             <label for="inputOrgName" class="col-sm-4 control-label">{% trans "Organisation" %}*</label>
 	        <div class="col-sm-8">
-		        <input type="text" class="form-control" id="inputOrgName" name="org_name"
+		        <input type="text" class="form-control" id="inputOrgName" name="org_name" value="{{ org_name }}"
                         placeholder="{% trans "Name of the organisation" %}" value="{{ org_name }}"
                         style="border-color: {{ org_name_color }} !important;" required>
 	        </div>
