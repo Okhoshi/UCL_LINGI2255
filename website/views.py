@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
+from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.translation import ugettext_lazy as _
@@ -157,27 +158,78 @@ def register(request):
 def add_representative(request):
     # This page can only be reached by association users
     this_user = DUser.objects.get(username=request.user)
-    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    is_association_user = AssociationUser.objects.get(dj_user=this_user.id)
     if not is_association_user:
         return redirect('account')
+    else:
+        au = is_association_user
 
     if request.method == 'POST':
         form = RForm(request)
         if form.is_valid:
+            success_messages = []
+            print(form.rows)
             for row in form.rows:
-                this_user = DUser.objects.get(username=request.user)
-                is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+                print(row)
+                ###########################################
+                ##### Store the AssociationUser in DB #####
+                ###########################################
 
-                if (is_association_user):
-                    au = is_association_user[0]
-                    entity = au.entity
-                    print('Yess')
+                password = DUser.objects.make_random_password()
+                email = row['email']
+                username = email.split('@')[0]
+                last_name = row['last_name']
+                first_name = row['first_name']
+                level = int(row['level'])
+                assoc = au.get_association()
 
-                # TODO : Enregistrer les utilisateurs et envoyer le mail
+                index = 2
+                while DUser.objects.filter(username = username).count() != 0:
+                    username = "%s%s" % (username,index)
+                    index += 1
 
-                # auser = AssociationUser.objects.create_user(username="au1", \
-                #     password="anz", email="i", level=0, association=)
-                # auser.save()
+                auser = AssociationUser.objects.create_user(
+                    username = username,
+                    password = password,
+                    email = email,
+                    level = level,
+                    association = assoc,
+                    last_name = last_name,
+                    first_name = first_name)
+
+                #######################################
+                ##### Success message on the page #####
+                #######################################
+                
+                if level == 0:
+                    level_str = _("administrator")
+                else:
+                    level_str = _("member")
+                message = first_name + " " + last_name + _(" has successfully been added as ")\
+                    + level_str + "."
+                success_messages.append(message)
+
+
+                #########################
+                ##### Send the mail #####
+                #########################
+
+                user = settings.EMAIL_HOST_USER
+                dest = [email]
+                obj = "Solidare-It - Added to " + assoc.name
+                message = _("Dear ") + first_name + " " + last_name + ",\n\n"
+                message += _("This mail is sent to warn you that an account related to the association ") + \
+                    assoc.name + _(" has been created for you on Solidare-It.\n")
+                message += _("You can log in at http://") + get_current_site(request).domain + _("/login/ with the username and password that have been generated especially for you :\n\n")
+                message += _("Username : ") + username + "\n"
+                message += _("Password : ") + password + "\n\n"
+                message += _("You possess the status of ") + level_str + ".\n\n"
+                message += _("The Solidare-It Team.")
+
+                send_mail(obj, message, user, dest, fail_silently=False)
+
+            return render(request, 'add_representative.html',
+                    {'rows':[{}],'success_messages':success_messages})
         else:
             rows = form.rows if form.rows else [{}]
             return render(request, 'add_representative.html', \
@@ -200,6 +252,7 @@ def account(request):
     upcoming_requests = []
     summary = (0,0,0)
 
+    is_association_admin = False
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
         entity = is_user[0]
@@ -209,6 +262,9 @@ def account(request):
         au = is_association_user[0]
         entity = au.entity
         image = entity.picture
+        if au.level == 0:
+            is_association_admin = True
+
         #is_verified = 1
 
     if (is_user or is_association_user):
@@ -255,7 +311,8 @@ def account(request):
         print(image)
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
-        'upcoming_requests':upcoming_requests,'summary':summary})
+        'upcoming_requests':upcoming_requests,'summary':summary,\
+        'is_association_admin': is_association_admin})
 
 
 @login_required
