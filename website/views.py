@@ -12,7 +12,6 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
-from django.utils.translation import ugettext_lazy as _
 from forms import MForm,RForm,SolidareForm, PForm
 from exceptions import *
 from website.models import *
@@ -256,10 +255,12 @@ def add_representative(request):
                 first_name = row['first_name']
                 level = int(row['level'])
                 assoc = au.get_association()
+                birthdate = datetime.datetime.utcnow().replace(tzinfo=utc)
 
                 index = 2
+                base_username = username
                 while DUser.objects.filter(username = username).count() != 0:
-                    username = "%s%s" % (username,index)
+                    username = "%s%s" % (base_username,index)
                     index += 1
 
                 auser = AssociationUser.objects.create_user(
@@ -269,7 +270,8 @@ def add_representative(request):
                     level = level,
                     association = assoc,
                     last_name = last_name,
-                    first_name = first_name)
+                    first_name = first_name,
+                    birth_day = birthdate)
 
                 #######################################
                 ##### Success message on the page #####
