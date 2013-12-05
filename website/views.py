@@ -13,6 +13,7 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
+from datetime import datetime
 from django.templatetags.static import static
 
 # Non logged decorator
@@ -224,9 +225,7 @@ def add_representative(request):
         form = RForm(request)
         if form.is_valid:
             success_messages = []
-            print(form.rows)
             for row in form.rows:
-                print(row)
                 ###########################################
                 ##### Store the AssociationUser in DB #####
                 ###########################################
@@ -350,8 +349,11 @@ def account(request):
         ## GET SIMILAR
         similar_objects = entity.get_similar_matching_requests(3)
         for elem in similar_objects:
-            similar.append((elem,elem.name))
-
+            a=(elem, profile_current_offers([elem])[0][1], profile_current_demands([elem])[0][1], elem.name)
+            similar.append(a)
+            print('##########' , a)
+                
+    
         ## GET UPCOMING REQUESTS
         upcoming_requests = []
         upcoming_objects = entity.get_current_requests()
@@ -366,8 +368,7 @@ def account(request):
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
         summary = (proposal_requests,in_progress_requests,old_requests)
-        print("########")
-        print(image)
+        
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
@@ -378,7 +379,6 @@ def account(request):
 @login_required
 def profile(request):
 
-    #TODO verify nom affiche si assoc ou association user
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
@@ -386,12 +386,9 @@ def profile(request):
     
     if request.method == 'POST':
         profile_id = request.POST.get('profile_id')
-        is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
+        is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
        
-      #  is_user = User.objects.filter(dj_user__exact=this_user.id)
-      #  is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
- 
     is_verified = None
     this_entity = None
     image = None
@@ -406,7 +403,7 @@ def profile(request):
         au = is_association_user[0]
         this_entity = au.entity
         image = this_entity.picture
-        is_verified = 1 # A active association must be verified
+        is_verified = 1
         profile_name = this_entity.name 
 
     # Then, fetch some useful data from the models
@@ -435,6 +432,7 @@ def profile(request):
     current_offers_tuples=[]
     current_demands_tuples = []
     old_tuples = []
+    feedback_tuples = []
     for req in current_offers:
         current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
     for req in current_demands:
@@ -444,6 +442,7 @@ def profile(request):
         old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
+        print(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
@@ -455,6 +454,7 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
+    DEF_MIN_RATING = 2
     dictionnary = {}
     if request.method == 'POST':
         form = SolidareForm(request)
@@ -489,7 +489,6 @@ def create_offer_demand(request):
             elif is_association_user:
                 au = is_association_user[0]
                 entity = au.entity
-            print(entity)
 
             # Setting as demander or proposer
             proposer = None
@@ -499,14 +498,41 @@ def create_offer_demand(request):
             elif form.values['type'] == 'demand':
                 demander = entity
 
-            req = Request(name = form.values['description'], \
-                date = date,\
-                category = form.values['category'], \
-                place = place, \
-                proposer = proposer, \
-                demander = demander, \
-                state = Request.PROPOSAL)
-            req.save()
+            req = None
+            # Filtered Request
+            if form.values['filters'] == 'on':
+                only_verified = True if form.values['verified'] == 'on' \
+                            else False
+                min_rating = DEF_MIN_RATING if form.values['min_rating'] == 'on'\
+                            else 0
+                gender = form.values['gender']
+
+                req = FilteredRequest(name = form.values['description'],
+                    date = date,
+                    category = form.values['category'],
+                    place = place,
+                    proposer = proposer,
+                    demander = demander,
+                    state = Request.PROPOSAL)
+                req.only_verified = only_verified
+                req.min_rating = min_rating
+                req.gender = gender
+                req.save()
+
+                age_filter = AgeFilter(min_age = form.values['min_age'],
+                    max_age = form.values['max_age'],
+                    filtered_request = req)
+                age_filter.save()
+
+            # Non-filtered request
+            else:
+                req = Request(name = form.values['description'],
+                    date = date,
+                    category = form.values['category'],
+                    place = place,
+                    proposer = proposer,
+                    demander = demander,
+                    state = Request.PROPOSAL)
 
             return redirect('account')
 
@@ -528,7 +554,8 @@ def logout(request):
 def messages(request):
 
     def qs_add(qs, item):
-        qs.add(item)
+        if qs and item:
+            qs.add(item)
         return qs
 
     usr = DUser.objects.get(username=request.user)
@@ -539,34 +566,41 @@ def messages(request):
         entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
         return redirect('home')
-        
-    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: ( t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
 
     messages = None
     req_id = None
     possible_rec = []
 
-    if request.method == 'GET':
-        req_id = request.GET.get('id')
-        
-    elif request.method == "POST":
-        if request.POST.get('id') and request.POST.get('receiver') and request.POST.get('message-content', '') != '':
+    if request.method == "POST":
+        if request.POST.get('type') and request.POST.get('id'):
             req_id = request.POST.get('id')
-            mess = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),
-                                   sender = entity, request=Request.objects.get(id=req_id) ,
-                                   message = request.POST.get('message-content'),
-                                   receiver = Entity.objects.get(id=request.POST.get('receiver')))
-            mess.save()
+            req = Request.objects.get(id=req_id)
 
-    if req_id:
-        messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
-        messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
-        sel_request = Request.objects.get(id=req_id)
-        possible_rec = map(lambda r: sol_user(r), qs_add( qs_add(sel_request.candidates, sel_request.proposer), sel_request.demander).exclude(id__exact=entity.id))
+            if request.POST['type'] == "1" and request.POST.get('receiver')\
+               and request.POST.get('message-content', '') != '':
 
-    return render(request, 'messages.html', {'threads': threads, 'messages': messages, 'request_id':req_id, 'possible_receivers': possible_rec})
+                mess = InternalMessage(time=datetime.datetime.utcnow().replace(tzinfo=utc),
+                                       sender=entity, request=Request.objects.get(id=req_id),
+                                       message=request.POST.get('message-content'),
+                                       receiver=Entity.objects.get(id=request.POST.get('receiver')))
+                print(mess)
+                mess.save()
+            elif request.POST['type'] == "2":
+                # Associate the current user with the request
+                req.candidates.add(entity)
+                req.save()
 
+                #Force Open the modal
+            elif request.POST['type'] == "3":
+                messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
+                messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
+                possible_rec = map(lambda r: sol_user(r), qs_add(qs_add(req.candidates, req.proposer), req.demander).exclude(id__exact=entity.id))
+                print('ici')
+                return render(request, 'message_display.html', {'request_id': req_id, 'messages': messages, 'possible_receivers' : possible_rec})
+
+    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
+    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+    return render(request, 'messages.html', {'threads': threads})
 
 @login_required
 def exchanges(request):
@@ -618,8 +652,6 @@ def exchanges(request):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
-                print('###########')
-                print([elem])
 
 
 
@@ -658,6 +690,7 @@ def exchanges(request):
         'realised_req':realised_req,'feedback_req':feedback_req,\
         'percentage_req':percentage_req})
 
+
 @login_required()
 def search(request):
     search_results = []
@@ -673,17 +706,46 @@ def search(request):
     max_times = 0
     if request.method == 'POST':
         search_field = request.POST['search']
-        search_object = SavedSearch(search_field=search_field, category="Jardin")
-        search_objects = usr_entity.search(search_object, 9)
-        searched = True
-        for this_request in search_objects:
-            print(this_request)
-            (req_initiator, req_type) = this_request.get_initiator()
-            # Need to know if it's a User or a Association
-            initiator_entity = sol_user(req_initiator)
-            search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
-        max_times = len(search_results)
 
+        if 'search_saved' in request.POST.dict():
+            if search_field == "":
+                return render(request, 'search.html', {'search_saved_invalid': "True", 'search_results':search_results,
+                                                     'max_times':max_times, 'searched':searched})
+            else:
+                pla = Place()
+                pla.save()
+                savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
+                savedsearch.save()
+                return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
+                                                       'max_times':max_times, 'searched':searched})
+        else:
+            search_object = SavedSearch(search_field=search_field, category="Jardin")
+            search_objects = usr_entity.search(search_object, 9)
+            searched = True
+            for this_request in search_objects:
+                print(this_request)
+                (req_initiator, req_type) = this_request.get_initiator()
+                # Need to know if it's a User or a Association
+                initiator_entity = sol_user(req_initiator)
+                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+            max_times = len(search_results)
+            return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
+    if request.method == 'GET':
+        search_field = request.GET.get('id')
+        if search_field:
+            search_object = SavedSearch(search_field=search_field, category="Jardin")
+            search_objects = usr_entity.search(search_object, 9)
+            searched = True
+            for this_request in search_objects:
+                print(this_request)
+                (req_initiator, req_type) = this_request.get_initiator()
+                # Need to know if it's a User or a Association
+                initiator_entity = sol_user(req_initiator)
+                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+            max_times = len(search_results)
+            return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
 
     return render(request, 'search.html', {'search_results':search_results, 'max_times':max_times, 'searched':searched})
 
@@ -704,7 +766,7 @@ def profile_current_offers(current_offers):
     current_offers_demander_list = []
     for elem in current_offers:
         demand = elem.demander
-        name_demand = "/"
+        name_demand = None
         demand_assoc = []
         demand_user = []
         # Check if a demander is found or not; if it's the case, determine if a

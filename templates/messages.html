@@ -11,11 +11,15 @@
 {% endblock %}
 
 {% block content %}
+
+
+
 {% if threads %}
 <div class="row" style="margin:0 2%;">
 	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 message-col">
         {% for thread in threads %}
-        <a href="?id={{ thread.0 }}">
+
+        <div id="clickable_{{ thread.0 }}" style="cursor: pointer;">
             <div class="row message-thread">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding: 0;">
                     {% if not thread.2 %}
@@ -29,49 +33,41 @@
                     <span class="message-desc">{{ thread.3 }}</span>
                 </div>
             </div>
-        </a>
+        </div>
+        <script type="text/javascript">
+        $(function() {
+            $('#clickable_{{ thread.0 }}').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url 'messages' %}',
+                    data:   { 'csrfmiddlewaretoken':'{{ csrf_token }}',
+                               'type': 3,
+                                'id': {{ thread.0 }}
+                            },
+                    dataType: "html",
+                    timeout: 3000,
+                    success: function(data) {
+                        $("#i_need_to_be_scrolled").html(data); },
+                    error: function() {
+                        alert('La requête n\'a pas abouti'); }
+                });
+            });
+      });
+      </script>
         {% endfor %}
 	</div>
-    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 message-col message-list" id="i_need_to_be_scrolled" >
-    {% if request_id %}
-        {% for msg in messages %}
-        {% if msg.4 %}
-        <div class="row message-thread">
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding: 0;">
-                {% if not msg.0.picture %}
-                <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="width:50px;" />
-                {% else %}
-                <img src="{{ MEDIA_URL }}{{ msg.0.picture }}" class="img-responsive" style="width:50px;" />
-                {% endif %}
-            </div>
-            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="padding: 0;">
-                <div class="row">
-                    <div class="col-xs-8" >
-                        <span class="message-username">{{ msg.0 }}</span> <span class="glyphicon glyphicon-chevron-right"></span> <span class="message-username">{{ msg.1 }}</span>
-                    </div>
-                    <div class="col-xs-4 text-right">
-                        <span class="message-date">{{ msg.3|date:"D, d N Y" }}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p>{{ msg.2 }}</p>
-                    </div>
-                </div>
-            </div>
+
+    <div id="right_blck">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 message-col message-list" id="i_need_to_be_scrolled" >
+            <h4 style="text-align:center;">{% trans "Select a thread to display the messages." %}</h4>
+        </div>
+        {% if request_id %}
+        <div class="col-xs-8 col-xs-offset-4" >
+            <button class="btn btn-primary" style="width: 100%; margin: 5px" data-target="#new-message" data-toggle="modal" >
+                <span class="glyphicon glyphicon-send"></span> {% trans "New message" %}</button>
         </div>
         {% endif %}
-        {% endfor %}
-    {% else %}
-        <h4 style="text-align:center;">{% trans "Select a thread to display the messages." %}</h4>
-    {% endif%}
     </div>
-    {% if request_id %}
-    <div class="col-xs-8 col-xs-offset-4" >
-        <button class="btn btn-primary" style="width: 100%; margin: 5px" data-target="#new-message" data-toggle="modal" ><span class="glyphicon glyphicon-send"></span> {% trans "New message" %}</button>
-        {% include "new_message.html" %}
-    </div>
-    {% endif %}
 </div>
 {% else %}
     <h4 style="text-align:center;">{% trans "You don't have any messages in your letterbox yet." %}</h4>
