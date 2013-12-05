@@ -153,6 +153,36 @@ def register(request):
     else:
         return render(request, 'register.html', {})
 
+@login_required
+def edit_profile(request):
+    """ handle the registration of a user
+    """
+    type = request.GET.get('type', False)
+
+    if request.method == 'GET':
+        usr = DUser.objects.get(username=request.user)
+        is_user = User.objects.filter(dj_user__exact=usr.id).count()
+        is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+        my_child = None
+        if is_user:
+            type = "1"
+            my_child = User.objects.get(dj_user=usr.id)
+        elif is_association_user:
+            type = "2"
+            my_child = AssociationUser.objects.get(dj_user=usr.id)
+        else:
+            type = "0"
+        pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+        return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, 'first_name':usr.first_name, 'birthdate':my_child.birth_day, 'gender':my_child.gender, 'user_name':usr.username, 'email':usr.email, 'street':my_child.location.street})
+
+    elif request.method == 'POST':
+        if request.GET.get('type', False):
+            return analyse_request(request, type)
+        else:
+            return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {})
+
 
 @login_required
 def add_representative(request):
@@ -251,17 +281,20 @@ def account(request):
     image = None
     upcoming_requests = []
     summary = (0,0,0)
+    type_user = 0
 
     is_association_admin = False
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
         entity = is_user[0]
         image = entity.picture
+        type_user = 1
         #is_verified = entity.is_verified
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
         image = entity.picture
+        type_user = 2
         if au.level == 0:
             is_association_admin = True
 
@@ -312,7 +345,8 @@ def account(request):
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
-        'is_association_admin': is_association_admin})
+        'is_association_admin': is_association_admin,\
+        'type_user':type_user})
 
 
 @login_required
