@@ -187,6 +187,8 @@ def edit_profile(request):
     else:
         type = "0"
 
+    edit = True
+
     if request.method == 'GET':
         pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
         if is_user:
@@ -202,7 +204,8 @@ def edit_profile(request):
                                                                       'postcode':my_child.location.postcode, \
                                                                       'country':my_child.location.country, \
                                                                       'profile_pic':my_child.picture, \
-                                                                      'id_card':my_child.id_card})
+                                                                      'id_card':my_child.id_card,
+                                                                      'edit': edit})
         if is_association_user:
             assoc = my_child.entity
             return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
@@ -219,7 +222,8 @@ def edit_profile(request):
                                                                       'profile_pic':my_child.picture, \
                                                                       'description':assoc.description,\
                                                                       'org_name':assoc.name, \
-                                                                      'org_pic':assoc.picture})
+                                                                      'org_pic':assoc.picture,
+                                                                      'edit':edit})
 
     elif request.method == 'POST':
         return analyse_request_edit(request, type, usr)
