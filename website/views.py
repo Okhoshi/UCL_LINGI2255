@@ -550,12 +550,13 @@ def search(request):
             print(this_request)
             (req_initiator, req_type) = this_request.get_initiator()
             # Need to know if it's a User or a Association
+            initiator_entity = sol_user(req_initiator)
             if divmod(i, 3)[1] == 0:
-                search_results_1.append((this_request, req_type, name(req_initiator), this_request.place, this_request.date))
+                search_results_1.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             elif divmod(i, 3)[1] == 1:
-                search_results_2.append((this_request, req_type, name(req_initiator), this_request.place, this_request.date))
+                search_results_2.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             else:
-                search_results_3.append((this_request, req_type, name(req_initiator), this_request.place, this_request.date))
+                search_results_3.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             i += 1
         max_times = len(search_results)
     return render(request, 'search.html', {'search_results_1':search_results_1, 'search_results_2':search_results_2, 'search_results_3':search_results_3, 'max_times':max_times, 'searched':searched})
