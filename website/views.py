@@ -1230,4 +1230,36 @@ def search_filter_can_be_added(this_request, usr_entity, is_user):
         return True
     if not FilteredRequest.objects.filter(request_ptr=this_request).count(): # If this_request is not a FilteredRequest
         return True
+    freq = FilteredRequest.objects.get(request_ptr=this_request)
+    # First check the verified status
+    if freq.only_verified:
+        if not usr_entity.confirmed_status:
+            return False
+    # Then check the gender
+    if not freq.gender == User.UNSPECIFIED:
+        if not freq.gender == usr_entity.gender:
+            return False
+    # Now based on the rating
+    # Ok if at least 50% of satisfaction
+    if freq.min_rating:
+        rating = usr_entity.get_rating()
+        if float(rating[1])/sum(rating) > 0.5:
+            return False
+    # Eventually, the Age Filters
+    age_filters = freq.get_age_filter
+    if not age_filters:
+        # No filters, so ok
+        return True
+    age_usr = usr_entity.get_age()
+    for filter in age_filters:
+        in_filter = True
+        if filter.min_age:
+            if age_usr <= filter.min_age:
+                in_filter = False
+        if in_filter and filter.max_age:
+            if age_user >= filter.max_age:
+                in_filter = False
+        if in_filter:
+            return True
+    # No in the filters, so don't show it
     return False

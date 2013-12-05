@@ -41,11 +41,11 @@ class ModelsTests(TestCase):
     def test_association_get_employees(self):
         assoc = ModelsTests.generate_association()
         au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
         au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
         au3 = AssociationUser.objects.create_user(username="au2-3", password="anzod", email="zoi", \
-                              level=0, association=assoc[1])
+                              level=0, association=assoc[1], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
 
         aua0 = assoc[0].get_employees()
         self.assertTrue(au1 in aua0)
@@ -55,11 +55,11 @@ class ModelsTests(TestCase):
     def test_associationuser_get_pin(self):
         assoc = ModelsTests.generate_association()
         au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
         au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
         au3 = AssociationUser.objects.create_user(username="au2-3", password="anzod", email="zoi", \
-                              level=0, association=assoc[1])
+                              level=0, association=assoc[1], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
 
         pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
         pin2 = PIN(first_name="bye", last_name="world", managed_by=au1)
@@ -81,7 +81,7 @@ class ModelsTests(TestCase):
     def test_associationuser_set_pin(self):
         assoc = ModelsTests.generate_association()
         au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
 
         au1.set_pin(first_name="Georges", last_name="Bush")
 
@@ -94,9 +94,9 @@ class ModelsTests(TestCase):
     def test_associationuser_get_pin(self):
         assoc = ModelsTests.generate_association()
         au1 = AssociationUser.objects.create_user(username="au1", password="anz", email="i", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
         au2 = AssociationUser.objects.create_user(username="au2", password="anzd", email="zi", \
-                              level=0, association=assoc[0])
+                              level=0, association=assoc[0], gender="F", birth_day=datetime.datetime.utcnow().replace(tzinfo=utc))
 
         pin1 = PIN(first_name="hello", last_name="world", managed_by=au1)
         pin2 = PIN(first_name="hello", last_name="kitty", managed_by=au1)
@@ -585,7 +585,19 @@ class ModelsTests(TestCase):
         self.assertEqual(coco_search2.place, req2.place)
         self.assertEqual(coco_search2.category, req2.category)
 
-        
+    def test_user_get_age(self):
+        users = ModelsTests.generate_user(2)
+
+
+        users[0].birth_day = datetime.datetime(2010, 05, 12).replace(tzinfo=utc)
+
+        users[1].birth_day = datetime.datetime(2010, 12, 31).replace(tzinfo=utc)
+
+        users[0].save()
+        users[1].save()
+
+        self.assertEqual(users[0].get_age(), 3)
+        self.assertEqual(users[1].get_age(), 2)
 
     def test_testimony_get_random(self):
         # Creation
