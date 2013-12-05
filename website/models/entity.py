@@ -58,7 +58,7 @@ class Entity(models.Model):
         else:
             candidates_request = Request.objects.none()
 
-        return proposed_request | demanded_request | candidates_request
+        return (proposed_request | demanded_request | candidates_request).distinct()
 
     # Return a list of requests with the IN_PROGRESS state
     def get_current_requests(self):
