@@ -8,3 +8,41 @@
 	<li href="active">{% trans "News" %}</li>
 </ol>
 {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
+          <div class="panel panel-info box">
+		    <div class="panel-heading">
+			    <h3 class="panel-title">{% trans "One more thing..." %}</h3>
+		    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p></p>
+		        <p>{% trans "Hello" %}, </p>
+                <p>{% trans "This is a first example of news" %}.</p>
+                <p>{% trans "God" %}</p>
+                <p></p>
+                <small>{% trans "Published the" %} 13 December, 2013</small>
+            </div>
+	    </div>
+        <div class="panel panel-info box">
+		    <div class="panel-heading">
+			    <h3 class="panel-title">{% trans "Hello world!" %}</h3>
+		    </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p></p>
+		        <p>{% trans "Hello" %}, </p>
+                <p>{% trans "I'm the god of this website and I'm proud to officially announce the opening of my wonderful website" %}!</p>
+                <p>{% trans "I hope you will like it, otherwise please go elsewhere" %}!</p>
+                <p>{% trans "God" %}</p>
+                <p></p>
+                <small>{% trans "Published the" %} 6 December, 2013</small>
+            </div>
+	    </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}

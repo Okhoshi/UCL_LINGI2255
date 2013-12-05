@@ -37,8 +37,16 @@
             {% endif %}
 		</div>
 		<div  class="col-xs-6">
-			<a class="btn btn-info btn-sm" style="width: 100px; margin-bottom: 15px">{% trans "History" %}</a><br />
-			<a class="btn btn-info btn-sm" style="width: 100px;">{% trans "Edit" %}</a>
+			{% if is_association_admin %}
+				<a class="btn btn-info btn-sm" style="width: 100px; margin-bottom: 15px" href="{% url 'add_representative' %}">
+					<i class="glyphicon glyphicon-plus"></i>
+					{% trans "Add member" %}
+				</a><br />
+			{% endif %}
+			<a class="btn btn-info btn-sm" style="width: 100px;">
+				<i class="glyphicon glyphicon-pencil"></i>
+				{% trans "Edit" %}
+			</a>
 		</div>
 	</div>
 </div>
