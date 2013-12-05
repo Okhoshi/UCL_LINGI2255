@@ -473,12 +473,16 @@ def profile(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    
+    my_profile = True
+
     profile_id = request.REQUEST.get('profile_id')
     if profile_id:
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
         is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
-       
+        my_profile = False
+    else:
+        profile_id = this_user.id
+
     is_verified = None
     this_entity = None
     image = None
@@ -540,7 +544,8 @@ def profile(request):
                                             'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
                                             'old_requests': old_tuples, 'feedbacks': feedback_tuples, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
-                                            'image': image, 'is_verified': is_verified})
+                                            'image': image, 'is_verified': is_verified, 'my_profile':my_profile,
+                                            'profile_id': profile_id})
 
 
 @login_required
