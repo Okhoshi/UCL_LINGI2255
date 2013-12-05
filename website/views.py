@@ -293,6 +293,12 @@ def add_representative(request):
 
     return render(request, 'add_representative.html', {'rows':[{}]})
 
+@login_required
+def add_pins(request):
+    return render(request, 'add_pins.html', {'rows':[{}]})
+
+
+
 
 @login_required
 def account(request):
