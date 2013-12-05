@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _, ugettext
 from recaptcha.client import captcha
 from django.conf import settings
-
+from django.contrib.auth.models import User as DUser
 
 class SolidareForm():
     def __init__(self,request):
@@ -157,7 +157,7 @@ class MForm(forms.Form):
     IND = False
     SOLIDAREITCOLOR = '#e1007a'
 
-    def __init__(self, request):
+    def __init__(self, request, usr=DUser()):
         form = request.POST
         self.colors = dict()
         self.errorlist = dict()
@@ -202,9 +202,12 @@ class MForm(forms.Form):
             if User.objects.filter(username=form.get('user_name', '')).count() == 0:
                 self.user_name = form.get('user_name', '')
             else:
-                self.is_valid = False
-                self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
-                self.errorlist[_("User name")] = _("This username is already used")
+                if not (form.get('user_name', '') == usr.username):
+                    self.is_valid = False
+                    self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
+                    self.errorlist[_("User name")] = _("This username is already used")
+                else:
+                    self.user_name = form.get('user_name', '')
         else:
             self.is_valid = False
             self.colors['user_name_color'] = MForm.SOLIDAREITCOLOR
