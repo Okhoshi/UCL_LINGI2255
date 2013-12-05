@@ -44,9 +44,11 @@ class FilteredRequest(Request):
     # It means that the request returned are only Requests (and not FilteredRequests)
     @staticmethod
     def get_all_public_requests():
-        reqs = Request.objects.all()
-        filtered_reqs = FilteredRequest.objects.all()
-        return reqs.exclude(filteredrequest__in=[o for o in filtered_reqs])
+        reqs = Request.objects.all();
+        filtered_reqs = list(FilteredRequest.objects.all())
+        for o in filtered_reqs:
+            reqs.exclude(filteredrequest=o)
+        return reqs
 
     @staticmethod
     def get_latest_requests(amount):
