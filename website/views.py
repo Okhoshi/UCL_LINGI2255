@@ -405,6 +405,7 @@ def profile(request):
     current_offers_tuples=[]
     current_demands_tuples = []
     old_tuples = []
+    feedback_tuples = []
     for req in current_offers:
         current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
     for req in current_demands:
@@ -414,6 +415,7 @@ def profile(request):
         old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
+        print(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
@@ -615,8 +617,6 @@ def exchanges(request):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
-                print('###########')
-                print([elem])
 
 
 
