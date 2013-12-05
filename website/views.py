@@ -13,7 +13,6 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
-from datetime import datetime
 from django.templatetags.static import static
 
 # Non logged decorator
@@ -416,12 +415,13 @@ def profile(request):
         old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
-        print(feedbacks)
+        for feed in feedbacks:
+            feedback_tuples.append((feed[0][0], profile_current_demands([feed[0][0]])[0][1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
                                             'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
-                                            'old_requests': old_tuples, 'feedbacks': feedbacks, \
+                                            'old_requests': old_tuples, 'feedbacks': feedback_tuples, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
                                             'image': image, 'is_verified': is_verified})
 
@@ -528,8 +528,7 @@ def logout(request):
 def messages(request):
 
     def qs_add(qs, item):
-        if qs and item:
-            qs.add(item)
+        qs.add(item)
         return qs
 
     usr = DUser.objects.get(username=request.user)
@@ -540,41 +539,34 @@ def messages(request):
         entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
         return redirect('home')
+        
+    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
+    threads = map(lambda t: ( t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
 
     messages = None
     req_id = None
     possible_rec = []
 
-    if request.method == "POST":
-        if request.POST.get('type') and request.POST.get('id'):
+    if request.method == 'GET':
+        req_id = request.GET.get('id')
+        
+    elif request.method == "POST":
+        if request.POST.get('id') and request.POST.get('receiver') and request.POST.get('message-content', '') != '':
             req_id = request.POST.get('id')
-            req = Request.objects.get(id=req_id)
+            mess = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),
+                                   sender = entity, request=Request.objects.get(id=req_id) ,
+                                   message = request.POST.get('message-content'),
+                                   receiver = Entity.objects.get(id=request.POST.get('receiver')))
+            mess.save()
 
-            if request.POST['type'] == "1" and request.POST.get('receiver')\
-               and request.POST.get('message-content', '') != '':
+    if req_id:
+        messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
+        messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
+        sel_request = Request.objects.get(id=req_id)
+        possible_rec = map(lambda r: sol_user(r), qs_add( qs_add(sel_request.candidates, sel_request.proposer), sel_request.demander).exclude(id__exact=entity.id))
 
-                mess = InternalMessage(time=datetime.datetime.utcnow().replace(tzinfo=utc),
-                                       sender=entity, request=Request.objects.get(id=req_id),
-                                       message=request.POST.get('message-content'),
-                                       receiver=Entity.objects.get(id=request.POST.get('receiver')))
-                print(mess)
-                mess.save()
-            elif request.POST['type'] == "2":
-                # Associate the current user with the request
-                req.candidates.add(entity)
-                req.save()
+    return render(request, 'messages.html', {'threads': threads, 'messages': messages, 'request_id':req_id, 'possible_receivers': possible_rec})
 
-                #Force Open the modal
-            elif request.POST['type'] == "3":
-                messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
-                messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
-                possible_rec = map(lambda r: sol_user(r), qs_add(qs_add(req.candidates, req.proposer), req.demander).exclude(id__exact=entity.id))
-                print('ici')
-                return render(request, 'message_display.html', {'request_id': req_id, 'messages': messages, 'possible_receivers' : possible_rec})
-
-    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
-    return render(request, 'messages.html', {'threads': threads})
 
 @login_required
 def exchanges(request):
@@ -664,7 +656,6 @@ def exchanges(request):
         'realised_req':realised_req,'feedback_req':feedback_req,\
         'percentage_req':percentage_req})
 
-
 @login_required()
 def search(request):
     search_results = []
@@ -682,16 +673,12 @@ def search(request):
         search_field = request.POST['search']
 
         if 'search_saved' in request.POST.dict():
-            if search_field == "":
-                return render(request, 'search.html', {'search_saved_invalid': "True", 'search_results':search_results,
-                                                     'max_times':max_times, 'searched':searched})
-            else:
-                pla = Place()
-                pla.save()
-                savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
-                savedsearch.save()
-                return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
-                                                       'max_times':max_times, 'searched':searched})
+            pla = Place()
+            pla.save()
+            savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
+            savedsearch.save()
+            return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
         else:
             search_object = SavedSearch(search_field=search_field, category="Jardin")
             search_objects = usr_entity.search(search_object, 9)
@@ -815,11 +802,11 @@ def profile_old_requests(old_requests, this_entity):
         other_is_demander = False
         if elem.demander.id == this_entity.id:
             other = elem.proposer
-            type_req = _('demanded')
+            is_offer = (False)
             other_is_demander = False
         elif elem.proposer.id == this_entity.id:
             other = elem.demander
-            type_req = _('proposed')
+            is_offer = (True)
             other_is_demander = True
 
         name_other = "/"
@@ -843,7 +830,7 @@ def profile_old_requests(old_requests, this_entity):
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
 
-        history.append((elem, type_req, name_other, elem.date))
+        history.append((elem, is_offer, name_other, elem.date))
 
     return history
 
@@ -864,6 +851,7 @@ def profile_feedbacks(feedbacks):
         feedback = elem.feedback_proposer
         rating = elem.rating_proposer
         other = elem.request.proposer
+        is_offer = False
 
         name_other = ""
 
@@ -881,13 +869,14 @@ def profile_feedbacks(feedbacks):
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
 
-        feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
+        feedbacks_list.append(((elem.request, name_other, feedback, is_offer), rating_values[rating - 1]))
 
     # Then check the feedback of its offers
     for elem in feedbacks[1]:
         feedback = elem.feedback_demander
         rating = elem.rating_demander
         other = elem.request.demander
+        is_offer = True
 
         name_other = ""
 
@@ -904,7 +893,7 @@ def profile_feedbacks(feedbacks):
             other = other_user[0]
             other = DUser.objects.get(id=other.dj_user_id)
             name_other = other.first_name + " " + other.last_name
-        feedbacks_list.append(((elem.request, name_other, feedback), rating_values[rating - 1]))
+        feedbacks_list.append(((elem.request, name_other, feedback, is_offer), rating_values[rating - 1]))
 
     return feedbacks_list
 
