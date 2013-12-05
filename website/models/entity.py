@@ -98,6 +98,11 @@ class Entity(models.Model):
     def set_followed(self, new_followed):
         self.followed.add(new_followed)
 
+    # Remove the old follow of the followed by self
+    def remove_followed(self, old_followed):
+        self.followed.remove(old_followed)
+        self.save()
+
     # Return a list of the saved searches made by the entity
     def get_searches(self):
         return SavedSearch.objects.filter(entity__exact=self)
