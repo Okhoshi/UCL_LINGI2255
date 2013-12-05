@@ -47,7 +47,7 @@
 	<div class="col-md-4 col-sm-6">
 		<h4 class="in_front">{% trans "The concept" %}</h4>
 		<div class="custom_homepage_blck">
-			<p>
+			<p style="text-align:justify">
 	            {% blocktrans %}
 	            <strong>Solidare-it!</strong> is an initiative that tries to enhance the solidarity and the exchange between
 	            citizens of all layers of society. From the name “Solidare-it !” we can distill the following things
@@ -63,7 +63,7 @@
 		<h4>{% trans "Testimonies" %}</h4>
 		<div class="custom_homepage_blck">
 			{%  for testimony in testimonies  %}
-			<blockquote>
+			<blockquote style="text-align:justify">
 				<p>{{ testimony.testimony }}</p>
 			</blockquote>
 	        {% endfor %}
@@ -102,13 +102,13 @@
 
 	<div class="col-md-4 col-sm-6">
 		<h4>{% trans "Latest offers and demands" %}</h4>
-		<div class="custom_homepage_blck">
+		<div class="custom_homepage_blck" style="overflow-x:hidden">
 			{% if latest_requests %}
 				<table class="table table-striped">
 				{% for elem in latest_requests %}
 					<tr>
                     {% include 'request_details.html' %}
-					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;padding:7px;">{{ elem.0.name }}</td>
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;padding:7px;">{{ elem.0.name|slice:":40" }}</td>
 				</tr>
 				{% endfor %}
 				</table>

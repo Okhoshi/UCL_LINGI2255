@@ -151,7 +151,6 @@ a:hover {
 .custom_homepage_blck {
     max-height: 235px;
     overflow-y: auto;
-    text-align: justify;
 }
 /* Responsive Youtube Video */
 .flex-video {
