@@ -613,6 +613,16 @@ def messages(request):
 
     threads = entity.get_all_requests(include_candidates=True).order_by('-date')
     threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+
+    found = False
+    for th in threads:
+        print(th[0], long(req_id) == th[0])
+        if long(req_id) == th[0]:
+            found = True
+            break
+    if not found:
+        req_id = None
+
     return render(request, 'messages.html', {'threads': threads, 'request_id': req_id})
 
 
