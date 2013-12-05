@@ -12,7 +12,6 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
-from django.utils.translation import ugettext_lazy as _
 from forms import MForm,RForm,SolidareForm, PForm
 from exceptions import *
 from website.models import *
@@ -324,7 +323,6 @@ def add_pins(request):
 
                 new_pin = PIN(first_name=first_name, last_name=last_name, managed_by=managed_by)
                 new_pin.save()
-
 
                 message = first_name + " " + last_name + _(" has successfully been added and managed by ")\
                     + managed_by.dj_user.get_full_name() + "."
