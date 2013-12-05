@@ -55,6 +55,8 @@ class Request(models.Model):
     def get_all_requests():
         return Request.objects.all()
 
+    
+
     # Return some requests that are similar with self
     def get_similar_requests(self):
         # SHOULD BE REDONE!!!

@@ -103,7 +103,16 @@
 	<div class="col-md-4 col-sm-6">
 		<h4>{% trans "Latest offers and demands" %}</h4>
 		<div class="custom_homepage_blck">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+			{% if latest_requests %}
+				<table class="table table-striped">
+				{% for elem in latest_requests %}
+					<tr>
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			{% endif %}
 		</div>
 	</div>
 

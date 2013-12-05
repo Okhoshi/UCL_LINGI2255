@@ -43,5 +43,9 @@ class FilteredRequest(Request):
     # It means that the request returned are only Requests (and not FilteredRequests)
     @staticmethod
     def get_all_public_requests():
-        freq = FilteredRequest.objects.all()
-        return Request.objects.all().exclude(id__in=[o.request_ptr_id for o in freq])
+        req = Request.objects.all()
+        return req.exclude(filteredrequest__in=[o for o in req])
+
+    @staticmethod
+    def get_latest_requests(amount):
+        return FilteredRequest.get_all_public_requests().order_by('-date')[:amount]
