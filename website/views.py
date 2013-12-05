@@ -40,7 +40,7 @@ def news(request):
 
 @login_forbidden
 def login(request):
-    message = request
+    message = None
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
