@@ -12,7 +12,7 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
-import datetime
+from django.templatetags.static import static
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -359,6 +359,8 @@ def create_offer_demand(request):
                 demander = demander, \
                 state = Request.PROPOSAL)
             req.save()
+
+            return redirect('account')
 
         else:
             dictionnary['errorlist'] = form.errorlist

@@ -37,11 +37,6 @@ class SolidareForm():
 
 
         ### ADDRESS ##
-        if not match(r"^[a-zA-Z0-9 ]*$", self.values['street']):
-            self.is_valid = False
-            self.colors['street_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist[_("Street")] = _("This street") + " " +_("can only contain alphanumeric characters")
-
         if not match(r"^[0-9]{0,5}$", self.values['streetnumber']):
             self.is_valid = False
             self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
