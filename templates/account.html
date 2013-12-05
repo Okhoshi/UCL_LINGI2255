@@ -107,7 +107,8 @@
 		</div>
 		<ul class="list-unstyled">
 			{% for elem in similar %}
-			<li>{{ elem.1 }}</li>
+            	{% include 'request_details.html' %}
+				<li data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</li>
 			{% endfor %}
 		</ul>
 	</div>

@@ -324,8 +324,11 @@ def account(request):
         ## GET SIMILAR
         similar_objects = entity.get_similar_matching_requests(3)
         for elem in similar_objects:
-            similar.append((elem,elem.name))
-
+            a=(elem, profile_current_offers([elem])[0][1], profile_current_demands([elem])[0][1], elem.name)
+            similar.append(a)
+            print('##########' , a)
+                
+    
         ## GET UPCOMING REQUESTS
         upcoming_requests = []
         upcoming_objects = entity.get_current_requests()
