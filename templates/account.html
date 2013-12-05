@@ -43,10 +43,15 @@
 					{% trans "Add member" %}
 				</a><br />
 			{% endif %}
-			<a class="btn btn-info btn-sm" style="width: 100px;">
+
+            <form action="/edit_profile/" method="GET">
+			<a class="btn btn-info btn-sm" style="width: 100px;" href="{% url 'edit_profile' %}">
 				<i class="glyphicon glyphicon-pencil"></i>
 				{% trans "Edit" %}
 			</a>
+            <input name="exists" value="True" type="hidden" readonly/>
+            <input name="type" value="{{ type_user }}" type="hidden"/>
+            </form>
 		</div>
 	</div>
 </div>
