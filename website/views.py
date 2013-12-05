@@ -566,8 +566,12 @@ def create_offer_demand(request):
                 only_verified = True if form.values['verified'] == 'on' \
                             else False
                 min_rating = DEF_MIN_RATING if form.values['min_rating'] == 'on'\
-                            else 0
+                            else None
                 gender = form.values['gender']
+                min_age = int(form.values['min_age']) if form.values['min_age'] != ''\
+                    else None
+                max_age = int(form.values['max_age']) if form.values['max_age'] != ''\
+                    else None
 
                 req = FilteredRequest(name = form.values['description'],
                     date = date,
@@ -581,8 +585,8 @@ def create_offer_demand(request):
                 req.gender = gender
                 req.save()
 
-                age_filter = AgeFilter(min_age = form.values['min_age'],
-                    max_age = form.values['max_age'],
+                age_filter = AgeFilter(min_age = min_age,
+                    max_age = max_age,
                     filtered_request = req)
                 age_filter.save()
 
