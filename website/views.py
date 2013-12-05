@@ -13,6 +13,7 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
+from datetime import datetime
 from django.templatetags.static import static
 
 # Non logged decorator
@@ -551,6 +552,7 @@ def messages(request):
                                        sender=entity, request=Request.objects.get(id=req_id),
                                        message=request.POST.get('message-content'),
                                        receiver=Entity.objects.get(id=request.POST.get('receiver')))
+                print(mess)
                 mess.save()
             elif request.POST['type'] == "2":
                 # Associate the current user with the request
