@@ -62,8 +62,8 @@
             </div>
             <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
                 <ul class="list-unstyled">
-                    <li>{% trans "Type" %} : {{ elem.1 }}</li>
-                    <li>{% trans "By" %} : {{ elem.2 }}</li>
+                    <li>{% trans "Type" %} : {{ elem.1 }}</a </li>
+                    <li>{% trans "By" %} : <a href="{% url 'profile' %}?profile_id={{ elem.2.id }}">{{ elem.2 }} </a></li>
                     <li>{% trans "Place" %} : {{ elem.3 }}</li>
                     {% if elem.4 %}
                         <li>{% trans "When" %} : {{ elem.4 }}</li>
