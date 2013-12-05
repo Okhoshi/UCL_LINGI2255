@@ -41,6 +41,13 @@ class SolidareForm():
             self.colors['description_color'] = MForm.SOLIDAREITCOLOR
             self.errorlist[_("Description")] = _("The description is mandatory")
 
+        ### DATE ###
+        if self.values['date'] != '' and not match(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$", self.values['date']):
+            self.values['date'] = ''
+            self.is_valid = False
+            self.colors['date_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Date")] = _("The date")+ " "+  _("format must be YYYY-MM-DD")
+
         ### ADDRESS ##
         if not match(r"^[0-9]{0,5}$", self.values['streetnumber']):
             self.is_valid = False
@@ -237,12 +244,12 @@ class MForm(forms.Form):
             self.errorlist[_("First name")] = _("This field can only contain uppercase and lowercase letters")
 
         ### BIRTHDATE ###
-        if form.get('birthdate', '') != '':
+        if form.get('birthdate', '') != '' and match(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$", form.get('birthdate', '')):
             self.birthdate = form.get('birthdate', '')
         else:
             self.is_valid = False
             self.colors['birthdate_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist[_("Birthdate")] = _("This field can only contain a birthdate")
+            self.errorlist[_("Birthdate")] = _("The birthdate format must be YYYY-MM-DD")
 
         self.gender = form.get('gender')
 
@@ -286,7 +293,7 @@ class MForm(forms.Form):
 
 
         ### ADDRESS ##
-        if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ]*$", form.get('street', '')):
+        if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ',\.;]*$", form.get('street', '')):
             self.street = form.get('street', '')
         else:
             self.is_valid = False
