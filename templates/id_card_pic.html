@@ -5,7 +5,7 @@
     <img src="{% static 'images/default_avatar.jpg' %}" class="img-responsive" style="margin:auto auto 20px auto; " alt="Profile picture">
     <div class="row">
         <div class="col-xs-6 col-xs-offset-3 text-left">
-            <input type=file name="id_card_pic" class="btn btn-primary input_file" id="id_card_scan_input"/>
+            <input type=file name="id_card_pic" class="btn btn-primary input_file" value="{{ id_card }}" id="id_card_scan_input"/>
             <div class="btn btn-primary  file_input">
                 <span class="glyphicon glyphicon-file f_decor" id="id_card"> {% trans "Browse" %}</span>
             </div>

@@ -31,7 +31,13 @@
     }
 }
 .social_network_logo_login {
-    padding: 3% 1% 1% 1%;
+        padding-top: 3%;
+}
+   
+@media (min-width: 768px) { 
+    .social_network_logo_login {
+        padding: 3% 1% 1% 1%;
+    }
 }
 .language_button {
     text-transform: uppercase;
@@ -143,8 +149,9 @@ a:hover {
 }
 
 .custom_homepage_blck {
-    max-height: 260px;
-    overflow-y: scroll;
+    max-height: 235px;
+    overflow-y: auto;
+    text-align: justify;
 }
 /* Responsive Youtube Video */
 .flex-video {
@@ -174,6 +181,10 @@ a:hover {
 }
 .modal_custom {
     padding-top: 100px;
+}
+
+#partners .img-responsive {
+    margin: 0 auto;
 }
 /**********************
  *** register.html ****

@@ -41,8 +41,8 @@
             <label for="inputDescription" class="col-md-offset-0  col-sm-3  col-sm-offset-1  control-label">{% trans "Description"%}</label>
 	        <div class="col-sm-8">
 		        <textarea class="form-control resizable" id="inputDescription" name="description"
-                          value="{{ description }}" style="border-color: {{ description_color }} !important;"
-                          placeholder="{% trans "Small organisation description"%}" rows="3"></textarea>
+                          style="border-color: {{ description_color }} !important;"
+                          placeholder="{% trans "Small organisation description"%}" rows="3">{{ description }}</textarea>
             </div>
         </div>
 

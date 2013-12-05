@@ -15,7 +15,7 @@ class SIAssocUserManager(models.Manager):
         buser = User.objects.create_user(username, email, password,
                                           first_name=extra_field.get('first_name', ''),
                                           last_name=extra_field.get('last_name', ''))
-        user = AssociationUser()
+        user = AssociationUser(birth_day=extra_field.get('birth_day', ''), gender=extra_field.get('gender', ''))
         user.dj_user = buser
         user.entity = association
         user.level = level
