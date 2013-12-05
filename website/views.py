@@ -155,6 +155,12 @@ def register(request):
 
 @login_required
 def add_representative(request):
+    # This page can only be reached by association users
+    this_user = DUser.objects.get(username=request.user)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    if not is_association_user:
+        return redirect('account')
+
     if request.method == 'POST':
         form = RForm(request)
         if form.is_valid:

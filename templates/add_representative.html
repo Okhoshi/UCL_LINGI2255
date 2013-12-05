@@ -5,8 +5,7 @@
 {% block breadcrumb %}
 <ol class="breadcrumb">
 	<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-	<li><a href="#">{% trans "Organisations" %}</a></li>
-	<li><a href="{% url 'profile' %}">"My_organisation_name"</a></li>
+	<li><a href="{% url 'account' %}">{% trans "Account" %}</a></li>
 	<li class="active">{% trans "Add a representative" %}</li>
 </ol>
 {% endblock %}
@@ -59,9 +58,9 @@
 						<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
 						<div style="margin-right: 15px;margin-left: 15px;">
 							<select class="form-control" id="inputLevel" name="memberLevel[]">
-								<option value="0">0</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
+								<!-- TODO : Set the values according to the right member status -->
+								<option value="1">{% trans 'Member' %}</option>
+								<option value="0">{% trans 'Administrator' %}</option>
 							</select>
 						</div>
 						
