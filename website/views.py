@@ -307,8 +307,7 @@ def account(request):
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
         summary = (proposal_requests,in_progress_requests,old_requests)
-        print("########")
-        print(image)
+        
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
