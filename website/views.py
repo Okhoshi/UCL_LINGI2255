@@ -12,6 +12,7 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
+import datetime
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -275,37 +276,65 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
-    # if request.method == 'POST':
-    #     form = RForm(request)
-    #     if form.is_valid:
-    #         for row in form.rows:
-    #             this_user = DUser.objects.get(username=request.user)
-    #             is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-
-    #             if (is_association_user):
-    #                 au = is_association_user[0]
-    #                 entity = au.entity
-    #                 print('Yess')
-
-    #             # TODO : Enregistrer les utilisateurs et envoyer le mail
-
-    #             # auser = AssociationUser.objects.create_user(username="au1", \
-    #             #     password="anz", email="i", level=0, association=)
-    #             # auser.save()
-    #     else:
-    #         rows = form.rows if form.rows else [{}]
-    #         return render(request, 'add_representative.html', \
-    #             {'errorlist':form.errorlist,\
-    #              'rows':rows})
-
+    dictionnary = {}
     if request.method == 'POST':
         form = SolidareForm(request)
+        dictionnary = form.values
         if form.is_valid:
-            pass
-        else:
-            pass
+            # Getting the place
+            if form.values['country'] or form.values['postcode'] or\
+                form.values['city'] or form.values['street'] or\
+                form.values['streetnumber']:
+                place = Place(country = form.values['country'], \
+                    postcode = form.values['postcode'],\
+                    city = form.values['city'], \
+                    street = form.values['street'],\
+                    number = form.values['streetnumber'])
+                place.save()
+            else:
+                place = Place()
+                place.save()
 
-    return render(request, 'create.html', {})
+            # Getting the date
+            date = None
+            if form.values['date']:
+                date = form.values['date']
+
+            # Getting the user
+            this_user = DUser.objects.get(username = request.user)
+            is_user = User.objects.filter(dj_user__exact = this_user.id)
+            is_association_user = AssociationUser.objects.filter(dj_user__exact = this_user.id)
+            entity = None
+            if is_user:
+                entity = is_user[0]
+            elif is_association_user:
+                au = is_association_user[0]
+                entity = au.entity
+            print(entity)
+
+            # Setting as demander or proposer
+            proposer = None
+            demander = None
+            if form.values['type'] == 'offer':
+                proposer = entity
+            elif form.values['type'] == 'demand':
+                demander = entity
+
+            req = Request(name = form.values['description'], \
+                date = date,\
+                category = form.values['category'], \
+                place = place, \
+                proposer = proposer, \
+                demander = demander, \
+                state = Request.PROPOSAL)
+            req.save()
+
+        else:
+            dictionnary['errorlist'] = form.errorlist
+            for key,value in form.colors.items():
+                dictionnary[key] = value
+
+    return render(request, 'create.html', dictionnary)
 
 
 @login_required

@@ -11,13 +11,25 @@
 
 
 {% block content %}
+{% if errorlist %}
+    <div class="row warning">
+        <div class="col-md-12 ">
+            <h5>{% trans "There are errors in the form :" %}</h5>
+            <ul>
+            {% for errorname, errordesc in errorlist.items %}
+                <li>{{ errorname }} : {{ errordesc }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
 <div class="well">
 	<form class="form-horizontal" role="form" method="post">
 		{% csrf_token %}
 		<div class="col-md-6">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">{% trans "Person" %}</label>
-				<div class="col-xs-9">
+				<label class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "Person" %}</label>
+				<div class="col-sm-8">
 					<p class="form-control-static">
 						{% if user.first_name %}
 				            {{ user.first_name }} {{ user.last_name }}
@@ -29,8 +41,8 @@
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">{% trans "Type" %}*</label>
-				<div class="col-xs-9">
+				<label class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "Type" %}*</label>
+				<div class="col-sm-8">
 					<div class="radio">
 						<label>
 							<input type="radio" name="type" id="offer" value="offer" checked>
@@ -46,13 +58,47 @@
 				</div>
 			</div>
 
-			<div class="row">{% include 'address.html' %}</div>
+			<div class="row">
+
+				<!-- STREET -->
+				<div class=" row form_el">
+				    <label for="inputStreet" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ street_color }} !important;" >{% trans "Address" %}</label>
+				    <div class="col-sm-6 col-xs-9">
+				        <input type="text" class="form-control" id="inputStreet" name="street" placeholder="{% block address_placeholder %}{% trans "Street" %}{% endblock %}" style="border-color: {{ street_color }} !important;"  value="{{ street }}">
+				    </div>
+				    <!-- STREET NUMBER -->
+				    <div class="col-sm-2 col-xs-3">
+				        <input type="text" class="form-control" id="inputNumber" name="streetnumber" placeholder="{% trans "N°" %} " style="border-color: {{ streetnumber_color }} !important;" value="{{ streetnumber}}">
+				    </div>
+				</div>
+
+				<div class="row form_el">
+				    <!-- CITY -->
+				    <label for="inputCity" class="col-sm-3 col-sm-offset-1 col-xs-12 control-label" style="color:{{ city_color }} !important;" >{% trans "City" %}</label>
+				    <div class="col-sm-5 col-xs-8">
+				        <input type="text" class="form-control" id="inputCity" name="city" placeholder="{% trans "City" %}" style="border-color: {{ city_color }} !important;" value="{{ city }}">
+				    </div>
+				    <!-- POSTCODE -->
+				    <div class="col-sm-3 col-xs-4">
+				        <input type="text" class="form-control" id="inputPostCode" name="postcode" placeholder="{% trans "Post code" %}" style="border-color: {{ postcode_color }} !important;" value="{{ postcode }}">
+				    </div>
+				</div>
+
+				<div class="row form_el">
+				    <!-- COUNTRY -->
+				    <label for="inputCountry" class="col-sm-3 col-sm-offset-1 col-xs-12 control-label" style="color:{{ country_color }} !important;" >{% trans "Country" %}</label>
+				    <div class="col-sm-8 col-xs-8">
+				        <input type="text" class="form-control" id="inputCountry" name="country" placeholder="{% trans "Country" %}" style="border-color: {{ country_color }} !important;" value="{{ country }}">
+				    </div>
+				</div>
+
+			</div>
 
 			<div class="form-group">
-				<label for="inputDate" class="col-xs-3 control-label">{% trans "When ?" %}</label>
-				<div class="col-xs-9">
+				<label for="inputDate" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "When ?" %}</label>
+				<div class="col-sm-8">
 					<div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-						<input class="form-control" type="text" name="date" id="inputDate" required placeholder="{% trans "yyyy-mm-dd" %}" required>
+						<input class="form-control" type="text" name="date" id="inputDate" value="{{ date }}" placeholder="{% trans "yyyy-mm-dd" %}">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 						<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					</div>
@@ -61,30 +107,28 @@
 			</div>
 
 			<div class="form-group">
-				<label for="" class="col-sm-3 col-xs-12 control-label">{% trans "What ?" %}*</label>
-				<div class="col-xs-9">
+				<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "What ?" %}*</label>
+				<div class="col-sm-8">
 					<div class="form-inline">
-						<div class="form-group">
-							<select class="form-control" name="category">
-								<optgroup label="{% trans 'Category' %}">
-									<option value="category1">Category1</option>
-									<option value="category2">Category2</option>
-									<option value="category3">Category3</option>
-									<option value="category4">Category4</option>
-									<option value="category5">Category5</option>
-								</optgroupt>
-							</select>
-						</div>
+						<select class="form-control" name="category">
+							<optgroup label="{% trans 'Category' %}">
+								<option value="category1">Category1</option>
+								<option value="category2">Category2</option>
+								<option value="category3">Category3</option>
+								<option value="category4">Category4</option>
+								<option value="category5">Category5</option>
+							</optgroupt>
+						</select>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="col-md-6">
-			<div class="form-group">
-				<label for="description" class="col-xs-12 ">{% trans "Description" %}</label>
+			<div class="form-group" style="margin-top:50px;">
+				<label for="description" class="col-xs-12 " style="color: {{ description_color }} !important;" value="{{ country }}">{% trans "Description" %}*</label>
 				<div class="col-xs-12">
-					<textarea class="form-control" rows="10" id="description" name="description"></textarea>
+					<textarea class="form-control" rows="10" id="description" name="description" maxlength="512" style="border-color: {{ description_color }} !important;" value="{{ country }}" required>{{ description }}</textarea>
 				</div>
 			</div>
 		</div>
