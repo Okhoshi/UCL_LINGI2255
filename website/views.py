@@ -357,10 +357,27 @@ def add_pins(request):
 
 @login_required
 def account(request):
+    req_id = request.REQUEST.get('req_id')
+    candid_id = request.REQUEST.get('candid_id')
+    if req_id and candid_id:
+        request_to_change = Request.objects.get(id=req_id)
+        candid_obj = Entity.objects.get(id=candid_id)
+        if request_to_change.proposer:
+            request_to_change.demander = candid_obj
+        else:
+            request_to_change.proposer = candid_obj
+        request_to_change.state = Request.IN_PROGRESS
+        request_to_change.candidates = []
+        request_to_change.save()
+
+
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
     
+
+
+
     saved_searches = []
     similar = []
     pending = []
@@ -376,6 +393,7 @@ def account(request):
         entity = is_user[0]
         image = entity.picture
         type_user = 1
+
         #is_verified = entity.is_verified
     elif (is_association_user):
         au = is_association_user[0]
@@ -419,7 +437,7 @@ def account(request):
         pending_objects = entity.get_all_requests().filter(state__exact=Request.PROPOSAL)
         print(pending_objects)
         for elem in pending_objects:
-            req_candidates_obj = list(elem.candidates.all())
+            req_candidates_obj = list(elem.candidates.all().exclude(id__exact=entity.id))
             if req_candidates_obj:
                 for candid in req_candidates_obj:      
                     req_candidates.append(sol_user(candid))            
@@ -683,14 +701,15 @@ def messages(request):
     threads = entity.get_all_requests(include_candidates=True).order_by('-date')
     threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
 
-    found = False
-    for th in threads:
-        print(th[0], long(req_id) == th[0])
-        if long(req_id) == th[0]:
-            found = True
-            break
-    if not found:
-        req_id = None
+    if req_id:
+        found = False
+        for th in threads:
+            print(th[0], long(req_id) == th[0])
+            if long(req_id) == th[0]:
+                found = True
+                break
+        if not found:
+            req_id = None
 
     return render(request, 'messages.html', {'threads': threads, 'request_id': req_id})
 
