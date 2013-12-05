@@ -18,29 +18,10 @@
                 {% endif %}
 
                 {% trans "Category" %} : {{ elem.0.category }} <br>
-                {% if elem.1 %}
-                    <form action="/profile/" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
-                        {% trans "Proposer" %} : {{ elem.1 }}
-                        </button>
-                        <input name="profile_id" value="{{ elem.0.proposer.id }}" type="hidden" readonly/>
-                    </form><br>
-                {% else %}
-                    {% trans "Proposer" %} : /<br>
-                {% endif %}
-                {% if elem.2 %}
-                    <form action="/profile/" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
-                        {% trans "Demander" %} : {{ elem.2 }}
-                        </button>
-                        <input name="profile_id" value="{{ elem.0.demander.id }}" type="hidden" readonly/>
-                    </form><br>
-                {% else %}
-                    {% trans "Demander" %} : /<br>
-                {% endif %}
-
+                
+                {% trans "Proposer" %} : {% if elem.1 %}<a href="{% url 'profile' %}?profile_id={{ elem.0.proposer.id }}" >{{ elem.1 }}</a>{% else %}/{% endif %}<br>
+                
+                {% trans "Demander" %} : {% if elem.2 %}<a href="{% url 'profile' %}?profile_id={{ elem.0.demander.id }}" >{{ elem.2 }}</a>{% else %}/{% endif %}<br>
 
                 
                 

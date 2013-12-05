@@ -35,7 +35,35 @@ def login_forbidden(function=None, redirect_field_name=None, redirect_to='accoun
 
 def home(request):
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
-    return render(request, 'home.html', {'testimonies': testimonies})
+    latest_requests = FilteredRequest.get_all_public_requests()
+
+    latest_requests_tuples = []
+    for req in latest_requests:
+        latest_requests_tuples.append((req, \
+            profile_current_demands([req])[0][1],\
+            profile_current_offers([req])[0][1], \
+            profile_current_offers([req])[0][2]))
+
+    # Then format the data for the template
+    # current_offers_tuples=[]
+    # current_demands_tuples = []
+    # old_tuples = []
+    # feedback_tuples = []
+    # for req in current_offers:
+    #     current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
+    # for req in current_demands:
+    #     current_demands_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_demands([req])[0][2]))
+    # old_requests = profile_old_requests(old_requests, this_entity)
+    # for elem in old_requests:
+    #     old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
+    # if feedbacks:
+    #     feedbacks = profile_feedbacks(feedbacks)
+    #     for feed in feedbacks:
+    #         feedback_tuples.append((feed[0][0], profile_current_demands([feed[0][0]])[0][1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
+
+
+    return render(request, 'home.html', {'testimonies': testimonies,
+                                         'latest_requests':latest_requests_tuples})
 
 def news(request):
     return render(request, 'news.html', {})
@@ -357,12 +385,30 @@ def add_pins(request):
 
 @login_required
 def account(request):
+    req_id = request.REQUEST.get('req_id')
+    candid_id = request.REQUEST.get('candid_id')
+    if req_id and candid_id:
+        request_to_change = Request.objects.get(id=req_id)
+        candid_obj = Entity.objects.get(id=candid_id)
+        if request_to_change.proposer:
+            request_to_change.demander = candid_obj
+        else:
+            request_to_change.proposer = candid_obj
+        request_to_change.state = Request.IN_PROGRESS
+        request_to_change.candidates = []
+        request_to_change.save()
+
+
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
     
+
+
+
     saved_searches = []
     similar = []
+    pending = []
     following = []
     image = None
     upcoming_requests = []
@@ -375,6 +421,7 @@ def account(request):
         entity = is_user[0]
         image = entity.picture
         type_user = 1
+
         #is_verified = entity.is_verified
     elif (is_association_user):
         au = is_association_user[0]
@@ -400,7 +447,7 @@ def account(request):
                 person = person_user[0]
                 person = DUser.objects.get(id=person.dj_user_id)
                 name_person = person.first_name + " " + person.last_name
-            following.append(name_person)
+            following.append((person,name_person))
 
         ## GET SAVED SEARCHES
         objects_saved_searches = entity.get_searches()
@@ -410,17 +457,27 @@ def account(request):
         ## GET SIMILAR
         similar_objects = entity.get_similar_matching_requests(3)
         for elem in similar_objects:
-            a=(elem, profile_current_offers([elem])[0][1], profile_current_demands([elem])[0][1], elem.name)
-            similar.append(a)
-            print('##########' , a)
-                
+            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+            similar.append(a)   
+
+        ## GET Pending
+        req_candidates = []
+        pending_objects = entity.get_all_requests().filter(state__exact=Request.PROPOSAL)
+        print(pending_objects)
+        for elem in pending_objects:
+            req_candidates_obj = list(elem.candidates.all().exclude(id__exact=entity.id))
+            if req_candidates_obj:
+                for candid in req_candidates_obj:      
+                    req_candidates.append(sol_user(candid))            
+                a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], req_candidates)
+                pending.append(a)                   
     
         ## GET UPCOMING REQUESTS
         upcoming_requests = []
         upcoming_objects = entity.get_current_requests()
         for elem in upcoming_objects:
-            upcoming_requests.append((elem,elem.date))
-    
+            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+            upcoming_requests.append(a)   
 
 
         ## GET # OLD REQUEST
@@ -434,7 +491,7 @@ def account(request):
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
         'is_association_admin': is_association_admin,\
-        'type_user':type_user})
+        'type_user':type_user, 'pending':pending})
 
 
 @login_required
@@ -444,12 +501,16 @@ def profile(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    
-    if request.method == 'POST':
-        profile_id = request.POST.get('profile_id')
+    my_profile = True
+
+    profile_id = request.REQUEST.get('profile_id')
+    if profile_id:
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
         is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
-       
+        my_profile = False
+    else:
+        profile_id = this_user.id
+
     is_verified = None
     this_entity = None
     image = None
@@ -511,7 +572,8 @@ def profile(request):
                                             'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
                                             'old_requests': old_tuples, 'feedbacks': feedback_tuples, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
-                                            'image': image, 'is_verified': is_verified})
+                                            'image': image, 'is_verified': is_verified, 'my_profile':my_profile,
+                                            'profile_id': profile_id})
 
 
 @login_required
@@ -599,6 +661,7 @@ def create_offer_demand(request):
                     proposer = proposer,
                     demander = demander,
                     state = Request.PROPOSAL)
+                req.save()
 
             return redirect('account')
 
@@ -672,14 +735,15 @@ def messages(request):
     threads = entity.get_all_requests(include_candidates=True).order_by('-date')
     threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
 
-    found = False
-    for th in threads:
-        print(th[0], long(req_id) == th[0])
-        if long(req_id) == th[0]:
-            found = True
-            break
-    if not found:
-        req_id = None
+    if req_id:
+        found = False
+        for th in threads:
+            print(th[0], long(req_id) == th[0])
+            if long(req_id) == th[0]:
+                found = True
+                break
+        if not found:
+            req_id = None
 
     return render(request, 'messages.html', {'threads': threads, 'request_id': req_id})
 
