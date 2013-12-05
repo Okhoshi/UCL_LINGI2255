@@ -17,5 +17,4 @@ class PIN(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        return _("PIN first name: ") + self.first_name + ", " + _("last name: ") + \
-               self.last_name
+        return self.first_name + " " + self.last_name

@@ -176,7 +176,7 @@ def edit_profile(request):
     type = request.GET.get('type', False)
     usr = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=usr.id).count()
-    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count()
     my_child = None
     if is_user:
         type = "1"
@@ -581,6 +581,8 @@ def profile(request):
 def create_offer_demand(request):
     DEF_MIN_RATING = 2
     dictionnary = {}
+    usr = DUser.objects.get(username=request.user)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count()
     if request.method == 'POST':
         form = SolidareForm(request)
         dictionnary = form.values
@@ -618,10 +620,19 @@ def create_offer_demand(request):
             # Setting as demander or proposer
             proposer = None
             demander = None
+            pin_proposer = None
+            pin_demander = None
+
             if form.values['type'] == 'offer':
                 proposer = entity
+                if not form.values['pin_selected'] == "None":
+                    pin_proposer = form.values['pin_selected']
+                    pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
-                demander = entity
+                if not form.values['pin_selected'] == "None":
+                    pin_demander = form.values['pin_selected']
+                    pin_demander = PIN.objects.get(id=pin_demander)
+    
 
             req = None
             # Filtered Request
@@ -642,6 +653,8 @@ def create_offer_demand(request):
                     place = place,
                     proposer = proposer,
                     demander = demander,
+                    pin_proposer = pin_proposer,
+                    pin_demander = pin_demander,
                     state = Request.PROPOSAL)
                 req.only_verified = only_verified
                 req.min_rating = min_rating
@@ -661,6 +674,8 @@ def create_offer_demand(request):
                     place = place,
                     proposer = proposer,
                     demander = demander,
+                    pin_demander = pin_demander,
+                    pin_proposer = pin_proposer,
                     state = Request.PROPOSAL)
                 req.save()
 
@@ -670,7 +685,11 @@ def create_offer_demand(request):
             dictionnary['errorlist'] = form.errorlist
             for key,value in form.colors.items():
                 dictionnary[key] = value
-
+    dictionnary['au'] = is_association_user
+    if is_association_user:
+        association_user = AssociationUser.objects.get(dj_user=usr.id)
+        dictionnary['pin'] = association_user.get_pin()
+        print(dictionnary['pin'])
     return render(request, 'create.html', dictionnary)
 
 
