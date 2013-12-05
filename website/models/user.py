@@ -78,7 +78,6 @@ class User(Entity):
 
 
     def get_age(self):
-        print(self.birth_day.strftime("%Y-%m-%d"))
         num_years = int((datetime.datetime.utcnow().replace(tzinfo=utc) - self.birth_day).days / 365.25)
         if self.birth_day > self.yearsago(num_years):
             return num_years - 1
@@ -88,7 +87,6 @@ class User(Entity):
     def yearsago(self, years, from_date=None):
 
         from_date = datetime.datetime.utcnow().replace(tzinfo=utc)
-        print(from_date.strftime("%Y-%m-%d"))
         try:
             return from_date.replace(year=from_date.year - years)
         except:

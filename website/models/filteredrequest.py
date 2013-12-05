@@ -39,6 +39,7 @@ class FilteredRequest(Request):
 
         return to_return
 
+
     # Return all requests that are public, i.e. that don't have filters on it
     # It means that the request returned are only Requests (and not FilteredRequests)
     @staticmethod

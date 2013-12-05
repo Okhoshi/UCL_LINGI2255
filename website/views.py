@@ -1307,21 +1307,21 @@ def search_filter_can_be_added(this_request, usr_entity, is_user):
     # Ok if at least 50% of satisfaction
     if freq.min_rating:
         rating = usr_entity.get_rating()
-        if float(rating[1])/sum(rating) > 0.5:
+        if sum(rating) == 0 or float(rating[1])/sum(rating) > 0.5:
             return False
     # Eventually, the Age Filters
-    age_filters = freq.get_age_filter
+    age_filters = freq.get_age_filter()
     if not age_filters:
         # No filters, so ok
         return True
     age_usr = usr_entity.get_age()
-    for filter in age_filters:
+    for afilter in age_filters:
         in_filter = True
-        if filter.min_age:
-            if age_usr <= filter.min_age:
+        if afilter.min_age:
+            if age_usr <= afilter.min_age:
                 in_filter = False
-        if in_filter and filter.max_age:
-            if age_user >= filter.max_age:
+        if in_filter and afilter.max_age:
+            if age_usr >= afilter.max_age:
                 in_filter = False
         if in_filter:
             return True
