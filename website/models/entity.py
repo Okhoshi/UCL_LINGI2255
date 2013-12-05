@@ -237,7 +237,6 @@ class Entity(models.Model):
             tmp += 1
 
         pla = Place()
-        pla.save()
 
         if (len(bestcat) == 3):
             if (amount%3 == 0):
@@ -270,7 +269,7 @@ class Entity(models.Model):
                 datetime.datetime.utcnow().replace(tzinfo=utc), search_field=\
                 searchfield, category=bestcat[i][1], entity=self)
             
-            tmp = self.search(savedsearch, bestcat[i][0])
+            tmp = self.search(savedsearch, bestcat[i][0], True)
             if (len(tmp)<bestcat[i][0] and (i+1)< len(bestcat)):
                 bestcat[i+1][0] += (bestcat[i][0]-len(tmp))
             requests += tmp

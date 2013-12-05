@@ -7,6 +7,7 @@
 from django.db import models
 from place import *
 from pin import *
+from django.utils.translation import ugettext as _
 
 class Request(models.Model):
     PROPOSAL = 'P'
@@ -82,14 +83,15 @@ class Request(models.Model):
         return great_set_return
 
     # Should be used when sending a message or viewing the profile of initiator
+    # Return a tuple with the demander and the tag (P or D) of proposal or demand
     def get_initiator(self):
         # Only useful when it's a proposal
         if (self.state != Request.PROPOSAL):
             return None
         if (self.demander != None):
-            return self.demander
+            return (self.demander, _('Demand'))
         # else, it's the proposer
-        return self.proposer
+        return (self.proposer, _('Proposal'))
 
     # Allows a user to create a request with a SavedSearch as basis.
     # If the request is as proposal, isProposer must be True, else False
