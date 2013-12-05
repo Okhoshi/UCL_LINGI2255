@@ -6,27 +6,60 @@ from recaptcha.client import captcha
 from django.conf import settings
 
 
-class SolidareForm(forms.Form):
-    SOLIDAREITCOLOR = '#e1007a'
+class SolidareForm():
     def __init__(self,request):
-        form = request.POST
+        self.values = dict()
         self.colors = dict()
         self.errorlist = dict()
 
         self.is_valid = True
 
-        myType = request.POST.get('type')
-        date = request.POST.get('date')
-        city = request.POST.get('city')
-        postcode = request.POST.get('postcode')
-        category = request.POST.get('category')
-        description = request.POST.get('description')
+        self.values['type'] = request.POST.get('type','')
+        self.values['street'] = request.POST.get('street','')
+        self.values['streetnumber'] = request.POST.get('streetnumber','')
+        self.values['city'] = request.POST.get('city','')
+        self.values['postcode'] = request.POST.get('postcode','')
+        self.values['country'] = request.POST.get('country','')
+        self.values['date'] = request.POST.get('date','')
+        self.values['category'] = request.POST.get('category','')
+        self.values['description'] = request.POST.get('description','')
 
-        print(myType,date,city,postcode,category,description)
+        ### TYPE ###
+        if not(self.values['type'] == 'offer' or self.values['type'] == 'demand'):
+            self.is_valid = False
+            self.errorlist[_("Type")] = _("The type can only be an offer or a demand")
+
+        ### DESCRIPTION ###
+        if not self.values['description']:
+            self.is_valid = False
+            self.colors['description_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Description")] = _("The description is mandatory")
+
+
+        ### ADDRESS ##
+        if not match(r"^[0-9]{0,5}$", self.values['streetnumber']):
+            self.is_valid = False
+            self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Street number")] = _("The street number")+ " "+  _("is a number composed of 1 to 5 digits")
+    
+        if not match(r"^[a-zA-Z0-9 -_]*$", self.values['city']):
+            self.is_valid = False
+            self.colors['city_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("City")] = _("The city") + " " + _("can only contain alphanumeric characters or symbols")
+                
+        if not match(r"^[a-zA-Z0-9 -_]*$", self.values['country']):
+            self.is_valid = False
+            self.colors['country_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Country")] = _("The country") + " " + _("can only contain alphanumeric characters or symbols")
+                
+        if not match(r"^[0-9]{0,9}$", self.values['postcode']):
+            self.is_valid = False
+            self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Postcode")] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
+
 
 # Form to add representatives
 class RForm(forms.Form):
-    SOLIDAREITCOLOR = '#e1007a'
 
     def __init__(self, request):
         form = request.POST
@@ -51,7 +84,7 @@ class RForm(forms.Form):
                 row['last_name'] = u''
                 row['last_name_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist['Name'] = "This field can only contain uppercase and lowercase letters"
+                self.errorlist[_('Name')] = "This field can only contain uppercase and lowercase letters"
 
             if first_names[index] and match(r"^[a-zA-Z ]*$", first_names[index]):
                 row['first_name'] = first_names[index]
@@ -60,7 +93,7 @@ class RForm(forms.Form):
                 row['first_name'] = u''
                 row['first_name_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist['First name'] = "This field can only contain uppercase and lowercase letters"
+                self.errorlist[_('First name')] = "This field can only contain uppercase and lowercase letters"
 
             if emails[index] and match(r"[^@]+@[^@]+\.[^@]+", emails[index]):
                 row['email'] = emails[index]
@@ -69,7 +102,7 @@ class RForm(forms.Form):
                 row['email'] = u''
                 row['email_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist['Email'] = "Insert a valid email" # TODO : TRADUIRE ET AJOUTER _() !!
+                self.errorlist[_('Email')] = "Insert a valid email" # TODO : TRADUIRE ET AJOUTER _() !!
 
             if levels[index] != '' and match(r"^[0-9]{1,9}$", levels[index]):
                 row['level'] = levels[index]
@@ -77,7 +110,7 @@ class RForm(forms.Form):
                 row['level'] = u''
                 row['level_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist['Level'] = "The level should be a number"
+                self.errorlist[_('Level')] = "The level should be a number"
 
             if not isEmpty:
                 self.rows.append(row)

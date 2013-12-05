@@ -12,6 +12,7 @@ from exceptions import *
 from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
+from django.templatetags.static import static
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -70,34 +71,65 @@ def faq(request):
 
 def contact(request):
     if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            user = settings.EMAIL_HOST_USER
-            pwd = settings.EMAIL_HOST_PASSWORD
-            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
-                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
-                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
-            data = request.POST.dict()
-            message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
-                      data.get('first_name') + "\n \n"
-            message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
-                        data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
-            message += "Email of the user : " + data.get('email') + "\n \n"
-            message += "Comments  : \n" + data.get('comments')
+        # FOR FEEDBACK
+        if 'feedback' in request.POST.dict():
+            # As a request is in the state "Done", a feedback has been created
+            # feedback = request.get_feedback()
+            #data = request.POST.dict()
 
-            print(message)
+            #if request.proposer == user :
+            #    feedback.feedback_proposer = data.get('feedback')
+            #    feedback.rating_proposer = data.get('rating')
+            #else
+            #    feedback.feedback_demander = data.get('feedback')
+            #    feedback.rating_demander = data.get('rating')
+            print('coucou')
 
-            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+            return render(request, 'contact.html', {})
 
-            return render(request, 'contact.html', {'request_done': True})
         else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
+            form = MForm(request)
+            if form.is_valid:
+                user = settings.EMAIL_HOST_USER
+                pwd = settings.EMAIL_HOST_PASSWORD
+                admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
+                         'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                         'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+                data = request.POST.dict()
+                message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
+                          data.get('first_name') + "\n \n"
+                message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
+                            data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
+                message += "Email of the user : " + data.get('email') + "\n \n"
+                message += "Comments  : \n" + data.get('comments')
 
-            return render(request, 'contact.html', dictionaries)
+                print(message)
 
-    return render(request, 'contact.html', {})
+                send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+
+                return render(request, 'contact.html', {'request_done': True})
+            else:
+                error = True
+                dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+                dictionaries['errorlist'] = form.errorlist
+
+                return render(request, 'contact.html', dictionaries)
+
+    # For feedback
+    proposer = "Moi"
+    demander = "Toi"
+    request_category = "Chaussettes"
+    request_subject = "Echanges"
+    request_place = "Bxl"
+    request_date = "Ajd"
+    feedback_values = {'proposer' : proposer,
+                       'demander' : demander,
+                       'request_category' : request_category,
+                       'request_subject' : request_subject,
+                       'request_place' : request_place,
+                       "request_date" : request_date}
+
+    return render(request, 'contact.html', feedback_values)
 
 
 @login_forbidden()
@@ -291,37 +323,67 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
-    # if request.method == 'POST':
-    #     form = RForm(request)
-    #     if form.is_valid:
-    #         for row in form.rows:
-    #             this_user = DUser.objects.get(username=request.user)
-    #             is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-
-    #             if (is_association_user):
-    #                 au = is_association_user[0]
-    #                 entity = au.entity
-    #                 print('Yess')
-
-    #             # TODO : Enregistrer les utilisateurs et envoyer le mail
-
-    #             # auser = AssociationUser.objects.create_user(username="au1", \
-    #             #     password="anz", email="i", level=0, association=)
-    #             # auser.save()
-    #     else:
-    #         rows = form.rows if form.rows else [{}]
-    #         return render(request, 'add_representative.html', \
-    #             {'errorlist':form.errorlist,\
-    #              'rows':rows})
-
+    dictionnary = {}
     if request.method == 'POST':
         form = SolidareForm(request)
+        dictionnary = form.values
         if form.is_valid:
-            pass
-        else:
-            pass
+            # Getting the place
+            if form.values['country'] or form.values['postcode'] or\
+                form.values['city'] or form.values['street'] or\
+                form.values['streetnumber']:
+                place = Place(country = form.values['country'], \
+                    postcode = form.values['postcode'],\
+                    city = form.values['city'], \
+                    street = form.values['street'],\
+                    number = form.values['streetnumber'])
+                place.save()
+            else:
+                place = Place()
+                place.save()
 
-    return render(request, 'create.html', {})
+            # Getting the date
+            date = None
+            if form.values['date']:
+                date = form.values['date']
+
+            # Getting the user
+            this_user = DUser.objects.get(username = request.user)
+            is_user = User.objects.filter(dj_user__exact = this_user.id)
+            is_association_user = AssociationUser.objects.filter(dj_user__exact = this_user.id)
+            entity = None
+            if is_user:
+                entity = is_user[0]
+            elif is_association_user:
+                au = is_association_user[0]
+                entity = au.entity
+            print(entity)
+
+            # Setting as demander or proposer
+            proposer = None
+            demander = None
+            if form.values['type'] == 'offer':
+                proposer = entity
+            elif form.values['type'] == 'demand':
+                demander = entity
+
+            req = Request(name = form.values['description'], \
+                date = date,\
+                category = form.values['category'], \
+                place = place, \
+                proposer = proposer, \
+                demander = demander, \
+                state = Request.PROPOSAL)
+            req.save()
+
+            return redirect('account')
+
+        else:
+            dictionnary['errorlist'] = form.errorlist
+            for key,value in form.colors.items():
+                dictionnary[key] = value
+
+    return render(request, 'create.html', dictionnary)
 
 
 @login_required

@@ -33,7 +33,7 @@
 			{% if not image or image == 'null' %}
             <img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
             {% else %}
-            <img src="{{ MEDIA_URL }}{{ image }}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
+            <img src="{{ MEDIA_URL }}{{ image }}" alt="{% trans "Profile picture" %}" class="img-thumbnail img-responsive" style="margin: auto 0">
             {% endif %}
 		</div>
 		<div  class="col-xs-6">
