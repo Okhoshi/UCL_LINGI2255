@@ -661,6 +661,7 @@ def create_offer_demand(request):
                     proposer = proposer,
                     demander = demander,
                     state = Request.PROPOSAL)
+                req.save()
 
             return redirect('account')
 
