@@ -253,7 +253,7 @@ def account(request):
 @login_required
 def profile(request):
 
-    #TODO verify nom affiché si assoc ou association user
+    #TODO verify nom affiche si assoc ou association user
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
