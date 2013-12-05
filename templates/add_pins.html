@@ -1,40 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load i18n %} 
+{% load i18n %}
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
 	<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
 	<li><a href="{% url 'account' %}">{% trans "Account" %}</a></li>
-	<li class="active">{% trans "Add a representative" %}</li>
+	<li class="active">{% trans "Add PINs" %}</li>
 </ol>
 {% endblock %}
 
-
 {% block content %}
-{% if errorlist %}
-    <div class="row warning">
-        <div class="col-md-12 ">
-            <h5>{% trans "There are errors in the form :" %}</h5>
-            <ul>
-            {% for errorname, errordesc in errorlist.items %}
-                <li>{{ errorname }} : {{ errordesc }}</li>
-            {% endfor %}
-            </ul>
-        </div>
-    </div>
-{% endif %}
-
-{% if success_messages %}
-<div class="alert alert-success">
-	<ul>
-		{% for message in success_messages %}
-			<li>{{ message }}</li>
-		{% endfor %}
-	</ul>
-</div>
-{% endif %}
-
 <div class="well">
 <form class="form-horizontal" role="form" method="post">
 	{% csrf_token %}
@@ -82,7 +58,7 @@
 	<div class="row" style="padding:15px">
 		<div class="col-xs-6 text-left">
 			<a class="btn btn-primary" id="add"><i class="glyphicon glyphicon-plus"></i> {% trans "Add line" %}</a>
-		</div>	
+		</div>
 		<div class="col-xs-6 text-right">
 			<button type="submit" class="btn btn-success">{% trans "Add members" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
 		</div>
@@ -90,4 +66,3 @@
 </form>
 </div>
 {% endblock %}
-

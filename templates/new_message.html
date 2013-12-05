@@ -3,16 +3,19 @@
 <!-- Modal -->
 <div class="modal fade" id="new-message" tabindex="-1" role="dialog" aria-labelledby="New-Message" aria-hidden="true">
     <div class="modal-dialog modal_custom">
-        <form method="POST" action="">
-            {% csrf_token %}
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">{% trans "New message" %}</h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="{{ request_id }}" required >
-                    <span style="margin:auto;">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{% trans "New message" %}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <span class="alert alert-danger text-center" style="display: none;" id="warn">{% trans "The message could not be delivered" %}</span>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                    <span style="margin:auto">
                         <label for="receiver">{% trans "Receiver" %} : </label>
                         <select id="receiver" name="receiver" class="language_button" >
                             {% for r in possible_receivers %}
@@ -20,13 +23,46 @@
                             {% endfor %}
                         </select>
                     </span>
-                    <textarea name="message-content" style="resize:vertical; width:100%; min-height:200px"></textarea>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Send</button>
+                <div class="row" style="margin-top: 15px">
+                    <div class="col-xs-12">
+                        <textarea id="message-content" style="resize:vertical; width:100%; min-height:200px"></textarea>
+                    </div>
                 </div>
-            </div><!-- /.modal-content -->
-        </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" id="dismiss">Cancel</button>
+                <button type="button" class="btn btn-primary" id="send">Send</button>
+            </div>
+        </div><!-- /.modal-content -->
+        <script type="text/javascript">
+            $(function() {
+                $('#send').click(function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: '{% url 'messages' %}',
+                        data:   {   'csrfmiddlewaretoken':'{{ csrf_token }}',
+                                    'type': 1,
+                                    'message-content': $('#message-content').val(),
+                                    'id': {{ request_id }},
+                                    'receiver': $('#receiver').val()
+                                },
+                        dataType: "html",
+                        timeout: 3000,
+                        success: function(data) {
+                            $('#new-message').on('hidden.bs.modal', function () {
+                                $("#clickable_{{ request_id }}").click();
+                            })
+                            $("#new-message").modal('hide');
+                        },
+                        error: function() {
+                            $('#warn').show();
+                        }
+                    });
+                });
+            });
+        </script>
+
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

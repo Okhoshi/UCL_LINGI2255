@@ -42,6 +42,10 @@
 					<i class="glyphicon glyphicon-plus"></i>
 					{% trans "Add member" %}
 				</a><br />
+                <a class="btn btn-info btn-sm" style="width: 100px; margin-bottom: 15px" href="{% url 'add_pins' %}">
+					<i class="glyphicon glyphicon-plus"></i>
+					{% trans "Add PIN" %}
+				</a><br />
 			{% endif %}
 
             <form action="/edit_profile/" method="GET">
