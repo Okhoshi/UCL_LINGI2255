@@ -37,9 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sessions',
-    'website',
-    'dajaxice',
-    'dajax'
+    'website'
 )
 
 MIDDLEWARE_CLASSES = (
