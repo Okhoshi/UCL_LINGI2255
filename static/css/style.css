@@ -142,6 +142,10 @@ a:hover {
 	padding-bottom: 5px;
 }
 
+.custom_homepage_blck {
+    max-height: 260px;
+    overflow-y: scroll;
+}
 /* Responsive Youtube Video */
 .flex-video {
 	position: relative;
