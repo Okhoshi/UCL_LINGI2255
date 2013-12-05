@@ -153,6 +153,36 @@ def register(request):
     else:
         return render(request, 'register.html', {})
 
+@login_required
+def edit_profile(request):
+    """ handle the registration of a user
+    """
+    type = request.GET.get('type', False)
+
+    if request.method == 'GET':
+        usr = DUser.objects.get(username=request.user)
+        is_user = User.objects.filter(dj_user__exact=usr.id).count()
+        is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+        my_child = None
+        if is_user:
+            type = "1"
+            my_child = User.objects.get(dj_user=usr.id)
+        elif is_association_user:
+            type = "2"
+            my_child = AssociationUser.objects.get(dj_user=usr.id)
+        else:
+            type = "0"
+        pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+        return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, 'first_name':usr.first_name, 'birthdate':my_child.birth_day, 'gender':my_child.gender, 'user_name':usr.username, 'email':usr.email, 'street':my_child.location.street})
+
+    elif request.method == 'POST':
+        if request.GET.get('type', False):
+            return analyse_request(request, type)
+        else:
+            return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {})
+
 
 @login_required
 def add_representative(request):
@@ -251,17 +281,20 @@ def account(request):
     image = None
     upcoming_requests = []
     summary = (0,0,0)
+    type_user = 0
 
     is_association_admin = False
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
         entity = is_user[0]
         image = entity.picture
+        type_user = 1
         #is_verified = entity.is_verified
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
         image = entity.picture
+        type_user = 2
         if au.level == 0:
             is_association_admin = True
 
@@ -307,12 +340,12 @@ def account(request):
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
         summary = (proposal_requests,in_progress_requests,old_requests)
-        print("########")
-        print(image)
+        
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
-        'is_association_admin': is_association_admin})
+        'is_association_admin': is_association_admin,\
+        'type_user':type_user})
 
 
 @login_required
@@ -331,7 +364,7 @@ def profile(request):
     is_verified = None
     this_entity = None
     image = None
-    print(is_user)
+    #print(is_user)
     if is_user:
         this_entity = is_user[0]
         image = this_entity.picture
@@ -368,16 +401,23 @@ def profile(request):
         global_rating = (value_rating, sum(tuple_rating))
 
     # Then format the data for the template
-    current_offers = profile_current_offers(current_offers)
-    current_demands = profile_current_demands(current_demands)
+    current_offers_tuples=[]
+    current_demands_tuples = []
+    old_tuples = []
+    for req in current_offers:
+        current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
+    for req in current_demands:
+        current_demands_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_demands([req])[0][2]))
     old_requests = profile_old_requests(old_requests, this_entity)
+    for elem in old_requests:
+        old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
-                                            'current_offers': current_offers, 'current_demands': current_demands, \
-                                            'old_requests': old_requests, 'feedbacks': feedbacks, \
+                                            'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
+                                            'old_requests': old_tuples, 'feedbacks': feedbacks, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
                                             'image': image, 'is_verified': is_verified})
 
@@ -547,6 +587,8 @@ def exchanges(request):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
+                print('###########')
+                print([elem])
 
 
 

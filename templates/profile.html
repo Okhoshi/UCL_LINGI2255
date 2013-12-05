@@ -69,9 +69,11 @@
 				</tr>
 				{% for elem in current_offers %}
 				<tr>
-					{% for sub in elem %}
-					<td>{{ sub }}</td>
-					{% endfor %}					
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td>{{ elem.1 }}</td>
+					<td>{{ elem.3 }}</td>		
+		
 				</tr>
 				{% endfor %}
 
@@ -95,9 +97,10 @@
 				</tr>
 				{% for elem in current_demands %}
 				<tr>
-					{% for sub in elem %}
-					<td>{{ sub }}</td>
-					{% endfor %}					
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td>{{ elem.1 }}</td>
+					<td>{{ elem.3 }}</td>				
 				</tr>
 				{% endfor %}
 
@@ -122,18 +125,20 @@
 				</tr>
 				{% for elem in old_requests %}
 				<tr>
-					{% for sub in elem %}
-					<td>{{ sub }}</td>
-					{% endfor %}					
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td>{{ elem.3 }}</td>
+					<td>{{ elem.4 }}</td>
+					<td>{{ elem.5 }}</td>			
 				</tr>
 				{% endfor %}
 			</table>
 		</div>
 
 		<!--
-		###################
-		##### HISTORY #####
-		###################
+		########################
+		##### EVAL HISTORY #####
+		########################
 		-->
 		<div class="col-md-2" style="padding: 0px;">
 			<label>{% trans "Evaluations summary" %}</label>
