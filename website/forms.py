@@ -1,7 +1,7 @@
 from django import forms
 from re import match
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, ugettext
 from recaptcha.client import captcha
 from django.conf import settings
 
@@ -23,6 +23,12 @@ class SolidareForm():
         self.values['date'] = request.POST.get('date','')
         self.values['category'] = request.POST.get('category','')
         self.values['description'] = request.POST.get('description','')
+        self.values['filters'] = request.POST.get('filters','off')
+        self.values['verified'] = request.POST.get('verified','off')
+        self.values['min_rating'] = request.POST.get('min_rating','off')
+        self.values['gender'] = request.POST.get('gender','U')
+        self.values['min_age'] = request.POST.get('min_age',0)
+        self.values['max_age'] = request.POST.get('max_age',0)
 
         ### TYPE ###
         if not(self.values['type'] == 'offer' or self.values['type'] == 'demand'):
@@ -34,7 +40,6 @@ class SolidareForm():
             self.is_valid = False
             self.colors['description_color'] = MForm.SOLIDAREITCOLOR
             self.errorlist[_("Description")] = _("The description is mandatory")
-
 
         ### ADDRESS ##
         if not match(r"^[0-9]{0,5}$", self.values['streetnumber']):
@@ -57,9 +62,40 @@ class SolidareForm():
             self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
             self.errorlist[_("Postcode")] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
 
+        ### FILTERS ###
+        if not self.values['filters'] in ['on','off']:
+            self.is_valid = False
+            self.colors['filters_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Filter")] = _("This value is either ON or OFF")
+
+        if not self.values['verified'] in ['on','off']:
+            self.is_valid = False
+            self.colors['verified_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Verified")] = _("This value is either ON or OFF")
+
+        if not self.values['min_rating'] in ['on','off']:
+            self.is_valid = False
+            self.colors['min_rating_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Minimal rating")] = _("This value is either ON or OFF")
+
+        if not self.values['gender'] in ['M','F','U']:
+            self.is_valid = False
+            self.colors['gender_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Gender")] = _("This value is either 'Male', 'Female' or 'Unspecified'")
+
+        if self.values['min_age'] != '' and not match(r"^[0-9]{1,3}$", self.values['min_age']):
+            self.is_valid = False
+            self.colors['min_age_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Minimal age")] = _("This value is a number composed of 1 to 3 digits")
+
+        if self.values['max_age'] != '' and not match(r"^[0-9]{1,3}$", self.values['max_age']):
+            self.is_valid = False
+            self.colors['max_age_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Maximal age")] = _("This value is a number composed of 1 to 3 digits")
+
 
 # Form to add representatives
-class RForm(forms.Form):
+class RForm():
 
     def __init__(self, request):
         form = request.POST
@@ -68,10 +104,10 @@ class RForm(forms.Form):
 
         self.is_valid = True
 
-        last_names = request.POST.getlist('last_name[]')
-        first_names = request.POST.getlist('first_name[]')
-        emails = request.POST.getlist('email[]')
-        levels = request.POST.getlist('memberLevel[]')
+        last_names = request.POST.getlist('last_name[]',[])
+        first_names = request.POST.getlist('first_name[]',[])
+        emails = request.POST.getlist('email[]',[])
+        levels = request.POST.getlist('memberLevel[]',[])
 
         self.rows = []
         for index,_ in enumerate(last_names):
@@ -84,7 +120,7 @@ class RForm(forms.Form):
                 row['last_name'] = u''
                 row['last_name_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist[_('Name')] = "This field can only contain uppercase and lowercase letters"
+                self.errorlist[ugettext("Name")] = ugettext("This field can only contain uppercase and lowercase letters")
 
             if first_names[index] and match(r"^[a-zA-Z ]*$", first_names[index]):
                 row['first_name'] = first_names[index]
@@ -93,7 +129,7 @@ class RForm(forms.Form):
                 row['first_name'] = u''
                 row['first_name_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist[_('First name')] = "This field can only contain uppercase and lowercase letters"
+                self.errorlist[ugettext("First name")] = ugettext("This field can only contain uppercase and lowercase letters")
 
             if emails[index] and match(r"[^@]+@[^@]+\.[^@]+", emails[index]):
                 row['email'] = emails[index]
@@ -102,7 +138,7 @@ class RForm(forms.Form):
                 row['email'] = u''
                 row['email_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist[_('Email')] = "Insert a valid email" # TODO : TRADUIRE ET AJOUTER _() !!
+                self.errorlist[ugettext("Email")] = ugettext("Insert a valid email")
 
             if levels[index] != '' and match(r"^[0-9]{1,9}$", levels[index]):
                 row['level'] = levels[index]
@@ -110,7 +146,7 @@ class RForm(forms.Form):
                 row['level'] = u''
                 row['level_color'] = MForm.SOLIDAREITCOLOR
                 self.is_valid = False
-                self.errorlist[_('Level')] = "The level should be a number"
+                self.errorlist[ugettext("Level")] = ugettext("The level should be a number")
 
             if not isEmpty:
                 self.rows.append(row)

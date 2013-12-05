@@ -69,9 +69,24 @@
 				</tr>
 				{% for elem in current_offers %}
 				<tr>
-					{% for sub in elem %}
-					<td>{{ sub }}</td>
-					{% endfor %}					
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+
+					<td>
+						{% if elem.2 %}
+							<form action="/profile/" method="POST">
+                        	{% csrf_token %}
+                        	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
+                        	{{ elem.2 }}
+                        	</button>
+                        	<input name="profile_id" value="{{ elem.0.demander.id }}" type="hidden" readonly/>
+                   	 		</form>
+                   	 	{% else %}
+                   	 		/
+                   	 	{% endif %}					
+					</td>
+					<td>{{ elem.3 }}</td>		
+		
 				</tr>
 				{% endfor %}
 
@@ -95,9 +110,22 @@
 				</tr>
 				{% for elem in current_demands %}
 				<tr>
-					{% for sub in elem %}
-					<td>{{ sub }}</td>
-					{% endfor %}					
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td>
+						{% if elem.2 %}
+							<form action="/profile/" method="POST">
+                        	{% csrf_token %}
+                        	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
+                        	{{ elem.1 }}
+                        	</button>
+                        	<input name="profile_id" value="{{ elem.0.proposer.id }}" type="hidden" readonly/>
+                   	 		</form>
+                   	 	{% else %}
+                   	 		/
+                   	 	{% endif %}					
+					</td>
+					<td>{{ elem.3 }}</td>				
 				</tr>
 				{% endfor %}
 
@@ -122,18 +150,38 @@
 				</tr>
 				{% for elem in old_requests %}
 				<tr>
-					{% for sub in elem %}
-					<td>{{ sub }}</td>
-					{% endfor %}					
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td>{{ elem.3 }}</td>
+					<td>
+					{% if elem.3 == "proposed" %}
+						<form action="/profile/" method="POST">
+                       	{% csrf_token %}
+	                       	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
+	                       	{{ elem.4 }}
+	                       	</button>
+	                       	<input name="profile_id" value="{{ elem.0.demander.id }}" type="hidden" readonly/>
+                 	 	</form>
+					{% else %}
+						<form action="/profile/" method="POST">
+                        	{% csrf_token %}
+                        	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
+                        	{{ elem.4 }}
+                        	</button>
+                        	<input name="profile_id" value="{{ elem.0.proposer.id }}" type="hidden" readonly/>
+                   	 	</form>
+					{% endif %}
+					</td>
+					<td>{{ elem.5 }}</td>			
 				</tr>
 				{% endfor %}
 			</table>
 		</div>
 
 		<!--
-		###################
-		##### HISTORY #####
-		###################
+		########################
+		##### EVAL HISTORY #####
+		########################
 		-->
 		<div class="col-md-2" style="padding: 0px;">
 			<label>{% trans "Evaluations summary" %}</label>

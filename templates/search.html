@@ -22,11 +22,16 @@
         <div class="input-group-btn">
             <button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button>
         </div>
-        <input type="search" class="form-control" id="search" name="search" placeholder="Search">
-
+        <input type="search" class="form-control" id="search" name="search" placeholder="Search"
+        {% if search_field %}value="{{ search_field }}"{% endif %} />
+        <script type="text/javascript">
+            $("#search").keypress(function(event){
+                if(event.which == 13) this.form.submit();
+            });
+        </script>
         <span class="input-group-btn">
-            <button class="btn btn-danger" type="submit">{% trans "Search" %}</button>
-
+            <button class="btn btn-danger" type="submit" autofocus>{% trans "Search" %}</button>
+            <button class="btn btn-info" name="search_saved" type="submit">{% trans "Saved this search" %}</button>
         </span>
 
     </div><!-- /input-group -->
@@ -34,127 +39,51 @@
     </div>
 </form>
 
-
-
-<div class="col-sm-4 col-xs-6">
-
-{% for elem in search_results_1 %}
-    <div class="panel panel-info box">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ elem.0 }}</h3>
-        </div>
-        <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
-            <ul class="list-unstyled">
-                <li>{% trans "Type" %} : {{ elem.1 }}</li>
-                <li>{% trans "By" %} : {{ elem.2 }}</li>
-                <li>{% trans "Place" %} : {{ elem.3 }}</li>
-                {% if elem.4 %}
-                    <li>{% trans "When" %} : {{ elem.4 }}</li>
-                {% else %}
-                    <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
-                {% endif %}
-
-            </ul>
-        </div>
-            <!-- <div class="col-md-12">
-                <button class="btn btn-success">{% trans "I want to help you" %}</button>
-                <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
-            </div> -->
-
-
-        <div class="row">
-        <div class="span6" style="text-align:center">
-        <p><button class="btn btn-primary primary large width:50%" style="width: 60%;">
-            {% trans "Get in touch" %}
-        </button></p>
-        <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I want to help you" %}</button></p>
-
-  </div>
-</div>
-
+{% if search_saved %}
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 coll-xs-offset-1">
+        <h5>{% trans "Your search has been saved" %}</h5>
+        <a href="{% url 'account' %}" class="btn btn-success primary large">{% trans "See all my saved searches" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
-{% endfor %}
 </div>
+{% else %}
+<div class="row">
+    {% for elem in search_results %}
+    <div class="col-sm-4 col-xs-6">
+        <div class="panel panel-info box">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ elem.0 }}</h3>
+            </div>
+            <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
+                <ul class="list-unstyled">
+                    <li>{% trans "Type" %} : {{ elem.1 }}</li>
+                    <li>{% trans "By" %} : {{ elem.2 }}</li>
+                    <li>{% trans "Place" %} : {{ elem.3 }}</li>
+                    {% if elem.4 %}
+                        <li>{% trans "When" %} : {{ elem.4 }}</li>
+                    {% else %}
+                        <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
+                    {% endif %}
+
+                </ul>
+            </div>
+                <!-- <div class="col-md-12">
+                    <button class="btn btn-success">{% trans "I want to help you" %}</button>
+                    <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
+                </div> -->
 
 
-
-<div class="col-sm-4 col-xs-6">
-{% for elem in search_results_2 %}
-    <div class="panel panel-info box">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ elem.0 }}</h3>
-        </div>
-        <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
-            <ul class="list-unstyled">
-                <li>{% trans "Type" %} : {{ elem.1 }}</li>
-                <li>{% trans "By" %} : {{ elem.2 }}</li>
-                <li>{% trans "Place" %} : {{ elem.3 }}</li>
-                {% if elem.4 %}
-                    <li>{% trans "When" %} : {{ elem.4 }}</li>
-                {% else %}
-                    <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
-                {% endif %}
-
-            </ul>
-        </div>
-            <!-- <div class="col-md-12">
-                <button class="btn btn-success">{% trans "I want to help you" %}</button>
-                <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
-            </div> -->
-
-
-        <div class="row">
-        <div class="span6" style="text-align:center">
-        <p><button class="btn btn-primary primary large width:50%" style="width: 60%;">
-            {% trans "Get in touch" %}
-        </button></p>
-        <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I want to help you" %}</button></p>
-
-  </div>
-</div>
-
+            <div class="row">
+                <div class="span6" style="text-align:center">
+                    <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I would like to help you" %}</button></p>
+            </div>
     </div>
-{% endfor %}
-</div>
-
-<div class="col-sm-4 col-xs-6">
-{% for elem in search_results_3 %}
-    <div class="panel panel-info box">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ elem.0 }}</h3>
-        </div>
-        <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
-            <ul class="list-unstyled">
-                <li>{% trans "Type" %} : {{ elem.1 }}</li>
-                <li>{% trans "By" %} : {{ elem.2 }}</li>
-                <li>{% trans "Place" %} : {{ elem.3 }}</li>
-                {% if elem.4 %}
-                    <li>{% trans "When" %} : {{ elem.4 }}</li>
-                {% else %}
-                    <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
-                {% endif %}
-
-            </ul>
-        </div>
-            <!-- <div class="col-md-12">
-                <button class="btn btn-success">{% trans "I want to help you" %}</button>
-                <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
-            </div> -->
-
-
-        <div class="row">
-        <div class="span6" style="text-align:center">
-            <p><button class="btn btn-primary primary large width:50%" style="width: 60%;">
-            {% trans "Get in touch" %}
-        </button></p>
-        <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I want to help you" %}</button></p>
 
         </div>
-</div>
-
     </div>
-{% endfor %}
+    {% endfor %}
 </div>
+{% endif %}
 
 {% if max_times == 0 and searched %}
 

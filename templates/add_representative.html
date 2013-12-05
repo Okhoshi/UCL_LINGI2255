@@ -5,8 +5,7 @@
 {% block breadcrumb %}
 <ol class="breadcrumb">
 	<li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-	<li><a href="#">{% trans "Organisations" %}</a></li>
-	<li><a href="{% url 'profile' %}">"My_organisation_name"</a></li>
+	<li><a href="{% url 'account' %}">{% trans "Account" %}</a></li>
 	<li class="active">{% trans "Add a representative" %}</li>
 </ol>
 {% endblock %}
@@ -24,6 +23,16 @@
             </ul>
         </div>
     </div>
+{% endif %}
+
+{% if success_messages %}
+<div class="alert alert-success">
+	<ul>
+		{% for message in success_messages %}
+			<li>{{ message }}</li>
+		{% endfor %}
+	</ul>
+</div>
 {% endif %}
 
 <div class="well">
@@ -55,16 +64,13 @@
 				</div>
 
 				<div class="col-sm-3">
-					
-						<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
-						<div style="margin-right: 15px;margin-left: 15px;">
-							<select class="form-control" id="inputLevel" name="memberLevel[]">
-								<option value="0">0</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-							</select>
-						</div>
-						
+					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
+					<div style="margin-right: 15px;margin-left: 15px;">
+						<select class="form-control" id="inputLevel" name="memberLevel[]">
+							<option value="1">{% trans 'Member' %}</option>
+							<option value="0">{% trans 'Administrator' %}</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-1"><br />
@@ -78,7 +84,7 @@
 			<a class="btn btn-primary" id="add"><i class="glyphicon glyphicon-plus"></i> {% trans "Add line" %}</a>
 		</div>	
 		<div class="col-xs-6 text-right">
-			<button type="submit" class="btn btn-success">{% trans "Register" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
+			<button type="submit" class="btn btn-success">{% trans "Add members" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
 		</div>
 	</div>
 </form>

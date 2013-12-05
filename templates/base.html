@@ -132,7 +132,7 @@
                             <li{% if request.path == '/' %} class="active" {% endif %}><a href="/"><i class="glyphicon glyphicon-home"></i>&nbsp;{% trans "Home" %}</a></li>
                             <li{% if request.path == '/concept/' %} class="active" {% endif %}><a href="{% url 'concept' %}"><i class="glyphicon glyphicon-info-sign"></i>&nbsp;{% trans "Concept" %}</a></li>
                             <li{% if request.path == '/faq/' %} class="active" {% endif %}><a href="{% url 'faq' %}"><i class="glyphicon glyphicon-question-sign"></i>&nbsp;{% trans "FAQ" %}</a></li>
-                            <li{% if request.path == 'index' %} class="active" {% endif %}><a href="#"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
+                            <li{% if request.path == '/news/' %} class="active" {% endif %}><a href="{% url 'news' %}"><i class="glyphicon glyphicon-globe"></i>&nbsp;{% trans "News" %}</a></li>
                             <li{% if request.path == '/contact/' %} class="active" {% endif %}><a href="{% url 'contact' %}"><i class="glyphicon glyphicon-envelope"></i>&nbsp;{% trans "Contact" %}</a></li>
                         </ul>
                         </div><!-- /.navbar-collapse -->
