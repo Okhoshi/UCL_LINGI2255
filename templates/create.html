@@ -115,13 +115,76 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<div class="form-inline">
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" id="filters_checkbox" name="filters"{% if filters == 'on' %} checked {% endif %}> {% trans 'Apply filters' %}
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="filters_hidden_box"  name="filters"{% if filters != 'on' %} style="display:none" {% endif %}>
+				<div class="form-group">
+					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ filters_color }} !important;">{% trans "Verified" %}</label>
+					<div class="col-sm-8">
+						<div class="form-inline">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="verified" name="filters"{% if verified == 'on' %} checked {% endif %}> {% trans 'Only show to verified people' %}
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ min_rating_color }} !important;">{% trans "Minimal rating" %}</label>
+					<div class="col-sm-8">
+						<div class="form-inline">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" name="min_rating" name="filters"{% if min_rating == 'on' %} checked {% endif %}> {% trans 'Only show to people with a minimal rating' %}
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inputGender" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ gender_color }} !important;">{% trans "Gender" %}</label>
+					<div class="col-sm-8">
+						<div class="form-inline">
+							<select class="form-control" id="inputGender" name="gender" style="border-color:{{ gender_color }} !important;" required>
+			                    <option value="U" {% if gender == 'U' %} selected {% endif %}>{% trans "Unspecified" %}</option>
+			               		<option value="M" {% if gender == 'M' %} selected {% endif %}>{% trans "Male" %}</option>
+			                	<option value="F" {% if gender == 'F' %} selected {% endif %}>{% trans "Female" %}</option>
+			                </select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ min_age_color }} !important;color:{{ max_age_color }} !important;">{% trans "Age" %}</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="inputRating" value="{{ min_age }}" name="min_age" style="border-color:{{ min_age_color }} !important;" placeholder="{% trans 'Minimal age' %}">
+					</div>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="inputRating" value="{{ max_age }}" name="max_age" style="border-color:{{ max_age_color }} !important;" placeholder="{% trans 'Maximal age' %}">
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="col-md-6">
-			<div class="form-group" style="margin-top:40px;">
+			<div class="form-group" style="margin-top:86px;">
 				<label for="description" class="col-xs-12 " style="color: {{ description_color }} !important;" value="{{ country }}">{% trans "Description" %}*</label>
 				<div class="col-xs-12">
-					<textarea class="form-control" rows="10" id="description" name="description" maxlength="512" style="border-color: {{ description_color }} !important;" value="{{ country }}" required>{{ description }}</textarea>
+					<textarea class="form-control" rows="9" id="description" name="description" maxlength="512" style="border-color: {{ description_color }} !important;" value="{{ country }}" required>{{ description }}</textarea>
 				</div>
 			</div>
 		</div>

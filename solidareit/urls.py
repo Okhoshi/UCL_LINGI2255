@@ -22,6 +22,7 @@ urlpatterns = patterns('website.views',
     url(r'^search/$', 'search', name="search"),
     url(r'^exchanges/$', 'exchanges', name="exchanges"),
     url(r'^news/$', 'news', name="news"),
+    url(r'^edit_profile/$', 'edit_profile', name="edit_profile"),
     # Examples:
     # url(r'^$', 'solidareit.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),

@@ -22,6 +22,7 @@
         <div class="input-group-btn">
             <button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button>
         </div>
+<<<<<<< HEAD
         {% if search_field %}
         <input type="search" class="form-control" id="search" name="search" value= {{ search_field }}>
         {% else %}
@@ -32,6 +33,17 @@
         <span class="input-group-btn">
             <button class="btn btn-danger" type="submit">{% trans "Search" %}</button>
             <button class="btn btn-info" name="search_saved" type="submit" style="margin-left:2em">{% trans "Saved this search" %}</button>
+=======
+        <input type="search" class="form-control" id="search" name="search" placeholder="Search" >
+        <script type="text/javascript">
+            $("#search").keypress(function(event){
+                if(event.which == 13) this.form.submit();
+            });
+        </script>
+        <span class="input-group-btn">
+            <button class="btn btn-danger" type="submit" autofocus>{% trans "Search" %}</button>
+
+>>>>>>> e5130e1940cda08ab34170bf1d2613b43b25b6f3
         </span>
 
     </div><!-- /input-group -->

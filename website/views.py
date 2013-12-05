@@ -153,6 +153,36 @@ def register(request):
     else:
         return render(request, 'register.html', {})
 
+@login_required
+def edit_profile(request):
+    """ handle the registration of a user
+    """
+    type = request.GET.get('type', False)
+
+    if request.method == 'GET':
+        usr = DUser.objects.get(username=request.user)
+        is_user = User.objects.filter(dj_user__exact=usr.id).count()
+        is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+        my_child = None
+        if is_user:
+            type = "1"
+            my_child = User.objects.get(dj_user=usr.id)
+        elif is_association_user:
+            type = "2"
+            my_child = AssociationUser.objects.get(dj_user=usr.id)
+        else:
+            type = "0"
+        pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+        return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, 'first_name':usr.first_name, 'birthdate':my_child.birth_day, 'gender':my_child.gender, 'user_name':usr.username, 'email':usr.email, 'street':my_child.location.street})
+
+    elif request.method == 'POST':
+        if request.GET.get('type', False):
+            return analyse_request(request, type)
+        else:
+            return render(request, 'register.html', {})
+    else:
+        return render(request, 'register.html', {})
+
 
 @login_required
 def add_representative(request):
@@ -168,9 +198,7 @@ def add_representative(request):
         form = RForm(request)
         if form.is_valid:
             success_messages = []
-            print(form.rows)
             for row in form.rows:
-                print(row)
                 ###########################################
                 ##### Store the AssociationUser in DB #####
                 ###########################################
@@ -251,17 +279,20 @@ def account(request):
     image = None
     upcoming_requests = []
     summary = (0,0,0)
+    type_user = 0
 
     is_association_admin = False
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
         entity = is_user[0]
         image = entity.picture
+        type_user = 1
         #is_verified = entity.is_verified
     elif (is_association_user):
         au = is_association_user[0]
         entity = au.entity
         image = entity.picture
+        type_user = 2
         if au.level == 0:
             is_association_admin = True
 
@@ -307,18 +338,17 @@ def account(request):
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
         summary = (proposal_requests,in_progress_requests,old_requests)
-        print("########")
-        print(image)
+        
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
-        'is_association_admin': is_association_admin})
+        'is_association_admin': is_association_admin,\
+        'type_user':type_user})
 
 
 @login_required
 def profile(request):
 
-    #TODO verify nom affiche si assoc ou association user
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
@@ -326,16 +356,13 @@ def profile(request):
     
     if request.method == 'POST':
         profile_id = request.POST.get('profile_id')
-        is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
+        is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
        
-      #  is_user = User.objects.filter(dj_user__exact=this_user.id)
-      #  is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
- 
     is_verified = None
     this_entity = None
     image = None
-    print(is_user)
+    #print(is_user)
     if is_user:
         this_entity = is_user[0]
         image = this_entity.picture
@@ -346,7 +373,7 @@ def profile(request):
         au = is_association_user[0]
         this_entity = au.entity
         image = this_entity.picture
-        is_verified = 1 # A active association must be verified
+        is_verified = 1
         profile_name = this_entity.name 
 
     # Then, fetch some useful data from the models
@@ -372,22 +399,30 @@ def profile(request):
         global_rating = (value_rating, sum(tuple_rating))
 
     # Then format the data for the template
-    current_offers = profile_current_offers(current_offers)
-    current_demands = profile_current_demands(current_demands)
+    current_offers_tuples=[]
+    current_demands_tuples = []
+    old_tuples = []
+    for req in current_offers:
+        current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
+    for req in current_demands:
+        current_demands_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_demands([req])[0][2]))
     old_requests = profile_old_requests(old_requests, this_entity)
+    for elem in old_requests:
+        old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
-                                            'current_offers': current_offers, 'current_demands': current_demands, \
-                                            'old_requests': old_requests, 'feedbacks': feedbacks, \
+                                            'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
+                                            'old_requests': old_tuples, 'feedbacks': feedbacks, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
                                             'image': image, 'is_verified': is_verified})
 
 
 @login_required
 def create_offer_demand(request):
+    DEF_MIN_RATING = 2
     dictionnary = {}
     if request.method == 'POST':
         form = SolidareForm(request)
@@ -422,7 +457,6 @@ def create_offer_demand(request):
             elif is_association_user:
                 au = is_association_user[0]
                 entity = au.entity
-            print(entity)
 
             # Setting as demander or proposer
             proposer = None
@@ -432,14 +466,41 @@ def create_offer_demand(request):
             elif form.values['type'] == 'demand':
                 demander = entity
 
-            req = Request(name = form.values['description'], \
-                date = date,\
-                category = form.values['category'], \
-                place = place, \
-                proposer = proposer, \
-                demander = demander, \
-                state = Request.PROPOSAL)
-            req.save()
+            req = None
+            # Filtered Request
+            if form.values['filters'] == 'on':
+                only_verified = True if form.values['verified'] == 'on' \
+                            else False
+                min_rating = DEF_MIN_RATING if form.values['min_rating'] == 'on'\
+                            else 0
+                gender = form.values['gender']
+
+                req = FilteredRequest(name = form.values['description'],
+                    date = date,
+                    category = form.values['category'],
+                    place = place,
+                    proposer = proposer,
+                    demander = demander,
+                    state = Request.PROPOSAL)
+                req.only_verified = only_verified
+                req.min_rating = min_rating
+                req.gender = gender
+                req.save()
+
+                age_filter = AgeFilter(min_age = form.values['min_age'],
+                    max_age = form.values['max_age'],
+                    filtered_request = req)
+                age_filter.save()
+
+            # Non-filtered request
+            else:
+                req = Request(name = form.values['description'],
+                    date = date,
+                    category = form.values['category'],
+                    place = place,
+                    proposer = proposer,
+                    demander = demander,
+                    state = Request.PROPOSAL)
 
             return redirect('account')
 
@@ -551,6 +612,8 @@ def exchanges(request):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
+                print('###########')
+                print([elem])
 
 
 
@@ -664,7 +727,7 @@ def profile_current_offers(current_offers):
     current_offers_demander_list = []
     for elem in current_offers:
         demand = elem.demander
-        name_demand = "/"
+        name_demand = None
         demand_assoc = []
         demand_user = []
         # Check if a demander is found or not; if it's the case, determine if a
