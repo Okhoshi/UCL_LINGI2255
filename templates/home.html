@@ -108,7 +108,7 @@
 				{% for elem in latest_requests %}
 					<tr>
                     {% include 'request_details.html' %}
-					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;padding:7px;">{{ elem.0.name }}</td>
 				</tr>
 				{% endfor %}
 				</table>
