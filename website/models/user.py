@@ -68,6 +68,9 @@ class User(Entity):
     def is_verified(self):
         return self.confirmed_status
 
+    def get_full_name(self):
+        return self.first_name + ' ' + self.last_name
+
     @staticmethod
     def is_user(user_id):
         return User.objects.filter(dj_user__exact=user_id).count() == 1

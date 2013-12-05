@@ -18,8 +18,24 @@
                 {% endif %}
 
                 {% trans "Category" %} : {{ elem.0.category }} <br>
-                {% trans "Proposer" %} : {{ elem.1 }} <br>
-                {% trans "Demander" %} : {{ elem.2 }} <br>
+                <form action="/profile/" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
+                    {% trans "Proposer" %} : {{ elem.1 }}
+                    </button>
+                    <input name="profile_id" value="{{ elem.0.proposer.id }}" type="hidden" readonly/>
+                </form><br>
+                <form action="/profile/" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
+                    {% trans "Demander" %} : {{ elem.2 }}
+                    </button>
+                    <input name="profile_id" value="{{ elem.0.demander.id }}" type="hidden" readonly/>
+                </form><br>
+
+
+                
+                
                 {% trans "Date" %} : {{ elem.0.date }} <br><br>
 
 

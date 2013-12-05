@@ -211,7 +211,8 @@ def account(request):
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
         summary = (proposal_requests,in_progress_requests,old_requests)
-
+        print("########")
+        print(image)
     return render(request, 'account.html', {'image':image,'following':following,\
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary})
@@ -219,22 +220,37 @@ def account(request):
 
 @login_required
 def profile(request):
+
+    #TODO verify nom affiché si assoc ou association user
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    
+    if request.method == 'POST':
+        profile_id = request.POST.get('profile_id')
+        is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
+        is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
+       
+      #  is_user = User.objects.filter(dj_user__exact=this_user.id)
+      #  is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
+ 
     is_verified = None
     this_entity = None
     image = None
+    print(is_user)
     if is_user:
         this_entity = is_user[0]
         image = this_entity.picture
         is_verified = this_entity.is_verified
+        this_entity_name = DUser.objects.get(id=this_entity.dj_user_id)
+        profile_name = this_entity_name.first_name + " " + this_entity_name.last_name
     elif is_association_user:
         au = is_association_user[0]
         this_entity = au.entity
         image = this_entity.picture
         is_verified = 1 # A active association must be verified
+        profile_name = this_entity.name 
 
     # Then, fetch some useful data from the models
     current_offers = []
@@ -268,8 +284,8 @@ def profile(request):
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
                                             'current_offers': current_offers, 'current_demands': current_demands, \
-                                            'old_requests': old_requests, 'feedbacks': feedbacks,
-                                            'global_rating': global_rating, \
+                                            'old_requests': old_requests, 'feedbacks': feedbacks, \
+                                            'global_rating': global_rating, 'profile_name':profile_name, \
                                             'image': image, 'is_verified': is_verified})
 
 
@@ -376,37 +392,37 @@ def exchanges(request):
 
 
             if (elem.state == Request.PROPOSAL) and elem.candidates.all():
-                offer = profile_current_offers( [elem] )[0][1]
-                demander = profile_current_demands([elem])[0][1]
+                demander = profile_current_offers( [elem] )[0][1]
+                offer = profile_current_demands([elem])[0][1]
                 candidate_req.append((elem,offer,demander))
 
 
 
             if (elem.state == Request.PROPOSAL) and not elem.candidates.all():
-                offer = profile_current_offers( [elem] )[0][1]
-                demander = profile_current_demands([elem])[0][1]
+                demander = profile_current_offers( [elem] )[0][1]
+                offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
 
 
 
 
             if elem.state == Request.IN_PROGRESS:
-                offer = profile_current_offers([elem])[0][1]
-                demander = profile_current_demands([elem])[0][1]
+                demander = profile_current_offers([elem])[0][1]
+                offer = profile_current_demands([elem])[0][1]
                 incoming_req.append((elem,offer,demander))
 
             #TODO FALSE
             if elem.state == Request.DONE and elem.get_feedback().rating_demander > 0:
-                offer = profile_current_offers([elem])[0][1]
-                demander = profile_current_demands([elem])[0][1]
+                demander = profile_current_offers([elem])[0][1]
+                offer = profile_current_demands([elem])[0][1]
                 feedback_req.append((elem,offer,demander))
 
 
 
 
             if elem.state == Request.DONE and elem.get_feedback().rating_demander <= 0:
-                offer = profile_current_offers([elem])[0][1]
-                demander = profile_current_demands([elem])[0][1]
+                demander = profile_current_offers([elem])[0][1]
+                offer = profile_current_demands([elem])[0][1]
                 realised_req.append((elem,offer,demander))
 
 
