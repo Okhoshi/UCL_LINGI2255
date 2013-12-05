@@ -1084,6 +1084,7 @@ def sol_user(entity):
     else:
         return entity
 
+
 def analyse_request_edit(request, type, usr):
     form = MForm(request, usr=usr)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1104,6 +1105,7 @@ def analyse_request_edit(request, type, usr):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+
 def analyse_request(request, type):
     form = MForm(request)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1122,6 +1124,7 @@ def analyse_request(request, type):
         dictionaries['errorlist'] = form.errorlist
         print(form.type)
         return render(request, pages[type], dictionaries)
+
 
 def modify_user(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1159,6 +1162,7 @@ def modify_user(request, form):
     newusr = authenticate(username=form.user_name, password=form.passwd)
     Dlogin(request, newusr)
     return redirect('account')
+
 
 def modify_organisation(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1209,6 +1213,7 @@ def modify_organisation(request, form):
     Dlogin(request, usr)
 
     return redirect('account')
+
 
 def create_new_user(request, form):
 
@@ -1276,6 +1281,7 @@ def handle_uploaded_file(f, filename, path):
         with open(path+'_'+filename, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
 
 def search_filter_can_be_added(this_request, usr_entity, is_user):
     """
