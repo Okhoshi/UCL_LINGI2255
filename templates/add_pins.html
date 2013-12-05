@@ -11,6 +11,29 @@
 {% endblock %}
 
 {% block content %}
+{% if errorlist %}
+    <div class="row warning">
+        <div class="col-md-12 ">
+            <h5>{% trans "There are errors in the form :" %}</h5>
+            <ul>
+            {% for errorname, errordesc in errorlist.items %}
+                <li>{{ errorname }} : {{ errordesc }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}
+
+{% if success_messages %}
+<div class="alert alert-success">
+	<ul>
+		{% for message in success_messages %}
+			<li>{{ message }}</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
 <div class="well">
 <form class="form-horizontal" role="form" method="post">
 	{% csrf_token %}
@@ -33,18 +56,13 @@
 				</div>
 
 				<div class="col-sm-3">
-					<label for="inputEmail" class="col-xs-12" style="color: {{ row.email_color }} !important;">{% trans "E-mail" %}*</label>
-					<div class="col-xs-12">
-						<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email[]" value="{{ row.email }}" style="border-color: {{ row.email_color }} !important;" required>
-					</div>
-				</div>
-
-				<div class="col-sm-3">
-					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
+					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Managed by" %}*</label>
 					<div style="margin-right: 15px;margin-left: 15px;">
-						<select class="form-control" id="inputLevel" name="memberLevel[]">
-							<option value="1">{% trans 'Member' %}</option>
-							<option value="0">{% trans 'Administrator' %}</option>
+						<select class="form-control" id="inputLevel" name="managed_by[]">
+                            {% for association_user in list_users %}
+							<option value="{{ association_user }}">{{ association_user }}</option>
+                            {% endfor %}
+
 						</select>
 					</div>
 				</div>
@@ -60,7 +78,7 @@
 			<a class="btn btn-primary" id="add"><i class="glyphicon glyphicon-plus"></i> {% trans "Add line" %}</a>
 		</div>
 		<div class="col-xs-6 text-right">
-			<button type="submit" class="btn btn-success">{% trans "Add members" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
+			<button type="submit" class="btn btn-success">{% trans "Add PINs" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></button>
 		</div>
 	</div>
 </form>

@@ -13,7 +13,7 @@ from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
 from django.utils.translation import ugettext_lazy as _
-from forms import MForm,RForm,SolidareForm
+from forms import MForm,RForm,SolidareForm, PForm
 from exceptions import *
 from website.models import *
 
@@ -298,7 +298,61 @@ def add_representative(request):
 
 @login_required
 def add_pins(request):
-    return render(request, 'add_pins.html', {'rows':[{}]})
+    # This page can only be reached by association users
+    this_user = DUser.objects.get(username=request.user)
+    is_association_user = AssociationUser.objects.get(dj_user=this_user.id)
+    if not is_association_user:
+        return redirect('account')
+    else:
+        au = is_association_user
+        list_users = {}
+        for org_usr in  au.get_association().get_employees():
+            list_users[org_usr.dj_user.get_full_name()] = org_usr
+
+    if request.method == 'POST':
+        form = PForm(request)
+        if form.is_valid:
+            success_messages = []
+            for row in form.rows:
+                ###########################################
+                ##### Store the PIN in DB #####
+                ###########################################
+
+                last_name = row['last_name']
+                first_name = row['first_name']
+                managed_by = list_users.get(row['managed_by'])
+
+                new_pin = PIN(first_name=first_name, last_name=last_name, managed_by=managed_by)
+                new_pin.save()
+
+
+                message = first_name + " " + last_name + _(" has successfully been added and managed by ")\
+                    + managed_by.dj_user.get_full_name() + "."
+                success_messages.append(message)
+
+
+                #########################
+                ##### Send the mail #####
+                #########################
+
+                user = settings.EMAIL_HOST_USER
+                dest = [managed_by.dj_user.email]
+                obj = "Solidare-It - Added to " + managed_by.get_association().name
+                message = _("Dear ") + managed_by.dj_user.first_name + " " + managed_by.dj_user.last_name + ",\n\n"
+                message += _("This mail is sent to warn you that a PIN related to the association ") + \
+                    managed_by.get_association().name + _(" has been created on Solidare-It.\n")
+                message += _("Your new PIN client is ") + first_name + " " + last_name + "\n\n"
+                message += _("The Solidare-It Team.")
+
+                send_mail(obj, message, user, dest, fail_silently=False)
+
+            return render(request, 'add_pins.html',
+                    { 'rows' : [{}], 'success_messages':success_messages, 'list_users':list_users})
+        else:
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_pins.html', {'errorlist':form.errorlist,'rows':rows, 'list_users':list_users})
+
+    return render(request, 'add_pins.html', {'rows':[{}], 'list_users':list_users})
 
 
 @login_required
