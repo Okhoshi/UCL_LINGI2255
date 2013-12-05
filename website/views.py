@@ -272,7 +272,7 @@ def profile(request):
     is_verified = None
     this_entity = None
     image = None
-    print(is_user)
+    #print(is_user)
     if is_user:
         this_entity = is_user[0]
         image = this_entity.picture
@@ -309,16 +309,23 @@ def profile(request):
         global_rating = (value_rating, sum(tuple_rating))
 
     # Then format the data for the template
-    current_offers = profile_current_offers(current_offers)
-    current_demands = profile_current_demands(current_demands)
+    current_offers_tuples=[]
+    current_demands_tuples = []
+    old_tuples = []
+    for req in current_offers:
+        current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
+    for req in current_demands:
+        current_demands_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_demands([req])[0][2]))
     old_requests = profile_old_requests(old_requests, this_entity)
+    for elem in old_requests:
+        old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
 
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': entity, \
-                                            'current_offers': current_offers, 'current_demands': current_demands, \
-                                            'old_requests': old_requests, 'feedbacks': feedbacks, \
+                                            'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
+                                            'old_requests': old_tuples, 'feedbacks': feedbacks, \
                                             'global_rating': global_rating, 'profile_name':profile_name, \
                                             'image': image, 'is_verified': is_verified})
 
@@ -488,6 +495,8 @@ def exchanges(request):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
+                print('###########')
+                print([elem])
 
 
 
