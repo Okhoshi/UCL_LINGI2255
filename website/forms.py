@@ -151,6 +151,55 @@ class RForm():
             if not isEmpty:
                 self.rows.append(row)
 
+# Form to add Pins
+class PForm():
+
+    def __init__(self, request):
+        form = request.POST
+        self.colors = dict()
+        self.errorlist = dict()
+
+        self.is_valid = True
+
+        last_names = request.POST.getlist('last_name[]',[])
+        first_names = request.POST.getlist('first_name[]',[])
+        managed_by = request.POST.getlist('managed_by[]',[])
+
+        self.rows = []
+        for index,_ in enumerate(last_names):
+            row = {}
+            isEmpty = True
+            if last_names[index] and match(r"^[a-zA-Z ]*$", last_names[index]):
+                row['last_name'] = last_names[index]
+                isEmpty = False
+            else:
+                row['last_name'] = u''
+                row['last_name_color'] = MForm.SOLIDAREITCOLOR
+                self.is_valid = False
+                self.errorlist[ugettext("Name")] = ugettext("This field can only contain uppercase and lowercase letters")
+
+            if first_names[index] and match(r"^[a-zA-Z ]*$", first_names[index]):
+                row['first_name'] = first_names[index]
+                isEmpty = False
+            else:
+                row['first_name'] = u''
+                row['first_name_color'] = MForm.SOLIDAREITCOLOR
+                self.is_valid = False
+                self.errorlist[ugettext("First name")] = ugettext("This field can only contain uppercase and lowercase letters")
+
+
+            if managed_by[index] != '' and match(r"^[a-zA-Z ]*$", managed_by[index]):
+                row['managed_by'] = managed_by[index]
+            else:
+                row['managed_by'] = u''
+                row['managed_by'] = MForm.SOLIDAREITCOLOR
+                self.is_valid = False
+                self.errorlist[ugettext("Managed by")] = ugettext("must be an existing association user")
+
+            if not isEmpty:
+                self.rows.append(row)
+
+
 class MForm(forms.Form):
     #Static variables
     ORG = True
@@ -230,7 +279,11 @@ class MForm(forms.Form):
             self.is_valid = False
             self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
             self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist[_("Password")] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
+            if form.get('passwd', '') != form.get('passwdC', ''):
+                self.errorlist[_("Password")] = _("The password and the confirmation must be the same.")
+            else:
+                self.errorlist[_("Password")] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
+
 
         ### ADDRESS ##
         if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ]*$", form.get('street', '')):

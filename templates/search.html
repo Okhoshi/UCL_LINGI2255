@@ -73,15 +73,28 @@
 
                 </ul>
             </div>
-                <!-- <div class="col-md-12">
-                    <button class="btn btn-success">{% trans "I want to help you" %}</button>
-                    <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
-                </div> -->
-
 
             <div class="row">
-                <div class="span6" style="text-align:center">
-                    <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I would like to help you" %}</button></p>
+                <div class="col-xs-12" style="text-align:center; margin-bottom: 10px;">
+                    <button href="#" class="btn btn-success primary large" style="width: 60%;" id="button_{{ elem.0.id }}">{% trans "I would like to help you" %}</button>
+                    <script type="text/javascript">
+                    $(function() {
+                        $('#button_{{ elem.0.id }}').click(function() {
+                            $.ajax({
+                                type: 'POST',
+                                url: '{% url 'messages' %}',
+                                data:   { 'csrfmiddlewaretoken':'{{ csrf_token }}',
+                                           'type': 2,
+                                            'id': {{ elem.0.id }}
+                                        },
+                                dataType: "html",
+                                timeout: 3000,
+                                success: function(data) {
+                                    window.location.replace("{% url 'messages' %}?id={{ elem.0.id }}"); }
+                            });
+                        });
+                    });
+                    </script>
             </div>
     </div>
 
