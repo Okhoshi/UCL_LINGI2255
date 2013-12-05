@@ -396,7 +396,8 @@ def logout(request):
 def messages(request):
 
     def qs_add(qs, item):
-        qs.add(item)
+        if qs and item:
+            qs.add(item)
         return qs
 
     usr = DUser.objects.get(username=request.user)
@@ -407,34 +408,40 @@ def messages(request):
         entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
         return redirect('home')
-        
-    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: ( t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
 
     messages = None
     req_id = None
     possible_rec = []
 
-    if request.method == 'GET':
-        req_id = request.GET.get('id')
-        
-    elif request.method == "POST":
-        if request.POST.get('id') and request.POST.get('receiver') and request.POST.get('message-content', '') != '':
+    if request.method == "POST":
+        if request.POST.get('type') and request.POST.get('id'):
             req_id = request.POST.get('id')
-            mess = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),
-                                   sender = entity, request=Request.objects.get(id=req_id) ,
-                                   message = request.POST.get('message-content'),
-                                   receiver = Entity.objects.get(id=request.POST.get('receiver')))
-            mess.save()
+            req = Request.objects.get(id=req_id)
 
-    if req_id:
-        messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
-        messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
-        sel_request = Request.objects.get(id=req_id)
-        possible_rec = map(lambda r: sol_user(r), qs_add( qs_add(sel_request.candidates, sel_request.proposer), sel_request.demander).exclude(id__exact=entity.id))
+            if request.POST['type'] == "1" and request.POST.get('receiver')\
+               and request.POST.get('message-content', '') != '':
 
-    return render(request, 'messages.html', {'threads': threads, 'messages': messages, 'request_id':req_id, 'possible_receivers': possible_rec})
+                mess = InternalMessage(time=datetime.datetime.utcnow().replace(tzinfo=utc),
+                                       sender=entity, request=Request.objects.get(id=req_id),
+                                       message=request.POST.get('message-content'),
+                                       receiver=Entity.objects.get(id=request.POST.get('receiver')))
+                mess.save()
+            elif request.POST['type'] == "2":
+                # Associate the current user with the request
+                req.candidates.add(entity)
+                req.save()
 
+                #Force Open the modal
+            elif request.POST['type'] == "3":
+                messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
+                messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
+                possible_rec = map(lambda r: sol_user(r), qs_add(qs_add(req.candidates, req.proposer), req.demander).exclude(id__exact=entity.id))
+                print('ici')
+                return render(request, 'message_display.html', {'request_id': req_id, 'messages': messages, 'possible_receivers' : possible_rec})
+
+    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
+    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+    return render(request, 'messages.html', {'threads': threads})
 
 @login_required
 def exchanges(request):
@@ -523,6 +530,7 @@ def exchanges(request):
         'candidate_req':candidate_req, 'incoming_req':incoming_req, \
         'realised_req':realised_req,'feedback_req':feedback_req,\
         'percentage_req':percentage_req})
+
 
 @login_required()
 def search(request):
