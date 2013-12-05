@@ -16,5 +16,14 @@ class Place(models.Model):
         app_label = 'website'
     
     def __unicode__(self):
-        return self.country + ", " + self.city + ", " + self.street + ", " + \
-               str(self.number)
+        result = []
+        if self.country:
+            result.append(self.country)
+        if self.city:
+            result.append(self.city)
+        if self.street:
+            result.append(self.street)
+        if str(self.number):
+            result.append(str(self.number))
+
+        return ', '.join(result)

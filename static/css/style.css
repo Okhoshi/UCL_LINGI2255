@@ -350,3 +350,9 @@ textarea{
 .message-list {
     border-right:none;
 }
+/***************
+    exchange.html
+    *************/
+.custom_alert {
+    color: #e1007a;
+}

@@ -1,0 +1,65 @@
+{% load static %}
+{% load i18n %}
+<!-- Modal -->
+<div class="modal fade" id="modal_new_feedback" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
+    <div class="modal-dialog modal_custom">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{% trans "Feedback" %}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <input type="modal" name="feedback" value="Yes" style="margin-left:2em" hidden="YES">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Request summary" %}</h3>
+                    </div>
+                    <div class="row form_blck">
+                        <div class="row form-el" style="margin-left:1em ; margin-top:0.25em ;" >
+                            <ul class="list-unstyled">
+                                <li>{% trans "Proposer" %} : {{ proposer }}</li>
+                                <li>{% trans "Demander" %} : {{ demander }}</li>
+                                <li>{% trans "Category" %} : {{ request_category }}</li>
+                                <li>{% trans "What" %} : {{ request_subject }}</li>
+                                <li>{% trans "Place" %} : {{ request_place }}</li>
+                                <li>{% trans "When" %} : {{ request_date }} </li>
+
+                            </ul>
+                        </div>
+                     </div>
+
+                    <!-- RATING -->
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Rating" %}</h3>
+                    </div>
+                    <div class="row" style="margin-left:0.25em ; margin-top:0.25em ; margin-bottom:1em ;">
+                        <div class="col-sm-10">
+                            <input type="radio" name="rating" value="1"> {% trans "Negative" %}
+                            <input type="radio" name="rating" value="2" style="margin-left:2em"> {% trans "Neutral" %}
+                            <input type="radio" name="rating" value="3" style="margin-left:2em"> {% trans "Positive" %}
+
+                        </div>
+                    </div>
+                    <!-- COMMENTS -->
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{% trans "Text description" %}</h3>
+                    </div>
+                    <div class=" row" style="margin-left:0.25em ; margin-top:0.25em ;">
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="inputFeedback" name="comments" rows="6" disable= yes
+                             autofocus=yes  style="resize: vertical;" !important; value="{{ feedback_description }}" required></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">{% trans "Save" %}</button>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

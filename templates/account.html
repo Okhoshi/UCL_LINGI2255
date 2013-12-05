@@ -30,10 +30,10 @@
 	<div class="col-md-4 col-sm-5">
 		<div class="clearfix" style="margin:15px"></div>
 		<div class="col-xs-6">
-			{% if not image %}
+			{% if not image or image == 'null' %}
             <img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
             {% else %}
-            <img src="{{ MEDIA_URL }}{{ image }}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
+            <img src="{{ MEDIA_URL }}{{ image }}" alt="{% trans "Profile picture" %}" class="img-thumbnail img-responsive" style="margin: auto 0">
             {% endif %}
 		</div>
 		<div  class="col-xs-6">

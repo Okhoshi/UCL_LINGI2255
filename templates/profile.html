@@ -8,14 +8,14 @@
 <ol class="breadcrumb">
 	<li><a href="/">{% trans "Home" %}</a></li>
 	<li><a href="#">{% trans "Members" %}</a></li>
-	<li class="active">{{ user }}</li>
+	<li class="active">{{ profile_name }}</li>
 </ol>
 {% endblock %}
 
 
 {% block content %}
 	<div class="col-sm-2" style="text-align:center;">
-		{% if not image %}
+		{% if not image or image == 'null' %}
 		<img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
 		{% else %}
 		<img src="{{ MEDIA_URL }}{{ image }}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
@@ -23,7 +23,7 @@
 	</div>
 
 	<div class="col-sm-10">
-		<h4 style="pull-left">{{ user }} &nbsp; {% if is_verified %}<span class="label label-success" style="font-size:0.7em;">{% trans "Verified" %}</span>{% endif %}</h4>
+		<h4 style="pull-left">{{ profile_name }} &nbsp; {% if is_verified %}<span class="label label-success" style="font-size:0.7em;">{% trans "Verified" %}</span>{% endif %}</h4>
 		<hr>
 		{% if global_rating.1 > 0 %}
 			{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
