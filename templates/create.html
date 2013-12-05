@@ -94,10 +94,10 @@
 			</div>
 
 			<div class="form-group">
-				<label for="inputDate" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "When ?" %}</label>
+				<label for="inputDate" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ date_color }} !important;">{% trans "When ?" %}</label>
 				<div class="col-sm-8">
 					<div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-						<input class="form-control" type="text" name="date" id="inputDate" value="{{ date }}" placeholder="{% trans "yyyy-mm-dd" %}">
+						<input class="form-control" type="text" name="date" id="inputDate" value="{{ date }}" placeholder="{% trans "yyyy-mm-dd" %}" style="border-color:{{ date_color }} !important;">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 						<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					</div>

@@ -41,6 +41,13 @@ class SolidareForm():
             self.colors['description_color'] = MForm.SOLIDAREITCOLOR
             self.errorlist[_("Description")] = _("The description is mandatory")
 
+        ### DATA ###
+        if self.values['date'] != '' and not match(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}$", self.values['date']):
+            self.values['date'] = ''
+            self.is_valid = False
+            self.colors['date_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Date")] = _("The date")+ " "+  _("format must be YYYY-MM-DD")
+
         ### ADDRESS ##
         if not match(r"^[0-9]{0,5}$", self.values['streetnumber']):
             self.is_valid = False
