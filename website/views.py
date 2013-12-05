@@ -1,19 +1,21 @@
 # Create your views here.
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
+from django.utils.translation import ugettext as _
+from django.core.mail import send_mail
+from django.templatetags.static import static
 from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
+from datetime import datetime as dt
 from django.utils.translation import ugettext_lazy as _
 from forms import MForm,RForm,SolidareForm
 from exceptions import *
 from website.models import *
-from django.utils.translation import ugettext as _
-from django.core.mail import send_mail
-from django.templatetags.static import static
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -292,11 +294,10 @@ def add_representative(request):
 
     return render(request, 'add_representative.html', {'rows':[{}]})
 
+
 @login_required
 def add_pins(request):
     return render(request, 'add_pins.html', {'rows':[{}]})
-
-
 
 
 @login_required
@@ -586,15 +587,18 @@ def messages(request):
                and request.POST.get('message-content', '') != '':
 
 
-                mess = InternalMessage(time=datetime.utcnow().replace(tzinfo=utc),
+                mess = InternalMessage(time=dt.now(utc),
                                        sender=entity, request=Request.objects.get(id=req_id),
                                        message=request.POST.get('message-content'),
                                        receiver=Entity.objects.get(id=request.POST.get('receiver')))
                 mess.save()
+                return HttpResponse("")
+
             elif request.POST['type'] == "2":
                 # Associate the current user with the request
                 req.candidates.add(entity)
                 req.save()
+                return HttpResponse("")
 
                 #Force Open the modal
             elif request.POST['type'] == "3":
@@ -603,9 +607,13 @@ def messages(request):
                 possible_rec = map(lambda r: sol_user(r), qs_add(qs_add(req.candidates, req.proposer), req.demander).exclude(id__exact=entity.id))
                 return render(request, 'message_display.html', {'request_id': req_id, 'messages': messages, 'possible_receivers' : possible_rec})
 
+    if request.method == "GET":
+        req_id = request.GET.get('id')
+
     threads = entity.get_all_requests(include_candidates=True).order_by('-date')
     threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
-    return render(request, 'messages.html', {'threads': threads})
+    return render(request, 'messages.html', {'threads': threads, 'request_id': req_id})
+
 
 @login_required
 def exchanges(request):
@@ -694,6 +702,7 @@ def exchanges(request):
         'candidate_req':candidate_req, 'incoming_req':incoming_req, \
         'realised_req':realised_req,'feedback_req':feedback_req,\
         'percentage_req':percentage_req})
+
 
 @login_required()
 def search(request):
