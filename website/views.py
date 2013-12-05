@@ -548,11 +548,11 @@ def messages(request):
             if request.POST['type'] == "1" and request.POST.get('receiver')\
                and request.POST.get('message-content', '') != '':
 
-                mess = InternalMessage(time=datetime.datetime.utcnow().replace(tzinfo=utc),
+
+                mess = InternalMessage(time=datetime.utcnow().replace(tzinfo=utc),
                                        sender=entity, request=Request.objects.get(id=req_id),
                                        message=request.POST.get('message-content'),
                                        receiver=Entity.objects.get(id=request.POST.get('receiver')))
-                print(mess)
                 mess.save()
             elif request.POST['type'] == "2":
                 # Associate the current user with the request
@@ -564,11 +564,10 @@ def messages(request):
                 messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
                 messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
                 possible_rec = map(lambda r: sol_user(r), qs_add(qs_add(req.candidates, req.proposer), req.demander).exclude(id__exact=entity.id))
-                print('ici')
                 return render(request, 'message_display.html', {'request_id': req_id, 'messages': messages, 'possible_receivers' : possible_rec})
 
     threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
     return render(request, 'messages.html', {'threads': threads})
 
 @login_required
