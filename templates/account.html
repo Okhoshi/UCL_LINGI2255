@@ -61,7 +61,7 @@
 		<ul class="list-unstyled">
 			{% for elem in saved_searches %}
 			<li>
-				<a class="btn btn-primary btn-xs pull-right" href="">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
+				<a class="btn btn-primary btn-xs pull-right" href="{% url "search" %}?id={{ elem.1 }}">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
 				{{ elem.1 }}
 				<div class="clearfix"></div>
 			</li>

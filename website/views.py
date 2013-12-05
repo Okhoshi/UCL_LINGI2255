@@ -604,6 +604,30 @@ def search(request):
     max_times = 0
     if request.method == 'POST':
         search_field = request.POST['search']
+
+        if 'search_saved' in request.POST.dict():
+            pla = Place()
+            pla.save()
+            savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
+            savedsearch.save()
+            return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
+        else:
+            search_object = SavedSearch(search_field=search_field, category="Jardin")
+            search_objects = usr_entity.search(search_object, 9)
+            searched = True
+            for this_request in search_objects:
+                print(this_request)
+                (req_initiator, req_type) = this_request.get_initiator()
+                # Need to know if it's a User or a Association
+                initiator_entity = sol_user(req_initiator)
+                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+            max_times = len(search_results)
+            return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
+    if request.method == 'GET':
+        print(request)
+        search_field = request.GET['id']
         search_object = SavedSearch(search_field=search_field, category="Jardin")
         search_objects = usr_entity.search(search_object, 9)
         searched = True
@@ -614,6 +638,11 @@ def search(request):
             initiator_entity = sol_user(req_initiator)
             search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
         max_times = len(search_results)
+        return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
+                                                   'max_times':max_times, 'searched':searched})
+
+
+
 
 
     return render(request, 'search.html', {'search_results':search_results, 'max_times':max_times, 'searched':searched})
