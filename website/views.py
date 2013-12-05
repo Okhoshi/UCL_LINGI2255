@@ -71,34 +71,65 @@ def faq(request):
 
 def contact(request):
     if request.method == 'POST':
-        form = MForm(request)
-        if form.is_valid:
-            user = settings.EMAIL_HOST_USER
-            pwd = settings.EMAIL_HOST_PASSWORD
-            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
-                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
-                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
-            data = request.POST.dict()
-            message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
-                      data.get('first_name') + "\n \n"
-            message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
-                        data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
-            message += "Email of the user : " + data.get('email') + "\n \n"
-            message += "Comments  : \n" + data.get('comments')
+        # FOR FEEDBACK
+        if 'feedback' in request.POST.dict():
+            # As a request is in the state "Done", a feedback has been created
+            # feedback = request.get_feedback()
+            #data = request.POST.dict()
 
-            print(message)
+            #if request.proposer == user :
+            #    feedback.feedback_proposer = data.get('feedback')
+            #    feedback.rating_proposer = data.get('rating')
+            #else
+            #    feedback.feedback_demander = data.get('feedback')
+            #    feedback.rating_demander = data.get('rating')
+            print('coucou')
 
-            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+            return render(request, 'contact.html', {})
 
-            return render(request, 'contact.html', {'request_done': True})
         else:
-            error = True
-            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-            dictionaries['errorlist'] = form.errorlist
+            form = MForm(request)
+            if form.is_valid:
+                user = settings.EMAIL_HOST_USER
+                pwd = settings.EMAIL_HOST_PASSWORD
+                admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
+                         'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                         'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+                data = request.POST.dict()
+                message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
+                          data.get('first_name') + "\n \n"
+                message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
+                            data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
+                message += "Email of the user : " + data.get('email') + "\n \n"
+                message += "Comments  : \n" + data.get('comments')
 
-            return render(request, 'contact.html', dictionaries)
+                print(message)
 
-    return render(request, 'contact.html', {})
+                send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+
+                return render(request, 'contact.html', {'request_done': True})
+            else:
+                error = True
+                dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+                dictionaries['errorlist'] = form.errorlist
+
+                return render(request, 'contact.html', dictionaries)
+
+    # For feedback
+    proposer = "Moi"
+    demander = "Toi"
+    request_category = "Chaussettes"
+    request_subject = "Echanges"
+    request_place = "Bxl"
+    request_date = "Ajd"
+    feedback_values = {'proposer' : proposer,
+                       'demander' : demander,
+                       'request_category' : request_category,
+                       'request_subject' : request_subject,
+                       'request_place' : request_place,
+                       "request_date" : request_date}
+
+    return render(request, 'contact.html', feedback_values)
 
 
 @login_forbidden()
