@@ -198,9 +198,7 @@ def add_representative(request):
         form = RForm(request)
         if form.is_valid:
             success_messages = []
-            print(form.rows)
             for row in form.rows:
-                print(row)
                 ###########################################
                 ##### Store the AssociationUser in DB #####
                 ###########################################
@@ -424,6 +422,7 @@ def profile(request):
 
 @login_required
 def create_offer_demand(request):
+    DEF_MIN_RATING = 2
     dictionnary = {}
     if request.method == 'POST':
         form = SolidareForm(request)
@@ -458,7 +457,6 @@ def create_offer_demand(request):
             elif is_association_user:
                 au = is_association_user[0]
                 entity = au.entity
-            print(entity)
 
             # Setting as demander or proposer
             proposer = None
@@ -468,14 +466,41 @@ def create_offer_demand(request):
             elif form.values['type'] == 'demand':
                 demander = entity
 
-            req = Request(name = form.values['description'], \
-                date = date,\
-                category = form.values['category'], \
-                place = place, \
-                proposer = proposer, \
-                demander = demander, \
-                state = Request.PROPOSAL)
-            req.save()
+            req = None
+            # Filtered Request
+            if form.values['filters'] == 'on':
+                only_verified = True if form.values['verified'] == 'on' \
+                            else False
+                min_rating = DEF_MIN_RATING if form.values['min_rating'] == 'on'\
+                            else 0
+                gender = form.values['gender']
+
+                req = FilteredRequest(name = form.values['description'],
+                    date = date,
+                    category = form.values['category'],
+                    place = place,
+                    proposer = proposer,
+                    demander = demander,
+                    state = Request.PROPOSAL)
+                req.only_verified = only_verified
+                req.min_rating = min_rating
+                req.gender = gender
+                req.save()
+
+                age_filter = AgeFilter(min_age = form.values['min_age'],
+                    max_age = form.values['max_age'],
+                    filtered_request = req)
+                age_filter.save()
+
+            # Non-filtered request
+            else:
+                req = Request(name = form.values['description'],
+                    date = date,
+                    category = form.values['category'],
+                    place = place,
+                    proposer = proposer,
+                    demander = demander,
+                    state = Request.PROPOSAL)
 
             return redirect('account')
 
