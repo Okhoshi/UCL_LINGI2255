@@ -17,4 +17,13 @@ $(document).ready(function() {
 			}
 		})
 	});
+
+	$('#filters_checkbox').on('change', function() {
+		var box = $('#filters_hidden_box')
+		if (box.is( ":hidden" ) ) {
+			box.show("slow");
+		} else {
+			box.slideUp();
+		}
+    });	
 });

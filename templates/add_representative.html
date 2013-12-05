@@ -64,16 +64,13 @@
 				</div>
 
 				<div class="col-sm-3">
-					
-						<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
-						<div style="margin-right: 15px;margin-left: 15px;">
-							<select class="form-control" id="inputLevel" name="memberLevel[]">
-								<!-- TODO : Set the values according to the right member status -->
-								<option value="1">{% trans 'Member' %}</option>
-								<option value="0">{% trans 'Administrator' %}</option>
-							</select>
-						</div>
-						
+					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
+					<div style="margin-right: 15px;margin-left: 15px;">
+						<select class="form-control" id="inputLevel" name="memberLevel[]">
+							<option value="1">{% trans 'Member' %}</option>
+							<option value="0">{% trans 'Administrator' %}</option>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-1"><br />
