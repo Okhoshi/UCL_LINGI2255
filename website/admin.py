@@ -5,5 +5,6 @@ from website.models import *
 admin.site.register(User)
 admin.site.register(Place)
 admin.site.register(Request)
+admin.site.register(FilteredRequest)
 admin.site.register(Association)
 admin.site.register(AssociationUser)

@@ -23,6 +23,12 @@ class SolidareForm():
         self.values['date'] = request.POST.get('date','')
         self.values['category'] = request.POST.get('category','')
         self.values['description'] = request.POST.get('description','')
+        self.values['filters'] = request.POST.get('filters','off')
+        self.values['verified'] = request.POST.get('verified','off')
+        self.values['min_rating'] = request.POST.get('min_rating','off')
+        self.values['gender'] = request.POST.get('gender','U')
+        self.values['min_age'] = request.POST.get('min_age',0)
+        self.values['max_age'] = request.POST.get('max_age',0)
 
         ### TYPE ###
         if not(self.values['type'] == 'offer' or self.values['type'] == 'demand'):
@@ -55,6 +61,37 @@ class SolidareForm():
             self.is_valid = False
             self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
             self.errorlist[_("Postcode")] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
+
+        ### FILTERS ###
+        if not self.values['filters'] in ['on','off']:
+            self.is_valid = False
+            self.colors['filters_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Filter")] = _("This value is either ON or OFF")
+
+        if not self.values['verified'] in ['on','off']:
+            self.is_valid = False
+            self.colors['verified_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Verified")] = _("This value is either ON or OFF")
+
+        if not self.values['min_rating'] in ['on','off']:
+            self.is_valid = False
+            self.colors['min_rating_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Minimal rating")] = _("This value is either ON or OFF")
+
+        if not self.values['gender'] in ['M','F','U']:
+            self.is_valid = False
+            self.colors['gender_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Gender")] = _("This value is either 'Male', 'Female' or 'Unspecified'")
+
+        if self.values['min_age'] != '' and not match(r"^[0-9]{1,3}$", self.values['min_age']):
+            self.is_valid = False
+            self.colors['min_age_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Minimal age")] = _("This value is a number composed of 1 to 3 digits")
+
+        if self.values['max_age'] != '' and not match(r"^[0-9]{1,3}$", self.values['max_age']):
+            self.is_valid = False
+            self.colors['max_age_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Maximal age")] = _("This value is a number composed of 1 to 3 digits")
 
 
 # Form to add representatives
