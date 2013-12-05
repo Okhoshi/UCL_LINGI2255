@@ -28,7 +28,7 @@
                     <img src="{{ MEDIA_URL }}{{ thread.2 }}" class="img-responsive" style="width:50px;" />
                     {% endif %}
                 </div>
-                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding-left:5px">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding-left:5px; min-height: 50px">
                     <span class="message-username">{{ thread.1 }}</span><br />
                     <span class="message-desc">{{ thread.3 }}</span>
                 </div>
@@ -36,6 +36,7 @@
         </div>
         <script type="text/javascript">
         $(function() {
+            // Refresh thread
             $('#clickable_{{ thread.0 }}').click(function() {
                 $.ajax({
                     type: 'POST',
@@ -47,13 +48,11 @@
                     dataType: "html",
                     timeout: 3000,
                     success: function(data) {
-                        $("#i_need_to_be_scrolled").html(data); },
-                    error: function() {
-                        alert('La requête n\'a pas abouti'); }
+                        $("#right_blck").html(data); }
                 });
             });
-      });
-      </script>
+        });
+        </script>
         {% endfor %}
 	</div>
 
@@ -76,6 +75,9 @@
 <script text="text/javascript">
 $(document).ready(function() {
     $("#i_need_to_be_scrolled").scrollTop($("#i_need_to_be_scrolled").height());
+    {% if request_id  %}
+    $('#clickable_{{ request_id }}').click();
+    {% endif %}
 });
 </script>
 {% endblock %}

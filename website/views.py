@@ -1,19 +1,21 @@
 # Create your views here.
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.conf import settings
 from django.contrib.auth import authenticate, \
     login as Dlogin, \
     logout as Dlogout
-from django.contrib.sites.models import get_current_site
-from django.contrib.auth.models import User as DUser
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.utils.translation import ugettext_lazy as _
-from forms import MForm,RForm,SolidareForm
-from exceptions import *
-from website.models import *
 from django.utils.translation import ugettext as _
 from django.core.mail import send_mail
 from django.templatetags.static import static
+from django.contrib.sites.models import get_current_site
+from django.contrib.auth.models import User as DUser
+from django.contrib.auth.decorators import login_required, user_passes_test
+from datetime import datetime as dt
+from django.utils.translation import ugettext_lazy as _
+from forms import MForm,RForm,SolidareForm, PForm
+from exceptions import *
+from website.models import *
 
 # Non logged decorator
 def login_forbidden(function=None, redirect_field_name=None, redirect_to='account'):
@@ -40,7 +42,7 @@ def news(request):
 
 @login_forbidden
 def login(request):
-    message = request
+    message = None
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -158,25 +160,25 @@ def edit_profile(request):
     """ handle the registration of a user
     """
     type = request.GET.get('type', False)
+    usr = DUser.objects.get(username=request.user)
+    is_user = User.objects.filter(dj_user__exact=usr.id).count()
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+    my_child = None
+    if is_user:
+        type = "1"
+        my_child = User.objects.get(dj_user=usr.id)
+    elif is_association_user:
+        type = "2"
+        my_child = AssociationUser.objects.get(dj_user=usr.id)
+    else:
+        type = "0"
 
     if request.method == 'GET':
-        usr = DUser.objects.get(username=request.user)
-        is_user = User.objects.filter(dj_user__exact=usr.id).count()
-        is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
-        my_child = None
-        if is_user:
-            type = "1"
-            my_child = User.objects.get(dj_user=usr.id)
-        elif is_association_user:
-            type = "2"
-            my_child = AssociationUser.objects.get(dj_user=usr.id)
-        else:
-            type = "0"
         pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
         if is_user:
             return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
                                                                       'first_name':usr.first_name, \
-                                                                      'birthdate':my_child.birth_day, \
+                                                                      'birthdate':my_child.birth_day.strftime("%Y-%m-%d"), \
                                                                       'gender':my_child.gender, \
                                                                       'user_name':usr.username, \
                                                                       'email':usr.email, \
@@ -191,7 +193,7 @@ def edit_profile(request):
             assoc = my_child.entity
             return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
                                                                       'first_name':usr.first_name, \
-                                                                      'birthdate':my_child.birth_day, \
+                                                                      'birthdate':my_child.birth_day.strftime("%Y-%m-%d"), \
                                                                       'gender':my_child.gender, \
                                                                       'user_name':usr.username, \
                                                                       'email':usr.email, \
@@ -201,11 +203,12 @@ def edit_profile(request):
                                                                       'postcode':assoc.location.postcode, \
                                                                       'country':assoc.location.country, \
                                                                       'profile_pic':my_child.picture, \
+                                                                      'description':assoc.description,\
                                                                       'org_name':assoc.name, \
                                                                       'org_pic':assoc.picture})
 
     elif request.method == 'POST':
-        return analyse_request_edit(request, type)
+        return analyse_request_edit(request, type, usr)
     else:
         return render(request, 'register.html', {})
 
@@ -292,11 +295,64 @@ def add_representative(request):
 
     return render(request, 'add_representative.html', {'rows':[{}]})
 
+
 @login_required
 def add_pins(request):
-    return render(request, 'add_pins.html', {'rows':[{}]})
+    # This page can only be reached by association users
+    this_user = DUser.objects.get(username=request.user)
+    is_association_user = AssociationUser.objects.get(dj_user=this_user.id)
+    if not is_association_user:
+        return redirect('account')
+    else:
+        au = is_association_user
+        list_users = {}
+        for org_usr in  au.get_association().get_employees():
+            list_users[org_usr.dj_user.get_full_name()] = org_usr
+
+    if request.method == 'POST':
+        form = PForm(request)
+        if form.is_valid:
+            success_messages = []
+            for row in form.rows:
+                ###########################################
+                ##### Store the PIN in DB #####
+                ###########################################
+
+                last_name = row['last_name']
+                first_name = row['first_name']
+                managed_by = list_users.get(row['managed_by'])
+
+                new_pin = PIN(first_name=first_name, last_name=last_name, managed_by=managed_by)
+                new_pin.save()
 
 
+                message = first_name + " " + last_name + _(" has successfully been added and managed by ")\
+                    + managed_by.dj_user.get_full_name() + "."
+                success_messages.append(message)
+
+
+                #########################
+                ##### Send the mail #####
+                #########################
+
+                user = settings.EMAIL_HOST_USER
+                dest = [managed_by.dj_user.email]
+                obj = "Solidare-It - Added to " + managed_by.get_association().name
+                message = _("Dear ") + managed_by.dj_user.first_name + " " + managed_by.dj_user.last_name + ",\n\n"
+                message += _("This mail is sent to warn you that a PIN related to the association ") + \
+                    managed_by.get_association().name + _(" has been created on Solidare-It.\n")
+                message += _("Your new PIN client is ") + first_name + " " + last_name + "\n\n"
+                message += _("The Solidare-It Team.")
+
+                send_mail(obj, message, user, dest, fail_silently=False)
+
+            return render(request, 'add_pins.html',
+                    { 'rows' : [{}], 'success_messages':success_messages, 'list_users':list_users})
+        else:
+            rows = form.rows if form.rows else [{}]
+            return render(request, 'add_pins.html', {'errorlist':form.errorlist,'rows':rows, 'list_users':list_users})
+
+    return render(request, 'add_pins.html', {'rows':[{}], 'list_users':list_users})
 
 
 @login_required
@@ -521,8 +577,12 @@ def create_offer_demand(request):
                 only_verified = True if form.values['verified'] == 'on' \
                             else False
                 min_rating = DEF_MIN_RATING if form.values['min_rating'] == 'on'\
-                            else 0
+                            else None
                 gender = form.values['gender']
+                min_age = int(form.values['min_age']) if form.values['min_age'] != ''\
+                    else None
+                max_age = int(form.values['max_age']) if form.values['max_age'] != ''\
+                    else None
 
                 req = FilteredRequest(name = form.values['description'],
                     date = date,
@@ -536,8 +596,8 @@ def create_offer_demand(request):
                 req.gender = gender
                 req.save()
 
-                age_filter = AgeFilter(min_age = form.values['min_age'],
-                    max_age = form.values['max_age'],
+                age_filter = AgeFilter(min_age = min_age,
+                    max_age = max_age,
                     filtered_request = req)
                 age_filter.save()
 
@@ -571,7 +631,8 @@ def logout(request):
 def messages(request):
 
     def qs_add(qs, item):
-        qs.add(item)
+        if qs and item:
+            qs.add(item)
         return qs
 
     usr = DUser.objects.get(username=request.user)
@@ -582,33 +643,56 @@ def messages(request):
         entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
         return redirect('home')
-        
-    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: ( t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
 
     messages = None
     req_id = None
     possible_rec = []
 
-    if request.method == 'GET':
-        req_id = request.GET.get('id')
-        
-    elif request.method == "POST":
-        if request.POST.get('id') and request.POST.get('receiver') and request.POST.get('message-content', '') != '':
+    if request.method == "POST":
+        if request.POST.get('type') and request.POST.get('id'):
             req_id = request.POST.get('id')
-            mess = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),
-                                   sender = entity, request=Request.objects.get(id=req_id) ,
-                                   message = request.POST.get('message-content'),
-                                   receiver = Entity.objects.get(id=request.POST.get('receiver')))
-            mess.save()
+            req = Request.objects.get(id=req_id)
 
-    if req_id:
-        messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
-        messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
-        sel_request = Request.objects.get(id=req_id)
-        possible_rec = map(lambda r: sol_user(r), qs_add( qs_add(sel_request.candidates, sel_request.proposer), sel_request.demander).exclude(id__exact=entity.id))
+            if request.POST['type'] == "1" and request.POST.get('receiver')\
+               and request.POST.get('message-content', '') != '':
 
-    return render(request, 'messages.html', {'threads': threads, 'messages': messages, 'request_id':req_id, 'possible_receivers': possible_rec})
+
+                mess = InternalMessage(time=dt.now(utc),
+                                       sender=entity, request=Request.objects.get(id=req_id),
+                                       message=request.POST.get('message-content'),
+                                       receiver=Entity.objects.get(id=request.POST.get('receiver')))
+                mess.save()
+                return HttpResponse("")
+
+            elif request.POST['type'] == "2":
+                # Associate the current user with the request
+                req.candidates.add(entity)
+                req.save()
+                return HttpResponse("")
+
+                #Force Open the modal
+            elif request.POST['type'] == "3":
+                messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
+                messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
+                possible_rec = map(lambda r: sol_user(r), qs_add(qs_add(req.candidates, req.proposer), req.demander).exclude(id__exact=entity.id))
+                return render(request, 'message_display.html', {'request_id': req_id, 'messages': messages, 'possible_receivers' : possible_rec})
+
+    if request.method == "GET":
+        req_id = request.GET.get('id')
+
+    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
+    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+
+    found = False
+    for th in threads:
+        print(th[0], long(req_id) == th[0])
+        if long(req_id) == th[0]:
+            found = True
+            break
+    if not found:
+        req_id = None
+
+    return render(request, 'messages.html', {'threads': threads, 'request_id': req_id})
 
 
 @login_required
@@ -698,6 +782,7 @@ def exchanges(request):
         'candidate_req':candidate_req, 'incoming_req':incoming_req, \
         'realised_req':realised_req,'feedback_req':feedback_req,\
         'percentage_req':percentage_req})
+
 
 @login_required()
 def search(request):
@@ -949,10 +1034,11 @@ def sol_user(entity):
     else:
         return entity
 
-def analyse_request_edit(request, type):
-    form = MForm(request)
+def analyse_request_edit(request, type, usr):
+    form = MForm(request, usr=usr)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
     if form.is_valid:
+        print("Is valid")
         if type == "1":
             # individual code
             return modify_user(request, form)
@@ -992,13 +1078,17 @@ def modify_user(request, form):
               city=form.city, street=form.street,
               number=form.streetnumber)
     p.save()
+
+    # Django User
     dusr = DUser.objects.get(username=request.user)
     dusr.username = form.user_name
     dusr.email = form.email
     dusr.passwd = form.passwd
+    dusr.first_name = form.first_name
+    dusr.last_name = form.name
+
+    # User
     usr = User.objects.get(dj_user=dusr)
-    usr.first_name = form.first_name
-    usr.last_name = form.name
     usr.location = p
     usr.birth_day = form.birthdate
     usr.gender = form.gender
@@ -1010,17 +1100,65 @@ def modify_user(request, form):
         usr.id_card.save(request.FILES.get('id_card_pic').name,
                           request.FILES.get('id_card_pic'),
                           save=False)
+
+    # Database
     dusr.save()
     usr.save()
-    print("Fin du sauver edit user")
     # Log on the newly created user
     Dlogout(request)
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
+    newusr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, newusr)
     return redirect('account')
 
 def modify_organisation(request, form):
-    pass
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+
+    # Django User modify
+    dusr = DUser.objects.get(username=request.user)
+    dusr.username = form.user_name
+    dusr.email = form.email
+    dusr.passwd = form.passwd
+    dusr.first_name = form.first_name
+    dusr.last_name = form.name
+
+    # AssociationUser modify
+    ausr = AssociationUser.objects.get(dj_user=dusr)
+    ausr.gender = form.gender
+    ausr.birth_day = form.birthdate
+    # Don't change the level or the association!!!
+    if request.FILES.get('profile_pic') is not None:
+        ausr.picture.save(request.FILES.get('profile_pic').name,
+                          request.FILES.get('profile_pic'),
+                          save=False)
+
+    # Association modify
+    assoc = ausr.entity
+    assoc.location = p
+    assoc.name = form.org_name
+    assoc.description = form.description
+    if request.FILES.get('org_pic') is not None:
+        assoc.picture.save(request.FILES.get('org_pic').name,
+                          request.FILES.get('org_pic'),
+                          save=False)
+
+    print(assoc.description)
+
+    # Save all in DB
+    dusr.save()
+    assoc.save()
+    ausr.entity = assoc
+    ausr.save()
+
+    print(ausr.picture)
+    # Relog in
+    Dlogout(request)
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+
+    return redirect('account')
 
 def create_new_user(request, form):
 
@@ -1062,7 +1200,9 @@ def create_new_organisation(request, form):
                                                form.passwd,
                                                assoc, 0,
                                                first_name=form.first_name,
-                                               last_name=form.name)
+                                               last_name=form.name,
+                                               birth_day=form.birthdate,
+                                               gender=form.gender)
 
     if request.FILES.get('profile_pic') is not None:
         user.picture.save(request.FILES.get('profile_pic').name,

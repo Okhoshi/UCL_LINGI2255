@@ -39,6 +39,7 @@
 	</head>
 	<body>
   		<div class="container">
+            <div style="padding-bottom: 20px">
         {% block header %}
             <div class="row">
                 <div class="col-lg-8 col-md-6 col-sm-6 col-xs-6">
@@ -148,16 +149,16 @@
 			{% block breadcrumb %}{% endblock %}
 
 			{% block content %}{% endblock %}
-            </div>
-            <div class="container foot">
+
             <!--
 			##################
 			##### FOOTER #####
 			##################
 			-->
+        </div>
 			<div class="clearfix"></div>
 			{% block footer %}
-			<footer>
+			<footer class="foot">
 				<div class="row">
 					<div class="col-xs-5">
 						<img src ="{% static 'images/asbl.png' %}" class="pull-left" style="margin-top: 3px;" />
