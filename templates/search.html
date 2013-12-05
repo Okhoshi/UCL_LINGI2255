@@ -4,9 +4,9 @@
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
-	<li><a href="/">{% trans "Home" %}</a></li>
+    <li><a href="/">{% trans "Home" %}</a></li>
     <li><a href="{% url 'profile' %}">{% trans "Account" %}</a></li>
-	<li href="active">{% trans "Search" %}</li>
+    <li href="active">{% trans "Search" %}</li>
 </ol>
 
 <p>In progress</p>
@@ -16,63 +16,153 @@
 
 <form id="search_form" method="POST" action="{% url 'search' %}">
     {% csrf_token %}
-	<div class="col-sm-10" style="margin-bottom: 2em">
+    <div class="col-sm-10" style="margin-bottom: 2em">
     <div style="height: 33px;" class="hidden-xs"></div>
     <div class="input-group">
-    	<div class="input-group-btn">
-        	<button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button>
-    	</div>	
-	   	<input type="search" class="form-control" id="search" name="search" placeholder="Search">
+        <div class="input-group-btn">
+            <button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+        <input type="search" class="form-control" id="search" name="search" placeholder="Search">
 
-	    <span class="input-group-btn">
-	        <button class="btn btn-danger" type="submit">{% trans "Search" %}</button>
+        <span class="input-group-btn">
+            <button class="btn btn-danger" type="submit">{% trans "Search" %}</button>
 
-	    </span>
-        
+        </span>
+
     </div><!-- /input-group -->
     <div style="height: 33px;" class="visible-xs"></div>
-	</div>
+    </div>
 </form>
 
+
+
 <div class="col-sm-4 col-xs-6">
 
-	{% for elem in search_results %}
+{% for elem in search_results_1 %}
     <div class="panel panel-info box">
-    	<div class="panel-heading">
-        	<h3 class="panel-title">{% trans "Matching Request" %}</h3>
-    	</div>
-    	<div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
-        	<ul class="list-unstyled">
-				<li>{% trans "Type" %} : </li>
-				<li>{% trans "By" %} : </li>
-				<li>{% trans "Place" %} :</li>
-            	<li>{% trans "When" %} :</li>
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ elem.0 }}</h3>
+        </div>
+        <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
+            <ul class="list-unstyled">
+                <li>{% trans "Type" %} : {{ elem.1 }}</li>
+                <li>{% trans "By" %} : {{ elem.2 }}</li>
+                <li>{% trans "Place" %} : {{ elem.3 }}</li>
+                {% if elem.4 %}
+                    <li>{% trans "When" %} : {{ elem.4 }}</li>
+                {% else %}
+                    <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
+                {% endif %}
 
-			</ul>
-    	</div>
-	</div>
-	{% endfor %}
+            </ul>
+        </div>
+            <!-- <div class="col-md-12">
+                <button class="btn btn-success">{% trans "I want to help you" %}</button>
+                <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
+            </div> -->
 
-	{% include 'search_match.html' %}
 
-	{% include 'search_match.html' %}
+        <div class="row">
+        <div class="span6" style="text-align:center">
+        <p><button class="btn btn-primary primary large width:50%" style="width: 60%;">
+            {% trans "Get in touch" %}
+        </button></p>
+        <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I want to help you" %}</button></p>
+
+  </div>
+</div>
+
+    </div>
+{% endfor %}
+</div>
+
+
+
+<div class="col-sm-4 col-xs-6">
+{% for elem in search_results_2 %}
+    <div class="panel panel-info box">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ elem.0 }}</h3>
+        </div>
+        <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
+            <ul class="list-unstyled">
+                <li>{% trans "Type" %} : {{ elem.1 }}</li>
+                <li>{% trans "By" %} : {{ elem.2 }}</li>
+                <li>{% trans "Place" %} : {{ elem.3 }}</li>
+                {% if elem.4 %}
+                    <li>{% trans "When" %} : {{ elem.4 }}</li>
+                {% else %}
+                    <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
+                {% endif %}
+
+            </ul>
+        </div>
+            <!-- <div class="col-md-12">
+                <button class="btn btn-success">{% trans "I want to help you" %}</button>
+                <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
+            </div> -->
+
+
+        <div class="row">
+        <div class="span6" style="text-align:center">
+        <p><button class="btn btn-primary primary large width:50%" style="width: 60%;">
+            {% trans "Get in touch" %}
+        </button></p>
+        <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I want to help you" %}</button></p>
+
+  </div>
+</div>
+
+    </div>
+{% endfor %}
 </div>
 
 <div class="col-sm-4 col-xs-6">
+{% for elem in search_results_3 %}
+    <div class="panel panel-info box">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ elem.0 }}</h3>
+        </div>
+        <div class=" row el" style="margin-left:0.25em ; margin-top:0.25em ;" >
+            <ul class="list-unstyled">
+                <li>{% trans "Type" %} : {{ elem.1 }}</li>
+                <li>{% trans "By" %} : {{ elem.2 }}</li>
+                <li>{% trans "Place" %} : {{ elem.3 }}</li>
+                {% if elem.4 %}
+                    <li>{% trans "When" %} : {{ elem.4 }}</li>
+                {% else %}
+                    <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
+                {% endif %}
 
-    {% include 'search_match.html' %}
+            </ul>
+        </div>
+            <!-- <div class="col-md-12">
+                <button class="btn btn-success">{% trans "I want to help you" %}</button>
+                <button class="btn btn-info" style="position: absolute; right:0px;">{% trans "Get in touch" %}</button>
+            </div> -->
 
-	{% include 'search_match.html' %}
 
-	{% include 'search_match.html' %}
+        <div class="row">
+        <div class="span6" style="text-align:center">
+            <p><button class="btn btn-primary primary large width:50%" style="width: 60%;">
+            {% trans "Get in touch" %}
+        </button></p>
+        <p><button href="#" class="btn btn-success primary large" style="width: 60%;">{% trans "I want to help you" %}</button></p>
+
+        </div>
 </div>
 
-<div class="col-sm-4 col-xs-6">
-
-    {% include 'search_match.html' %}
-
-	{% include 'search_match.html' %}
-
-	{% include 'search_match.html' %}
+    </div>
+{% endfor %}
 </div>
+
+{% if max_times == 0 and searched %}
+
+<div class="row warning">
+                <div class="col-md-12 ">
+                    <h5>{% trans "No matches found" %}</h5>
+                </div>
+            </div>
+{% endif %}
+
 {% endblock %}

@@ -392,7 +392,9 @@ def exchanges(request):
 
 @login_required()
 def search(request):
-    search_results = []
+    search_results_1 = []
+    search_results_2 = []
+    search_results_3 = []
     usr = DUser.objects.get(username=request.user)
 
     if User.is_user(usr.id):
@@ -401,16 +403,28 @@ def search(request):
         usr_entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
         return redirect('login')
-
+    searched = False
+    max_times = 0
     if request.method == 'POST':
         search_field = request.POST['search']
         search_object = SavedSearch(search_field=search_field, category="Jardin")
-        search_results_request = usr_entity.search(search_object, 1)
-        for request in search_results_request:
-            print(request)
-            (req_initiator, req_type) = request.get_initiator()
-            search_results.append((request))
-    return render(request, 'search.html', {'search_results':search_results})
+        search_results = usr_entity.search(search_object, 9)
+        print(search_results)
+        i = 0
+        searched = True
+        for this_request in search_results:
+            print(this_request)
+            (req_initiator, req_type) = this_request.get_initiator()
+            # Need to know if it's a User or a Association
+            if divmod(i, 3)[1] == 0:
+                search_results_1.append((this_request, req_type, name(req_initiator), this_request.place, this_request.date))
+            elif divmod(i, 3)[1] == 1:
+                search_results_2.append((this_request, req_type, name(req_initiator), this_request.place, this_request.date))
+            else:
+                search_results_3.append((this_request, req_type, name(req_initiator), this_request.place, this_request.date))
+            i += 1
+        max_times = len(search_results)
+    return render(request, 'search.html', {'search_results_1':search_results_1, 'search_results_2':search_results_2, 'search_results_3':search_results_3, 'max_times':max_times, 'searched':searched})
 
 
 
