@@ -22,10 +22,14 @@
         <div class="input-group-btn">
             <button class="btn btn-default" disabled="disabled"><i class="glyphicon glyphicon-search"></i></button>
         </div>
-        <input type="search" class="form-control" id="search" name="search" placeholder="Search">
-
+        <input type="search" class="form-control" id="search" name="search" placeholder="Search" >
+        <script type="text/javascript">
+            $("#search").keypress(function(event){
+                if(event.which == 13) this.form.submit();
+            });
+        </script>
         <span class="input-group-btn">
-            <button class="btn btn-danger" type="submit">{% trans "Search" %}</button>
+            <button class="btn btn-danger" type="submit" autofocus>{% trans "Search" %}</button>
 
         </span>
 
