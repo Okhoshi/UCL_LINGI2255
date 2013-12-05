@@ -234,7 +234,7 @@ class MForm(forms.Form):
         if form.__contains__('org_name'):
             self.type = MForm.ORG
 
-            if form.get('org_name', '') != '' and match(r"^[A-Za-z0-9,;:=?./+-_]*$", form.get('org_name', '')):
+            if form.get('org_name', '') != '' and match(r"^[A-Za-z0-9,;:=?./+-_ ]*$", form.get('org_name', '')):
                 self.org_name = form.get('org_name', '')
             else:
                 self.is_valid = False
