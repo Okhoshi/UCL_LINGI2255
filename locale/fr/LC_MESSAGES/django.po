@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-04 12:44+0000\n"
-"PO-Revision-Date: 2013-12-03 14:20+0100\n"
+"POT-Creation-Date: 2013-12-05 22:29+0000\n"
+"PO-Revision-Date: 2013-12-06 00:23+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: FR\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.1\n"
 
 #: solidareit/settings.py:84
 msgid "French"
@@ -30,215 +30,417 @@ msgstr "Anglais"
 msgid "Dutch"
 msgstr "Néerlandais"
 
-#: templates/account.html:7 templates/add_representative.html:7
-#: templates/base.html:127 templates/concept.html:7 templates/contact.html:7
-#: templates/create.html:7 templates/individual_registration.html:7
-#: templates/login.html:8 templates/organisation_registration.html:7
-#: templates/profile.html:9 templates/register.html:8
+#: templates/account.html:7 templates/add_pins.html:7
+#: templates/add_representative.html:7 templates/base.html:133
+#: templates/concept.html:7 templates/contact.html:7 templates/create.html:7
+#: templates/exchanges.html:7 templates/faq.html:7
+#: templates/individual_registration.html:7 templates/login.html:8
+#: templates/messages.html:8 templates/news.html:7
+#: templates/organisation_registration.html:7 templates/profile.html:9
+#: templates/register.html:8 templates/search.html:7
 msgid "Home"
 msgstr "Accueil"
 
-#: templates/account.html:8
+#: templates/account.html:8 templates/add_pins.html:8
+#: templates/add_representative.html:8
+#: templates/individual_registration.html:9
+#: templates/organisation_registration.html:9 templates/search.html:8
 msgid "Account"
 msgstr "Compte"
 
-#: templates/account.html:18
+#: templates/account.html:17
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: templates/account.html:26
+#: templates/account.html:25 templates/search.html:9
+#: templates/search.html.py:33
 msgid "Search"
 msgstr "Recherche"
 
-#: templates/account.html:27
+#: templates/account.html:26
 msgid "Create"
 msgstr "Créer"
 
-#: templates/account.html:36 templates/profile.html:108
-msgid "History"
-msgstr "Historique"
+#: templates/account.html:35 templates/profile_pic.html:4
+msgid "Profile picture"
+msgstr "Photo de profil"
 
-#: templates/account.html:37
+#: templates/account.html:42
+msgid "Add member"
+msgstr "Ajouter un membre"
+
+#: templates/account.html:46
+msgid "Add PIN"
+msgstr "Ajouter un PIN"
+
+#: templates/account.html:53
 msgid "Edit"
 msgstr "Modifier"
 
-#: templates/account.html:47
+#: templates/account.html:73
 msgid "Saved searches"
 msgstr "Recherches sauvegardées"
 
-#: templates/account.html:51 templates/account.html.py:56
-#: templates/account.html:61
+#: templates/account.html:78
 msgid "Launch"
 msgstr "Lancer"
 
-#: templates/account.html:70
-msgid "Saved matches"
-msgstr "Résultats sauvegardés"
+#: templates/account.html:93
+msgid "Pending requests"
+msgstr "Requêtes en attente"
 
-#: templates/account.html:81
+#: templates/account.html:110
 msgid "Similar offers and demands"
 msgstr "Offres et demandes similaires"
 
-#: templates/account.html:94
+#: templates/account.html:130
 msgid "My summary"
 msgstr "Résumé"
 
-#: templates/account.html:105
-msgid "Groups"
-msgstr "Groupe"
+#: templates/account.html:133
+msgid "requests are waiting for a matching"
+msgstr "Requête en recherche de correspondance"
 
-#: templates/account.html:116
+#: templates/account.html:134
+msgid "requests are planed to be realised"
+msgstr "Les requêtes sont en attente de réalisation"
+
+#: templates/account.html:135
+msgid "requests have been successfully realised"
+msgstr "Les requêtes ont été réalisées avec succès"
+
+#: templates/account.html:146
+msgid "Upcoming requests"
+msgstr "Requêtes à venir"
+
+#: templates/account.html:163
 msgid "Following"
 msgstr "Personnes suivies"
 
-#: templates/add_representative.html:8
-msgid "Organisations"
-msgstr "Organisations"
+#: templates/add_pins.html:9 templates/add_pins.html.py:81
+msgid "Add PINs"
+msgstr "Ajouter des PINs"
 
-#: templates/add_representative.html:10
-msgid "Add a representative"
-msgstr "Rajouter un membre"
+#: templates/add_pins.html:17 templates/add_representative.html:18
+#: templates/contact.html:44 templates/create.html:17
+#: templates/individual_registration.html:28
+#: templates/organisation_registration.html:28
+msgid "There are errors in the form :"
+msgstr "Il y a des erreurs dans le formulaire :"
 
-#: templates/add_representative.html:19
-msgid "Enter data"
-msgstr "Entrer les données"
-
-#: templates/add_representative.html:20
-msgid "Upload .xls"
-msgstr "Télécharger"
-
-#: templates/add_representative.html:30 templates/contact.html:69
-#: templates/personnal_informations.html:16
-#: templates/personnal_informations.html:19 templates/profile.html:61
-#: templates/profile.html.py:87 templates/profile.html:113
-#: templates/profile.html.py:139
+#: templates/add_pins.html:45 templates/add_representative.html:46
+#: templates/contact.html:77 templates/personnal_informations.html:16
+#: templates/personnal_informations.html:19 templates/profile.html:74
+#: templates/profile.html.py:115 templates/profile.html:154
+#: templates/profile.html.py:206 website/forms.py:130 website/forms.py:186
+#: website/forms.py:236
 msgid "Name"
 msgstr "Nom"
 
-#: templates/add_representative.html:37 templates/contact.html:81
-#: templates/contact.html.py:85 templates/personnal_informations.html:27
-#: templates/personnal_informations.html:31
+#: templates/add_pins.html:52 templates/add_representative.html:53
+#: templates/contact.html:89 templates/contact.html.py:93
+#: templates/personnal_informations.html:27
+#: templates/personnal_informations.html:31 website/forms.py:139
+#: website/forms.py:195 website/forms.py:244
 msgid "First name"
 msgstr "Prénom"
 
-#: templates/add_representative.html:44
+#: templates/add_pins.html:59 website/forms.py:204
+msgid "Managed by"
+msgstr "Géré par"
+
+#: templates/add_pins.html:78 templates/add_representative.html:84
+msgid "Add line"
+msgstr "Ajouter une ligne"
+
+#: templates/add_representative.html:9
+msgid "Add a representative"
+msgstr "Rajouter un membre"
+
+#: templates/add_representative.html:60
 msgid "E-mail"
 msgstr "E-mail"
 
-#: templates/add_representative.html:51
+#: templates/add_representative.html:67 website/forms.py:156
+msgid "Level"
+msgstr "Niveau"
+
+#: templates/add_representative.html:70
 #, fuzzy
-msgid "Member level"
+msgid "Member"
 msgstr "Membres"
 
-#: templates/add_representative.html:63
-msgid "Add line"
-msgstr ""
+#: templates/add_representative.html:71
+msgid "Administrator"
+msgstr "Administrateur"
 
-#: templates/add_representative.html:66 templates/add_representative.html:77
-#: templates/individual_registration.html:8
-#: templates/individual_registration.html:54 templates/login.html:25
-#: templates/organisation_registration.html:8
-#: templates/organisation_registration.html:54 templates/register.html:9
-msgid "Register"
-msgstr "S'enregistrer"
+#: templates/add_representative.html:87
+#, fuzzy
+msgid "Add members"
+msgstr "Membres"
 
-#: templates/add_representative.html:73
-msgid "Upload organisation members from an Excel file (.xls)"
-msgstr ""
-"Telecharger les membres de l organisation a partir d un fichier Excel (.xls)"
-
-#: templates/add_representative.html:75
-msgid "Upload"
-msgstr "Télécharger"
-
-#: templates/add_representative.html:75
-msgid "No file selected"
-msgstr "Aucun fichier selectioné"
-
-#: templates/address.html:7 templates/contact.html:105
+#: templates/address.html:7 templates/contact.html:113
+#: templates/create.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: templates/address.html:9 templates/contact.html:108
+#: templates/address.html:9 templates/contact.html:116
+#: templates/create.html:67 website/forms.py:301
 msgid "Street"
 msgstr "Rue"
 
-#: templates/address.html:13 templates/contact.html:114
+#: templates/address.html:13 templates/contact.html:122
+#: templates/create.html:71
 msgid "N°"
 msgstr "N°"
 
 #: templates/address.html:19 templates/address.html.py:21
-#: templates/contact.html:122 templates/contact.html.py:125
-#: templates/create.html:50
+#: templates/contact.html:130 templates/contact.html.py:133
+#: templates/create.html:77 templates/create.html.py:79 website/forms.py:60
+#: website/forms.py:315
 msgid "City"
 msgstr "Ville"
 
-#: templates/address.html:25 templates/contact.html:131
-#: templates/create.html:53
+#: templates/address.html:25 templates/contact.html:139
+#: templates/create.html:83
 msgid "Post code"
 msgstr "Code postal"
 
 #: templates/address.html:31 templates/address.html.py:33
-#: templates/contact.html:139 templates/contact.html.py:142
+#: templates/contact.html:147 templates/contact.html.py:150
+#: templates/create.html:89 templates/create.html.py:91 website/forms.py:65
+#: website/forms.py:322
 msgid "Country"
 msgstr "Pays"
 
-#: templates/base.html:82
+#: templates/base.html:88
 msgid "Toggle Dropdown"
-msgstr ""
+msgstr "Menu déroulant"
 
-#: templates/base.html:85
+#: templates/base.html:91
 msgid "My profile"
 msgstr "Mon Profil"
 
-#: templates/base.html:86
+#: templates/base.html:92 templates/exchanges.html:9
 msgid "My exchanges"
 msgstr "Mes échanges"
 
-#: templates/base.html:87
+#: templates/base.html:93
 msgid "Internal messages"
 msgstr "Messages privés"
 
-#: templates/base.html:89
+#: templates/base.html:95
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: templates/base.html:93 templates/login.html:9 templates/login.html.py:24
+#: templates/base.html:99 templates/login.html:9 templates/login.html.py:33
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/base.html:115
+#: templates/base.html:121
 msgid "Toggle navigation"
 msgstr "Bar de navigation"
 
-#: templates/base.html:120
+#: templates/base.html:126
 msgid "The real social network"
 msgstr ""
 
-#: templates/base.html:128 templates/concept.html:8
+#: templates/base.html:134 templates/concept.html:8
 msgid "Concept"
 msgstr "Concept"
 
-#: templates/base.html:129
+#: templates/base.html:135 templates/faq.html:8 templates/faq.html.py:15
 msgid "FAQ"
 msgstr "FAQ"
 
-#: templates/base.html:130
+#: templates/base.html:136 templates/news.html:8
 msgid "News"
 msgstr "Nouvelles"
 
-#: templates/base.html:131 templates/contact.html:8
-#: templates/contact.html.py:178
+#: templates/base.html:137 templates/contact.html:8
+#: templates/contact.html.py:186
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/base.html:161
+#: templates/base.html:167
 msgid "Legal mentions"
 msgstr "Mention légales"
 
-#: templates/base.html:161
+#: templates/base.html:167
 msgid "Site map"
 msgstr "Plan du site"
+
+#: templates/candidate_list.html:16
+msgid "Candidates"
+msgstr "Candidats"
+
+#: templates/candidate_list.html:17
+msgid "Accept the candidate"
+msgstr "Accepter le candidat"
+
+#: templates/candidate_list.html:24
+#, fuzzy
+msgid "Accept"
+msgstr "Concept"
+
+#: templates/categories.html:2
+msgid "Basic need"
+msgstr "Besoin basique"
+
+#: templates/categories.html:3
+msgid "Food"
+msgstr "Nourriture"
+
+#: templates/categories.html:4
+msgid "Hygiene"
+msgstr "Hygiène"
+
+#: templates/categories.html:5
+msgid "Sleeping place"
+msgstr "Logement"
+
+#: templates/categories.html:6
+msgid "Clothes"
+msgstr "Vêtements"
+
+#: templates/categories.html:9
+#, fuzzy
+msgid "Administration"
+msgstr "Organisation"
+
+#: templates/categories.html:10
+#, fuzzy
+msgid "Translations"
+msgstr "Organisations"
+
+#: templates/categories.html:11
+msgid "Finding house"
+msgstr "Trouver une maison"
+
+#: templates/categories.html:12
+msgid "Juridical"
+msgstr "Juridical"
+
+#: templates/categories.html:13
+msgid "Asilum questions"
+msgstr "Questions d'asile"
+
+#: templates/categories.html:14
+msgid "Identity card"
+msgstr "Carte d'identité"
+
+#: templates/categories.html:15
+#, fuzzy
+msgid "Domiciliation"
+msgstr "Résumé des évaluations"
+
+#: templates/categories.html:16 templates/categories.html.py:48
+msgid "Other"
+msgstr "Autre"
+
+#: templates/categories.html:19
+msgid "Socio-cultural"
+msgstr "Socio-culturel"
+
+#: templates/categories.html:20
+msgid "Cultural activity"
+msgstr "Activité culturelle"
+
+#: templates/categories.html:21
+msgid "Walk"
+msgstr "Promenade"
+
+#: templates/categories.html:22
+msgid "Talk"
+msgstr "Discussion"
+
+#: templates/categories.html:25
+msgid "Sport and danse"
+msgstr "Sport et danse"
+
+#: templates/categories.html:26
+msgid "Football"
+msgstr "Football"
+
+#: templates/categories.html:27
+msgid "Badminton"
+msgstr "Badminton"
+
+#: templates/categories.html:28
+msgid "Swimming"
+msgstr "Nage"
+
+#: templates/categories.html:29
+msgid "Salsa"
+msgstr "Salsa"
+
+#: templates/categories.html:30
+msgid "Rumba"
+msgstr "Rumba"
+
+#: templates/categories.html:31
+msgid "Other sport"
+msgstr "Autre sport"
+
+#: templates/categories.html:34
+msgid "Practical need"
+msgstr "Besoin pratique"
+
+#: templates/categories.html:35
+msgid "Scholar material"
+msgstr "Matériel scolaire"
+
+#: templates/categories.html:36
+msgid "Games"
+msgstr "Jeux"
+
+#: templates/categories.html:37
+msgid "Things"
+msgstr "Choses"
+
+#: templates/categories.html:38
+msgid "Lift"
+msgstr "Déplacement"
+
+#: templates/categories.html:39
+msgid "Move"
+msgstr "Déménagement"
+
+#: templates/categories.html:40
+msgid "Groceries"
+msgstr "Epiceries"
+
+#: templates/categories.html:43
+msgid "Personal development"
+msgstr "Développement personnel"
+
+#: templates/categories.html:44
+msgid "Language course"
+msgstr "Cours de langue"
+
+#: templates/categories.html:45
+msgid "Music"
+msgstr "Musique"
+
+#: templates/categories.html:46
+msgid "Cooking"
+msgstr "Cuisine"
+
+#: templates/categories.html:47
+msgid "Sewing"
+msgstr "Couture"
+
+#: templates/categories.html:51
+msgid "Financial"
+msgstr "Finances"
+
+#: templates/categories.html:52
+msgid "Garanty"
+msgstr "Garantie"
+
+#: templates/categories.html:53
+msgid "Micro credit"
+msgstr "Micro-crédit"
 
 #: templates/concept.html:15
 #, fuzzy
@@ -259,6 +461,17 @@ msgid ""
 "            used as tools to obtain this goal.\"\n"
 "            "
 msgstr ""
+"\n"
+"            Solidare-it! est une association qui essaye d'améliorer la "
+"solidarité et les échanges entre\n"
+"            citoyens de tout horizon. Depuis le nom 'Solidare-it' on peut "
+"distinguer les choses suivantes\n"
+"            : “solidarité” (solidarité), “dare it !” (osez) and “IT”. Nous "
+"essayons de stumbler les gens d'oser de devenir impliqué dans la vraie\n"
+"            solidarité à travers la technologie de l'information. Internet "
+"et les réseaux sociaux sont utilisés\n"
+"            comme outils pour atteindre ce but.\"\n"
+"            "
 
 #: templates/concept.html:26
 msgid ""
@@ -288,6 +501,30 @@ msgid ""
 "            reinforcement of the social fabric.\n"
 "            "
 msgstr ""
+"\n"
+"            Solidare-it! est une plate-forme web qui agit comme un endroit "
+"de rencontre pour faciliter le contact\n"
+"            et les échanges entre ses utilisateurs et connecter les gens de "
+"tout horizon. Le but premier\n"
+"            de la plateforme est de créer un pont et un échange entre les "
+"citoyens qui pourraient avoir besoin d'aide,\n"
+"            avec ceux qui ont la volonté d'offrir leur aide. Le groupe de "
+"personnes en besoin peut être très varié. Cela\n"
+"            peut être des familles avec des problèmes financiers, des "
+"réfugiés cherchant une nouvelle maison, une vieille dame ayant\n"
+"            besoin d'un déplacement, etc. \n"
+"            clothes, simply a conversation, or other things. The exchange "
+"offers the people in need in the first place\n"
+"            a temporary solution for an urgent problem. It can however "
+"enhance long term benefits. If a connection\n"
+"            between two people from different backgrounds is made, both will "
+"exchange culture, knowledge, stories\n"
+"            and experiences. This may generate and enhance mutual "
+"understanding, empathy and involvement. People will\n"
+"            inspire and motivate each other. And finally this can lead to "
+"the emergence of friendships and a\n"
+"            reinforcement of the social fabric.\n"
+"            "
 
 #: templates/concept.html:42
 msgid ""
@@ -310,12 +547,12 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/contact.html:16
+#: templates/contact.html:15
 #, fuzzy
 msgid "Contact us"
 msgstr "Contact"
 
-#: templates/contact.html:18
+#: templates/contact.html:17
 msgid ""
 "\n"
 "            In order to perform the quality of the site and offer the best "
@@ -324,7 +561,7 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/contact.html:24
+#: templates/contact.html:23
 msgid ""
 "\n"
 "            Your data remain confidential and will not be used by third "
@@ -332,181 +569,485 @@ msgid ""
 "            "
 msgstr ""
 
-#: templates/contact.html:37 templates/individual_registration.html:23
-#: templates/organisation_registration.html:23
-msgid "There are errors in the form :"
-msgstr "Il y a des erreurs dans le formulaire :"
-
-#: templates/contact.html:52
-msgid "Title"
-msgstr ""
-
-#: templates/contact.html:57
-msgid "Mr."
-msgstr ""
-
-#: templates/contact.html:58
-msgid "Ms."
-msgstr ""
-
-#: templates/contact.html:59
-msgid "Mrs."
-msgstr ""
+#: templates/contact.html:33
+msgid "Your request or comment has been transmitted to the admins"
+msgstr "Votre requête ou commentaire a été transmis aux administrateurs."
 
 #: templates/contact.html:60
-msgid "Miss"
-msgstr ""
+msgid "Title"
+msgstr "Titre"
 
-#: templates/contact.html:73
+#: templates/contact.html:65
+msgid "Mr."
+msgstr "Mr."
+
+#: templates/contact.html:66
+msgid "Ms."
+msgstr "Me"
+
+#: templates/contact.html:67
+msgid "Mrs."
+msgstr "Me"
+
+#: templates/contact.html:68
+msgid "Miss"
+msgstr "Mme"
+
+#: templates/contact.html:81
 #, fuzzy
 msgid " Name"
 msgstr "Nom"
 
-#: templates/contact.html:93 templates/contact.html.py:96
+#: templates/contact.html:101 templates/contact.html.py:104
 #: templates/personnal_informations.html:79
 #, fuzzy
 msgid " Email"
 msgstr "Email"
 
-#: templates/contact.html:157
+#: templates/contact.html:165
 msgid " Your request or comments"
-msgstr ""
+msgstr "Votre requête ou commentaires"
+
+#: templates/contact.html:192 templates/new_feedback.html:9
+#, fuzzy
+msgid "Feedback"
+msgstr "Feedback à propos de"
 
 #: templates/create.html:8
 msgid "Create offer or demand"
 msgstr "Dernières offres et demandes"
 
-#: templates/create.html:17
+#: templates/create.html:31
 msgid "Person"
 msgstr "Personne"
 
-#: templates/create.html:30
+#: templates/create.html:44 templates/search.html:65
+#: templates/search_match.html:9 website/forms.py:36
 msgid "Type"
 msgstr "Type"
 
-#: templates/create.html:35
+#: templates/create.html:49
 msgid "Offer"
 msgstr "Offre"
 
-#: templates/create.html:41
+#: templates/create.html:55 website/tests.py:532 website/models/request.py:94
 msgid "Demand"
 msgstr "Demande"
 
-#: templates/create.html:48
-msgid "Where ?"
-msgstr "Où ?"
-
-#: templates/create.html:58
+#: templates/create.html:97
 msgid "When ?"
 msgstr "Quand ?"
 
-#: templates/create.html:62
-msgid "Valid from"
-msgstr "A partir de"
+#: templates/create.html:100 templates/personnal_informations.html:41
+msgid "yyyy-mm-dd"
+msgstr "AAAA-MM-JJ"
 
-#: templates/create.html:65
-#, fuzzy
-msgid "From"
-msgstr "De"
-
-#: templates/create.html:68 templates/create.html.py:71
-#, fuzzy
-msgid "To"
-msgstr "A"
-
-#: templates/create.html:80
-msgid "One time"
-msgstr "Une seule fois"
-
-#: templates/create.html:86
-msgid "Regularly"
-msgstr "Régulierement"
-
-#: templates/create.html:92
-msgid "Not specified"
-msgstr "Pas spécifié"
-
-#: templates/create.html:99
+#: templates/create.html:109
 msgid "What ?"
 msgstr "Quoi ?"
 
-#: templates/create.html:104
-msgid "Category"
-msgstr "Catégorie"
+#: templates/create.html:124
+msgid "Apply filters"
+msgstr "Appliquer des filtres"
 
-#: templates/create.html:114
-msgid "Specify"
-msgstr "Specifié"
+#: templates/create.html:133 templates/profile.html:34 website/forms.py:81
+#, fuzzy
+msgid "Verified"
+msgstr "Pas spécifié"
 
-#: templates/create.html:123 templates/organisation_informations.html:41
+#: templates/create.html:138
+msgid "Only show to verified people"
+msgstr "Montrer seulement aux personnes vérifiées"
+
+#: templates/create.html:146 website/forms.py:86
+msgid "Minimal rating"
+msgstr "Evaluation minimale"
+
+#: templates/create.html:151
+msgid "Only show to people with a minimal rating"
+msgstr "Montrer seulement aux personnes avec une évaluation minimale"
+
+#: templates/create.html:159 templates/personnal_informations.html:51
+#: templates/personnal_informations.html:55 website/forms.py:91
+#, fuzzy
+msgid "Gender"
+msgstr "Demandeur"
+
+#: templates/create.html:163 templates/personnal_informations.html:58
+#: templates/search.html:71
+#, fuzzy
+msgid "Unspecified"
+msgstr "Pas spécifié"
+
+#: templates/create.html:164 templates/personnal_informations.html:56
+msgid "Male"
+msgstr "Homme"
+
+#: templates/create.html:165 templates/personnal_informations.html:57
+msgid "Female"
+msgstr "Femme"
+
+#: templates/create.html:172
+msgid "Age"
+msgstr "Âge"
+
+#: templates/create.html:174 website/forms.py:96
+msgid "Minimal age"
+msgstr "Âge minimal"
+
+#: templates/create.html:177 website/forms.py:101
+msgid "Maximal age"
+msgstr "Âge maximal"
+
+#: templates/create.html:185 templates/organisation_informations.html:41
+#: website/forms.py:42
 msgid "Description"
 msgstr "Description"
+
+#: templates/exchanges.html:21
+msgid "Posted requests"
+msgstr "Requêtes postées"
+
+#: templates/exchanges.html:49
+msgid "Requests with candidates"
+msgstr "Requêtes avec des candidats"
+
+#: templates/exchanges.html:75
+msgid "Incoming requests"
+msgstr "Requêtes entrantes"
+
+#: templates/exchanges.html:102
+msgid "Realised requests"
+msgstr "Requêtes réalisées"
+
+#: templates/exchanges.html:128
+msgid "Requests with feedback already given"
+msgstr "Requêtes avec feedback"
+
+#: templates/faq.html:17
+msgid "How can I get started?"
+msgstr "Comment puis-je commencer ?"
+
+#: templates/faq.html:19
+msgid ""
+"\n"
+"                The \"LOG IN\" button in the top-right corner will take you "
+"to the registration page. Simply fill out the form to join the community!\n"
+"                "
+msgstr ""
+
+#: templates/faq.html:25
+msgid "What if I have nothing to give?"
+msgstr ""
+
+#: templates/faq.html:27
+msgid ""
+"\n"
+"                Solidarity is not only about material goods. Offer a bit of "
+"your time to help someone out and you can already make a difference.\n"
+"                "
+msgstr ""
+
+#: templates/faq.html:33
+msgid "What is the 'verified' status?"
+msgstr ""
+
+#: templates/faq.html:35
+msgid ""
+"\n"
+"                The verified status is given only by staff of the Solidare-"
+"IT team to members who have given sufficient information to verify their "
+"identity.\n"
+"                "
+msgstr ""
+
+#: templates/faq.html:41
+msgid "No one replies to my requests, what can I do?"
+msgstr ""
+
+#: templates/faq.html:43
+msgid ""
+"\n"
+"                Make sure to give relevant names to your requests to get as "
+"many matches as possible. You can also try replying to others and get your "
+"rating up. Finally, you can submit a scan of your ID card to obtain the "
+"verified status; people are more likely to trust those who have been checked "
+"by our organisation.\n"
+"                "
+msgstr ""
 
 #: templates/home.html:13
 msgid "Challenge progress"
 msgstr "Progression du challenge"
 
-#: templates/home.html:33
+#: templates/home.html:34
 msgid "DARE-it!"
 msgstr "DARE-it!"
 
-#: templates/home.html:47
+#: templates/home.html:48
 msgid "The concept"
 msgstr "Le concept"
 
-#: templates/home.html:52
+#: templates/home.html:51
+msgid ""
+"\n"
+"\t            <strong>Solidare-it!</strong> is an initiative that tries to "
+"enhance the solidarity and the exchange between\n"
+"\t            citizens of all layers of society. From the name “Solidare-"
+"it !” we can distill the following things\n"
+"\t            : “solidarity”, “dare it !” and “IT”. We try to stimulate "
+"people to dare becoming involved in real\n"
+"\t            solidarity through information technology. The internet and "
+"the social networks which arise from it are\n"
+"\t            used as tools to obtain this goal.\"\n"
+"\t            "
+msgstr ""
+
+#: templates/home.html:63
 msgid "Testimonies"
 msgstr "Témoignages"
 
-#: templates/home.html:76
+#: templates/home.html:91
 msgid "Video manual"
 msgstr "Tutorial du site en vidéo"
 
-#: templates/home.html:85
+#: templates/home.html:104
 msgid "Latest offers and demands"
 msgstr "Dernières offres et demandes"
 
-#: templates/home.html:102
+#: templates/home.html:134
 msgid "Calendar and news"
 msgstr "Calendrier et nouvelles"
 
-#: templates/home.html:107
+#: templates/home.html:137
+msgid "Free space for the calendar and news section."
+msgstr "Espace libre pour la section calendriers et nouveautés."
+
+#: templates/home.html:143
 msgid "Challenge map"
 msgstr "Carte Challenge"
 
-#: templates/home.html:114
+#: templates/home.html:146
+msgid "Free space for the challenge Map."
+msgstr "Espace libre pour la carte challenge."
+
+#: templates/home.html:154
 msgid "Download and share"
 msgstr "Téléchargé et partagé"
 
-#: templates/home.html:125
+#: templates/home.html:157
+msgid "Free space for the download section."
+msgstr "Espace libre pour la section téléchargements."
+
+#: templates/home.html:169
 msgid "Our partners:"
 msgstr "Nos partenaires:"
 
-#: templates/individual_registration.html:9
+#: templates/id_card_pic.html:4
+#, fuzzy
+msgid "Id card scan"
+msgstr "Numéro de la carte d'identité"
+
+#: templates/id_card_pic.html:10 templates/org_pic.html:10
+#: templates/profile_pic.html:10
+msgid "Browse"
+msgstr "Parcourir"
+
+#: templates/individual_registration.html:10
+#, fuzzy
+msgid "Edit individual"
+msgstr "Nouvel individu"
+
+#: templates/individual_registration.html:12
+#: templates/individual_registration.html:64 templates/login.html:34
+#: templates/organisation_registration.html:12
+#: templates/organisation_registration.html:67 templates/register.html:9
+msgid "Register"
+msgstr "S'enregistrer"
+
+#: templates/individual_registration.html:13
 msgid "New individual"
 msgstr "Nouvel individu"
 
-#: templates/individual_registration.html:34
+#: templates/individual_registration.html:39
 msgid "Mandatory personal informations"
-msgstr ""
+msgstr "Informations personnelles obligatoires"
 
-#: templates/individual_registration.html:40
+#: templates/individual_registration.html:49
 msgid "Optional personal informations"
-msgstr ""
+msgstr "Informations personnelles facultatives"
 
-#: templates/individual_registration.html:48
-#: templates/organisation_registration.html:48
+#: templates/individual_registration.html:58
+#: templates/organisation_registration.html:61
 #, fuzzy
 msgid "Form validation"
 msgstr "Résumé des évaluations"
 
-#: templates/login.html:21
-msgid "Email address"
-msgstr "Adresse Email"
+#: templates/login.html:30
+#, fuzzy
+msgid "Username"
+msgstr "Nom d'utilisateur"
 
-#: templates/login.html:22 templates/personnal_informations.html:90
+#: templates/login.html:31 templates/personnal_informations.html:90
+#: website/forms.py:290 website/forms.py:292
 msgid "Password"
 msgstr "Mot de passe"
+
+#: templates/login.html:46
+msgid "Choose your account type"
+msgstr "Choisissez votre type de compte"
+
+#: templates/login.html:52 templates/register.html:17
+msgid "I am an individual, I want"
+msgstr "Je suis un individu, je veux"
+
+#: templates/login.html:52 templates/register.html:17
+msgid "to create my personnal account."
+msgstr "Pour créer mon compte personnel "
+
+#: templates/login.html:53 templates/register.html:18
+msgid "Individual"
+msgstr "Individuel"
+
+#: templates/login.html:59 templates/register.html:26
+msgid "I want to create an account for the organisation I represent."
+msgstr "Je veux créer un compte pour une organisation que je représente"
+
+#: templates/login.html:60 templates/organisation_informations.html:12
+#: templates/register.html:27
+msgid "Organisation"
+msgstr "Organisation"
+
+#: templates/message_display.html:35
+msgid "There's no message to display here"
+msgstr "Il n'y a pas de messages à afficher"
+
+#: templates/message_display.html:40 templates/messages.html:66
+#: templates/new_message.html:10
+#, fuzzy
+msgid "New message"
+msgstr "Messages privés"
+
+#: templates/messages.html:9
+#, fuzzy
+msgid "Internal Messages"
+msgstr "Messages privés"
+
+#: templates/messages.html:61
+msgid "Select a thread to display the messages."
+msgstr "Choisissez une discussion dont afficher les messages."
+
+#: templates/messages.html:72
+msgid "You don't have any messages in your letterbox yet."
+msgstr "Vous n'avez pas encore de messages dans votre boîtes aux lettres"
+
+#: templates/new_feedback.html:17
+#, fuzzy
+msgid "Request summary"
+msgstr "Résumé"
+
+#: templates/new_feedback.html:22 templates/profile.html:116
+#: templates/request_details.html:22
+msgid "Proposer"
+msgstr "Proposeur"
+
+#: templates/new_feedback.html:23 templates/profile.html:75
+#: templates/request_details.html:24
+msgid "Demander"
+msgstr "Demandeur"
+
+#: templates/new_feedback.html:24 templates/request_details.html:20
+msgid "Category"
+msgstr "Catégorie"
+
+#: templates/new_feedback.html:25
+#, fuzzy
+msgid "What"
+msgstr "Quoi ?"
+
+#: templates/new_feedback.html:26 templates/search.html:67
+#: templates/search_match.html:11
+msgid "Place"
+msgstr "Lieu"
+
+#: templates/new_feedback.html:27 templates/search.html:69
+#: templates/search.html.py:71 templates/search_match.html:12
+#, fuzzy
+msgid "When"
+msgstr "Quand ?"
+
+#: templates/new_feedback.html:35
+msgid "Rating"
+msgstr "Evaluation"
+
+#: templates/new_feedback.html:39
+msgid "Negative"
+msgstr "Négatif"
+
+#: templates/new_feedback.html:40
+msgid "Neutral"
+msgstr "Neutre"
+
+#: templates/new_feedback.html:41
+msgid "Positive"
+msgstr "Positif"
+
+#: templates/new_feedback.html:47
+#, fuzzy
+msgid "Text description"
+msgstr "Description"
+
+#: templates/new_feedback.html:58
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: templates/new_feedback.html:60
+msgid "Cancel"
+msgstr "Annuler"
+
+#: templates/new_message.html:15
+msgid "The message could not be delivered"
+msgstr "Le message n'a pas pu être envoyé"
+
+#: templates/new_message.html:19
+msgid "Receiver"
+msgstr "Receveur"
+
+#: templates/news.html:17
+msgid "One more thing..."
+msgstr "Une dernière chose..."
+
+#: templates/news.html:21 templates/news.html.py:34
+msgid "Hello"
+msgstr "Bonjour"
+
+#: templates/news.html:22
+msgid "This is a first example of news"
+msgstr "Ceci est un premier exemple de nouveautés"
+
+#: templates/news.html:23 templates/news.html.py:37
+msgid "God"
+msgstr "Dieu"
+
+#: templates/news.html:25 templates/news.html.py:39
+msgid "Published the"
+msgstr "Publié le"
+
+#: templates/news.html:30
+msgid "Hello world!"
+msgstr "Bonjour le monde!"
+
+#: templates/news.html:35
+msgid ""
+"I'm the god of this website and I'm proud to officially announce the opening "
+"of my wonderful website"
+msgstr ""
+"Je suis le Dieu de ce site et je suis fier d'officiellement annoncer "
+"l'ouverture de mon merveilleux site"
+
+#: templates/news.html:36
+msgid "I hope you will like it, otherwise please go elsewhere"
+msgstr "J'espère que vous l'aimerez, sinon merci d'aller ailleurs"
 
 #: templates/non_required.html:6
 msgid "Phone"
@@ -517,24 +1058,17 @@ msgid "Phone number"
 msgstr "Numéro de téléphone"
 
 #: templates/non_required.html:14
-msgid "ID Card"
-msgstr "Numéro de la carte d'identité"
-
-#: templates/non_required.html:16
-msgid "ID card number"
-msgstr "Numéro de la carte d'identité"
-
-#: templates/non_required.html:22
 msgid "Facebook"
 msgstr "Facebook"
 
-#: templates/non_required.html:24
+#: templates/non_required.html:16
 msgid "Facebook page URL"
 msgstr "URL de la page Facebook"
 
-#: templates/organisation_informations.html:12 templates/register.html:27
-msgid "Organisation"
-msgstr "Organisation"
+#: templates/org_pic.html:4
+#, fuzzy
+msgid "Organisation picture"
+msgstr "Rue de l'organisation"
 
 #: templates/organisation_informations.html:15
 #, fuzzy
@@ -561,52 +1095,40 @@ msgstr "Téléphone de l'organisation"
 msgid "Small organisation description"
 msgstr "Petit description de l'organisation"
 
-#: templates/organisation_registration.html:9
+#: templates/organisation_registration.html:10
+#, fuzzy
+msgid "Edit organisation"
+msgstr "Nouvelle organisation"
+
+#: templates/organisation_registration.html:13
 msgid "New organisation"
 msgstr "Nouvelle organisation"
 
-#: templates/organisation_registration.html:34
-msgid "Person of reference informations"
-msgstr ""
-
 #: templates/organisation_registration.html:39
+msgid "Person of reference informations"
+msgstr "Information de la personne de référence"
+
+#: templates/organisation_registration.html:44
 #, fuzzy
 msgid "Oganisation informations"
 msgstr "Logo de l'organisation"
 
-#: templates/personnal_informations.html:39
+#: templates/organisation_registration.html:56
+msgid "Photos"
+msgstr "Photos"
+
+#: templates/personnal_informations.html:39 website/forms.py:252
 msgid "Birthdate"
-msgstr ""
-
-#: templates/personnal_informations.html:41
-msgid "dd/MM/yyyy"
-msgstr ""
-
-#: templates/personnal_informations.html:51
-#: templates/personnal_informations.html:55
-#, fuzzy
-msgid "Gender"
-msgstr "Demandeur"
-
-#: templates/personnal_informations.html:56
-msgid "Male"
-msgstr ""
-
-#: templates/personnal_informations.html:57
-msgid "Female"
-msgstr ""
-
-#: templates/personnal_informations.html:58
-#, fuzzy
-msgid "Unspecified"
-msgstr "Pas spécifié"
+msgstr "Date d'anniversaire"
 
 #: templates/personnal_informations.html:69
-#: templates/personnal_informations.html:73
+#: templates/personnal_informations.html:73 website/forms.py:264
+#: website/forms.py:270
 msgid "User name"
 msgstr "Nom d'utilisateur"
 
-#: templates/personnal_informations.html:81
+#: templates/personnal_informations.html:81 website/forms.py:148
+#: website/forms.py:279
 #, fuzzy
 msgid "Email"
 msgstr "Email"
@@ -628,94 +1150,234 @@ msgstr "Confirmer le mot de passe"
 msgid "Members"
 msgstr "Membres"
 
-#: templates/profile.html:28
-msgid "of positive evaluations."
-msgstr ""
+#: templates/profile.html:27
+#, fuzzy
+msgid "Follow"
+msgstr "Personnes suivies"
 
-#: templates/profile.html:28
+#: templates/profile.html:37
+msgid "of positive evaluations."
+msgstr "d'évaluation positive"
+
+#: templates/profile.html:37
 #, fuzzy
 msgid "evaluations"
 msgstr "Résumé des évaluations"
 
-#: templates/profile.html:56
+#: templates/profile.html:39
+#, fuzzy
+msgid "No evaluations"
+msgstr "Résumé des évaluations"
+
+#: templates/profile.html:69
 msgid "Current offers"
 msgstr "Offres courantes"
 
-#: templates/profile.html:62
-msgid "Demander"
-msgstr "Demandeur"
-
-#: templates/profile.html:63 templates/profile.html.py:89
-#: templates/profile.html:116
+#: templates/profile.html:76 templates/profile.html.py:117
+#: templates/profile.html:157 templates/request_details.html:28
+#: website/forms.py:49
 msgid "Date"
 msgstr "Date"
 
-#: templates/profile.html:82
+#: templates/profile.html:110
 msgid "Current demands"
 msgstr "Demandes actuelles"
 
-#: templates/profile.html:88
-msgid "Proposer"
-msgstr "Proposeur"
+#: templates/profile.html:149
+msgid "History"
+msgstr "Historique"
 
-#: templates/profile.html:114
+#: templates/profile.html:155
 msgid "Action"
 msgstr "Action"
 
-#: templates/profile.html:115 templates/profile.html.py:140
+#: templates/profile.html:156 templates/profile.html.py:207
 msgid "With"
 msgstr "Avec"
 
-#: templates/profile.html:134
+#: templates/profile.html:201
 msgid "Evaluations summary"
 msgstr "Résumé des évaluations"
 
-#: templates/profile.html:141
+#: templates/profile.html:208
 #, fuzzy
 msgid "Evaluation"
 msgstr "Résumé des évaluations"
 
-#: templates/profile_pic.html:4
-msgid "Profile picture"
-msgstr "Photo de profil"
+#: templates/request_details.html:13 templates/request_details.html.py:15
+#: templates/request_details.html:17
+msgid "State :"
+msgstr "Etat :"
 
-#: templates/profile_pic.html:10
-msgid "Browse"
+#: templates/request_details.html:13 website/tests.py:531
+#: website/models/request.py:96
+#, fuzzy
+msgid "Proposal"
+msgstr "Proposeur"
+
+#: templates/request_details.html:15
+#, fuzzy
+msgid "In progress"
+msgstr "Progression du challenge"
+
+#: templates/request_details.html:17
+msgid "Done"
+msgstr "Fait"
+
+#: templates/search.html:34
+#, fuzzy
+msgid "Saved this search"
+msgstr "Recherches sauvegardées"
+
+#: templates/search.html:45
+msgid "Your search has been saved"
+msgstr "Votre recherche a été sauvegardée"
+
+#: templates/search.html:46
+#, fuzzy
+msgid "See all my saved searches"
+msgstr "Recherches sauvegardées"
+
+#: templates/search.html:52
+msgid ""
+"Impossible to save this search. Please verify the text field of the request"
 msgstr ""
+"Impossible de sauvegarder cette recherche. Merci de vérifier le champ texte "
+"de la requête"
 
-#: templates/register.html:17
-msgid "I am an individual, I want"
-msgstr "Je suis un individu, je veux"
+#: templates/search.html:66 templates/search_match.html:10
+msgid "By"
+msgstr "Par"
 
-#: templates/register.html:17
-msgid "to create my personnal account."
-msgstr "Pour créer mon compte personnel "
+#: templates/search.html:79
+msgid "I would like to help you"
+msgstr "J'aimerai vous aider"
 
-#: templates/register.html:18
-msgid "Individual"
-msgstr "Individuel"
+#: templates/search.html:111
+msgid "No matches found"
+msgstr "Pas de correspondances trouvées"
 
-#: templates/register.html:26
-msgid "I want to create an account for the organisation I represent."
-msgstr "Je veux créer un compte pour une organisation que je représente"
+#: templates/search_match.html:5
+msgid "Matching Request"
+msgstr "Requête correspondante"
 
-#: website/forms.py:29 website/forms.py:37
+#: website/forms.py:36
+#, fuzzy
+msgid "The type can only be an offer or a demand"
+msgstr "Dernières offres et demandes"
+
+#: website/forms.py:42
+msgid "The description is mandatory"
+msgstr "La description est obligatoire"
+
+#: website/forms.py:49
+#, fuzzy
+msgid "The date"
+msgstr "Le ville"
+
+#: website/forms.py:49
+msgid "format must be YYYY-MM-DD"
+msgstr "le format doit être AAAA-MM-JJ"
+
+#: website/forms.py:55 website/forms.py:308
+#, fuzzy
+msgid "Street number"
+msgstr "Le numéro de la rue"
+
+#: website/forms.py:55 website/forms.py:308
+msgid "The street number"
+msgstr "Le numéro de la rue"
+
+#: website/forms.py:55 website/forms.py:308
+msgid "is a number composed of 1 to 5 digits"
+msgstr "est un nombre composé de 1 à 5 chiffres"
+
+#: website/forms.py:60 website/forms.py:315
+msgid "The city"
+msgstr "Le ville"
+
+#: website/forms.py:60 website/forms.py:65 website/forms.py:315
+#: website/forms.py:322 website/forms.py:341
+msgid "can only contain alphanumeric characters or symbols"
+msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
+
+#: website/forms.py:65 website/forms.py:322
+msgid "The country"
+msgstr "Le pays"
+
+#: website/forms.py:70 website/forms.py:329
+#, fuzzy
+msgid "Postcode"
+msgstr "Code postal"
+
+#: website/forms.py:70 website/forms.py:329
+msgid "The post code"
+msgstr "Le code postal"
+
+#: website/forms.py:70 website/forms.py:329
+msgid "is a number composed of 1 to 9 digits"
+msgstr "est un nombre composé de 1 à 9 chiffres"
+
+#: website/forms.py:76
+#, fuzzy
+msgid "Filter"
+msgstr "filtré"
+
+#: website/forms.py:76 website/forms.py:81 website/forms.py:86
+msgid "This value is either ON or OFF"
+msgstr "Cette valeur est soit ON soit OFF"
+
+#: website/forms.py:91
+msgid "This value is either 'Male', 'Female' or 'Unspecified'"
+msgstr "Cette valeur est soit 'Homme', soit 'Femme', soit 'Unspecified'"
+
+#: website/forms.py:96 website/forms.py:101
+#, fuzzy
+msgid "This value is a number composed of 1 to 3 digits"
+msgstr "est un nombre composé de 1 à 5 chiffres"
+
+#: website/forms.py:130 website/forms.py:139 website/forms.py:186
+#: website/forms.py:195 website/forms.py:236 website/forms.py:244
 msgid "This field can only contain uppercase and lowercase letters"
 msgstr "Ce champ peut seulement contenir the lettres majuscules et minuscules"
 
-#: website/forms.py:47
-msgid "This username is already used"
-msgstr "Ce nom d'utilisateur est déjà utilisé"
-
-#: website/forms.py:51
-msgid "The username must be between 3 and 15 characters"
-msgstr "Le username doit contenir entre 3 et 15 charactères"
-
-#: website/forms.py:60
+#: website/forms.py:148 website/forms.py:279
 msgid "Insert a valid email"
 msgstr "Insérer une adresse email valide"
 
-#: website/forms.py:71
+#: website/forms.py:156
+msgid "The level should be a number"
+msgstr "Le niveau doit être un nombre"
+
+#: website/forms.py:204
+msgid "must be an existing association user"
+msgstr "doit être un membre d'association existant"
+
+#: website/forms.py:226
+msgid "Captcha"
+msgstr "Captcha"
+
+#: website/forms.py:226
+msgid "The captcha is invalid"
+msgstr "La captcha est invalide"
+
+#: website/forms.py:252
+msgid "The birthdate format must be YYYY-MM-DD"
+msgstr "Le format de la date de naissance doit être AAAA-MM-JJ"
+
+#: website/forms.py:264
+msgid "This username is already used"
+msgstr "Ce nom d'utilisateur est déjà utilisé"
+
+#: website/forms.py:270
+msgid "The username must be between 3 and 15 characters"
+msgstr "Le username doit contenir entre 3 et 15 charactères"
+
+#: website/forms.py:290
+msgid "The password and the confirmation must be the same."
+msgstr "Le mot de passe et la confirmation doivent être les mêmes."
+
+#: website/forms.py:292
 msgid ""
 "The password must be between 4 and 20 characters and only contain "
 "alphanumeric characters and the ',;:=?./+-_)('"
@@ -723,69 +1385,107 @@ msgstr ""
 "Le mot de passe doit contenir entre 4 et 20 caractères et peut seulement "
 "contenir de caractères alphanumériques et les symboles ',;:=?./+-_)('"
 
-#: website/forms.py:79
+#: website/forms.py:301
 msgid "This street"
 msgstr "Cette rue"
 
-#: website/forms.py:79 website/forms.py:129
+#: website/forms.py:301
 msgid "can only contain alphanumeric characters"
 msgstr "peut seulement contenir des caractères alphanumériques"
 
-#: website/forms.py:86
-msgid "The street number"
-msgstr "Le numéro de la rue"
+#: website/forms.py:341
+#, fuzzy
+msgid "Organisation name"
+msgstr "Le nom de l'organisation"
 
-#: website/forms.py:86
-msgid "is a number composed of 1 to 5 digits"
-msgstr "est un nombre composé de 1 à 5 chiffres"
-
-#: website/forms.py:93
-msgid "The city"
-msgstr "Le ville"
-
-#: website/forms.py:93 website/forms.py:101 website/forms.py:121
-msgid "can only contain alphanumeric characters or symbols"
-msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
-
-#: website/forms.py:101
-msgid "The country"
-msgstr "Le pays"
-
-#: website/forms.py:108
-msgid "The post code"
-msgstr "Le code postal"
-
-#: website/forms.py:108
-msgid "is a number composed of 1 to 9 digits"
-msgstr "est un nombre composé de 1 à 9 chiffres"
-
-#: website/forms.py:121
+#: website/forms.py:341
 msgid "The organisation name"
 msgstr "Le nom de l'organisation"
 
-#: website/forms.py:129
-msgid "The VAT of the organisation"
-msgstr "Le numéro de TVA de l'organisation"
+#: website/views.py:74
+msgid "This account has been disabled. "
+msgstr "Ce compte a été désactivé"
 
-#: website/views.py:52
-msgid ""
-"This account has been disabled. Please contact the administrator of this "
-"site."
-msgstr ""
-
-#: website/views.py:56
+#: website/views.py:78
 msgid "This username or password is not valid."
 msgstr "Ce nom d'utilisateur ou mot de passa est invalide"
 
-#: website/views.py:249
-#, fuzzy
-msgid "demanded"
-msgstr "Demandeur"
+#: website/views.py:283
+msgid "administrator"
+msgstr "administrateur"
 
-#: website/views.py:252
+#: website/views.py:285
 #, fuzzy
-msgid "proposed"
-msgstr "Proposeur"
+msgid "member"
+msgstr "Membres"
+
+#: website/views.py:286
+msgid " has successfully been added as "
+msgstr " a été ajouté avec succès en tant que"
+
+#: website/views.py:298 website/views.py:362
+msgid "Dear "
+msgstr "Cher"
+
+#: website/views.py:299
+msgid ""
+"This mail is sent to warn you that an account related to the association "
+msgstr ""
+"Ce mail vous est envoyé pour vous prévenir qu'un compte lié à l'association"
+
+#: website/views.py:300
+msgid " has been created for you on Solidare-It.\n"
+msgstr " a été créé pour vous sur Solidare-It.\n"
+
+#: website/views.py:301
+msgid "You can log in at http://"
+msgstr "Vous pouvez vous connecter sur http://"
+
+#: website/views.py:301
+msgid ""
+"/login/ with the username and password that have been generated especially "
+"for you :\n"
+"\n"
+msgstr ""
+"/login/ avec le nom d'utilisateur et le mot de passe qui ont été générés "
+"spécialement pour vous :\n"
+"\n"
+
+#: website/views.py:302
+#, fuzzy
+msgid "Username : "
+msgstr "Nom d'utilisateur"
+
+#: website/views.py:303
+#, fuzzy
+msgid "Password : "
+msgstr "Mot de passe"
+
+#: website/views.py:304
+msgid "You possess the status of "
+msgstr "Vous possédez le statut de"
+
+#: website/views.py:305 website/views.py:366
+msgid "The Solidare-It Team."
+msgstr "L'équipe Solidare-It."
+
+#: website/views.py:350
+msgid " has successfully been added and managed by "
+msgstr " a été ajouté avec succès et géré par"
+
+#: website/views.py:363
+msgid "This mail is sent to warn you that a PIN related to the association "
+msgstr ""
+"Cet email vous est envoyé pour vous prévenir qu'un Membre Dans le Besoin lié "
+"à l'association"
+
+#: website/views.py:364
+msgid " has been created on Solidare-It.\n"
+msgstr " a été créé sur Solidare-It.\n"
+
+#: website/views.py:365
+msgid "Your new PIN client is "
+msgstr "Votre nouveau client MDB est"
 
 #: website/models/agefilter.py:18
 msgid "For FR"
@@ -835,8 +1535,75 @@ msgstr "Prénom de la personne:"
 msgid "last name: "
 msgstr "Nom:"
 
-#~ msgid "Organisation street"
-#~ msgstr "Rue de l'organisation"
+#~ msgid "Saved matches"
+#~ msgstr "Résultats sauvegardés"
+
+#~ msgid "Groups"
+#~ msgstr "Groupe"
+
+#~ msgid "Enter data"
+#~ msgstr "Entrer les données"
+
+#~ msgid "Upload .xls"
+#~ msgstr "Télécharger"
+
+#, fuzzy
+#~ msgid "Member level"
+#~ msgstr "Membres"
+
+#~ msgid "Upload organisation members from an Excel file (.xls)"
+#~ msgstr ""
+#~ "Telecharger les membres de l organisation a partir d un fichier Excel (."
+#~ "xls)"
+
+#~ msgid "Upload"
+#~ msgstr "Télécharger"
+
+#~ msgid "No file selected"
+#~ msgstr "Aucun fichier selectioné"
+
+#~ msgid "Where ?"
+#~ msgstr "Où ?"
+
+#~ msgid "Valid from"
+#~ msgstr "A partir de"
+
+#, fuzzy
+#~ msgid "From"
+#~ msgstr "De"
+
+#, fuzzy
+#~ msgid "To"
+#~ msgstr "A"
+
+#~ msgid "One time"
+#~ msgstr "Une seule fois"
+
+#~ msgid "Regularly"
+#~ msgstr "Régulierement"
+
+#~ msgid "Not specified"
+#~ msgstr "Pas spécifié"
+
+#~ msgid "Specify"
+#~ msgstr "Specifié"
+
+#~ msgid "Email address"
+#~ msgstr "Adresse Email"
+
+#~ msgid "ID Card"
+#~ msgstr "Numéro de la carte d'identité"
+
+#~ msgid "The VAT of the organisation"
+#~ msgstr "Le numéro de TVA de l'organisation"
+
+#, fuzzy
+#~ msgid "demanded"
+#~ msgstr "Demandeur"
+
+#, fuzzy
+#~ msgid "proposed"
+#~ msgstr "Proposeur"
 
 #~ msgid "VAT*"
 #~ msgstr "TVA*"
@@ -846,9 +1613,6 @@ msgstr "Nom:"
 
 #~ msgid "Transfer emails to indicated address"
 #~ msgstr "Transférer les emails pour les adresses indiqués"
-
-#~ msgid "Captcha"
-#~ msgstr "Captcha"
 
 #~ msgid "Change"
 #~ msgstr "Changer"
