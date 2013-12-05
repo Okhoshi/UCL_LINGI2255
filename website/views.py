@@ -34,6 +34,8 @@ def home(request):
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
     return render(request, 'home.html', {'testimonies': testimonies})
 
+def news(request):
+    return render(request, 'news.html', {})
 
 @login_forbidden
 def login(request):
