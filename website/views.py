@@ -38,8 +38,7 @@ def home(request):
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
 
     # Latest requests
-    # latest_requests = FilteredRequest.get_latest_requests(6)
-    latest_requests = Request.get_all_requests()
+    latest_requests = FilteredRequest.get_latest_requests(6)
 
     latest_requests_tuples = []
     for req in latest_requests:
@@ -187,6 +186,8 @@ def edit_profile(request):
     else:
         type = "0"
 
+    edit = True
+
     if request.method == 'GET':
         pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
         if is_user:
@@ -202,7 +203,8 @@ def edit_profile(request):
                                                                       'postcode':my_child.location.postcode, \
                                                                       'country':my_child.location.country, \
                                                                       'profile_pic':my_child.picture, \
-                                                                      'id_card':my_child.id_card})
+                                                                      'id_card':my_child.id_card,
+                                                                      'edit': edit})
         if is_association_user:
             assoc = my_child.entity
             return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
@@ -219,7 +221,8 @@ def edit_profile(request):
                                                                       'profile_pic':my_child.picture, \
                                                                       'description':assoc.description,\
                                                                       'org_name':assoc.name, \
-                                                                      'org_pic':assoc.picture})
+                                                                      'org_pic':assoc.picture,
+                                                                      'edit':edit})
 
     elif request.method == 'POST':
         return analyse_request_edit(request, type, usr)
@@ -829,9 +832,11 @@ def exchanges(request):
 def search(request):
     search_results = []
     usr = DUser.objects.get(username=request.user)
+    is_user = 0
 
     if User.is_user(usr.id):
         usr_entity = User.objects.get(dj_user=usr.id)
+        is_user = 1
     elif AssociationUser.is_assoc_user(usr.id):
         usr_entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
@@ -849,30 +854,30 @@ def search(request):
             return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
         else:
-            search_object = SavedSearch(search_field=search_field, category="Jardin")
-            search_objects = usr_entity.search(search_object, 9)
+            search_object = SavedSearch(search_field=search_field)
+            search_objects = usr_entity.search(search_object, 20)
             searched = True
             for this_request in search_objects:
-                print(this_request)
                 (req_initiator, req_type) = this_request.get_initiator()
                 # Need to know if it's a User or a Association
                 initiator_entity = sol_user(req_initiator)
-                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
     if request.method == 'GET':
         search_field = request.GET.get('id')
         if search_field:
-            search_object = SavedSearch(search_field=search_field, category="Jardin")
-            search_objects = usr_entity.search(search_object, 9)
+            search_object = SavedSearch(search_field=search_field)
+            search_objects = usr_entity.search(search_object, 20)
             searched = True
             for this_request in search_objects:
-                print(this_request)
                 (req_initiator, req_type) = this_request.get_initiator()
                 # Need to know if it's a User or a Association
                 initiator_entity = sol_user(req_initiator)
-                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
@@ -1267,3 +1272,49 @@ def handle_uploaded_file(f, filename, path):
         with open(path+'_'+filename, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
+def search_filter_can_be_added(this_request, usr_entity, is_user):
+    """
+    Function that indicates if this_request can be broadcast to usr_entity
+    @param this_request: the request to know
+    @param usr_entity: the entity to know
+    @return: True is this_request can be shown to usr_entity, False otherwise
+    """
+    if not is_user:
+        # Don't try to manage with the Association: there are assumed to be verified
+        return True
+    if not FilteredRequest.objects.filter(request_ptr=this_request).count(): # If this_request is not a FilteredRequest
+        return True
+    freq = FilteredRequest.objects.get(request_ptr=this_request)
+    # First check the verified status
+    if freq.only_verified:
+        if not usr_entity.confirmed_status:
+            return False
+    # Then check the gender
+    if not freq.gender == User.UNSPECIFIED:
+        if not freq.gender == usr_entity.gender:
+            return False
+    # Now based on the rating
+    # Ok if at least 50% of satisfaction
+    if freq.min_rating:
+        rating = usr_entity.get_rating()
+        if sum(rating) == 0 or float(rating[1])/sum(rating) > 0.5:
+            return False
+    # Eventually, the Age Filters
+    age_filters = freq.get_age_filter()
+    if not age_filters:
+        # No filters, so ok
+        return True
+    age_usr = usr_entity.get_age()
+    for afilter in age_filters:
+        in_filter = True
+        if afilter.min_age:
+            if age_usr <= afilter.min_age:
+                in_filter = False
+        if in_filter and afilter.max_age:
+            if age_usr >= afilter.max_age:
+                in_filter = False
+        if in_filter:
+            return True
+    # No in the filters, so don't show it
+    return False

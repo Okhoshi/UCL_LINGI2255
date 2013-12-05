@@ -7,6 +7,7 @@
 from django.db import models
 from django.contrib.auth.models import User as DUser
 from website.models.entity import *
+import datetime
 
 
 class SIUserManager(models.Manager):
@@ -74,3 +75,23 @@ class User(Entity):
     @staticmethod
     def is_user(user_id):
         return User.objects.filter(dj_user__exact=user_id).count() == 1
+
+
+    def get_age(self):
+        num_years = int((datetime.datetime.utcnow().replace(tzinfo=utc) - self.birth_day).days / 365.25)
+        if self.birth_day > self.yearsago(num_years):
+            return num_years - 1
+        else:
+            return num_years
+
+    def yearsago(self, years, from_date=None):
+
+        from_date = datetime.datetime.utcnow().replace(tzinfo=utc)
+        try:
+            return from_date.replace(year=from_date.year - years)
+        except:
+            # Must be 2/29!
+            print(from_date)
+            ## assert from_date.month == 2 and from_date.day == 29 # can be removed
+            return from_date.replace(month=2, day=28,
+                                 year=from_date.year-years)

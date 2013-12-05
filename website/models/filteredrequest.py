@@ -39,13 +39,15 @@ class FilteredRequest(Request):
 
         return to_return
 
+
     # Return all requests that are public, i.e. that don't have filters on it
     # It means that the request returned are only Requests (and not FilteredRequests)
     @staticmethod
     def get_all_public_requests():
-        req = Request.objects.all()
-        return req.exclude(filteredrequest__in=[o for o in req])
+        reqs = Request.objects.all()
+        filtered_reqs = FilteredRequest.objects.all()
+        return reqs.exclude(filteredrequest__in=[o for o in filtered_reqs])
 
     @staticmethod
     def get_latest_requests(amount):
-        return FilteredRequest.get_all_public_requests().order_by('-date')[:amount]
+        return FilteredRequest.get_all_public_requests().order_by('-id')[:amount]
