@@ -384,6 +384,13 @@ def account(request):
         request_to_change.candidates = []
         request_to_change.save()
 
+    susp_req_id = request.REQUEST.get('susp_req_id')
+    if susp_req_id :
+        print("#############NEIN@@@@@@@")
+        req_to_mod = Request.objects.get(id=susp_req_id)
+        req_to_mod.is_suspicious = True
+        req_to_mod.save()
+
 
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
@@ -489,6 +496,7 @@ def profile(request):
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
     my_profile = True
 
+    
     profile_id = request.REQUEST.get('profile_id')
     if profile_id:
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
@@ -735,13 +743,7 @@ def messages(request):
 
 
 @login_required
-def exchanges(request):
-    if request.method == 'POST':
-        req_id = request.POST.get('request_id')
-        req_to_mod = Request.objects.get(id=req_id)
-        req_to_mod.is_suspicious = True
-        req_to_mod.save()
-        
+def exchanges(request):   
 
 
 
