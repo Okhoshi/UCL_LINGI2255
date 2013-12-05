@@ -318,7 +318,6 @@ def account(request):
 @login_required
 def profile(request):
 
-    #TODO verify nom affiche si assoc ou association user
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
@@ -326,12 +325,9 @@ def profile(request):
     
     if request.method == 'POST':
         profile_id = request.POST.get('profile_id')
-        is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
+        is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
        
-      #  is_user = User.objects.filter(dj_user__exact=this_user.id)
-      #  is_association_user = AssociationUser.objects.filter(dj_user__exact=profile_id)
- 
     is_verified = None
     this_entity = None
     image = None
@@ -346,7 +342,7 @@ def profile(request):
         au = is_association_user[0]
         this_entity = au.entity
         image = this_entity.picture
-        is_verified = 1 # A active association must be verified
+        is_verified = 1
         profile_name = this_entity.name 
 
     # Then, fetch some useful data from the models
@@ -635,7 +631,7 @@ def profile_current_offers(current_offers):
     current_offers_demander_list = []
     for elem in current_offers:
         demand = elem.demander
-        name_demand = "/"
+        name_demand = None
         demand_assoc = []
         demand_user = []
         # Check if a demander is found or not; if it's the case, determine if a
