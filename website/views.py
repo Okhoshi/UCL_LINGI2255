@@ -393,7 +393,6 @@ def account(request):
 
     susp_req_id = request.REQUEST.get('susp_req_id')
     if susp_req_id :
-        print("#############NEIN@@@@@@@")
         req_to_mod = Request.objects.get(id=susp_req_id)
         req_to_mod.is_suspicious = True
         req_to_mod.save()
@@ -463,7 +462,6 @@ def account(request):
         ## GET Pending
         req_candidates = []
         pending_objects = entity.get_all_requests().filter(state__exact=Request.PROPOSAL)
-        print(pending_objects)
         for elem in pending_objects:
             req_candidates_obj = list(elem.candidates.all().exclude(id__exact=entity.id))
             if req_candidates_obj:
@@ -515,7 +513,7 @@ def profile(request):
     is_verified = None
     this_entity = None
     image = None
-    #print(is_user)
+
     if is_user:
         this_entity = is_user[0]
         image = this_entity.picture
@@ -689,7 +687,6 @@ def create_offer_demand(request):
     if is_association_user:
         association_user = AssociationUser.objects.get(dj_user=usr.id)
         dictionnary['pin'] = association_user.get_pin()
-        print(dictionnary['pin'])
     return render(request, 'create.html', dictionnary)
 
 
