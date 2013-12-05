@@ -279,7 +279,11 @@ class MForm(forms.Form):
             self.is_valid = False
             self.colors['passwd_color'] = MForm.SOLIDAREITCOLOR
             self.colors['passwdC_color'] = MForm.SOLIDAREITCOLOR
-            self.errorlist[_("Password")] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
+            if form.get('passwd', '') != form.get('passwdC', ''):
+                self.errorlist[_("Password")] = _("The password and the confirmation must be the same.")
+            else:
+                self.errorlist[_("Password")] = _("The password must be between 4 and 20 characters and only contain alphanumeric characters and the ',;:=?./+-_)('")
+
 
         ### ADDRESS ##
         if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ]*$", form.get('street', '')):
