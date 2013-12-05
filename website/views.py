@@ -409,9 +409,31 @@ def messages(request):
         return redirect('home')
         
     threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: ( t.name, ",".join(map(lambda m: name(m), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
+    threads = map(lambda t: ( t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time').first().sender).picture, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id))) ) , threads)
 
-    return render(request, 'messages.html', {'threads': threads})
+    messages = None
+    req_id = None
+    possible_rec = []
+
+    if request.method == 'GET':
+        req_id = request.GET.get('id')
+        
+    elif request.method == "POST":
+        if request.POST.get('id') and request.POST.get('receiver') and request.POST.get('message-content', '') != '':
+            req_id = request.POST.get('id')
+            mess = InternalMessage(time = datetime.datetime.utcnow().replace(tzinfo=utc),
+                                   sender = entity, request=Request.objects.get(id=req_id) ,
+                                   message = request.POST.get('message-content'),
+                                   receiver = Entity.objects.get(id=request.POST.get('receiver')))
+            mess.save()
+
+    if req_id:
+        messages = InternalMessage.objects.filter(request_id__exact=req_id).order_by('time')
+        messages = map(lambda m: (sol_user(m.sender), sol_user(m.receiver), m.message, m.time, m.sender.id == entity.id or m.receiver.id == entity.id), messages)
+        sel_request = Request.objects.get(id=req_id)
+        possible_rec = map(lambda r: sol_user(r), qs_add( qs_add(sel_request.candidates, sel_request.proposer), sel_request.demander).exclude(id__exact=entity.id))
+
+    return render(request, 'messages.html', {'threads': threads, 'messages': messages, 'request_id':req_id, 'possible_receivers': possible_rec})
 
 
 @login_required
@@ -724,13 +746,13 @@ def profile_feedbacks(feedbacks):
     return feedbacks_list
 
 
-def name(entity):
+def sol_user(entity):
     if User.objects.filter(entity_ptr__exact=entity).count() != 0:
-        return User.objects.get(entity_ptr=entity).__unicode__()
+        return User.objects.get(entity_ptr=entity)
     elif Association.objects.filter(entity_ptr__exact=entity).count() != 0:
-        return Association.objects.get(entity_ptr=entity).__unicode__()
+        return Association.objects.get(entity_ptr=entity)
     else:
-        return entity.__unicode__()
+        return entity
 
 
 def analyse_request(request, type):
