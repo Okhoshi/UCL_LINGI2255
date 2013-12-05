@@ -293,7 +293,7 @@ class MForm(forms.Form):
 
 
         ### ADDRESS ##
-        if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ]*$", form.get('street', '')):
+        if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ',\.;]*$", form.get('street', '')):
             self.street = form.get('street', '')
         else:
             self.is_valid = False
