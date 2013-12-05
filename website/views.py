@@ -61,6 +61,7 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
+        print('oups', user.is_active)
         if user is not None:
             if user.is_active:
                 Dlogin(request, user)
@@ -1258,7 +1259,11 @@ def create_new_organisation(request, form):
                                                last_name=form.name,
                                                birth_day=form.birthdate,
                                                gender=form.gender)
+    print(user, user.dj_user, user.dj_user.is_active)
+    user.dj_user.is_active = False
+    user.dj_user.save()
 
+    print(user, user.dj_user, user.dj_user.is_active)
     if request.FILES.get('profile_pic') is not None:
         user.picture.save(request.FILES.get('profile_pic').name,
                           request.FILES.get('profile_pic'),
@@ -1269,8 +1274,8 @@ def create_new_organisation(request, form):
                           save=False)
     assoc.save()
     user.save()
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
+    #usr = authenticate(username=form.user_name, password=form.passwd)
+    #Dlogin(request, usr)
 
 
     return redirect('account')
