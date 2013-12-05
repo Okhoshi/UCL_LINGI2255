@@ -307,6 +307,7 @@ def account(request):
     
     saved_searches = []
     similar = []
+    pending = []
     following = []
     image = None
     upcoming_requests = []
@@ -344,7 +345,7 @@ def account(request):
                 person = person_user[0]
                 person = DUser.objects.get(id=person.dj_user_id)
                 name_person = person.first_name + " " + person.last_name
-            following.append(name_person)
+            following.append((person,name_person))
 
         ## GET SAVED SEARCHES
         objects_saved_searches = entity.get_searches()
@@ -354,17 +355,27 @@ def account(request):
         ## GET SIMILAR
         similar_objects = entity.get_similar_matching_requests(3)
         for elem in similar_objects:
-            a=(elem, profile_current_offers([elem])[0][1], profile_current_demands([elem])[0][1], elem.name)
-            similar.append(a)
-            print('##########' , a)
-                
+            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+            similar.append(a)   
+
+        ## GET Pending
+        req_candidates = []
+        pending_objects = entity.get_all_requests().filter(state__exact=Request.PROPOSAL)
+        print(pending_objects)
+        for elem in pending_objects:
+            req_candidates_obj = list(elem.candidates.all())
+            if req_candidates_obj:
+                for candid in req_candidates_obj:      
+                    req_candidates.append(sol_user(candid))            
+                a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], req_candidates)
+                pending.append(a)                   
     
         ## GET UPCOMING REQUESTS
         upcoming_requests = []
         upcoming_objects = entity.get_current_requests()
         for elem in upcoming_objects:
-            upcoming_requests.append((elem,elem.date))
-    
+            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+            upcoming_requests.append(a)   
 
 
         ## GET # OLD REQUEST
@@ -378,7 +389,7 @@ def account(request):
         'saved_searches':saved_searches,'similar':similar,\
         'upcoming_requests':upcoming_requests,'summary':summary,\
         'is_association_admin': is_association_admin,\
-        'type_user':type_user})
+        'type_user':type_user, 'pending':pending})
 
 
 @login_required
@@ -389,8 +400,8 @@ def profile(request):
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
     
-    if request.method == 'POST':
-        profile_id = request.POST.get('profile_id')
+    profile_id = request.REQUEST.get('profile_id')
+    if profile_id:
         is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
         is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
        
