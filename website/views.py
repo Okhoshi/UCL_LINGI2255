@@ -49,8 +49,10 @@ def home(request):
     return render(request, 'home.html', {'testimonies': testimonies,
                                          'latest_requests':latest_requests_tuples})
 
+
 def news(request):
     return render(request, 'news.html', {})
+
 
 @login_forbidden
 def login(request):
