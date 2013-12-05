@@ -113,7 +113,7 @@
                     {% include 'request_details.html' %}
 					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
 					<td>
-						{% if elem.2 %}
+						{% if elem.1 %}
 							<form action="/profile/" method="POST">
                         	{% csrf_token %}
                         	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
