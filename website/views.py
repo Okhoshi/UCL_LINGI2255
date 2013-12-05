@@ -173,13 +173,39 @@ def edit_profile(request):
         else:
             type = "0"
         pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
-        return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, 'first_name':usr.first_name, 'birthdate':my_child.birth_day, 'gender':my_child.gender, 'user_name':usr.username, 'email':usr.email, 'street':my_child.location.street})
+        if is_user:
+            return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
+                                                                      'first_name':usr.first_name, \
+                                                                      'birthdate':my_child.birth_day, \
+                                                                      'gender':my_child.gender, \
+                                                                      'user_name':usr.username, \
+                                                                      'email':usr.email, \
+                                                                      'street':my_child.location.street, \
+                                                                      'streetnumber':my_child.location.number, \
+                                                                      'city':my_child.location.city, \
+                                                                      'postcode':my_child.location.postcode, \
+                                                                      'country':my_child.location.country, \
+                                                                      'profile_pic':my_child.picture, \
+                                                                      'id_card':my_child.id_card})
+        if is_association_user:
+            assoc = my_child.entity
+            return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
+                                                                      'first_name':usr.first_name, \
+                                                                      'birthdate':my_child.birth_day, \
+                                                                      'gender':my_child.gender, \
+                                                                      'user_name':usr.username, \
+                                                                      'email':usr.email, \
+                                                                      'street':assoc.location.street, \
+                                                                      'streetnumber':assoc.location.number, \
+                                                                      'city':assoc.location.city, \
+                                                                      'postcode':assoc.location.postcode, \
+                                                                      'country':assoc.location.country, \
+                                                                      'profile_pic':my_child.picture, \
+                                                                      'org_name':assoc.name, \
+                                                                      'org_pic':assoc.picture})
 
     elif request.method == 'POST':
-        if request.GET.get('type', False):
-            return analyse_request(request, type)
-        else:
-            return render(request, 'register.html', {})
+        return analyse_request_edit(request, type)
     else:
         return render(request, 'register.html', {})
 
@@ -855,6 +881,24 @@ def sol_user(entity):
     else:
         return entity
 
+def analyse_request_edit(request, type):
+    form = MForm(request)
+    pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
+    if form.is_valid:
+        if type == "1":
+            # individual code
+            return modify_user(request, form)
+        elif type == "2":
+            # organisation code
+            return modify_organisation(request, form)
+        else:
+            return render(request, 'register.html', request.POST)
+    else:
+        error = True
+        dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+        dictionaries['errorlist'] = form.errorlist
+        print(form.type)
+        return render(request, pages[type], dictionaries)
 
 def analyse_request(request, type):
     form = MForm(request)
@@ -875,6 +919,40 @@ def analyse_request(request, type):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+def modify_user(request, form):
+    p = Place(country=form.country, postcode=form.postcode,
+              city=form.city, street=form.street,
+              number=form.streetnumber)
+    p.save()
+    dusr = DUser.objects.get(username=request.user)
+    dusr.username = form.user_name
+    dusr.email = form.email
+    dusr.passwd = form.passwd
+    usr = User.objects.get(dj_user=dusr)
+    usr.first_name = form.first_name
+    usr.last_name = form.name
+    usr.location = p
+    usr.birth_day = form.birthdate
+    usr.gender = form.gender
+    if request.FILES.get('profile_pic') is not None:
+        usr.picture.save(request.FILES.get('profile_pic').name,
+                          request.FILES.get('profile_pic'),
+                          save=False)
+    if request.FILES.get('id_card_pic') is not None:
+        usr.id_card.save(request.FILES.get('id_card_pic').name,
+                          request.FILES.get('id_card_pic'),
+                          save=False)
+    dusr.save()
+    usr.save()
+    print("Fin du sauver edit user")
+    # Log on the newly created user
+    Dlogout(request)
+    usr = authenticate(username=form.user_name, password=form.passwd)
+    Dlogin(request, usr)
+    return redirect('account')
+
+def modify_organisation(request, form):
+    pass
 
 def create_new_user(request, form):
 
