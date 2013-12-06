@@ -52,13 +52,22 @@
             </span>
         </h4>
 		<hr>
-		{% if global_rating.1 > 0 %}
-			{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
-		{% else %}
-			{% trans "No evaluations" %}
-		{% endif %}
-		{% if is_association_user|length > 0 %}
+
+		<div class="row" style="margin-bottom:10px;">
+			<div class="col-xs-12">
+			{% if global_rating.1 > 0 %}
+				{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
+			{% else %}
+				{% trans "No evaluations" %}
+			{% endif %}
+			</div>
+		</div>
+		{% if is_verified == None %}
+		<div class="row">
+			<div class="col-xs-12">
 			{{ entity.description }}
+			</div>
+		</div>
 		{% endif %}
 		
 
