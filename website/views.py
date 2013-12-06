@@ -642,8 +642,9 @@ def profile(request):
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
         for feed in feedbacks:
+            if feed[0][2]:
             #feedback_tuples.append((feed[0][0], "profile_current_demands([feed[0][0]])[0][1]", profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
-            feedback_tuples.append((feed[0][0], feed[1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
+                feedback_tuples.append((feed[0][0], feed[1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': this_entity,
                                             'current_offers': current_offers_tuples,

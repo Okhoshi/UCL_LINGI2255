@@ -280,7 +280,7 @@ msgstr "Accepter le candidat"
 
 #: templates/candidate_list.html:24
 msgid "Accept"
-msgstr "Accepté"
+msgstr "Accepter"
 
 #: templates/categories.html:2
 msgid "Basic need"
@@ -1204,7 +1204,7 @@ msgstr "d'évaluation positive"
 
 #: templates/profile.html:59
 msgid "evaluations"
-msgstr "évaulations"
+msgstr "évaluations"
 
 #: templates/profile.html:61
 msgid "No evaluations"

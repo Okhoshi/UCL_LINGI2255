@@ -11,17 +11,22 @@
 
 
 {% block content %}
-<div class="row">
 {% if empty_feedback %}
-
-
+<div class="row" style="padding:20px">
 	{% for elem in empty_feedback %}
-
-	{% include "new_feedback.html" %}
-    	<a class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#ID{{ elem.0.id }}" >{% trans "Feedback" %}</a>
+		{% include "new_feedback.html" %}
+		<div class="alert alert-warning">
+			<p>
+				{% trans 'The exchange' %} &laquo; {{ elem.1.request_subject }} &raquo; {% trans 'which you took part in has been marked as finished.' %}<br />
+				{% trans 'Please give us a feedback !' %}
+			</p>
+    		<div class="text-center">
+    			<a class="btn btn-warning" data-toggle="modal" data-target="#ID{{ elem.0.id }}" >{% trans "Give my feedback" %}</a>
+    		</div>
+    	</div>
 	{% endfor %}
-{% endif %}
 </div>
+{% endif %}
 
 <div class="row">
 	<div class="col-md-8 col-sm-7 text-center">
@@ -41,11 +46,13 @@
 	<div class="col-md-4 col-sm-5">
 		<div class="clearfix" style="margin:15px"></div>
 		<div class="col-xs-6">
-			{% if not image or image == 'null' %}
-            <img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
-            {% else %}
-            <img src="{{ MEDIA_URL }}{{ image }}" alt="{% trans "Profile picture" %}" class="img-thumbnail img-responsive" style="margin: auto 0">
-            {% endif %}
+			<a href="{% url 'profile' %}">
+				{% if not image or image == 'null' %}
+	            <img src="{% static 'images/default_avatar.jpg' %}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
+	            {% else %}
+	            <img src="{{ MEDIA_URL }}{{ image }}" alt="{% trans "Profile picture" %}" class="img-thumbnail img-responsive" style="margin: auto 0">
+	            {% endif %}
+        	</a>
 		</div>
 		<div  class="col-xs-6">
 			{% if is_association_admin %}
@@ -114,7 +121,7 @@
 		<ul class="list-unstyled">
 			{% for elem in pending %}
             	{% include 'candidate_list.html' %}
-				<li data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</li>
+				<li data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;border-bottom:1px solid #eeeeee">{{ elem.0.name|slice:":160" }}</li>
 			{% endfor %}
 		</ul>
 	</div>
@@ -131,7 +138,7 @@
 		<ul class="list-unstyled">
 			{% for elem in similar %}
             	{% include 'request_details.html' %}
-				<li data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</li>
+				<li data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;border-bottom:1px solid #eeeeee">{{ elem.0.name|slice:":160" }}</li>
 			{% endfor %}
 		</ul>
 	</div>
@@ -153,6 +160,9 @@
 			<li>{{ summary.1 }} {% trans "requests are planed to be realised" %}</li>
 			<li>{{ summary.2 }} {% trans "requests have been successfully realised" %}</li>
 		</ul>
+		<div class="text-center" style="margin: 10px">
+			<a href="{% url 'exchanges' %}" class="btn btn-primary">See my exchanges</a>
+		</div>
 	</div>
 
 	<!--
@@ -167,7 +177,7 @@
 		<ul class="list-unstyled">
 			{% for elem in upcoming_requests %}
             	{% include 'request_details.html' %}
-				<li> <a data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" >{{ elem.0 }}</a> - {{ elem.0.date|date:"D, d N Y" }} 
+				<li> <a data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" >{{ elem.0|slice:":160" }}</a> - {{ elem.0.date|date:"D, d N Y" }} 
 					<a href="{% url 'account' %}?finish_req={{ elem.0.id }}" class="btn btn-success" >{% trans "Done !"%}&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle"></i></a>				
 				</li>
 			{% endfor %}

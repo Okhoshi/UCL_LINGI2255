@@ -53,23 +53,31 @@
         </h4>
 		<hr>
 
-		<div class="row" style="margin-bottom:10px;">
-			<div class="col-xs-12">
-			{% if global_rating.1 > 0 %}
-				{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
-			{% else %}
-				{% trans "No evaluations" %}
-			{% endif %}
-			</div>
-		</div>
+		<div class="clearfix" style="margin-top: 30px"></div>
+
 		{% if is_verified == None %}
-		<div class="row">
-			<div class="col-xs-12">
-			{{ entity.description }}
+		<div class="row" style="margin-bottom:10px;">
+			<div class="col-md-2">
+				<label>{% trans "Description" %}</label>
+			</div>
+			<div class="col-md-10">
+				{{ entity.description }}
 			</div>
 		</div>
 		{% endif %}
-		
+
+		<div class="row" style="margin-bottom:10px;">
+			<div class="col-md-2">
+				<label>{% trans "Evaluation" %}</label>
+			</div>
+			<div class="col-md-10">
+				{% if global_rating.1 > 0 %}
+					{{ global_rating.0|floatformat }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
+				{% else %}
+					<em>{% trans "No evaluation for the moment" %}</em>
+				{% endif %}
+			</div>
+		</div>
 
 		<div class="clearfix" style="margin-top: 30px"></div>
 
@@ -91,7 +99,7 @@
 				{% for elem in current_offers %}
 				<tr>
                     {% include 'request_details.html' %}
-					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name|slice:":160" }}</td>
 
 					<td>
 						{% if elem.2 %}
@@ -132,7 +140,7 @@
 				{% for elem in current_demands %}
 				<tr>
                     {% include 'request_details.html' %}
-					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name|slice:":160" }}</td>
 					<td>
 						{% if elem.1 %}
 							<form action="{% url 'profile' %}" method="POST">
@@ -172,7 +180,7 @@
 				{% for elem in old_requests %}
 				<tr>
                     {% include 'request_details.html' %}
-					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name|slice:":160" }}</td>
 					<td>
 					{% if elem.3 %}
 						{{ 'proposed' }}
@@ -216,14 +224,14 @@
 		<div class="col-md-10" style="padding: 0px;">
 			<table class="table table-striped table-bordered">
 				<tr>
-					<th style="width: 30%">{% trans "Name" %}</th>
-					<th style="width: 20%">{% trans "With" %}</th>
-					<th style="width: 50%">{% trans "Evaluation" %}</th>
+					<th>{% trans "Name" %}</th>
+					<th>{% trans "With" %}</th>
+					<th>{% trans "Evaluation" %}</th>
 				</tr>
 				{% for elem in feedbacks %}
 				<tr class={{ elem.1 }}>
 					{% include 'request_details.html' %}
-					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name|slice:":160" }}</td>
 					<td>
 					{% if elem.5 %}
 						<form action="{% url 'profile' %}" method="POST">

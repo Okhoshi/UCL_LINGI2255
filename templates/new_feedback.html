@@ -40,10 +40,9 @@
                     </div>
                     <div class="row" style="margin-left:0.25em ; margin-top:0.25em ; margin-bottom:1em ;">
                         <div class="col-sm-10">
-                            <input type="radio" name="rating" value="1"> {% trans "Negative" %}
-                            <input type="radio" name="rating" value="2" style="margin-left:2em"> {% trans "Neutral" %}
-                            <input type="radio" name="rating" value="3" style="margin-left:2em"> {% trans "Positive" %}
-
+                            <input type="radio" name="rating" id="rating1" value="1"><label for="rating1" style="font-weight:normal">&nbsp;&nbsp;{% trans "Negative" %}</label>
+                            <input type="radio" name="rating" id="rating2" value="2" style="margin-left:2em" checked><label for="rating2" style="font-weight:normal">&nbsp;&nbsp;{% trans "Neutral" %}</label>
+                            <input type="radio" name="rating" id="rating3" value="3" style="margin-left:2em"><label for="rating3" style="font-weight:normal"> &nbsp;&nbsp;{% trans "Positive" %}</label>
                         </div>
                     </div>
                     <!-- COMMENTS -->
