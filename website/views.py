@@ -397,6 +397,7 @@ def account(request):
     type_user = 0
 
     is_association_admin = False
+    is_association = False
     ## GET CURRENT ENTITY AND PICTURE
     if (is_user):
         entity = is_user[0]
@@ -409,6 +410,7 @@ def account(request):
         entity = au.entity
         image = entity.picture
         type_user = 2
+        is_association = True
         if au.level == 0:
             is_association_admin = True
 
@@ -536,7 +538,8 @@ def account(request):
                                             'saved_searches': saved_searches, 'similar': similar,
                                             'upcoming_requests': upcoming_requests, 'summary': summary,
                                             'is_association_admin': is_association_admin,
-                                            'type_user': type_user, 'pending': pending, 'empty_feedback':empty_feedback})
+                                            'type_user': type_user, 'pending': pending, 'empty_feedback':empty_feedback,
+                                            'is_association':is_association})
 
 
 @login_required

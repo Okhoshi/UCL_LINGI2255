@@ -55,11 +55,13 @@
         	</a>
 		</div>
 		<div  class="col-xs-6">
-			{% if is_association_admin %}
+			{% if is_association %}
+                {% if is_association_admin %}
 				<a class="btn btn-info btn-sm" style="width: 135px; margin-bottom: 15px" href="{% url 'add_representative' %}">
 					<i class="glyphicon glyphicon-plus"></i>
 					{% trans "Add member" %}
 				</a><br />
+                {% endif %}
                 <a class="btn btn-info btn-sm" style="width: 135px; margin-bottom: 15px" href="{% url 'add_pins' %}">
 					<i class="glyphicon glyphicon-plus"></i>
 					{% trans "Add PIN" %}
