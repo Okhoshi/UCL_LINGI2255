@@ -90,65 +90,33 @@ def faq(request):
 
 def contact(request):
     if request.method == 'POST':
-        # FOR FEEDBACK
-        if 'feedback' in request.POST.dict():
-            # As a request is in the state "Done", a feedback has been created
-            #feedback = request.get_feedback()
-            #data = request.POST.dict()
+        form = MForm(request)
+        if form.is_valid:
+            user = settings.EMAIL_HOST_USER
+            pwd = settings.EMAIL_HOST_PASSWORD
+            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
+                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+            data = request.POST.dict()
+            message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
+                      data.get('first_name') + "\n \n"
+            message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
+                        data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
+            message += "Email of the user : " + data.get('email') + "\n \n"
+            message += "Comments  : \n" + data.get('comments')
 
-            #if request.proposer == user :
-            #    feedback.feedback_proposer = data.get('feedback')
-            #    feedback.rating_proposer = data.get('rating')
-            #else
-            #    feedback.feedback_demander = data.get('feedback')
-            #    feedback.rating_demander = data.get('rating')
-            print('coucou')
+            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
 
-            return render(request, 'contact.html', {})
-
+            return render(request, 'contact.html', {'request_done': True})
         else:
-            form = MForm(request)
-            if form.is_valid:
-                user = settings.EMAIL_HOST_USER
-                pwd = settings.EMAIL_HOST_PASSWORD
-                admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
-                         'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
-                         'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
-                data = request.POST.dict()
-                message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
-                          data.get('first_name') + "\n \n"
-                message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
-                            data.get('postcode') + " " + data.get('city') + " " + data.get('country') + "\n"
-                message += "Email of the user : " + data.get('email') + "\n \n"
-                message += "Comments  : \n" + data.get('comments')
+            error = True
+            dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
+            dictionaries['errorlist'] = form.errorlist
 
-                print(message)
+            return render(request, 'contact.html', dictionaries)
 
-                send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
 
-                return render(request, 'contact.html', {'request_done': True})
-            else:
-                error = True
-                dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
-                dictionaries['errorlist'] = form.errorlist
-
-                return render(request, 'contact.html', dictionaries)
-
-    # For feedback
-    proposer = "Moi"
-    demander = "Toi"
-    request_category = "Chaussettes"
-    request_subject = "Echanges"
-    request_place = "Bxl"
-    request_date = "Ajd"
-    feedback_values = {'proposer' : proposer,
-                       'demander' : demander,
-                       'request_category' : request_category,
-                       'request_subject' : request_subject,
-                       'request_place' : request_place,
-                       "request_date" : request_date}
-
-    return render(request, 'contact.html', feedback_values)
+    return render(request, 'contact.html', {})
 
 
 @login_forbidden()
@@ -236,7 +204,6 @@ def add_representative(request):
     # This page can only be reached by association users
     this_user = DUser.objects.get(username=request.user)
     is_association_user = AssociationUser.objects.filter(dj_user=this_user.id)
-    print(is_association_user)
     if not is_association_user:
         return redirect('account')
     else:
@@ -381,7 +348,6 @@ def account(request):
     if request.method == 'POST':
         suppress = request.POST.get('suppress')
         if not suppress == None:            
-            print('!!!!!!!!!!!!!! suppress !!!!!!!!!!!!!!!!')
             to_suppress = SavedSearch.objects.get(id=suppress)
             to_suppress.delete()
         feedback = request.POST.get('feedback')
@@ -395,8 +361,7 @@ def account(request):
                 feedback_to_fill.rating_demander = form.rating
                 feedback_to_fill.feedback_demander = form.feedback
             feedback_to_fill.save()
-            print('!!!!!!!!!!!!!! feedback !!!!!!!!!!!!!!!!', form.feedback, form.feedback_id, form.is_proposer=='1')
-            
+
         
 
     req_id = request.REQUEST.get('req_id')
@@ -662,7 +627,6 @@ def profile(request):
         for feed in feedbacks:
             #feedback_tuples.append((feed[0][0], "profile_current_demands([feed[0][0]])[0][1]", profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
             feedback_tuples.append((feed[0][0], feed[1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
-            print(feedback_tuples)
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': this_entity,
                                             'current_offers': current_offers_tuples,
@@ -854,7 +818,6 @@ def messages(request):
     if req_id:
         found = False
         for th in threads:
-            print(th[0], long(req_id) == th[0])
             if long(req_id) == th[0]:
                 found = True
                 break
@@ -1217,7 +1180,6 @@ def analyse_request_edit(request, type, usr):
     form = MForm(request, usr=usr)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
     if form.is_valid:
-        print("Is valid")
         if type == "1":
             # individual code
             return modify_user(request, form)
@@ -1230,7 +1192,6 @@ def analyse_request_edit(request, type, usr):
         error = True
         dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
         dictionaries['errorlist'] = form.errorlist
-        print(form.type)
         return render(request, pages[type], dictionaries)
 
 
@@ -1250,7 +1211,6 @@ def analyse_request(request, type):
         error = True
         dictionaries = dict(form.colors.items() + request.POST.dict().items() + locals().items())
         dictionaries['errorlist'] = form.errorlist
-        print(form.type)
         return render(request, pages[type], dictionaries)
 
 
@@ -1385,11 +1345,9 @@ def create_new_organisation(request, form):
                                                last_name=form.name,
                                                birth_day=form.birthdate,
                                                gender=form.gender)
-    print(user, user.dj_user, user.dj_user.is_active)
     user.dj_user.is_active = False
     user.dj_user.save()
 
-    print(user, user.dj_user, user.dj_user.is_active)
     if request.FILES.get('profile_pic') is not None:
         user.picture.save(request.FILES.get('profile_pic').name,
                           request.FILES.get('profile_pic'),
