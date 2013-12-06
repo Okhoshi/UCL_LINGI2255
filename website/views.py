@@ -629,18 +629,21 @@ def profile(request):
     current_demands_tuples = []
     old_tuples = []
     feedback_tuples = []
+
     for req in current_offers:
         current_offers_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_offers([req])[0][2]))
     for req in current_demands:
         current_demands_tuples.append((req, profile_current_demands([req])[0][1], profile_current_offers([req])[0][1], profile_current_demands([req])[0][2]))
     old_requests = profile_old_requests(old_requests, this_entity)
+    
     for elem in old_requests:
         old_tuples.append((elem[0], profile_current_demands([elem[0]])[0][1], profile_current_offers([elem[0]])[0][1], elem[1], elem[2], elem[3]))
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
         for feed in feedbacks:
-            feedback_tuples.append((feed[0][0], profile_current_demands([feed[0][0]])[0][1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
-
+            #feedback_tuples.append((feed[0][0], "profile_current_demands([feed[0][0]])[0][1]", profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
+            feedback_tuples.append((feed[0][0], feed[1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
+            print(feedback_tuples)
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': this_entity,
                                             'current_offers': current_offers_tuples,
