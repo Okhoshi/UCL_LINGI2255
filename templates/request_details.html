@@ -19,14 +19,28 @@
 
                 {% trans "Category" %} : {{ elem.0.category }} <br>
                 
-                {% trans "Proposer" %} : {% if elem.1 %}<a href="{% url 'profile' %}?profile_id={{ elem.0.proposer.id }}" >{{ elem.1 }}</a>{% else %}/{% endif %}<br>
+                {% trans "Proposer" %} : 
+                {% if elem.1 %}
+                    <a href="{% url 'profile' %}?profile_id={{ elem.0.proposer.id }}" >{{ elem.1 }}</a>
+                {% else %}
+                    <em>{% trans 'Not specified' %}</em>
+                {% endif %}<br>
                 
-                {% trans "Demander" %} : {% if elem.2 %}<a href="{% url 'profile' %}?profile_id={{ elem.0.demander.id }}" >{{ elem.2 }}</a>{% else %}/{% endif %}<br>
+                {% trans "Demander" %} : 
+                {% if elem.2 %}
+                    <a href="{% url 'profile' %}?profile_id={{ elem.0.demander.id }}" >{{ elem.2 }}</a>
+                {% else %}
+                    <em>{% trans 'Not specified' %}</em>
+                {% endif %}<br>
 
-                
-                
-                {% trans "Date" %} : {{ elem.0.date|date:"D, d N Y" }} <br>
-                {% trans "Place" %} : {{ elem.0.place}}
+                {% trans "Date" %} : 
+                {% if elem.0.date %}
+                    {{ elem.0.date|date:"D, d N Y" }}
+                {% else %}
+                    <em>{% trans 'Not specified' %}</em>
+                {% endif %}<br />
+
+                {% trans "Place" %} : <em>{{ elem.0.place }}</em>
                 <br><br>
 
                 <a href="{% url 'account' %}?susp_req_id={{ elem.0.id }}" class="btn btn-default" ><i class="glyphicon glyphicon-warning-sign custom_alert"></i></a>
