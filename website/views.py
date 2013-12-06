@@ -1253,7 +1253,7 @@ def modify_user(request, form):
     dusr = DUser.objects.get(username=request.user)
     dusr.username = form.user_name
     dusr.email = form.email
-    dusr.passwd = form.passwd
+    dusr.set_password(form.passwd)
     dusr.first_name = form.first_name
     dusr.last_name = form.name
 
@@ -1291,9 +1291,10 @@ def modify_organisation(request, form):
     dusr = DUser.objects.get(username=request.user)
     dusr.username = form.user_name
     dusr.email = form.email
-    dusr.passwd = form.passwd
+    dusr.set_password(form.passwd)
     dusr.first_name = form.first_name
     dusr.last_name = form.name
+
 
     # AssociationUser modify
     ausr = AssociationUser.objects.get(dj_user=dusr)
@@ -1315,7 +1316,6 @@ def modify_organisation(request, form):
                           request.FILES.get('org_pic'),
                           save=False)
 
-    print(assoc.description)
 
     # Save all in DB
     dusr.save()
@@ -1323,7 +1323,6 @@ def modify_organisation(request, form):
     ausr.entity = assoc
     ausr.save()
 
-    print(ausr.picture)
     # Relog in
     Dlogout(request)
     usr = authenticate(username=form.user_name, password=form.passwd)
