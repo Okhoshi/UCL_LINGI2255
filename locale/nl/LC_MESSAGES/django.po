@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 22:29+0000\n"
+"POT-Creation-Date: 2013-12-06 00:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,7 +117,7 @@ msgstr ""
 msgid "Following"
 msgstr ""
 
-#: templates/add_pins.html:9 templates/add_pins.html.py:81
+#: templates/add_pins.html:9 templates/add_pins.html.py:80
 msgid "Add PINs"
 msgstr ""
 
@@ -128,7 +128,8 @@ msgstr ""
 msgid "There are errors in the form :"
 msgstr ""
 
-#: templates/add_pins.html:45 templates/add_representative.html:46
+#: templates/add_pins.html:45 templates/add_pins.html.py:47
+#: templates/add_representative.html:46 templates/add_representative.html:48
 #: templates/contact.html:77 templates/personnal_informations.html:16
 #: templates/personnal_informations.html:19 templates/profile.html:74
 #: templates/profile.html.py:115 templates/profile.html:154
@@ -137,7 +138,8 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: templates/add_pins.html:52 templates/add_representative.html:53
+#: templates/add_pins.html:52 templates/add_pins.html.py:54
+#: templates/add_representative.html:53 templates/add_representative.html:55
 #: templates/contact.html:89 templates/contact.html.py:93
 #: templates/personnal_informations.html:27
 #: templates/personnal_informations.html:31 website/forms.py:139
@@ -149,7 +151,7 @@ msgstr ""
 msgid "Managed by"
 msgstr ""
 
-#: templates/add_pins.html:78 templates/add_representative.html:84
+#: templates/add_pins.html:77 templates/add_representative.html:84
 msgid "Add line"
 msgstr ""
 
@@ -157,7 +159,7 @@ msgstr ""
 msgid "Add a representative"
 msgstr ""
 
-#: templates/add_representative.html:60
+#: templates/add_representative.html:60 templates/add_representative.html:62
 msgid "E-mail"
 msgstr ""
 
@@ -835,8 +837,9 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: templates/login.html:31 templates/personnal_informations.html:90
-#: website/forms.py:290 website/forms.py:292
+#: templates/login.html:31 templates/personnal_informations.html:87
+#: templates/personnal_informations.html:90 website/forms.py:290
+#: website/forms.py:292
 msgid "Password"
 msgstr ""
 
@@ -863,6 +866,10 @@ msgstr ""
 #: templates/login.html:60 templates/organisation_informations.html:12
 #: templates/register.html:27
 msgid "Organisation"
+msgstr ""
+
+#: templates/login.html:66 templates/new_feedback.html:60
+msgid "Cancel"
 msgstr ""
 
 #: templates/message_display.html:35
@@ -940,10 +947,6 @@ msgstr ""
 
 #: templates/new_feedback.html:58
 msgid "Save"
-msgstr ""
-
-#: templates/new_feedback.html:60
-msgid "Cancel"
 msgstr ""
 
 #: templates/new_message.html:15
@@ -1065,10 +1068,6 @@ msgstr ""
 #: templates/personnal_informations.html:81 website/forms.py:148
 #: website/forms.py:279
 msgid "Email"
-msgstr ""
-
-#: templates/personnal_informations.html:87
-msgid " Password"
 msgstr ""
 
 #: templates/personnal_informations.html:95
@@ -1316,79 +1315,79 @@ msgstr ""
 msgid "The organisation name"
 msgstr ""
 
-#: website/views.py:74
+#: website/views.py:75
 msgid "This account has been disabled. "
 msgstr ""
 
-#: website/views.py:78
+#: website/views.py:79
 msgid "This username or password is not valid."
 msgstr ""
 
-#: website/views.py:283
+#: website/views.py:284
 msgid "administrator"
 msgstr ""
 
-#: website/views.py:285
+#: website/views.py:286
 msgid "member"
 msgstr ""
 
-#: website/views.py:286
+#: website/views.py:287
 msgid " has successfully been added as "
 msgstr ""
 
-#: website/views.py:298 website/views.py:362
+#: website/views.py:299 website/views.py:363
 msgid "Dear "
 msgstr ""
 
-#: website/views.py:299
+#: website/views.py:300
 msgid ""
 "This mail is sent to warn you that an account related to the association "
 msgstr ""
 
-#: website/views.py:300
+#: website/views.py:301
 msgid " has been created for you on Solidare-It.\n"
 msgstr ""
 
-#: website/views.py:301
+#: website/views.py:302
 msgid "You can log in at http://"
 msgstr ""
 
-#: website/views.py:301
+#: website/views.py:302
 msgid ""
 "/login/ with the username and password that have been generated especially "
 "for you :\n"
 "\n"
 msgstr ""
 
-#: website/views.py:302
+#: website/views.py:303
 msgid "Username : "
 msgstr ""
 
-#: website/views.py:303
+#: website/views.py:304
 msgid "Password : "
 msgstr ""
 
-#: website/views.py:304
+#: website/views.py:305
 msgid "You possess the status of "
 msgstr ""
 
-#: website/views.py:305 website/views.py:366
+#: website/views.py:306 website/views.py:367
 msgid "The Solidare-It Team."
 msgstr ""
 
-#: website/views.py:350
+#: website/views.py:351
 msgid " has successfully been added and managed by "
 msgstr ""
 
-#: website/views.py:363
+#: website/views.py:364
 msgid "This mail is sent to warn you that a PIN related to the association "
 msgstr ""
 
-#: website/views.py:364
+#: website/views.py:365
 msgid " has been created on Solidare-It.\n"
 msgstr ""
 
-#: website/views.py:365
+#: website/views.py:366
 msgid "Your new PIN client is "
 msgstr ""
 
