@@ -9,7 +9,7 @@
                 <h4 class="modal-title" id="myModalLabel">{% trans "Feedback" %}</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" method="post" action="" autocomplete="on" enctype="multipart/form-data">
+                <form class="form-horizontal" role="form" method="post" action="{% url 'account' %}" autocomplete="on" enctype="multipart/form-data">
                 {% csrf_token %}
                     <input type="modal" name="feedback" value="Yes" style="margin-left:2em" hidden="YES">
 
@@ -59,7 +59,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" data-dismiss="modal">{% trans "Save" %}</button>
+                    <button type="submit" name="feedback" class="btn btn-success" >{% trans "Save" %}</button>
 
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
                 </div>
