@@ -841,10 +841,11 @@ def messages(request):
     return render(request, 'messages.html', {'threads': threads, 'request_id': req_id})
 
 
+##
+## Display list of exchanges of the user
+##
 @login_required
 def exchanges(request):   
-
-
 
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
@@ -871,48 +872,45 @@ def exchanges(request):
         all_req = this_entity.get_all_requests()
         for elem in all_req:
 
-
-
-
+            # List of PROPOSAL requests with candidates
             if (elem.state == Request.PROPOSAL) and elem.candidates.all().exclude(id__exact=this_entity.id):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 candidate_req.append((elem,offer,demander))
 
-
-
+            # List of PROPOSAL requests witout candidates
             if (elem.state == Request.PROPOSAL) and not elem.candidates.all().exclude(id__exact=this_entity.id):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
 
-
-
-
+            # List of IN_PROGRESS requests
             if elem.state == Request.IN_PROGRESS:
                 demander = profile_current_offers([elem])[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 incoming_req.append((elem,offer,demander))
 
-            #TODO FALSE
-
+            # List of DONE requests
             if elem.state == Request.DONE:
                 if elem.demander.id == this_entity.id:
                     has_a_feedback =  elem.get_feedback().rating_demander > 0
                 else:
                     has_a_feedback =  elem.get_feedback().rating_proposer > 0
 
+                # With Feedbacks already given
                 if has_a_feedback:
                     demander = profile_current_offers([elem])[0][1]
                     offer = profile_current_demands([elem])[0][1]
                     feedback_req.append((elem,offer,demander))
 
+                # Without Feedbacks
                 else:
                     demander = profile_current_offers([elem])[0][1]
                     offer = profile_current_demands([elem])[0][1]
                     realised_req.append((elem,offer,demander))
 
 
+        # create tuple with percentage of each request's type
         sum_req = (len(posted_req),len(candidate_req),\
             len(incoming_req),len(realised_req),len(feedback_req))
         total = sum(sum_req)
