@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-06 00:16+0000\n"
+"POT-Creation-Date: 2013-12-06 01:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,10 +131,10 @@ msgstr ""
 #: templates/add_pins.html:45 templates/add_pins.html.py:47
 #: templates/add_representative.html:46 templates/add_representative.html:48
 #: templates/contact.html:77 templates/personnal_informations.html:16
-#: templates/personnal_informations.html:19 templates/profile.html:74
-#: templates/profile.html.py:115 templates/profile.html:154
-#: templates/profile.html.py:206 website/forms.py:130 website/forms.py:186
-#: website/forms.py:236
+#: templates/personnal_informations.html:19 templates/profile.html:87
+#: templates/profile.html.py:128 templates/profile.html:167
+#: templates/profile.html.py:219 website/forms.py:131 website/forms.py:187
+#: website/forms.py:237
 msgid "Name"
 msgstr ""
 
@@ -142,12 +142,12 @@ msgstr ""
 #: templates/add_representative.html:53 templates/add_representative.html:55
 #: templates/contact.html:89 templates/contact.html.py:93
 #: templates/personnal_informations.html:27
-#: templates/personnal_informations.html:31 website/forms.py:139
-#: website/forms.py:195 website/forms.py:244
+#: templates/personnal_informations.html:31 website/forms.py:140
+#: website/forms.py:196 website/forms.py:245
 msgid "First name"
 msgstr ""
 
-#: templates/add_pins.html:59 website/forms.py:204
+#: templates/add_pins.html:59 website/forms.py:205
 msgid "Managed by"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
-#: templates/add_representative.html:67 website/forms.py:156
+#: templates/add_representative.html:67 website/forms.py:157
 msgid "Level"
 msgstr ""
 
@@ -180,36 +180,36 @@ msgid "Add members"
 msgstr ""
 
 #: templates/address.html:7 templates/contact.html:113
-#: templates/create.html:65
+#: templates/create.html:81
 msgid "Address"
 msgstr ""
 
 #: templates/address.html:9 templates/contact.html:116
-#: templates/create.html:67 website/forms.py:301
+#: templates/create.html:83 website/forms.py:302
 msgid "Street"
 msgstr ""
 
 #: templates/address.html:13 templates/contact.html:122
-#: templates/create.html:71
+#: templates/create.html:87
 msgid "N°"
 msgstr ""
 
 #: templates/address.html:19 templates/address.html.py:21
 #: templates/contact.html:130 templates/contact.html.py:133
-#: templates/create.html:77 templates/create.html.py:79 website/forms.py:60
-#: website/forms.py:315
+#: templates/create.html:93 templates/create.html.py:95 website/forms.py:61
+#: website/forms.py:316
 msgid "City"
 msgstr ""
 
 #: templates/address.html:25 templates/contact.html:139
-#: templates/create.html:83
+#: templates/create.html:99
 msgid "Post code"
 msgstr ""
 
 #: templates/address.html:31 templates/address.html.py:33
 #: templates/contact.html:147 templates/contact.html.py:150
-#: templates/create.html:89 templates/create.html.py:91 website/forms.py:65
-#: website/forms.py:322
+#: templates/create.html:105 templates/create.html.py:107 website/forms.py:66
+#: website/forms.py:323
 msgid "Country"
 msgstr ""
 
@@ -577,83 +577,91 @@ msgstr ""
 msgid "Person"
 msgstr ""
 
-#: templates/create.html:44 templates/search.html:65
-#: templates/search_match.html:9 website/forms.py:36
-msgid "Type"
+#: templates/create.html:45
+msgid "For PIN ?"
 msgstr ""
 
 #: templates/create.html:49
+msgid "None"
+msgstr ""
+
+#: templates/create.html:60 templates/search.html:65
+#: templates/search_match.html:9 website/forms.py:37
+msgid "Type"
+msgstr ""
+
+#: templates/create.html:65
 msgid "Offer"
 msgstr ""
 
-#: templates/create.html:55 website/tests.py:532 website/models/request.py:94
+#: templates/create.html:71 website/tests.py:532 website/models/request.py:94
 msgid "Demand"
 msgstr ""
 
-#: templates/create.html:97
+#: templates/create.html:113
 msgid "When ?"
 msgstr ""
 
-#: templates/create.html:100 templates/personnal_informations.html:41
+#: templates/create.html:116 templates/personnal_informations.html:41
 msgid "yyyy-mm-dd"
 msgstr ""
 
-#: templates/create.html:109
+#: templates/create.html:125
 msgid "What ?"
 msgstr ""
 
-#: templates/create.html:124
+#: templates/create.html:140
 msgid "Apply filters"
 msgstr ""
 
-#: templates/create.html:133 templates/profile.html:34 website/forms.py:81
+#: templates/create.html:149 templates/profile.html:46 website/forms.py:82
 msgid "Verified"
 msgstr ""
 
-#: templates/create.html:138
+#: templates/create.html:154
 msgid "Only show to verified people"
 msgstr ""
 
-#: templates/create.html:146 website/forms.py:86
+#: templates/create.html:162 website/forms.py:87
 msgid "Minimal rating"
 msgstr ""
 
-#: templates/create.html:151
+#: templates/create.html:167
 msgid "Only show to people with a minimal rating"
 msgstr ""
 
-#: templates/create.html:159 templates/personnal_informations.html:51
-#: templates/personnal_informations.html:55 website/forms.py:91
+#: templates/create.html:175 templates/personnal_informations.html:51
+#: templates/personnal_informations.html:55 website/forms.py:92
 msgid "Gender"
 msgstr ""
 
-#: templates/create.html:163 templates/personnal_informations.html:58
+#: templates/create.html:179 templates/personnal_informations.html:58
 #: templates/search.html:71
 msgid "Unspecified"
 msgstr ""
 
-#: templates/create.html:164 templates/personnal_informations.html:56
+#: templates/create.html:180 templates/personnal_informations.html:56
 msgid "Male"
 msgstr ""
 
-#: templates/create.html:165 templates/personnal_informations.html:57
+#: templates/create.html:181 templates/personnal_informations.html:57
 msgid "Female"
 msgstr ""
 
-#: templates/create.html:172
+#: templates/create.html:188
 msgid "Age"
 msgstr ""
 
-#: templates/create.html:174 website/forms.py:96
+#: templates/create.html:190 website/forms.py:97
 msgid "Minimal age"
 msgstr ""
 
-#: templates/create.html:177 website/forms.py:101
+#: templates/create.html:193 website/forms.py:102
 msgid "Maximal age"
 msgstr ""
 
-#: templates/create.html:185 templates/organisation_informations.html:41
-#: website/forms.py:42
+#: templates/create.html:201 templates/organisation_informations.html:41
+#: website/forms.py:43
 msgid "Description"
 msgstr ""
 
@@ -838,8 +846,8 @@ msgid "Username"
 msgstr ""
 
 #: templates/login.html:31 templates/personnal_informations.html:87
-#: templates/personnal_informations.html:90 website/forms.py:290
-#: website/forms.py:292
+#: templates/personnal_informations.html:90 website/forms.py:291
+#: website/forms.py:293
 msgid "Password"
 msgstr ""
 
@@ -864,7 +872,7 @@ msgid "I want to create an account for the organisation I represent."
 msgstr ""
 
 #: templates/login.html:60 templates/organisation_informations.html:12
-#: templates/register.html:27
+#: templates/profile.html:48 templates/register.html:27
 msgid "Organisation"
 msgstr ""
 
@@ -897,12 +905,12 @@ msgstr ""
 msgid "Request summary"
 msgstr ""
 
-#: templates/new_feedback.html:22 templates/profile.html:116
+#: templates/new_feedback.html:22 templates/profile.html:129
 #: templates/request_details.html:22
 msgid "Proposer"
 msgstr ""
 
-#: templates/new_feedback.html:23 templates/profile.html:75
+#: templates/new_feedback.html:23 templates/profile.html:88
 #: templates/request_details.html:24
 msgid "Demander"
 msgstr ""
@@ -915,8 +923,8 @@ msgstr ""
 msgid "What"
 msgstr ""
 
-#: templates/new_feedback.html:26 templates/search.html:67
-#: templates/search_match.html:11
+#: templates/new_feedback.html:26 templates/request_details.html:29
+#: templates/search.html:67 templates/search_match.html:11
 msgid "Place"
 msgstr ""
 
@@ -1055,18 +1063,18 @@ msgstr ""
 msgid "Photos"
 msgstr ""
 
-#: templates/personnal_informations.html:39 website/forms.py:252
+#: templates/personnal_informations.html:39 website/forms.py:253
 msgid "Birthdate"
 msgstr ""
 
 #: templates/personnal_informations.html:69
-#: templates/personnal_informations.html:73 website/forms.py:264
-#: website/forms.py:270
+#: templates/personnal_informations.html:73 website/forms.py:265
+#: website/forms.py:271
 msgid "User name"
 msgstr ""
 
-#: templates/personnal_informations.html:81 website/forms.py:148
-#: website/forms.py:279
+#: templates/personnal_informations.html:81 website/forms.py:149
+#: website/forms.py:280
 msgid "Email"
 msgstr ""
 
@@ -1082,53 +1090,61 @@ msgstr ""
 msgid "Members"
 msgstr ""
 
-#: templates/profile.html:27
+#: templates/profile.html:29
 msgid "Follow"
 msgstr ""
 
-#: templates/profile.html:37
+#: templates/profile.html:33
+msgid "Unfollow"
+msgstr ""
+
+#: templates/profile.html:50
+msgid "Not verified"
+msgstr ""
+
+#: templates/profile.html:59
 msgid "of positive evaluations."
 msgstr ""
 
-#: templates/profile.html:37
+#: templates/profile.html:59
 msgid "evaluations"
 msgstr ""
 
-#: templates/profile.html:39
+#: templates/profile.html:61
 msgid "No evaluations"
 msgstr ""
 
-#: templates/profile.html:69
+#: templates/profile.html:82
 msgid "Current offers"
 msgstr ""
 
-#: templates/profile.html:76 templates/profile.html.py:117
-#: templates/profile.html:157 templates/request_details.html:28
-#: website/forms.py:49
+#: templates/profile.html:89 templates/profile.html.py:130
+#: templates/profile.html:170 templates/request_details.html:28
+#: website/forms.py:50
 msgid "Date"
 msgstr ""
 
-#: templates/profile.html:110
+#: templates/profile.html:123
 msgid "Current demands"
 msgstr ""
 
-#: templates/profile.html:149
+#: templates/profile.html:162
 msgid "History"
 msgstr ""
 
-#: templates/profile.html:155
+#: templates/profile.html:168
 msgid "Action"
 msgstr "Actie"
 
-#: templates/profile.html:156 templates/profile.html.py:207
+#: templates/profile.html:169 templates/profile.html.py:220
 msgid "With"
 msgstr ""
 
-#: templates/profile.html:201
+#: templates/profile.html:214
 msgid "Evaluations summary"
 msgstr ""
 
-#: templates/profile.html:208
+#: templates/profile.html:221
 msgid "Evaluation"
 msgstr ""
 
@@ -1183,211 +1199,211 @@ msgstr ""
 msgid "Matching Request"
 msgstr ""
 
-#: website/forms.py:36
+#: website/forms.py:37
 msgid "The type can only be an offer or a demand"
 msgstr ""
 
-#: website/forms.py:42
+#: website/forms.py:43
 msgid "The description is mandatory"
 msgstr ""
 
-#: website/forms.py:49
+#: website/forms.py:50
 msgid "The date"
 msgstr ""
 
-#: website/forms.py:49
+#: website/forms.py:50
 msgid "format must be YYYY-MM-DD"
 msgstr ""
 
-#: website/forms.py:55 website/forms.py:308
+#: website/forms.py:56 website/forms.py:309
 msgid "Street number"
 msgstr ""
 
-#: website/forms.py:55 website/forms.py:308
+#: website/forms.py:56 website/forms.py:309
 msgid "The street number"
 msgstr ""
 
-#: website/forms.py:55 website/forms.py:308
+#: website/forms.py:56 website/forms.py:309
 msgid "is a number composed of 1 to 5 digits"
 msgstr ""
 
-#: website/forms.py:60 website/forms.py:315
+#: website/forms.py:61 website/forms.py:316
 msgid "The city"
 msgstr ""
 
-#: website/forms.py:60 website/forms.py:65 website/forms.py:315
-#: website/forms.py:322 website/forms.py:341
+#: website/forms.py:61 website/forms.py:66 website/forms.py:316
+#: website/forms.py:323 website/forms.py:342
 msgid "can only contain alphanumeric characters or symbols"
 msgstr ""
 
-#: website/forms.py:65 website/forms.py:322
+#: website/forms.py:66 website/forms.py:323
 msgid "The country"
 msgstr ""
 
-#: website/forms.py:70 website/forms.py:329
+#: website/forms.py:71 website/forms.py:330
 msgid "Postcode"
 msgstr ""
 
-#: website/forms.py:70 website/forms.py:329
+#: website/forms.py:71 website/forms.py:330
 msgid "The post code"
 msgstr ""
 
-#: website/forms.py:70 website/forms.py:329
+#: website/forms.py:71 website/forms.py:330
 msgid "is a number composed of 1 to 9 digits"
 msgstr ""
 
-#: website/forms.py:76
+#: website/forms.py:77
 msgid "Filter"
 msgstr ""
 
-#: website/forms.py:76 website/forms.py:81 website/forms.py:86
+#: website/forms.py:77 website/forms.py:82 website/forms.py:87
 msgid "This value is either ON or OFF"
 msgstr ""
 
-#: website/forms.py:91
+#: website/forms.py:92
 msgid "This value is either 'Male', 'Female' or 'Unspecified'"
 msgstr ""
 
-#: website/forms.py:96 website/forms.py:101
+#: website/forms.py:97 website/forms.py:102
 msgid "This value is a number composed of 1 to 3 digits"
 msgstr ""
 
-#: website/forms.py:130 website/forms.py:139 website/forms.py:186
-#: website/forms.py:195 website/forms.py:236 website/forms.py:244
+#: website/forms.py:131 website/forms.py:140 website/forms.py:187
+#: website/forms.py:196 website/forms.py:237 website/forms.py:245
 msgid "This field can only contain uppercase and lowercase letters"
 msgstr ""
 
-#: website/forms.py:148 website/forms.py:279
+#: website/forms.py:149 website/forms.py:280
 msgid "Insert a valid email"
 msgstr ""
 
-#: website/forms.py:156
+#: website/forms.py:157
 msgid "The level should be a number"
 msgstr ""
 
-#: website/forms.py:204
+#: website/forms.py:205
 msgid "must be an existing association user"
 msgstr ""
 
-#: website/forms.py:226
+#: website/forms.py:227
 msgid "Captcha"
 msgstr ""
 
-#: website/forms.py:226
+#: website/forms.py:227
 msgid "The captcha is invalid"
 msgstr ""
 
-#: website/forms.py:252
+#: website/forms.py:253
 msgid "The birthdate format must be YYYY-MM-DD"
 msgstr ""
 
-#: website/forms.py:264
+#: website/forms.py:265
 msgid "This username is already used"
 msgstr ""
 
-#: website/forms.py:270
+#: website/forms.py:271
 msgid "The username must be between 3 and 15 characters"
 msgstr ""
 
-#: website/forms.py:290
+#: website/forms.py:291
 msgid "The password and the confirmation must be the same."
 msgstr ""
 
-#: website/forms.py:292
+#: website/forms.py:293
 msgid ""
 "The password must be between 4 and 20 characters and only contain "
 "alphanumeric characters and the ',;:=?./+-_)('"
 msgstr ""
 
-#: website/forms.py:301
+#: website/forms.py:302
 msgid "This street"
 msgstr ""
 
-#: website/forms.py:301
+#: website/forms.py:302
 msgid "can only contain alphanumeric characters"
 msgstr ""
 
-#: website/forms.py:341
+#: website/forms.py:342
 msgid "Organisation name"
 msgstr ""
 
-#: website/forms.py:341
+#: website/forms.py:342
 msgid "The organisation name"
 msgstr ""
 
-#: website/views.py:75
+#: website/views.py:74
 msgid "This account has been disabled. "
 msgstr ""
 
-#: website/views.py:79
+#: website/views.py:78
 msgid "This username or password is not valid."
 msgstr ""
 
-#: website/views.py:284
+#: website/views.py:283
 msgid "administrator"
 msgstr ""
 
-#: website/views.py:286
+#: website/views.py:285
 msgid "member"
 msgstr ""
 
-#: website/views.py:287
+#: website/views.py:286
 msgid " has successfully been added as "
 msgstr ""
 
-#: website/views.py:299 website/views.py:363
+#: website/views.py:298 website/views.py:361
 msgid "Dear "
 msgstr ""
 
-#: website/views.py:300
+#: website/views.py:299
 msgid ""
 "This mail is sent to warn you that an account related to the association "
 msgstr ""
 
-#: website/views.py:301
+#: website/views.py:300
 msgid " has been created for you on Solidare-It.\n"
 msgstr ""
 
-#: website/views.py:302
+#: website/views.py:301
 msgid "You can log in at http://"
 msgstr ""
 
-#: website/views.py:302
+#: website/views.py:301
 msgid ""
 "/login/ with the username and password that have been generated especially "
 "for you :\n"
 "\n"
 msgstr ""
 
-#: website/views.py:303
+#: website/views.py:302
 msgid "Username : "
 msgstr ""
 
-#: website/views.py:304
+#: website/views.py:303
 msgid "Password : "
 msgstr ""
 
-#: website/views.py:305
+#: website/views.py:304
 msgid "You possess the status of "
 msgstr ""
 
-#: website/views.py:306 website/views.py:367
+#: website/views.py:305 website/views.py:365
 msgid "The Solidare-It Team."
 msgstr ""
 
-#: website/views.py:351
+#: website/views.py:349
 msgid " has successfully been added and managed by "
 msgstr ""
 
-#: website/views.py:364
+#: website/views.py:362
 msgid "This mail is sent to warn you that a PIN related to the association "
 msgstr ""
 
-#: website/views.py:365
+#: website/views.py:363
 msgid " has been created on Solidare-It.\n"
 msgstr ""
 
-#: website/views.py:366
+#: website/views.py:364
 msgid "Your new PIN client is "
 msgstr ""
 
@@ -1427,12 +1443,4 @@ msgstr ""
 
 #: website/models/internalmessage.py:24
 msgid "Message: "
-msgstr ""
-
-#: website/models/pin.py:20
-msgid "PIN first name: "
-msgstr ""
-
-#: website/models/pin.py:20
-msgid "last name: "
 msgstr ""
