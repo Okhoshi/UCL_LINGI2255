@@ -935,12 +935,17 @@ def search(request):
         search_field = request.POST['search']
 
         if 'search_saved' in request.POST.dict():
-            pla = Place()
-            pla.save()
-            savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
-            savedsearch.save()
-            return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
+            if search_field == "" :
+                return render(request, 'search.html', {'search_results':search_results,
+                                                   'max_times':max_times, 'search_saved_invalid':'INVALID'})
+            else :
+                pla = Place()
+                pla.save()
+                savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
+                savedsearch.save()
+                return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
+
         else:
             search_object = SavedSearch(search_field=search_field)
             search_objects = usr_entity.search(search_object, 30)

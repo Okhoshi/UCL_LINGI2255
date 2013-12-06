@@ -9,7 +9,6 @@
     <li href="active">{% trans "Search" %}</li>
 </ol>
 
-<p>In progress</p>
 {% endblock %}
 
 {% block content %}
@@ -38,7 +37,6 @@
     <div style="height: 33px;" class="visible-xs"></div>
     </div>
 </form>
-
 {% if search_saved %}
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 coll-xs-offset-1">
@@ -46,7 +44,7 @@
         <a href="{% url 'account' %}" class="btn btn-success primary large">{% trans "See all my saved searches" %}&nbsp;&nbsp;<i class="glyphicon glyphicon-chevron-right"></i></a>
     </div>
 </div>
-{% elif search_saved_invalid %}
+{% elif search_saved_invalid  %}
 <div class="row">
     <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 coll-xs-offset-1">
         <h5>{% trans "Impossible to save this search. Please verify the text field of the request" %}</h5>
