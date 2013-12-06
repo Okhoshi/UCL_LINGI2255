@@ -588,7 +588,7 @@ def profile(request):
 
         association_visited = Association.objects.filter(entity_ptr__exact=profile_id)
         if association_visited:
-            association_visited = association_visited[0].entity
+            association_visited = association_visited[0]
             entity = association_visited
 
         if entity == this_entity:
