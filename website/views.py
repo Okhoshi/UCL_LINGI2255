@@ -12,7 +12,6 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
-from django.utils.translation import ugettext_lazy as _
 from forms import MForm,RForm,SolidareForm, PForm
 from exceptions import *
 from website.models import *
@@ -50,8 +49,10 @@ def home(request):
     return render(request, 'home.html', {'testimonies': testimonies,
                                          'latest_requests':latest_requests_tuples})
 
+
 def news(request):
     return render(request, 'news.html', {})
+
 
 @login_forbidden
 def login(request):
@@ -175,7 +176,7 @@ def edit_profile(request):
     type = request.GET.get('type', False)
     usr = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=usr.id).count()
-    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count()
     my_child = None
     if is_user:
         type = "1"
@@ -256,10 +257,12 @@ def add_representative(request):
                 first_name = row['first_name']
                 level = int(row['level'])
                 assoc = au.get_association()
+                birthdate = datetime.datetime.utcnow().replace(tzinfo=utc)
 
                 index = 2
+                base_username = username
                 while DUser.objects.filter(username = username).count() != 0:
-                    username = "%s%s" % (username,index)
+                    username = "%s%s" % (base_username,index)
                     index += 1
 
                 auser = AssociationUser.objects.create_user(
@@ -269,7 +272,8 @@ def add_representative(request):
                     level = level,
                     association = assoc,
                     last_name = last_name,
-                    first_name = first_name)
+                    first_name = first_name,
+                    birth_day = birthdate)
 
                 #######################################
                 ##### Success message on the page #####
@@ -342,7 +346,6 @@ def add_pins(request):
                 new_pin = PIN(first_name=first_name, last_name=last_name, managed_by=managed_by)
                 new_pin.save()
 
-
                 message = first_name + " " + last_name + _(" has successfully been added and managed by ")\
                     + managed_by.dj_user.get_full_name() + "."
                 success_messages.append(message)
@@ -396,13 +399,16 @@ def account(request):
         new_feedback.request = finish_req
         new_feedback.save()
 
+    susp_req_id = request.REQUEST.get('susp_req_id')
+    if susp_req_id :
+        req_to_mod = Request.objects.get(id=susp_req_id)
+        req_to_mod.is_suspicious = True
+        req_to_mod.save()
+
 
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    
-
-
 
     saved_searches = []
     similar = []
@@ -472,19 +478,8 @@ def account(request):
         
         
         ## GET FOLLOWING LIST
-        following_entity = entity.get_followed()
-        for person in following_entity:
-            person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
-            person_user = User.objects.filter(entity_ptr_id__exact=person.id)
-
-            if (person_assoc):
-                person = person_assoc[0]
-                name_person = person.name
-            elif (person_user): #is a User
-                person = person_user[0]
-                person = DUser.objects.get(id=person.dj_user_id)
-                name_person = person.first_name + " " + person.last_name
-            following.append((person,name_person))
+        for person in entity.get_followed():
+            following.append((person, sol_user(person).__unicode__()))
 
         ## GET SAVED SEARCHES
         objects_saved_searches = entity.get_searches()
@@ -521,13 +516,13 @@ def account(request):
         in_progress_requests = upcoming_objects.count()
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
-        summary = (proposal_requests,in_progress_requests,old_requests)
+        summary = (proposal_requests, in_progress_requests, old_requests)
         
-    return render(request, 'account.html', {'image':image,'following':following,\
-        'saved_searches':saved_searches,'similar':similar,\
-        'upcoming_requests':upcoming_requests,'summary':summary,\
-        'is_association_admin': is_association_admin,\
-        'type_user':type_user, 'pending':pending, 'empty_feedback':empty_feedback})
+    return render(request, 'account.html', {'image': image, 'following': following,
+                                            'saved_searches': saved_searches, 'similar': similar,
+                                            'upcoming_requests': upcoming_requests, 'summary': summary,
+                                            'is_association_admin': is_association_admin,
+                                            'type_user': type_user, 'pending': pending, 'empty_feedback':empty_feedback})
 
 
 @login_required
@@ -535,34 +530,58 @@ def profile(request):
 
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
-    is_user = User.objects.filter(dj_user__exact=this_user.id)
-    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
+    this_entity = None
+    this_entity = None
+
+    is_user = User.objects.filter(dj_user__exact=this_user)
+    if is_user:
+        this_entity = is_user[0]
+
+    is_association = AssociationUser.objects.filter(dj_user__exact=this_user)
+    if is_association:
+        is_association = is_association[0].get_association()
+        this_entity = is_association
+
     my_profile = True
+
+    entity = None
+    follow = None
 
     profile_id = request.REQUEST.get('profile_id')
     if profile_id:
-        is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
-        is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
+        user_visited = User.objects.filter(entity_ptr__exact=profile_id)
+
+        if user_visited:
+            user_visited = user_visited[0]
+            entity = user_visited
+
+        association_visited = Association.objects.filter(entity_ptr__exact=profile_id)
+        if association_visited:
+            association_visited = association_visited[0]
+            entity = association_visited
+
         my_profile = False
-    else:
-        profile_id = this_user.id
+
+        if entity and this_entity:
+            follow = this_entity.get_followed() == entity
+
+            if request.method == 'POST':
+                if 'follow_ask' in request.POST:
+                    this_entity.set_followed(entity)
+                    follow = True
+
+                elif 'unfollow_ask' in request.POST:
+                    this_entity.remove_followed(entity)
+                    follow = False
+        this_entity = entity
+        is_user = user_visited
 
     is_verified = None
-    this_entity = None
-    image = None
-    #print(is_user)
     if is_user:
-        this_entity = is_user[0]
-        image = this_entity.picture
-        is_verified = this_entity.is_verified
-        this_entity_name = DUser.objects.get(id=this_entity.dj_user_id)
-        profile_name = this_entity_name.first_name + " " + this_entity_name.last_name
-    elif is_association_user:
-        au = is_association_user[0]
-        this_entity = au.entity
-        image = this_entity.picture
-        is_verified = 1
-        profile_name = this_entity.name 
+        is_verified = is_user.confirmed_status
+
+    image = this_entity.picture
+    profile_name = this_entity.__unicode__()
 
     # Then, fetch some useful data from the models
     current_offers = []
@@ -604,18 +623,21 @@ def profile(request):
             feedback_tuples.append((feed[0][0], profile_current_demands([feed[0][0]])[0][1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
 
     # Finally return all the useful informations
-    return render(request, 'profile.html', {'entity': entity, \
-                                            'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
-                                            'old_requests': old_tuples, 'feedbacks': feedback_tuples, \
-                                            'global_rating': global_rating, 'profile_name':profile_name, \
+    return render(request, 'profile.html', {'entity': this_entity,
+                                            'current_offers': current_offers_tuples,
+                                            'current_demands': current_demands_tuples,
+                                            'old_requests': old_tuples, 'feedbacks': feedback_tuples,
+                                            'global_rating': global_rating, 'profile_name':profile_name,
                                             'image': image, 'is_verified': is_verified, 'my_profile':my_profile,
-                                            'profile_id': profile_id})
+                                            'profile_id': profile_id, 'follow': follow})
 
 
 @login_required
 def create_offer_demand(request):
     DEF_MIN_RATING = 2
     dictionnary = {}
+    usr = DUser.objects.get(username=request.user)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count()
     if request.method == 'POST':
         form = SolidareForm(request)
         dictionnary = form.values
@@ -653,10 +675,19 @@ def create_offer_demand(request):
             # Setting as demander or proposer
             proposer = None
             demander = None
+            pin_proposer = None
+            pin_demander = None
+
             if form.values['type'] == 'offer':
                 proposer = entity
+                if not form.values['pin_selected'] == "None":
+                    pin_proposer = form.values['pin_selected']
+                    pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
-                demander = entity
+                if not form.values['pin_selected'] == "None":
+                    pin_demander = form.values['pin_selected']
+                    pin_demander = PIN.objects.get(id=pin_demander)
+    
 
             req = None
             # Filtered Request
@@ -677,6 +708,8 @@ def create_offer_demand(request):
                     place = place,
                     proposer = proposer,
                     demander = demander,
+                    pin_proposer = pin_proposer,
+                    pin_demander = pin_demander,
                     state = Request.PROPOSAL)
                 req.only_verified = only_verified
                 req.min_rating = min_rating
@@ -696,6 +729,8 @@ def create_offer_demand(request):
                     place = place,
                     proposer = proposer,
                     demander = demander,
+                    pin_demander = pin_demander,
+                    pin_proposer = pin_proposer,
                     state = Request.PROPOSAL)
                 req.save()
 
@@ -705,7 +740,10 @@ def create_offer_demand(request):
             dictionnary['errorlist'] = form.errorlist
             for key,value in form.colors.items():
                 dictionnary[key] = value
-
+    dictionnary['au'] = is_association_user
+    if is_association_user:
+        association_user = AssociationUser.objects.get(dj_user=usr.id)
+        dictionnary['pin'] = association_user.get_pin()
     return render(request, 'create.html', dictionnary)
 
 
@@ -768,8 +806,8 @@ def messages(request):
     if request.method == "GET":
         req_id = request.GET.get('id')
 
-    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+    threads = entity.get_all_requests(include_candidates=True).exclude(state__exact=Request.DONE).order_by('-date')
+    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add(qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
 
     if req_id:
         found = False
@@ -785,13 +823,7 @@ def messages(request):
 
 
 @login_required
-def exchanges(request):
-    if request.method == 'POST':
-        req_id = request.POST.get('request_id')
-        req_to_mod = Request.objects.get(id=req_id)
-        req_to_mod.is_suspicious = True
-        req_to_mod.save()
-        
+def exchanges(request):   
 
 
 
@@ -1125,6 +1157,7 @@ def sol_user(entity):
     else:
         return entity
 
+
 def analyse_request_edit(request, type, usr):
     form = MForm(request, usr=usr)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1145,6 +1178,7 @@ def analyse_request_edit(request, type, usr):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+
 def analyse_request(request, type):
     form = MForm(request)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1163,6 +1197,7 @@ def analyse_request(request, type):
         dictionaries['errorlist'] = form.errorlist
         print(form.type)
         return render(request, pages[type], dictionaries)
+
 
 def modify_user(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1200,6 +1235,7 @@ def modify_user(request, form):
     newusr = authenticate(username=form.user_name, password=form.passwd)
     Dlogin(request, newusr)
     return redirect('account')
+
 
 def modify_organisation(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1251,6 +1287,7 @@ def modify_organisation(request, form):
 
     return redirect('account')
 
+
 def create_new_user(request, form):
 
     p = Place(country=form.country, postcode=form.postcode,
@@ -1294,7 +1331,11 @@ def create_new_organisation(request, form):
                                                last_name=form.name,
                                                birth_day=form.birthdate,
                                                gender=form.gender)
+    print(user, user.dj_user, user.dj_user.is_active)
+    user.dj_user.is_active = False
+    user.dj_user.save()
 
+    print(user, user.dj_user, user.dj_user.is_active)
     if request.FILES.get('profile_pic') is not None:
         user.picture.save(request.FILES.get('profile_pic').name,
                           request.FILES.get('profile_pic'),
@@ -1305,8 +1346,8 @@ def create_new_organisation(request, form):
                           save=False)
     assoc.save()
     user.save()
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
+    #usr = authenticate(username=form.user_name, password=form.passwd)
+    #Dlogin(request, usr)
 
 
     return redirect('account')
@@ -1317,6 +1358,7 @@ def handle_uploaded_file(f, filename, path):
         with open(path+'_'+filename, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
 
 def search_filter_can_be_added(this_request, usr_entity, is_user):
     """

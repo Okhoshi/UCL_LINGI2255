@@ -41,28 +41,27 @@
 		{% for row in rows %}
 		<div class="to_duplicate row" style="margin-bottom: 20px;">
 			<div class="col-xs-11">
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<label for="inputName" class="col-xs-12" style="color: {{ row.last_name_color }} !important;">{% trans "Name" %}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputName" placeholder="Name" name="last_name[]" value="{{ row.last_name }}" style="border-color: {{ row.last_name_color }} !important;" required>
+						<input type="text" class="form-control" id="inputName" placeholder="{% trans 'Name' %}" name="last_name[]" value="{{ row.last_name }}" style="border-color: {{ row.last_name_color }} !important;" required>
 					</div>
 				</div>
 
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<label for="inputFirstName" class="col-xs-12" style="color: {{ row.first_name_color }} !important;">{% trans "First name"%}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputFirstName" placeholder="First name" name="first_name[]" value="{{ row.first_name }}" style="border-color: {{ row.first_name_color }} !important;" required>
+						<input type="text" class="form-control" id="inputFirstName" placeholder="{% trans 'First name' %}" name="first_name[]" value="{{ row.first_name }}" style="border-color: {{ row.first_name_color }} !important;" required>
 					</div>
 				</div>
 
-				<div class="col-sm-3">
+				<div class="col-sm-4">
 					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Managed by" %}*</label>
 					<div style="margin-right: 15px;margin-left: 15px;">
 						<select class="form-control" id="inputLevel" name="managed_by[]">
                             {% for association_user in list_users %}
 							<option value="{{ association_user }}">{{ association_user }}</option>
                             {% endfor %}
-
 						</select>
 					</div>
 				</div>

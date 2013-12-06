@@ -6,3 +6,6 @@ extras/documentation
 *.pyc
 *.pyproj
 *.user
+.idea
+media/pic
+media
