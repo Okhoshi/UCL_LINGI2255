@@ -161,7 +161,7 @@
 		<ul class="list-unstyled">
 			{% for elem in upcoming_requests %}
             	{% include 'request_details.html' %}
-				<li> <a data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" >{{ elem.0 }}</a> - {{ elem.0.date }} 
+				<li> <a data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" >{{ elem.0 }}</a> - {{ elem.0.date|date:"D, d N Y" }} 
 					<a href="{% url 'account' %}?finish_req={{ elem.0.id }}" class="btn btn-success" >{% trans "Done !"%}&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle"></i></a>				
 				</li>
 			{% endfor %}

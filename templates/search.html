@@ -66,7 +66,7 @@
                     <li>{% trans "By" %} : {% if elem.2 %}<a href="{% url 'profile' %}?profile_id={{ elem.2.id }}">{{ elem.2 }}</a>{% else %}{{ elem.2 }}{% endif %}</li>
                     <li>{% trans "Place" %} : {{ elem.3 }}</li>
                     {% if elem.4 %}
-                        <li>{% trans "When" %} : {{ elem.4 }}</li>
+                        <li>{% trans "When" %} : {{ elem.4|date:"D, d N Y" }}</li>
                     {% else %}
                         <li>{% trans "When" %} : {% trans "Unspecified" %}</li>
                     {% endif %}

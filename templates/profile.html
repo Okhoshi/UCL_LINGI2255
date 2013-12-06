@@ -106,7 +106,7 @@
                    	 		/
                    	 	{% endif %}					
 					</td>
-					<td>{{ elem.3 }}</td>		
+					<td>{{ elem.3|date:"D, d N Y" }}</td>		
 		
 				</tr>
 				{% endfor %}
@@ -146,7 +146,7 @@
                    	 		/
                    	 	{% endif %}					
 					</td>
-					<td>{{ elem.3 }}</td>				
+					<td>{{ elem.3|date:"D, d N Y" }}</td>				
 				</tr>
 				{% endfor %}
 
@@ -199,7 +199,7 @@
                    	 	</form>
 					{% endif %}
 					</td>
-					<td>{{ elem.5 }}</td>			
+					<td>{{ elem.5|date:"D, d N Y" }}</td>			
 				</tr>
 				{% endfor %}
 			</table>

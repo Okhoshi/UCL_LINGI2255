@@ -25,7 +25,7 @@
 
                 
                 
-                {% trans "Date" %} : {{ elem.0.date }} <br>
+                {% trans "Date" %} : {{ elem.0.date|date:"D, d N Y" }} <br>
                 {% trans "Place" %} : {{ elem.0.place}}
                 <br><br>
 
