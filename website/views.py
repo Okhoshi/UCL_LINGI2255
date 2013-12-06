@@ -703,6 +703,7 @@ def create_offer_demand(request):
                     pin_proposer = form.values['pin_selected']
                     pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
+                demander = entity
                 if not form.values['pin_selected'] == "None":
                     pin_demander = form.values['pin_selected']
                     pin_demander = PIN.objects.get(id=pin_demander)
