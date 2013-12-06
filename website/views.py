@@ -665,11 +665,11 @@ def create_offer_demand(request):
             if form.values['country'] or form.values['postcode'] or\
                 form.values['city'] or form.values['street'] or\
                 form.values['streetnumber']:
-                place = Place(country = form.values['country'], \
-                    postcode = form.values['postcode'],\
-                    city = form.values['city'], \
-                    street = form.values['street'],\
-                    number = form.values['streetnumber'])
+                place = Place(country = form.values['country'] if form.values['country'] != '' else None, \
+                    postcode = form.values['postcode'] if form.values['postcode'] != '' else None,\
+                    city = form.values['city'] if form.values['city'] != '' else None, \
+                    street = form.values['street'] if form.values['street'] != '' else None,\
+                    number = form.values['streetnumber'] if form.values['streetnumber'] != '' else None)
                 place.save()
             else:
                 place = Place()
@@ -703,6 +703,7 @@ def create_offer_demand(request):
                     pin_proposer = form.values['pin_selected']
                     pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
+                demander = entity
                 if not form.values['pin_selected'] == "None":
                     pin_demander = form.values['pin_selected']
                     pin_demander = PIN.objects.get(id=pin_demander)
