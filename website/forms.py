@@ -7,20 +7,22 @@ from django.conf import settings
 from django.contrib.auth.models import User as DUser
 
 
-
-class FeedbackForm():
-
-    def __init__(self, request):
-        form = request.POST
-        self.colors = dict()
-        self.errorlist = dict()
-
-        self.rating = form.get('rating', "2")
-        self.rating = int(self.rating)
-        self.feedback = form.get('comments', '')
-        self.feedback_id = form.get('feedback_id', 0)
-        self.is_proposer = form.get('is_proposer', 0)
-
+
+
+class FeedbackForm():
+    def __init__(self, request):
+        form = request.POST
+        self.colors = dict()
+        self.errorlist = dict()
+
+        self.rating = form.get('rating', "2")
+        self.rating = int(self.rating)
+        self.feedback = form.get('comments', '')
+        self.feedback_id = form.get('feedback_id', 0)
+        self.is_proposer = form.get('is_proposer', 0)
+
+
+
 
 
 class SolidareForm():

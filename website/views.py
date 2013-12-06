@@ -12,7 +12,7 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
-from forms import MForm,RForm,SolidareForm, PForm
+from forms import MForm,RForm,SolidareForm, PForm, FeedbackForm
 from exceptions import *
 from website.models import *
 
@@ -380,9 +380,24 @@ def add_pins(request):
 def account(request):
     if request.method == 'POST':
         suppress = request.POST.get('suppress')
-        if not suppress == None:
+        if not suppress == None:            
+            print('!!!!!!!!!!!!!! suppress !!!!!!!!!!!!!!!!')
             to_suppress = SavedSearch.objects.get(id=suppress)
             to_suppress.delete()
+        feedback = request.POST.get('feedback')
+        if not feedback == None:
+            form = FeedbackForm(request)
+            feedback_to_fill = Feedback.objects.get(id = form.feedback_id)
+            if  form.is_proposer == '1':
+                feedback_to_fill.rating_proposer = form.rating
+                feedback_to_fill.feedback_proposer = form.feedback
+            else :                
+                feedback_to_fill.rating_demander = form.rating
+                feedback_to_fill.feedback_demander = form.feedback
+            feedback_to_fill.save()
+            print('!!!!!!!!!!!!!! feedback !!!!!!!!!!!!!!!!', form.feedback, form.feedback_id, form.is_proposer=='1')
+            
+        
 
     req_id = request.REQUEST.get('req_id')
     candid_id = request.REQUEST.get('candid_id')
@@ -463,9 +478,7 @@ def account(request):
                                'request_subject' : f_subject,
                                'request_place' : f_place,
                                "request_date" : f_date,
-
                                 'is_proposer': 0,
-
                                 'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
         for feedback in needed_feedback[1]:
@@ -483,9 +496,7 @@ def account(request):
                                'request_subject' : f_subject,
                                 'request_place' : f_place,
                                "request_date" : f_date,
-
                                 'is_proposer': 1,
-
                                 'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
     
@@ -673,11 +684,11 @@ def create_offer_demand(request):
             if form.values['country'] or form.values['postcode'] or\
                 form.values['city'] or form.values['street'] or\
                 form.values['streetnumber']:
-                place = Place(country = form.values['country'], \
-                    postcode = form.values['postcode'],\
-                    city = form.values['city'], \
-                    street = form.values['street'],\
-                    number = form.values['streetnumber'])
+                place = Place(country = form.values['country'] if form.values['country'] != '' else None, \
+                    postcode = form.values['postcode'] if form.values['postcode'] != '' else None,\
+                    city = form.values['city'] if form.values['city'] != '' else None, \
+                    street = form.values['street'] if form.values['street'] != '' else None,\
+                    number = form.values['streetnumber'] if form.values['streetnumber'] != '' else None)
                 place.save()
             else:
                 place = Place()
@@ -711,6 +722,7 @@ def create_offer_demand(request):
                     pin_proposer = form.values['pin_selected']
                     pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
+                demander = entity
                 if not form.values['pin_selected'] == "None":
                     pin_demander = form.values['pin_selected']
                     pin_demander = PIN.objects.get(id=pin_demander)
@@ -1249,7 +1261,7 @@ def modify_user(request, form):
     dusr = DUser.objects.get(username=request.user)
     dusr.username = form.user_name
     dusr.email = form.email
-    dusr.passwd = form.passwd
+    dusr.set_password(form.passwd)
     dusr.first_name = form.first_name
     dusr.last_name = form.name
 
@@ -1287,9 +1299,10 @@ def modify_organisation(request, form):
     dusr = DUser.objects.get(username=request.user)
     dusr.username = form.user_name
     dusr.email = form.email
-    dusr.passwd = form.passwd
+    dusr.set_password(form.passwd)
     dusr.first_name = form.first_name
     dusr.last_name = form.name
+
 
     # AssociationUser modify
     ausr = AssociationUser.objects.get(dj_user=dusr)
@@ -1311,7 +1324,6 @@ def modify_organisation(request, form):
                           request.FILES.get('org_pic'),
                           save=False)
 
-    print(assoc.description)
 
     # Save all in DB
     dusr.save()
@@ -1319,7 +1331,6 @@ def modify_organisation(request, form):
     ausr.entity = assoc
     ausr.save()
 
-    print(ausr.picture)
     # Relog in
     Dlogout(request)
     usr = authenticate(username=form.user_name, password=form.passwd)
