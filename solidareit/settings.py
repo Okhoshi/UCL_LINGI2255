@@ -144,6 +144,10 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'llncampusteam@gmail.com'
 EMAIL_HOST_PASSWORD = 'androideclipse'
 
+PROJECT_APPS=(
+    'website',
+)
+
 JENKINS_TASKS = (
     'django_jenkins.tasks.with_coverage',
     'django_jenkins.tasks.run_pylint',
