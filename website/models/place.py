@@ -10,7 +10,7 @@ class Place(models.Model):
     city = models.CharField(max_length=128, null=True, blank=True)
     postcode = models.CharField(max_length=16, null=True, blank=True)
     street = models.CharField(max_length=256, null=True, blank=True)
-    number = models.IntegerField(default=0, null=True, blank=True)
+    number = models.IntegerField(null=True, blank=True)
 
     class Meta:
         app_label = 'website'
@@ -18,7 +18,7 @@ class Place(models.Model):
     def __unicode__(self):
         result = []
         
-        if str(self.number):
+        if self.number:
             result.append(str(self.number))
         if self.street:
             result.append(self.street)
@@ -29,4 +29,7 @@ class Place(models.Model):
         if self.country:
             result.append(self.country)
 
-        return ', '.join(result)
+        if result:
+            return ', '.join(result)
+        else:
+            return 'Not specified'
