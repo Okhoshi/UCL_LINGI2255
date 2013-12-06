@@ -95,7 +95,7 @@
 
 					<td>
 						{% if elem.2 %}
-							<form action="/profile/" method="POST">
+							<form action="{% url 'profile' %}" method="POST">
                         	{% csrf_token %}
                         	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
                         	{{ elem.2 }}
@@ -106,7 +106,7 @@
                    	 		/
                    	 	{% endif %}					
 					</td>
-					<td>{{ elem.3 }}</td>		
+					<td>{{ elem.3|date:"D, d N Y" }}</td>		
 		
 				</tr>
 				{% endfor %}
@@ -135,7 +135,7 @@
 					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
 					<td>
 						{% if elem.1 %}
-							<form action="/profile/" method="POST">
+							<form action="{% url 'profile' %}" method="POST">
                         	{% csrf_token %}
                         	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
                         	{{ elem.1 }}
@@ -146,7 +146,7 @@
                    	 		/
                    	 	{% endif %}					
 					</td>
-					<td>{{ elem.3 }}</td>				
+					<td>{{ elem.3|date:"D, d N Y" }}</td>				
 				</tr>
 				{% endfor %}
 
@@ -182,7 +182,7 @@
 					</td>
 					<td>
 					{% if elem.3 %}
-						<form action="/profile/" method="POST">
+						<form action="{% url 'profile' %}" method="POST">
                        	{% csrf_token %}
 	                       	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
 	                       	{{ elem.4 }}
@@ -190,7 +190,7 @@
 	                       	<input name="profile_id" value="{{ elem.0.demander.id }}" type="hidden" readonly/>
                  	 	</form>
 					{% else %}
-						<form action="/profile/" method="POST">
+						<form action="{% url 'profile' %}" method="POST">
                         	{% csrf_token %}
                         	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
                         	{{ elem.4 }}
@@ -199,7 +199,7 @@
                    	 	</form>
 					{% endif %}
 					</td>
-					<td>{{ elem.5 }}</td>			
+					<td>{{ elem.5|date:"D, d N Y" }}</td>			
 				</tr>
 				{% endfor %}
 			</table>
@@ -226,7 +226,7 @@
 					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0.name }}</td>
 					<td>
 					{% if elem.5 %}
-						<form action="/profile/" method="POST">
+						<form action="{% url 'profile' %}" method="POST">
                        	{% csrf_token %}
 	                       	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
 	                       	{{ elem.3 }}
@@ -234,7 +234,7 @@
 	                       	<input name="profile_id" value="{{ elem.0.demander.id }}" type="hidden" readonly/>
                  	 	</form>
 					{% else %}
-						<form action="/profile/" method="POST">
+						<form action="{% url 'profile' %}" method="POST">
                         	{% csrf_token %}
                         	<button type="submit" style="padding-left:0; background: transparent none; border: 0 none;">
                         	{{ elem.3 }}

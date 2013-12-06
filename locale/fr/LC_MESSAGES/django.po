@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-06 00:16+0000\n"
+"POT-Creation-Date: 2013-12-06 01:11+0000\n"
 "PO-Revision-Date: 2013-12-06 00:23+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,15 +99,15 @@ msgstr "Résumé"
 
 #: templates/account.html:133
 msgid "requests are waiting for a matching"
-msgstr "Requête en recherche de correspondance"
+msgstr "requête(s) en recherche de correspondance"
 
 #: templates/account.html:134
 msgid "requests are planed to be realised"
-msgstr "Les requêtes sont en attente de réalisation"
+msgstr "requête(s) en attente de réalisation"
 
 #: templates/account.html:135
 msgid "requests have been successfully realised"
-msgstr "Les requêtes ont été réalisées avec succès"
+msgstr "requête(s) réalisée(s) avec succès"
 
 #: templates/account.html:146
 msgid "Upcoming requests"
@@ -131,10 +131,10 @@ msgstr "Il y a des erreurs dans le formulaire :"
 #: templates/add_pins.html:45 templates/add_pins.html.py:47
 #: templates/add_representative.html:46 templates/add_representative.html:48
 #: templates/contact.html:77 templates/personnal_informations.html:16
-#: templates/personnal_informations.html:19 templates/profile.html:74
-#: templates/profile.html.py:115 templates/profile.html:154
-#: templates/profile.html.py:206 website/forms.py:130 website/forms.py:186
-#: website/forms.py:236
+#: templates/personnal_informations.html:19 templates/profile.html:87
+#: templates/profile.html.py:128 templates/profile.html:167
+#: templates/profile.html.py:219 website/forms.py:131 website/forms.py:187
+#: website/forms.py:237
 msgid "Name"
 msgstr "Nom"
 
@@ -142,12 +142,12 @@ msgstr "Nom"
 #: templates/add_representative.html:53 templates/add_representative.html:55
 #: templates/contact.html:89 templates/contact.html.py:93
 #: templates/personnal_informations.html:27
-#: templates/personnal_informations.html:31 website/forms.py:139
-#: website/forms.py:195 website/forms.py:244
+#: templates/personnal_informations.html:31 website/forms.py:140
+#: website/forms.py:196 website/forms.py:245
 msgid "First name"
 msgstr "Prénom"
 
-#: templates/add_pins.html:59 website/forms.py:204
+#: templates/add_pins.html:59 website/forms.py:205
 msgid "Managed by"
 msgstr "Géré par"
 
@@ -163,7 +163,7 @@ msgstr "Rajouter un membre"
 msgid "E-mail"
 msgstr "E-mail"
 
-#: templates/add_representative.html:67 website/forms.py:156
+#: templates/add_representative.html:67 website/forms.py:157
 msgid "Level"
 msgstr "Niveau"
 
@@ -182,36 +182,36 @@ msgid "Add members"
 msgstr "Membres"
 
 #: templates/address.html:7 templates/contact.html:113
-#: templates/create.html:65
+#: templates/create.html:81
 msgid "Address"
 msgstr "Adresse"
 
 #: templates/address.html:9 templates/contact.html:116
-#: templates/create.html:67 website/forms.py:301
+#: templates/create.html:83 website/forms.py:302
 msgid "Street"
 msgstr "Rue"
 
 #: templates/address.html:13 templates/contact.html:122
-#: templates/create.html:71
+#: templates/create.html:87
 msgid "N°"
 msgstr "N°"
 
 #: templates/address.html:19 templates/address.html.py:21
 #: templates/contact.html:130 templates/contact.html.py:133
-#: templates/create.html:77 templates/create.html.py:79 website/forms.py:60
-#: website/forms.py:315
+#: templates/create.html:93 templates/create.html.py:95 website/forms.py:61
+#: website/forms.py:316
 msgid "City"
 msgstr "Ville"
 
 #: templates/address.html:25 templates/contact.html:139
-#: templates/create.html:83
+#: templates/create.html:99
 msgid "Post code"
 msgstr "Code postal"
 
 #: templates/address.html:31 templates/address.html.py:33
 #: templates/contact.html:147 templates/contact.html.py:150
-#: templates/create.html:89 templates/create.html.py:91 website/forms.py:65
-#: website/forms.py:322
+#: templates/create.html:105 templates/create.html.py:107 website/forms.py:66
+#: website/forms.py:323
 msgid "Country"
 msgstr "Pays"
 
@@ -623,86 +623,94 @@ msgstr "Dernières offres et demandes"
 msgid "Person"
 msgstr "Personne"
 
-#: templates/create.html:44 templates/search.html:65
-#: templates/search_match.html:9 website/forms.py:36
+#: templates/create.html:45
+msgid "For PIN ?"
+msgstr ""
+
+#: templates/create.html:49
+msgid "None"
+msgstr ""
+
+#: templates/create.html:60 templates/search.html:65
+#: templates/search_match.html:9 website/forms.py:37
 msgid "Type"
 msgstr "Type"
 
-#: templates/create.html:49
+#: templates/create.html:65
 msgid "Offer"
 msgstr "Offre"
 
-#: templates/create.html:55 website/tests.py:532 website/models/request.py:94
+#: templates/create.html:71 website/tests.py:532 website/models/request.py:94
 msgid "Demand"
 msgstr "Demande"
 
-#: templates/create.html:97
+#: templates/create.html:113
 msgid "When ?"
 msgstr "Quand ?"
 
-#: templates/create.html:100 templates/personnal_informations.html:41
+#: templates/create.html:116 templates/personnal_informations.html:41
 msgid "yyyy-mm-dd"
 msgstr "AAAA-MM-JJ"
 
-#: templates/create.html:109
+#: templates/create.html:125
 msgid "What ?"
 msgstr "Quoi ?"
 
-#: templates/create.html:124
+#: templates/create.html:140
 msgid "Apply filters"
 msgstr "Appliquer des filtres"
 
-#: templates/create.html:133 templates/profile.html:34 website/forms.py:81
+#: templates/create.html:149 templates/profile.html:46 website/forms.py:82
 #, fuzzy
 msgid "Verified"
 msgstr "Vérifié"
 
-#: templates/create.html:138
+#: templates/create.html:154
 msgid "Only show to verified people"
 msgstr "Montrer seulement aux personnes vérifiées"
 
-#: templates/create.html:146 website/forms.py:86
+#: templates/create.html:162 website/forms.py:87
 msgid "Minimal rating"
 msgstr "Evaluation minimale"
 
-#: templates/create.html:151
+#: templates/create.html:167
 msgid "Only show to people with a minimal rating"
 msgstr "Montrer seulement aux personnes avec une évaluation minimale"
 
-#: templates/create.html:159 templates/personnal_informations.html:51
-#: templates/personnal_informations.html:55 website/forms.py:91
+#: templates/create.html:175 templates/personnal_informations.html:51
+#: templates/personnal_informations.html:55 website/forms.py:92
 #, fuzzy
 msgid "Gender"
 msgstr "Genre"
 
-#: templates/create.html:163 templates/personnal_informations.html:58
+#: templates/create.html:179 templates/personnal_informations.html:58
 #: templates/search.html:71
 #, fuzzy
 msgid "Unspecified"
 msgstr "Pas spécifié"
 
-#: templates/create.html:164 templates/personnal_informations.html:56
+#: templates/create.html:180 templates/personnal_informations.html:56
 msgid "Male"
 msgstr "Homme"
 
-#: templates/create.html:165 templates/personnal_informations.html:57
+#: templates/create.html:181 templates/personnal_informations.html:57
 msgid "Female"
 msgstr "Femme"
 
-#: templates/create.html:172
+#: templates/create.html:188
 msgid "Age"
 msgstr "Âge"
 
-#: templates/create.html:174 website/forms.py:96
+#: templates/create.html:190 website/forms.py:97
 msgid "Minimal age"
 msgstr "Âge minimal"
 
-#: templates/create.html:177 website/forms.py:101
+#: templates/create.html:193 website/forms.py:102
 msgid "Maximal age"
 msgstr "Âge maximal"
 
-#: templates/create.html:185 templates/organisation_informations.html:41
-#: website/forms.py:42
+#: templates/create.html:201 templates/organisation_informations.html:41
+#: website/forms.py:43
 msgid "Description"
 msgstr "Description"
 
@@ -891,8 +899,8 @@ msgid "Username"
 msgstr "Nom d'utilisateur"
 
 #: templates/login.html:31 templates/personnal_informations.html:87
-#: templates/personnal_informations.html:90 website/forms.py:290
-#: website/forms.py:292
+#: templates/personnal_informations.html:90 website/forms.py:291
+#: website/forms.py:293
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -917,7 +925,7 @@ msgid "I want to create an account for the organisation I represent."
 msgstr "Je veux créer un compte pour une organisation que je représente"
 
 #: templates/login.html:60 templates/organisation_informations.html:12
-#: templates/register.html:27
+#: templates/profile.html:48 templates/register.html:27
 msgid "Organisation"
 msgstr "Organisation"
 
@@ -953,12 +961,12 @@ msgstr "Vous n'avez pas encore de messages dans votre boîtes aux lettres"
 msgid "Request summary"
 msgstr "Résumé"
 
-#: templates/new_feedback.html:22 templates/profile.html:116
+#: templates/new_feedback.html:22 templates/profile.html:129
 #: templates/request_details.html:22
 msgid "Proposer"
 msgstr "Proposeur"
 
-#: templates/new_feedback.html:23 templates/profile.html:75
+#: templates/new_feedback.html:23 templates/profile.html:88
 #: templates/request_details.html:24
 msgid "Demander"
 msgstr "Demandeur"
@@ -972,8 +980,8 @@ msgstr "Catégorie"
 msgid "What"
 msgstr "Quoi ?"
 
-#: templates/new_feedback.html:26 templates/search.html:67
-#: templates/search_match.html:11
+#: templates/new_feedback.html:26 templates/request_details.html:29
+#: templates/search.html:67 templates/search_match.html:11
 msgid "Place"
 msgstr "Lieu"
 
@@ -1120,18 +1128,18 @@ msgstr "Logo de l'organisation"
 msgid "Photos"
 msgstr "Photos"
 
-#: templates/personnal_informations.html:39 website/forms.py:252
+#: templates/personnal_informations.html:39 website/forms.py:253
 msgid "Birthdate"
 msgstr "Date d'anniversaire"
 
 #: templates/personnal_informations.html:69
-#: templates/personnal_informations.html:73 website/forms.py:264
-#: website/forms.py:270
+#: templates/personnal_informations.html:73 website/forms.py:265
+#: website/forms.py:271
 msgid "User name"
 msgstr "Nom d'utilisateur"
 
-#: templates/personnal_informations.html:81 website/forms.py:148
-#: website/forms.py:279
+#: templates/personnal_informations.html:81 website/forms.py:149
+#: website/forms.py:280
 #, fuzzy
 msgid "Email"
 msgstr "Email"
@@ -1148,56 +1156,66 @@ msgstr "Confirmer le mot de passe"
 msgid "Members"
 msgstr "Membres"
 
-#: templates/profile.html:27
+#: templates/profile.html:29
 #, fuzzy
 msgid "Follow"
 msgstr "Personnes suivies"
 
-#: templates/profile.html:37
+#: templates/profile.html:33
+#, fuzzy
+msgid "Unfollow"
+msgstr "Personnes suivies"
+
+#: templates/profile.html:50
+#, fuzzy
+msgid "Not verified"
+msgstr "Pas spécifié"
+
+#: templates/profile.html:59
 msgid "of positive evaluations."
 msgstr "d'évaluation positive"
 
-#: templates/profile.html:37
+#: templates/profile.html:59
 #, fuzzy
 msgid "evaluations"
 msgstr "Résumé des évaluations"
 
-#: templates/profile.html:39
+#: templates/profile.html:61
 #, fuzzy
 msgid "No evaluations"
 msgstr "Pas d'évaluations"
 
-#: templates/profile.html:69
+#: templates/profile.html:82
 msgid "Current offers"
 msgstr "Offres courantes"
 
-#: templates/profile.html:76 templates/profile.html.py:117
-#: templates/profile.html:157 templates/request_details.html:28
-#: website/forms.py:49
+#: templates/profile.html:89 templates/profile.html.py:130
+#: templates/profile.html:170 templates/request_details.html:28
+#: website/forms.py:50
 msgid "Date"
 msgstr "Date"
 
-#: templates/profile.html:110
+#: templates/profile.html:123
 msgid "Current demands"
 msgstr "Demandes actuelles"
 
-#: templates/profile.html:149
+#: templates/profile.html:162
 msgid "History"
 msgstr "Historique"
 
-#: templates/profile.html:155
+#: templates/profile.html:168
 msgid "Action"
 msgstr "Action"
 
-#: templates/profile.html:156 templates/profile.html.py:207
+#: templates/profile.html:169 templates/profile.html.py:220
 msgid "With"
 msgstr "Avec"
 
-#: templates/profile.html:201
+#: templates/profile.html:214
 msgid "Evaluations summary"
 msgstr "Résumé des évaluations"
 
-#: templates/profile.html:208
+#: templates/profile.html:221
 #, fuzzy
 msgid "Evaluation"
 msgstr "Résumé des évaluations"
@@ -1259,123 +1277,123 @@ msgstr "Pas de correspondances trouvées"
 msgid "Matching Request"
 msgstr "Requête correspondante"
 
-#: website/forms.py:36
+#: website/forms.py:37
 #, fuzzy
 msgid "The type can only be an offer or a demand"
 msgstr "Dernières offres et demandes"
 
-#: website/forms.py:42
+#: website/forms.py:43
 msgid "The description is mandatory"
 msgstr "La description est obligatoire"
 
-#: website/forms.py:49
+#: website/forms.py:50
 #, fuzzy
 msgid "The date"
 msgstr "Le ville"
 
-#: website/forms.py:49
+#: website/forms.py:50
 msgid "format must be YYYY-MM-DD"
 msgstr "le format doit être AAAA-MM-JJ"
 
-#: website/forms.py:55 website/forms.py:308
+#: website/forms.py:56 website/forms.py:309
 #, fuzzy
 msgid "Street number"
 msgstr "Le numéro de la rue"
 
-#: website/forms.py:55 website/forms.py:308
+#: website/forms.py:56 website/forms.py:309
 msgid "The street number"
 msgstr "Le numéro de la rue"
 
-#: website/forms.py:55 website/forms.py:308
+#: website/forms.py:56 website/forms.py:309
 msgid "is a number composed of 1 to 5 digits"
 msgstr "est un nombre composé de 1 à 5 chiffres"
 
-#: website/forms.py:60 website/forms.py:315
+#: website/forms.py:61 website/forms.py:316
 msgid "The city"
 msgstr "Le ville"
 
-#: website/forms.py:60 website/forms.py:65 website/forms.py:315
-#: website/forms.py:322 website/forms.py:341
+#: website/forms.py:61 website/forms.py:66 website/forms.py:316
+#: website/forms.py:323 website/forms.py:342
 msgid "can only contain alphanumeric characters or symbols"
 msgstr "peut seulement contenir des caractères alphanumériques ou des symboles"
 
-#: website/forms.py:65 website/forms.py:322
+#: website/forms.py:66 website/forms.py:323
 msgid "The country"
 msgstr "Le pays"
 
-#: website/forms.py:70 website/forms.py:329
+#: website/forms.py:71 website/forms.py:330
 #, fuzzy
 msgid "Postcode"
 msgstr "Code postal"
 
-#: website/forms.py:70 website/forms.py:329
+#: website/forms.py:71 website/forms.py:330
 msgid "The post code"
 msgstr "Le code postal"
 
-#: website/forms.py:70 website/forms.py:329
+#: website/forms.py:71 website/forms.py:330
 msgid "is a number composed of 1 to 9 digits"
 msgstr "est un nombre composé de 1 à 9 chiffres"
 
-#: website/forms.py:76
+#: website/forms.py:77
 #, fuzzy
 msgid "Filter"
 msgstr "filtré"
 
-#: website/forms.py:76 website/forms.py:81 website/forms.py:86
+#: website/forms.py:77 website/forms.py:82 website/forms.py:87
 msgid "This value is either ON or OFF"
 msgstr "Cette valeur est soit ON soit OFF"
 
-#: website/forms.py:91
+#: website/forms.py:92
 msgid "This value is either 'Male', 'Female' or 'Unspecified'"
 msgstr "Cette valeur est soit 'Homme', soit 'Femme', soit 'Unspecified'"
 
-#: website/forms.py:96 website/forms.py:101
+#: website/forms.py:97 website/forms.py:102
 #, fuzzy
 msgid "This value is a number composed of 1 to 3 digits"
 msgstr "est un nombre composé de 1 à 5 chiffres"
 
-#: website/forms.py:130 website/forms.py:139 website/forms.py:186
-#: website/forms.py:195 website/forms.py:236 website/forms.py:244
+#: website/forms.py:131 website/forms.py:140 website/forms.py:187
+#: website/forms.py:196 website/forms.py:237 website/forms.py:245
 msgid "This field can only contain uppercase and lowercase letters"
 msgstr "Ce champ peut seulement contenir des lettres majuscules et minuscules"
 
-#: website/forms.py:148 website/forms.py:279
+#: website/forms.py:149 website/forms.py:280
 msgid "Insert a valid email"
 msgstr "Insérer une adresse email valide"
 
-#: website/forms.py:156
+#: website/forms.py:157
 msgid "The level should be a number"
 msgstr "Le niveau doit être un nombre"
 
-#: website/forms.py:204
+#: website/forms.py:205
 msgid "must be an existing association user"
 msgstr "doit être un membre d'association existant"
 
-#: website/forms.py:226
+#: website/forms.py:227
 msgid "Captcha"
 msgstr "Captcha"
 
-#: website/forms.py:226
+#: website/forms.py:227
 msgid "The captcha is invalid"
 msgstr "La captcha est invalide"
 
-#: website/forms.py:252
+#: website/forms.py:253
 msgid "The birthdate format must be YYYY-MM-DD"
 msgstr "Le format de la date de naissance doit être AAAA-MM-JJ"
 
-#: website/forms.py:264
+#: website/forms.py:265
 msgid "This username is already used"
 msgstr "Ce nom d'utilisateur est déjà utilisé"
 
-#: website/forms.py:270
+#: website/forms.py:271
 msgid "The username must be between 3 and 15 characters"
 msgstr "Le username doit contenir entre 3 et 15 charactères"
 
-#: website/forms.py:290
+#: website/forms.py:291
 msgid "The password and the confirmation must be the same."
 msgstr "Le mot de passe et la confirmation doivent être les mêmes."
 
-#: website/forms.py:292
+#: website/forms.py:293
 msgid ""
 "The password must be between 4 and 20 characters and only contain "
 "alphanumeric characters and the ',;:=?./+-_)('"
@@ -1383,63 +1401,63 @@ msgstr ""
 "Le mot de passe doit contenir entre 4 et 20 caractères et peut seulement "
 "contenir de caractères alphanumériques et les symboles ',;:=?./+-_)('"
 
-#: website/forms.py:301
+#: website/forms.py:302
 msgid "This street"
 msgstr "Cette rue"
 
-#: website/forms.py:301
+#: website/forms.py:302
 msgid "can only contain alphanumeric characters"
 msgstr "peut seulement contenir des caractères alphanumériques"
 
-#: website/forms.py:341
+#: website/forms.py:342
 #, fuzzy
 msgid "Organisation name"
 msgstr "Le nom de l'organisation"
 
-#: website/forms.py:341
+#: website/forms.py:342
 msgid "The organisation name"
 msgstr "Le nom de l'organisation"
 
-#: website/views.py:75
+#: website/views.py:74
 msgid "This account has been disabled. "
 msgstr "Ce compte a été désactivé"
 
-#: website/views.py:79
+#: website/views.py:78
 msgid "This username or password is not valid."
 msgstr "Ce nom d'utilisateur ou mot de passa est invalide"
 
-#: website/views.py:284
+#: website/views.py:283
 msgid "administrator"
 msgstr "administrateur"
 
-#: website/views.py:286
+#: website/views.py:285
 #, fuzzy
 msgid "member"
 msgstr "Membres"
 
-#: website/views.py:287
+#: website/views.py:286
 msgid " has successfully been added as "
 msgstr " a été ajouté avec succès en tant que "
 
-#: website/views.py:299 website/views.py:363
+#: website/views.py:298 website/views.py:361
 msgid "Dear "
 msgstr "Cher"
 
-#: website/views.py:300
+#: website/views.py:299
 msgid ""
 "This mail is sent to warn you that an account related to the association "
 msgstr ""
 "Ce mail vous est envoyé pour vous prévenir qu'un compte lié à l'association"
 
-#: website/views.py:301
+#: website/views.py:300
 msgid " has been created for you on Solidare-It.\n"
 msgstr " a été créé pour vous sur Solidare-It.\n"
 
-#: website/views.py:302
+#: website/views.py:301
 msgid "You can log in at http://"
 msgstr "Vous pouvez vous connecter sur http://"
 
-#: website/views.py:302
+#: website/views.py:301
 msgid ""
 "/login/ with the username and password that have been generated especially "
 "for you :\n"
@@ -1449,39 +1467,39 @@ msgstr ""
 "spécialement pour vous :\n"
 "\n"
 
-#: website/views.py:303
+#: website/views.py:302
 #, fuzzy
 msgid "Username : "
 msgstr "Nom d'utilisateur"
 
-#: website/views.py:304
+#: website/views.py:303
 #, fuzzy
 msgid "Password : "
 msgstr "Mot de passe"
 
-#: website/views.py:305
+#: website/views.py:304
 msgid "You possess the status of "
 msgstr "Vous possédez le statut de"
 
-#: website/views.py:306 website/views.py:367
+#: website/views.py:305 website/views.py:365
 msgid "The Solidare-It Team."
 msgstr "L'équipe Solidare-It."
 
-#: website/views.py:351
+#: website/views.py:349
 msgid " has successfully been added and managed by "
 msgstr " a été ajouté avec succès et est géré par "
 
-#: website/views.py:364
+#: website/views.py:362
 msgid "This mail is sent to warn you that a PIN related to the association "
 msgstr ""
 "Cet email vous est envoyé pour vous prévenir qu'un Membre Dans le Besoin lié "
 "à l'association"
 
-#: website/views.py:365
+#: website/views.py:363
 msgid " has been created on Solidare-It.\n"
 msgstr " a été créé sur Solidare-It.\n"
 
-#: website/views.py:366
+#: website/views.py:364
 msgid "Your new PIN client is "
 msgstr "Votre nouveau client MDB est"
 
@@ -1525,13 +1543,11 @@ msgstr "A: "
 msgid "Message: "
 msgstr "Message:"
 
-#: website/models/pin.py:20
-msgid "PIN first name: "
-msgstr "Prénom de la personne:"
+#~ msgid "PIN first name: "
+#~ msgstr "Prénom de la personne:"
 
-#: website/models/pin.py:20
-msgid "last name: "
-msgstr "Nom:"
+#~ msgid "last name: "
+#~ msgstr "Nom:"
 
 #, fuzzy
 #~ msgid " Password"
@@ -1583,9 +1599,6 @@ msgstr "Nom:"
 
 #~ msgid "Regularly"
 #~ msgstr "Régulierement"
-
-#~ msgid "Not specified"
-#~ msgstr "Pas spécifié"
 
 #~ msgid "Specify"
 #~ msgstr "Specifié"
