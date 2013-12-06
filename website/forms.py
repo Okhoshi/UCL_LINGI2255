@@ -368,3 +368,85 @@ class MForm(forms.Form):
             self.type = MForm.IND
             self.phone = form.get('phone', '')
             self.id_card = form.get('id_card', '')
+
+class CForm(forms.Form):
+    #Static variables
+    ORG = True
+    IND = False
+    SOLIDAREITCOLOR = '#e1007a'
+
+    def __init__(self, request, usr=DUser()):
+        form = request.POST
+        self.colors = dict()
+        self.errorlist = dict()
+        ### CAPTCHA ###
+        response = captcha.submit(form.get('recaptcha_challenge_field'),
+                                  form.get('recaptcha_response_field'),
+                                  settings.RECAPTCHA_PRIVATE_KEY,
+                                  request.META.get('REMOTE_ADDR'))
+        if not response.is_valid:
+            self.errorlist[_("Captcha")] = _("The captcha is invalid")
+
+        self.is_valid = response.is_valid
+
+        ### LAST NAME ###
+        if form.get('name', '') != '' and match(r"^[a-zA-Z ]*$", form.get('name', '')):
+            self.name = form.get('name', '')
+        else:
+            self.is_valid = False
+            self.colors['name_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Name")] = _("This field can only contain uppercase and lowercase letters")
+
+        ### FIRST NAME ###
+        if form.get('first_name', '') != '' and match(r"^[a-zA-Z ]*$", form.get('first_name', '')):
+            self.first_name = form.get('first_name', '')
+        else:
+            self.is_valid = False
+            self.colors['first_name_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("First name")] = _("This field can only contain uppercase and lowercase letters")
+
+
+        ### EMAIL ###
+        if form.get('email', '') != '' and match(r"[^@]+@[^@]+\.[^@]+", form.get('email', '')):
+            self.email = form.get('email', '')
+        else:
+            self.is_valid = False
+            self.colors['email_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Email")] = _("Insert a valid email")
+
+
+        ### ADDRESS ##
+        if form.get('street', '') != ''and match(r"^[a-zA-Z0-9 ',\.;]*$", form.get('street', '')):
+            self.street = form.get('street', '')
+        else:
+            self.is_valid = False
+            self.colors['street_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Street")] = _("This street") + " " +_("can only contain alphanumeric characters")
+
+        if form.get('streetnumber', '') != '' and match(r"^[0-9]{1,5}$", form.get('streetnumber', '')):
+            self.streetnumber = form.get('streetnumber', '')
+        else:
+            self.is_valid = False
+            self.colors['streetnumber_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Street number")] = _("The street number")+ " "+  _("is a number composed of 1 to 5 digits")
+
+        if form.get('city', '') != '' and match(r"^[a-zA-Z0-9 -_]*$", form.get('city', '')):
+            self.city = form.get('city', '')
+        else:
+            self.is_valid = False
+            self.colors['city_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("City")] = _("The city") + " " + _("can only contain alphanumeric characters or symbols")
+
+        if form.get('country', '') != '' and match(r"^[a-zA-Z0-9 -_]*$", form.get('country', '')):
+            self.country = form.get('country', '')
+        else:
+            self.is_valid = False
+            self.colors['country_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Country")] = _("The country") + " " + _("can only contain alphanumeric characters or symbols")
+
+        if form.get('postcode', '') != '' and match(r"^[0-9]{1,9}$", form.get('postcode', '')):
+            self.postcode = form.get('postcode', '')
+        else:
+            self.is_valid = False
+            self.colors['postcode_color'] = MForm.SOLIDAREITCOLOR
+            self.errorlist[_("Postcode")] = _("The post code") + " "+  _("is a number composed of 1 to 9 digits")
