@@ -33,11 +33,26 @@ def login_forbidden(function=None, redirect_field_name=None, redirect_to='accoun
 
 
 def home(request):
+    # Testimonies
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
-    return render(request, 'home.html', {'testimonies': testimonies})
+
+    # Latest requests
+    latest_requests = FilteredRequest.get_latest_requests(6)
+
+    latest_requests_tuples = []
+    for req in latest_requests:
+        latest_requests_tuples.append((req, \
+            profile_current_demands([req])[0][1],\
+            profile_current_offers([req])[0][1], \
+            profile_current_offers([req])[0][2]))
+
+    return render(request, 'home.html', {'testimonies': testimonies,
+                                         'latest_requests':latest_requests_tuples})
+
 
 def news(request):
     return render(request, 'news.html', {})
+
 
 @login_forbidden
 def login(request):
@@ -161,7 +176,7 @@ def edit_profile(request):
     type = request.GET.get('type', False)
     usr = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=usr.id).count()
-    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count()
     my_child = None
     if is_user:
         type = "1"
@@ -171,6 +186,8 @@ def edit_profile(request):
         my_child = AssociationUser.objects.get(dj_user=usr.id)
     else:
         type = "0"
+
+    edit = True
 
     if request.method == 'GET':
         pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -187,7 +204,8 @@ def edit_profile(request):
                                                                       'postcode':my_child.location.postcode, \
                                                                       'country':my_child.location.country, \
                                                                       'profile_pic':my_child.picture, \
-                                                                      'id_card':my_child.id_card})
+                                                                      'id_card':my_child.id_card,
+                                                                      'edit': edit})
         if is_association_user:
             assoc = my_child.entity
             return render(request, pages.get(type, 'register.html'), {'name':usr.last_name, \
@@ -204,7 +222,8 @@ def edit_profile(request):
                                                                       'profile_pic':my_child.picture, \
                                                                       'description':assoc.description,\
                                                                       'org_name':assoc.name, \
-                                                                      'org_pic':assoc.picture})
+                                                                      'org_pic':assoc.picture,
+                                                                      'edit':edit})
 
     elif request.method == 'POST':
         return analyse_request_edit(request, type, usr)
@@ -238,10 +257,12 @@ def add_representative(request):
                 first_name = row['first_name']
                 level = int(row['level'])
                 assoc = au.get_association()
+                birthdate = datetime.datetime.utcnow().replace(tzinfo=utc)
 
                 index = 2
+                base_username = username
                 while DUser.objects.filter(username = username).count() != 0:
-                    username = "%s%s" % (username,index)
+                    username = "%s%s" % (base_username,index)
                     index += 1
 
                 auser = AssociationUser.objects.create_user(
@@ -251,7 +272,8 @@ def add_representative(request):
                     level = level,
                     association = assoc,
                     last_name = last_name,
-                    first_name = first_name)
+                    first_name = first_name,
+                    birth_day = birthdate)
 
                 #######################################
                 ##### Success message on the page #####
@@ -368,6 +390,13 @@ def account(request):
         request_to_change.candidates = []
         request_to_change.save()
 
+    susp_req_id = request.REQUEST.get('susp_req_id')
+    if susp_req_id :
+        req_to_mod = Request.objects.get(id=susp_req_id)
+        req_to_mod.is_suspicious = True
+        req_to_mod.save()
+
+
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
@@ -418,7 +447,6 @@ def account(request):
         ## GET Pending
         req_candidates = []
         pending_objects = entity.get_all_requests().filter(state__exact=Request.PROPOSAL)
-        print(pending_objects)
         for elem in pending_objects:
             req_candidates_obj = list(elem.candidates.all().exclude(id__exact=entity.id))
             if req_candidates_obj:
@@ -560,6 +588,8 @@ def profile(request):
 def create_offer_demand(request):
     DEF_MIN_RATING = 2
     dictionnary = {}
+    usr = DUser.objects.get(username=request.user)
+    is_association_user = AssociationUser.objects.filter(dj_user__exact=usr.id).count()
     if request.method == 'POST':
         form = SolidareForm(request)
         dictionnary = form.values
@@ -597,10 +627,19 @@ def create_offer_demand(request):
             # Setting as demander or proposer
             proposer = None
             demander = None
+            pin_proposer = None
+            pin_demander = None
+
             if form.values['type'] == 'offer':
                 proposer = entity
+                if not form.values['pin_selected'] == "None":
+                    pin_proposer = form.values['pin_selected']
+                    pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
-                demander = entity
+                if not form.values['pin_selected'] == "None":
+                    pin_demander = form.values['pin_selected']
+                    pin_demander = PIN.objects.get(id=pin_demander)
+    
 
             req = None
             # Filtered Request
@@ -621,6 +660,8 @@ def create_offer_demand(request):
                     place = place,
                     proposer = proposer,
                     demander = demander,
+                    pin_proposer = pin_proposer,
+                    pin_demander = pin_demander,
                     state = Request.PROPOSAL)
                 req.only_verified = only_verified
                 req.min_rating = min_rating
@@ -640,7 +681,10 @@ def create_offer_demand(request):
                     place = place,
                     proposer = proposer,
                     demander = demander,
+                    pin_demander = pin_demander,
+                    pin_proposer = pin_proposer,
                     state = Request.PROPOSAL)
+                req.save()
 
             return redirect('account')
 
@@ -648,7 +692,10 @@ def create_offer_demand(request):
             dictionnary['errorlist'] = form.errorlist
             for key,value in form.colors.items():
                 dictionnary[key] = value
-
+    dictionnary['au'] = is_association_user
+    if is_association_user:
+        association_user = AssociationUser.objects.get(dj_user=usr.id)
+        dictionnary['pin'] = association_user.get_pin()
     return render(request, 'create.html', dictionnary)
 
 
@@ -728,13 +775,7 @@ def messages(request):
 
 
 @login_required
-def exchanges(request):
-    if request.method == 'POST':
-        req_id = request.POST.get('request_id')
-        req_to_mod = Request.objects.get(id=req_id)
-        req_to_mod.is_suspicious = True
-        req_to_mod.save()
-        
+def exchanges(request):   
 
 
 
@@ -820,9 +861,11 @@ def exchanges(request):
 def search(request):
     search_results = []
     usr = DUser.objects.get(username=request.user)
+    is_user = 0
 
     if User.is_user(usr.id):
         usr_entity = User.objects.get(dj_user=usr.id)
+        is_user = 1
     elif AssociationUser.is_assoc_user(usr.id):
         usr_entity = AssociationUser.objects.get(dj_user=usr.id).entity
     else:
@@ -840,28 +883,30 @@ def search(request):
             return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
         else:
-            search_object = SavedSearch(search_field=search_field, category="Jardin")
-            search_objects = usr_entity.search(search_object, 9)
+            search_object = SavedSearch(search_field=search_field)
+            search_objects = usr_entity.search(search_object, 20)
             searched = True
             for this_request in search_objects:
                 (req_initiator, req_type) = this_request.get_initiator()
                 # Need to know if it's a User or a Association
                 initiator_entity = sol_user(req_initiator)
-                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
     if request.method == 'GET':
         search_field = request.GET.get('id')
         if search_field:
-            search_object = SavedSearch(search_field=search_field, category="Jardin")
-            search_objects = usr_entity.search(search_object, 9)
+            search_object = SavedSearch(search_field=search_field)
+            search_objects = usr_entity.search(search_object, 20)
             searched = True
             for this_request in search_objects:
                 (req_initiator, req_type) = this_request.get_initiator()
                 # Need to know if it's a User or a Association
                 initiator_entity = sol_user(req_initiator)
-                search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
@@ -1064,6 +1109,7 @@ def sol_user(entity):
     else:
         return entity
 
+
 def analyse_request_edit(request, type, usr):
     form = MForm(request, usr=usr)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1084,6 +1130,7 @@ def analyse_request_edit(request, type, usr):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+
 def analyse_request(request, type):
     form = MForm(request)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1102,6 +1149,7 @@ def analyse_request(request, type):
         dictionaries['errorlist'] = form.errorlist
         print(form.type)
         return render(request, pages[type], dictionaries)
+
 
 def modify_user(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1139,6 +1187,7 @@ def modify_user(request, form):
     newusr = authenticate(username=form.user_name, password=form.passwd)
     Dlogin(request, newusr)
     return redirect('account')
+
 
 def modify_organisation(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1190,6 +1239,7 @@ def modify_organisation(request, form):
 
     return redirect('account')
 
+
 def create_new_user(request, form):
 
     p = Place(country=form.country, postcode=form.postcode,
@@ -1233,7 +1283,11 @@ def create_new_organisation(request, form):
                                                last_name=form.name,
                                                birth_day=form.birthdate,
                                                gender=form.gender)
+    print(user, user.dj_user, user.dj_user.is_active)
+    user.dj_user.is_active = False
+    user.dj_user.save()
 
+    print(user, user.dj_user, user.dj_user.is_active)
     if request.FILES.get('profile_pic') is not None:
         user.picture.save(request.FILES.get('profile_pic').name,
                           request.FILES.get('profile_pic'),
@@ -1244,8 +1298,8 @@ def create_new_organisation(request, form):
                           save=False)
     assoc.save()
     user.save()
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
+    #usr = authenticate(username=form.user_name, password=form.passwd)
+    #Dlogin(request, usr)
 
 
     return redirect('account')
@@ -1256,3 +1310,50 @@ def handle_uploaded_file(f, filename, path):
         with open(path+'_'+filename, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
+
+def search_filter_can_be_added(this_request, usr_entity, is_user):
+    """
+    Function that indicates if this_request can be broadcast to usr_entity
+    @param this_request: the request to know
+    @param usr_entity: the entity to know
+    @return: True is this_request can be shown to usr_entity, False otherwise
+    """
+    if not is_user:
+        # Don't try to manage with the Association: there are assumed to be verified
+        return True
+    if not FilteredRequest.objects.filter(request_ptr=this_request).count(): # If this_request is not a FilteredRequest
+        return True
+    freq = FilteredRequest.objects.get(request_ptr=this_request)
+    # First check the verified status
+    if freq.only_verified:
+        if not usr_entity.confirmed_status:
+            return False
+    # Then check the gender
+    if not freq.gender == User.UNSPECIFIED:
+        if not freq.gender == usr_entity.gender:
+            return False
+    # Now based on the rating
+    # Ok if at least 50% of satisfaction
+    if freq.min_rating:
+        rating = usr_entity.get_rating()
+        if sum(rating) == 0 or float(rating[1])/sum(rating) > 0.5:
+            return False
+    # Eventually, the Age Filters
+    age_filters = freq.get_age_filter()
+    if not age_filters:
+        # No filters, so ok
+        return True
+    age_usr = usr_entity.get_age()
+    for afilter in age_filters:
+        in_filter = True
+        if afilter.min_age:
+            if age_usr <= afilter.min_age:
+                in_filter = False
+        if in_filter and afilter.max_age:
+            if age_usr >= afilter.max_age:
+                in_filter = False
+        if in_filter:
+            return True
+    # No in the filters, so don't show it
+    return False

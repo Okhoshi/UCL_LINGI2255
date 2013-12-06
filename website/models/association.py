@@ -9,7 +9,7 @@ from website.models.entity import *
 from website.models.associationuser import *
 
 def pic_path(instance, filename):
-    return 'profile_pic/' + instance.__unicode__().__hash__()
+    return 'profile_pic/' + str(instance.__unicode__().__hash__()) + filename
 
 class Association(Entity):
     name = models.CharField(max_length=256)

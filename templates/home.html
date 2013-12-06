@@ -47,7 +47,7 @@
 	<div class="col-md-4 col-sm-6">
 		<h4 class="in_front">{% trans "The concept" %}</h4>
 		<div class="custom_homepage_blck">
-			<p>
+			<p style="text-align:justify">
 	            {% blocktrans %}
 	            <strong>Solidare-it!</strong> is an initiative that tries to enhance the solidarity and the exchange between
 	            citizens of all layers of society. From the name “Solidare-it !” we can distill the following things
@@ -63,7 +63,7 @@
 		<h4>{% trans "Testimonies" %}</h4>
 		<div class="custom_homepage_blck">
 			{%  for testimony in testimonies  %}
-			<blockquote>
+			<blockquote style="text-align:justify">
 				<p>{{ testimony.testimony }}</p>
 			</blockquote>
 	        {% endfor %}
@@ -76,7 +76,7 @@
 		<h4>&nbsp;</h4>
 		<div class="custom_homepage_blck">
 			<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-				<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
+				<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0&wmode=transparent" frameborder="0"></iframe>
 			</div>
 		</div>
 	</div>
@@ -92,7 +92,7 @@
 		<div class="custom_homepage_blck">
 			<div class="custom_homepage_blck">
 				<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-					<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
+					<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0&wmode=transparent" frameborder="0"></iframe>
 				</div>
 			</div>
 		</div>
@@ -102,8 +102,17 @@
 
 	<div class="col-md-4 col-sm-6">
 		<h4>{% trans "Latest offers and demands" %}</h4>
-		<div class="custom_homepage_blck">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+		<div class="custom_homepage_blck" style="overflow-x:hidden">
+			{% if latest_requests %}
+				<table class="table table-striped">
+				{% for elem in latest_requests %}
+					<tr>
+                    {% include 'request_details.html' %}
+					<td data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;padding:7px;">{{ elem.0.name|slice:":40" }}</td>
+				</tr>
+				{% endfor %}
+				</table>
+			{% endif %}
 		</div>
 	</div>
 
@@ -111,7 +120,7 @@
 		<h4>&nbsp;</h4>
 		<div class="custom_homepage_blck">
 			<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
-				<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0" frameborder="0"></iframe>
+				<iframe allowfullscreen="" src="//www.youtube.com/embed/Pw_zX2V8HqQ?rel=0&wmode=transparent" frameborder="0"></iframe>
 			</div>
 		</div>
 	</div>
@@ -124,14 +133,18 @@
 	<div class="col-md-4 col-sm-6">
 		<h4>{% trans "Calendar and news" %}</h4>
 		<div class="custom_homepage_blck">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+			<p style="font-style: italic; text-align: center;margin-top: 40px;">
+				{% trans 'Free space for the calendar and news section.' %}
+			</p>
 		</div>
 	</div>
 
 	<div class="col-md-4 col-sm-6">
 		<h4>{% trans "Challenge map" %}</h4>
 		<div class="custom_homepage_blck">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+			<p style="font-style: italic; text-align: center;margin-top: 40px;">
+				{% trans 'Free space for the challenge Map.' %}
+			</p>
 		</div>
 	</div>
 
@@ -140,7 +153,9 @@
 	<div class="col-md-4 col-sm-6">
 		<h4>{% trans "Download and share" %}</h4>
 		<div class="custom_homepage_blck">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tortor lectus, condimentum id justo non, viverra mollis diam. Maecenas porta bibendum semper. Sed ante dui, cursus pharetra dignissim nec, dictum id diam. Suspendisse tortor lacus, posuere at dolor placerat, dapibus mattis urna. Cras vulputate nibh sapien, ut faucibus libero blandit vulputate. Sed vitae velit a nibh porttitor volutpat.</p>
+			<p style="font-style: italic; text-align: center;margin-top: 40px;">
+				{% trans 'Free space for the download section.' %}
+			</p>
 		</div>
 	</div>
 </div> <!-- #home_content -->

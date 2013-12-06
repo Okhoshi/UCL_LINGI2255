@@ -27,14 +27,8 @@
                 
                 {% trans "Date" %} : {{ elem.0.date }} <br><br>
 
+                <a href="{% url 'account' %}?susp_req_id={{ elem.0.id }}" class="btn btn-default" ><i class="glyphicon glyphicon-warning-sign custom_alert"></i></a>
 
-                <form action="." method="POST">
-                    {% csrf_token %}
-                <input name="request_id" value="{{ elem.0.id }}" type="hidden" readonly/>
-                 <button type="submit" class="btn btn-default" style="position:absolute; right:20px">
-                     <span class="glyphicon glyphicon-warning-sign custom_alert"></span>
-                 </button>
-                </form>
                 
                
             </div>

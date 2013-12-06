@@ -5,8 +5,13 @@
 {% block breadcrumb %}
 <ol class="breadcrumb">
 	<li><a href="/">{% trans "Home" %}</a></li>
-	<li><a href="/register/">{% trans "Register" %}</a></li>
+    {% if edit %}
+	<li><a href="/account/">{% trans "Account" %}</a></li>
+    <li class="active">{% trans "Edit individual" %}</li>
+    {% else %}
+    <li><a href="/register/">{% trans "Register" %}</a></li>
 	<li class="active">{% trans "New individual" %}</li>
+    {% endif %}
 </ol>
 {% endblock %}
 
