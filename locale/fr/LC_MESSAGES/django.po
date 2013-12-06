@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SolidareIt1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 22:29+0000\n"
+"POT-Creation-Date: 2013-12-06 00:16+0000\n"
 "PO-Revision-Date: 2013-12-06 00:23+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,7 +117,7 @@ msgstr "Requêtes à venir"
 msgid "Following"
 msgstr "Personnes suivies"
 
-#: templates/add_pins.html:9 templates/add_pins.html.py:81
+#: templates/add_pins.html:9 templates/add_pins.html.py:80
 msgid "Add PINs"
 msgstr "Ajouter des PINs"
 
@@ -128,7 +128,8 @@ msgstr "Ajouter des PINs"
 msgid "There are errors in the form :"
 msgstr "Il y a des erreurs dans le formulaire :"
 
-#: templates/add_pins.html:45 templates/add_representative.html:46
+#: templates/add_pins.html:45 templates/add_pins.html.py:47
+#: templates/add_representative.html:46 templates/add_representative.html:48
 #: templates/contact.html:77 templates/personnal_informations.html:16
 #: templates/personnal_informations.html:19 templates/profile.html:74
 #: templates/profile.html.py:115 templates/profile.html:154
@@ -137,7 +138,8 @@ msgstr "Il y a des erreurs dans le formulaire :"
 msgid "Name"
 msgstr "Nom"
 
-#: templates/add_pins.html:52 templates/add_representative.html:53
+#: templates/add_pins.html:52 templates/add_pins.html.py:54
+#: templates/add_representative.html:53 templates/add_representative.html:55
 #: templates/contact.html:89 templates/contact.html.py:93
 #: templates/personnal_informations.html:27
 #: templates/personnal_informations.html:31 website/forms.py:139
@@ -149,7 +151,7 @@ msgstr "Prénom"
 msgid "Managed by"
 msgstr "Géré par"
 
-#: templates/add_pins.html:78 templates/add_representative.html:84
+#: templates/add_pins.html:77 templates/add_representative.html:84
 msgid "Add line"
 msgstr "Ajouter une ligne"
 
@@ -157,7 +159,7 @@ msgstr "Ajouter une ligne"
 msgid "Add a representative"
 msgstr "Rajouter un membre"
 
-#: templates/add_representative.html:60
+#: templates/add_representative.html:60 templates/add_representative.html:62
 msgid "E-mail"
 msgstr "E-mail"
 
@@ -168,7 +170,7 @@ msgstr "Niveau"
 #: templates/add_representative.html:70
 #, fuzzy
 msgid "Member"
-msgstr "Membres"
+msgstr "Membre"
 
 #: templates/add_representative.html:71
 msgid "Administrator"
@@ -653,7 +655,7 @@ msgstr "Appliquer des filtres"
 #: templates/create.html:133 templates/profile.html:34 website/forms.py:81
 #, fuzzy
 msgid "Verified"
-msgstr "Pas spécifié"
+msgstr "Vérifié"
 
 #: templates/create.html:138
 msgid "Only show to verified people"
@@ -671,7 +673,7 @@ msgstr "Montrer seulement aux personnes avec une évaluation minimale"
 #: templates/personnal_informations.html:55 website/forms.py:91
 #, fuzzy
 msgid "Gender"
-msgstr "Demandeur"
+msgstr "Genre"
 
 #: templates/create.html:163 templates/personnal_informations.html:58
 #: templates/search.html:71
@@ -833,7 +835,7 @@ msgstr "Espace libre pour la carte challenge."
 
 #: templates/home.html:154
 msgid "Download and share"
-msgstr "Téléchargé et partagé"
+msgstr "Télécharger et partager"
 
 #: templates/home.html:157
 msgid "Free space for the download section."
@@ -888,8 +890,9 @@ msgstr "Résumé des évaluations"
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: templates/login.html:31 templates/personnal_informations.html:90
-#: website/forms.py:290 website/forms.py:292
+#: templates/login.html:31 templates/personnal_informations.html:87
+#: templates/personnal_informations.html:90 website/forms.py:290
+#: website/forms.py:292
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -903,7 +906,7 @@ msgstr "Je suis un individu, je veux"
 
 #: templates/login.html:52 templates/register.html:17
 msgid "to create my personnal account."
-msgstr "Pour créer mon compte personnel "
+msgstr "créer mon compte personnel "
 
 #: templates/login.html:53 templates/register.html:18
 msgid "Individual"
@@ -917,6 +920,10 @@ msgstr "Je veux créer un compte pour une organisation que je représente"
 #: templates/register.html:27
 msgid "Organisation"
 msgstr "Organisation"
+
+#: templates/login.html:66 templates/new_feedback.html:60
+msgid "Cancel"
+msgstr "Annuler"
 
 #: templates/message_display.html:35
 msgid "There's no message to display here"
@@ -1000,10 +1007,6 @@ msgstr "Description"
 #: templates/new_feedback.html:58
 msgid "Save"
 msgstr "Sauvegarder"
-
-#: templates/new_feedback.html:60
-msgid "Cancel"
-msgstr "Annuler"
 
 #: templates/new_message.html:15
 msgid "The message could not be delivered"
@@ -1133,11 +1136,6 @@ msgstr "Nom d'utilisateur"
 msgid "Email"
 msgstr "Email"
 
-#: templates/personnal_informations.html:87
-#, fuzzy
-msgid " Password"
-msgstr "Mot de passe"
-
 #: templates/personnal_informations.html:95
 msgid "Confirmation"
 msgstr "Confirmation"
@@ -1167,7 +1165,7 @@ msgstr "Résumé des évaluations"
 #: templates/profile.html:39
 #, fuzzy
 msgid "No evaluations"
-msgstr "Résumé des évaluations"
+msgstr "Pas d'évaluations"
 
 #: templates/profile.html:69
 msgid "Current offers"
@@ -1339,7 +1337,7 @@ msgstr "est un nombre composé de 1 à 5 chiffres"
 #: website/forms.py:130 website/forms.py:139 website/forms.py:186
 #: website/forms.py:195 website/forms.py:236 website/forms.py:244
 msgid "This field can only contain uppercase and lowercase letters"
-msgstr "Ce champ peut seulement contenir the lettres majuscules et minuscules"
+msgstr "Ce champ peut seulement contenir des lettres majuscules et minuscules"
 
 #: website/forms.py:148 website/forms.py:279
 msgid "Insert a valid email"
@@ -1402,46 +1400,46 @@ msgstr "Le nom de l'organisation"
 msgid "The organisation name"
 msgstr "Le nom de l'organisation"
 
-#: website/views.py:74
+#: website/views.py:75
 msgid "This account has been disabled. "
 msgstr "Ce compte a été désactivé"
 
-#: website/views.py:78
+#: website/views.py:79
 msgid "This username or password is not valid."
 msgstr "Ce nom d'utilisateur ou mot de passa est invalide"
 
-#: website/views.py:283
+#: website/views.py:284
 msgid "administrator"
 msgstr "administrateur"
 
-#: website/views.py:285
+#: website/views.py:286
 #, fuzzy
 msgid "member"
 msgstr "Membres"
 
-#: website/views.py:286
+#: website/views.py:287
 msgid " has successfully been added as "
-msgstr " a été ajouté avec succès en tant que"
+msgstr " a été ajouté avec succès en tant que "
 
-#: website/views.py:298 website/views.py:362
+#: website/views.py:299 website/views.py:363
 msgid "Dear "
 msgstr "Cher"
 
-#: website/views.py:299
+#: website/views.py:300
 msgid ""
 "This mail is sent to warn you that an account related to the association "
 msgstr ""
 "Ce mail vous est envoyé pour vous prévenir qu'un compte lié à l'association"
 
-#: website/views.py:300
+#: website/views.py:301
 msgid " has been created for you on Solidare-It.\n"
 msgstr " a été créé pour vous sur Solidare-It.\n"
 
-#: website/views.py:301
+#: website/views.py:302
 msgid "You can log in at http://"
 msgstr "Vous pouvez vous connecter sur http://"
 
-#: website/views.py:301
+#: website/views.py:302
 msgid ""
 "/login/ with the username and password that have been generated especially "
 "for you :\n"
@@ -1451,39 +1449,39 @@ msgstr ""
 "spécialement pour vous :\n"
 "\n"
 
-#: website/views.py:302
+#: website/views.py:303
 #, fuzzy
 msgid "Username : "
 msgstr "Nom d'utilisateur"
 
-#: website/views.py:303
+#: website/views.py:304
 #, fuzzy
 msgid "Password : "
 msgstr "Mot de passe"
 
-#: website/views.py:304
+#: website/views.py:305
 msgid "You possess the status of "
 msgstr "Vous possédez le statut de"
 
-#: website/views.py:305 website/views.py:366
+#: website/views.py:306 website/views.py:367
 msgid "The Solidare-It Team."
 msgstr "L'équipe Solidare-It."
 
-#: website/views.py:350
+#: website/views.py:351
 msgid " has successfully been added and managed by "
-msgstr " a été ajouté avec succès et géré par"
+msgstr " a été ajouté avec succès et est géré par "
 
-#: website/views.py:363
+#: website/views.py:364
 msgid "This mail is sent to warn you that a PIN related to the association "
 msgstr ""
 "Cet email vous est envoyé pour vous prévenir qu'un Membre Dans le Besoin lié "
 "à l'association"
 
-#: website/views.py:364
+#: website/views.py:365
 msgid " has been created on Solidare-It.\n"
 msgstr " a été créé sur Solidare-It.\n"
 
-#: website/views.py:365
+#: website/views.py:366
 msgid "Your new PIN client is "
 msgstr "Votre nouveau client MDB est"
 
@@ -1534,6 +1532,10 @@ msgstr "Prénom de la personne:"
 #: website/models/pin.py:20
 msgid "last name: "
 msgstr "Nom:"
+
+#, fuzzy
+#~ msgid " Password"
+#~ msgstr "Mot de passe"
 
 #~ msgid "Saved matches"
 #~ msgstr "Résultats sauvegardés"
