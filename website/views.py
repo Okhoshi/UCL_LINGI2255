@@ -12,7 +12,7 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
-from forms import MForm,RForm,SolidareForm, PForm, FeedbackForm
+from forms import MForm,RForm,SolidareForm, PForm, CForm, FeedbackForm
 from exceptions import *
 from website.models import *
 
@@ -90,14 +90,17 @@ def faq(request):
 
 def contact(request):
     if request.method == 'POST':
-        form = MForm(request)
+        form = CForm(request)
         if form.is_valid:
             user = settings.EMAIL_HOST_USER
             pwd = settings.EMAIL_HOST_PASSWORD
-            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
-                     'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
-                     'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+
             data = request.POST.dict()
+            user = settings.EMAIL_HOST_USER
+            admin = ['quentin.deconinck@student.uclouvain.be', 'romain.vanwelde@student.uclouvain.be',
+                 'q.devos@student.uclouvain.be', 'martin.crochelet@student.uclouvain.be',
+                 'benjamin.baugnies@student.uclouvain.be', 'jordan.demeulenaere@student.uclouvain.be']
+            obj = "Solidare-It Contact "
             message = "Comment or request from " + data.get('title') + ". "+ data.get('name') + " " +\
                       data.get('first_name') + "\n \n"
             message += "Address of the user : " + data.get('street') + ", " + data.get('streetnumber') + " " +\
@@ -105,7 +108,9 @@ def contact(request):
             message += "Email of the user : " + data.get('email') + "\n \n"
             message += "Comments  : \n" + data.get('comments')
 
-            send_mail('Solidare-It Contact', message, user, admin, fail_silently=False)
+
+            send_mail(obj, message, user, admin, fail_silently=False)
+
 
             return render(request, 'contact.html', {'request_done': True})
         else:
