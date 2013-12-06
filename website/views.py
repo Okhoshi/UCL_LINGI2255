@@ -523,21 +523,22 @@ def account(request):
                     i += 1
 
         ## GET Pending
-        req_candidates = []
+        
         pending_objects = entity.get_all_requests().filter(state__exact=Request.PROPOSAL)
         for elem in pending_objects:
+            req_candidates = []
             req_candidates_obj = list(elem.candidates.all().exclude(id__exact=entity.id))
             if req_candidates_obj:
                 for candid in req_candidates_obj:      
                     req_candidates.append(sol_user(candid))            
-                a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], req_candidates)
+                a = (elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], req_candidates)
                 pending.append(a)                   
     
         ## GET UPCOMING REQUESTS
         upcoming_requests = []
         upcoming_objects = entity.get_current_requests()
         for elem in upcoming_objects:
-            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+            a = (elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
             upcoming_requests.append(a)   
 
 
