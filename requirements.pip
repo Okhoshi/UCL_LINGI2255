@@ -1,4 +1,4 @@
-distribute
+distribute=0.7.3
 django
 -e git://github.com/kmmbvnr/django-jenkins.git@625eb6c9ee09ffc5b5a87ad29356ec72960637dc#egg=django_jenkins-master
 recaptcha-client
