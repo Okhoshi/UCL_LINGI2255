@@ -461,7 +461,9 @@ def account(request):
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
                                'request_place' : f_place,
-                               "request_date" : f_date}
+                               "request_date" : f_date,
+                                'is_proposer': 0,
+                                'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
         for feedback in needed_feedback[1]:
             if feedback.rating_proposer == 0:
@@ -476,8 +478,10 @@ def account(request):
                                'demander' : f_demander,
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
-                               'request_place' : f_place,
-                               "request_date" : f_date}
+                                'request_place' : f_place,
+                               "request_date" : f_date,
+                                'is_proposer': 1,
+                                'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
     
             

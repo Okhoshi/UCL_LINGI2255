@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 <!-- Modal -->
-<div class="modal fade" id="ID{{ elem.1.0.id }}" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
+<div class="modal fade" id="ID{{ elem.0.id }}" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
     <div class="modal-dialog modal_custom">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,6 +30,10 @@
                         </div>
                      </div>
 
+					<input type="hidden" name="feedback_id" value="{{ elem.1.feed_ID }}">
+
+					<input type="hidden" name="is_proposer" value="{{ elem.1.is_proposer }}">
+
                     <!-- RATING -->
                     <div class="panel-heading">
                         <h3 class="panel-title">{% trans "Rating" %}</h3>
@@ -55,7 +59,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">{% trans "Save" %}</button>
+                    <button type="submit" class="btn btn-success" data-dismiss="modal">{% trans "Save" %}</button>
 
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
                 </div>
