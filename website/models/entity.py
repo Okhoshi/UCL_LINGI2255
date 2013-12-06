@@ -156,12 +156,13 @@ class Entity(models.Model):
         searchfield = savedsearch.search_field.split(' ')
         
         requests = Request.objects.filter(state__exact = \
-            Request.PROPOSAL).filter(~Q(proposer__exact=self), ~Q(demander__exact=self))
+            Request.PROPOSAL).filter(~Q(proposer__exact=self), ~Q(demander__exact=self), ~Q(candidates__exact=self))
         if category_filter:
             requests = requests.filter(category__exact = \
             savedsearch.category)
         requests = requests.filter(reduce(lambda x, y: x | y,\
                 [Q(name__icontains=word) for word in searchfield]))
+
         
    
         relevance = []

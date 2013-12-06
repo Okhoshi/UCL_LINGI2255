@@ -420,16 +420,18 @@ def account(request):
         if finish_req:
             finish_req = Request.objects.get(id=finish_req)
             if entity.id == finish_req.demander.id or entity.id == finish_req.proposer.id :
-                finish_req.state = Request.DONE
-                finish_req.save()
-                new_feedback = Feedback()
-                new_feedback.request = finish_req
-                new_feedback.save()
+                if not finish_req.state==Request.DONE:
+                    finish_req.state = Request.DONE
+                    finish_req.save()
+                    new_feedback = Feedback()
+                    new_feedback.request = finish_req
+                    new_feedback.save()
 
         if req_id and candid_id:
             request_to_change = Request.objects.get(id=req_id)
             if True or (not request_to_change.demander == None and entity.id == request_to_change.demander.id) or (not request_to_change.proposer == None and entity.id == request_to_change.proposer.id) :
                 candid_obj = Entity.objects.get(id=candid_id)
+                print(sol_user(candid_obj))
                 b = request_to_change.candidates.all()
                 if (candid_obj in b) and (not candid_obj == entity):
                     if request_to_change.proposer:
@@ -642,9 +644,8 @@ def profile(request):
     if feedbacks:
         feedbacks = profile_feedbacks(feedbacks)
         for feed in feedbacks:
-            if feed[0][2]:
             #feedback_tuples.append((feed[0][0], "profile_current_demands([feed[0][0]])[0][1]", profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
-                feedback_tuples.append((feed[0][0], feed[1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
+            feedback_tuples.append((feed[0][0], feed[1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
     # Finally return all the useful informations
     return render(request, 'profile.html', {'entity': this_entity,
                                             'current_offers': current_offers_tuples,
