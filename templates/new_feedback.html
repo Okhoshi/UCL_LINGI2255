@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 <!-- Modal -->
-<div class="modal fade" id="modal_new_feedback" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
+<div class="modal fade" id="ID{{ elem.1.0.id }}" tabindex="-1" role="dialog" aria-labelledby="Account-Type" aria-hidden="true">
     <div class="modal-dialog modal_custom">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,12 +19,12 @@
                     <div class="row form_blck">
                         <div class="row form-el" style="margin-left:1em ; margin-top:0.25em ;" >
                             <ul class="list-unstyled">
-                                <li>{% trans "Proposer" %} : {{ proposer }}</li>
-                                <li>{% trans "Demander" %} : {{ demander }}</li>
-                                <li>{% trans "Category" %} : {{ request_category }}</li>
-                                <li>{% trans "What" %} : {{ request_subject }}</li>
-                                <li>{% trans "Place" %} : {{ request_place }}</li>
-                                <li>{% trans "When" %} : {{ request_date }} </li>
+                                <li>{% trans "Proposer" %} : {{ elem.1.proposer }}</li>
+                                <li>{% trans "Demander" %} : {{ elem.1.demander }}</li>
+                                <li>{% trans "Category" %} : {{ elem.1.request_category }}</li>
+                                <li>{% trans "What" %} : {{ elem.1.request_subject }}</li>
+                                <li>{% trans "Place" %} : {{ elem.1.request_place }}</li>
+                                <li>{% trans "When" %} : {{ elem.1.request_date }} </li>
 
                             </ul>
                         </div>
