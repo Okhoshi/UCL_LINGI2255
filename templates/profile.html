@@ -7,7 +7,7 @@
 {% block breadcrumb %}
 <ol class="breadcrumb">
 	<li><a href="/">{% trans "Home" %}</a></li>
-	<li><a href="#">{% trans "Members" %}</a></li>
+	<li><a href="{% url 'account' %}">{% trans "Account" %}</a></li>
 	<li class="active">{{ profile_name }}</li>
 </ol>
 {% endblock %}

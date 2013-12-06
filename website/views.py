@@ -439,10 +439,14 @@ def account(request):
             saved_searches.append((elem, elem.search_field))
 
         ## GET SIMILAR
-        similar_objects = entity.get_similar_matching_requests(3)
+        similar_objects = entity.get_similar_matching_requests(6)
+        i = 0
         for elem in similar_objects:
-            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
-            similar.append(a)   
+            if i < 3:
+                a = (elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+                if search_filter_can_be_added(elem, entity, is_user):
+                    similar.append(a)
+                    i += 1
 
         ## GET Pending
         req_candidates = []
@@ -487,7 +491,8 @@ def profile(request):
 
     is_user = User.objects.filter(dj_user__exact=this_user)
     if is_user:
-        this_entity = is_user[0]
+        is_user = is_user[0]
+        this_entity = is_user
 
     is_association = AssociationUser.objects.filter(dj_user__exact=this_user)
     if is_association:
@@ -884,14 +889,17 @@ def search(request):
                                                    'max_times':max_times, 'searched':searched})
         else:
             search_object = SavedSearch(search_field=search_field)
-            search_objects = usr_entity.search(search_object, 20)
+            search_objects = usr_entity.search(search_object, 30)
             searched = True
+            i = 0
             for this_request in search_objects:
-                (req_initiator, req_type) = this_request.get_initiator()
-                # Need to know if it's a User or a Association
-                initiator_entity = sol_user(req_initiator)
-                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
-                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if i < 15:
+                    (req_initiator, req_type) = this_request.get_initiator()
+                    # Need to know if it's a User or a Association
+                    initiator_entity = sol_user(req_initiator)
+                    if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                        search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                        i += 1
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
@@ -901,12 +909,15 @@ def search(request):
             search_object = SavedSearch(search_field=search_field)
             search_objects = usr_entity.search(search_object, 20)
             searched = True
+            i = 0
             for this_request in search_objects:
-                (req_initiator, req_type) = this_request.get_initiator()
-                # Need to know if it's a User or a Association
-                initiator_entity = sol_user(req_initiator)
-                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
-                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if i < 15:
+                    (req_initiator, req_type) = this_request.get_initiator()
+                    # Need to know if it's a User or a Association
+                    initiator_entity = sol_user(req_initiator)
+                    if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                        search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                        i += 1
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
