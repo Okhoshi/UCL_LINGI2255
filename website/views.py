@@ -461,8 +461,10 @@ def account(request):
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
                                'request_place' : f_place,
-                               "request_date" : f_date,
-                                'is_proposer': 0,
+                               "request_date" : f_date,
+
+                                'is_proposer': 0,
+
                                 'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
         for feedback in needed_feedback[1]:
@@ -479,8 +481,10 @@ def account(request):
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
                                 'request_place' : f_place,
-                               "request_date" : f_date,
-                                'is_proposer': 1,
+                               "request_date" : f_date,
+
+                                'is_proposer': 1,
+
                                 'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
     
@@ -870,14 +874,14 @@ def exchanges(request):
 
 
 
-            if (elem.state == Request.PROPOSAL) and elem.candidates.all():
+            if (elem.state == Request.PROPOSAL) and elem.candidates.all().exclude(id__exact=this_entity.id):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 candidate_req.append((elem,offer,demander))
 
 
 
-            if (elem.state == Request.PROPOSAL) and not elem.candidates.all():
+            if (elem.state == Request.PROPOSAL) and not elem.candidates.all().exclude(id__exact=this_entity.id):
                 demander = profile_current_offers( [elem] )[0][1]
                 offer = profile_current_demands([elem])[0][1]
                 posted_req.append((elem,offer,demander))
@@ -891,18 +895,22 @@ def exchanges(request):
                 incoming_req.append((elem,offer,demander))
 
             #TODO FALSE
-            if elem.state == Request.DONE and elem.get_feedback().rating_demander > 0:
-                demander = profile_current_offers([elem])[0][1]
-                offer = profile_current_demands([elem])[0][1]
-                feedback_req.append((elem,offer,demander))
 
+            if elem.state == Request.DONE:
+                if elem.demander.id == this_entity.id:
+                    has_a_feedback =  elem.get_feedback().rating_demander > 0
+                else:
+                    has_a_feedback =  elem.get_feedback().rating_proposer > 0
 
+                if has_a_feedback:
+                    demander = profile_current_offers([elem])[0][1]
+                    offer = profile_current_demands([elem])[0][1]
+                    feedback_req.append((elem,offer,demander))
 
-
-            if elem.state == Request.DONE and elem.get_feedback().rating_demander <= 0:
-                demander = profile_current_offers([elem])[0][1]
-                offer = profile_current_demands([elem])[0][1]
-                realised_req.append((elem,offer,demander))
+                else:
+                    demander = profile_current_offers([elem])[0][1]
+                    offer = profile_current_demands([elem])[0][1]
+                    realised_req.append((elem,offer,demander))
 
 
         sum_req = (len(posted_req),len(candidate_req),\
