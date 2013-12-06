@@ -61,6 +61,7 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
+        print('oups', user.is_active)
         if user is not None:
             if user.is_active:
                 Dlogin(request, user)
@@ -1100,6 +1101,7 @@ def sol_user(entity):
     else:
         return entity
 
+
 def analyse_request_edit(request, type, usr):
     form = MForm(request, usr=usr)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1120,6 +1122,7 @@ def analyse_request_edit(request, type, usr):
         print(form.type)
         return render(request, pages[type], dictionaries)
 
+
 def analyse_request(request, type):
     form = MForm(request)
     pages = {"1": 'individual_registration.html', "2": 'organisation_registration.html'}
@@ -1138,6 +1141,7 @@ def analyse_request(request, type):
         dictionaries['errorlist'] = form.errorlist
         print(form.type)
         return render(request, pages[type], dictionaries)
+
 
 def modify_user(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1175,6 +1179,7 @@ def modify_user(request, form):
     newusr = authenticate(username=form.user_name, password=form.passwd)
     Dlogin(request, newusr)
     return redirect('account')
+
 
 def modify_organisation(request, form):
     p = Place(country=form.country, postcode=form.postcode,
@@ -1226,6 +1231,7 @@ def modify_organisation(request, form):
 
     return redirect('account')
 
+
 def create_new_user(request, form):
 
     p = Place(country=form.country, postcode=form.postcode,
@@ -1269,7 +1275,11 @@ def create_new_organisation(request, form):
                                                last_name=form.name,
                                                birth_day=form.birthdate,
                                                gender=form.gender)
+    print(user, user.dj_user, user.dj_user.is_active)
+    user.dj_user.is_active = False
+    user.dj_user.save()
 
+    print(user, user.dj_user, user.dj_user.is_active)
     if request.FILES.get('profile_pic') is not None:
         user.picture.save(request.FILES.get('profile_pic').name,
                           request.FILES.get('profile_pic'),
@@ -1280,8 +1290,8 @@ def create_new_organisation(request, form):
                           save=False)
     assoc.save()
     user.save()
-    usr = authenticate(username=form.user_name, password=form.passwd)
-    Dlogin(request, usr)
+    #usr = authenticate(username=form.user_name, password=form.passwd)
+    #Dlogin(request, usr)
 
 
     return redirect('account')
@@ -1292,6 +1302,7 @@ def handle_uploaded_file(f, filename, path):
         with open(path+'_'+filename, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
 
 def search_filter_can_be_added(this_request, usr_entity, is_user):
     """
