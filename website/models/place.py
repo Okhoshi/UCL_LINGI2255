@@ -32,4 +32,4 @@ class Place(models.Model):
         if result:
             return ', '.join(result)
         else:
-            return 'Not specified'
+            return 'Unspecified'
