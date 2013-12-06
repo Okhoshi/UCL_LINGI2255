@@ -40,6 +40,22 @@
 				</div>
 			</div>
 
+			{% if au %}
+			<div class="form-group">
+				<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "For PIN ?" %}*</label>
+				<div class="col-sm-8">
+					<div class="form-inline">
+						<select class="form-control" name="pin">
+							<option value="None">{% trans 'None' %}</option>
+							{% for j in pin %}
+								<option value="{{ j.id }}">{{ j }}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+
 			<div class="form-group">
 				<label class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "Type" %}*</label>
 				<div class="col-sm-8">
@@ -130,7 +146,7 @@
 
 			<div id="filters_hidden_box"  name="filters"{% if filters != 'on' %} style="display:none" {% endif %}>
 				<div class="form-group">
-					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ filters_color }} !important;">{% trans "Verified" %}</label>
+					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ filters_color }} !important;">{% trans 'Verified' %}</label>
 					<div class="col-sm-8">
 						<div class="form-inline">
 							<div class="checkbox">

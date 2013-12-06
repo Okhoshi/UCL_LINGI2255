@@ -22,6 +22,7 @@ class SolidareForm():
         self.values['country'] = request.POST.get('country','')
         self.values['date'] = request.POST.get('date','')
         self.values['category'] = request.POST.get('category','')
+        self.values['pin_selected'] = request.POST.get('pin','')
         self.values['description'] = request.POST.get('description','')
         self.values['filters'] = request.POST.get('filters','off')
         self.values['verified'] = request.POST.get('verified','off')
