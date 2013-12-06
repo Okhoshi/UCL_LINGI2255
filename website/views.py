@@ -93,7 +93,7 @@ def contact(request):
         # FOR FEEDBACK
         if 'feedback' in request.POST.dict():
             # As a request is in the state "Done", a feedback has been created
-            # feedback = request.get_feedback()
+            #feedback = request.get_feedback()
             #data = request.POST.dict()
 
             #if request.proposer == user :
@@ -390,6 +390,15 @@ def account(request):
         request_to_change.candidates = []
         request_to_change.save()
 
+    finish_req = request.REQUEST.get('finish_req')
+    if finish_req:
+        finish_req = Request.objects.get(id=finish_req)
+        finish_req.state = Request.DONE
+        finish_req.save()
+        new_feedback = Feedback()
+        new_feedback.request = finish_req
+        new_feedback.save()
+
     susp_req_id = request.REQUEST.get('susp_req_id')
     if susp_req_id :
         req_to_mod = Request.objects.get(id=susp_req_id)
@@ -429,6 +438,45 @@ def account(request):
         #is_verified = 1
 
     if (is_user or is_association_user):
+        ##GET UN-GIVEN FEEDBACK
+        needed_feedback = entity.get_feedback()
+        empty_feedback = []
+        for feedback in needed_feedback[0]:
+            if feedback.rating_demander == 0:
+                f_request = feedback.request
+                f_proposer = sol_user(f_request.proposer)
+                f_demander = sol_user(f_request.demander)
+                f_req_cat = f_request.category
+                f_subject = f_request.name
+                f_place = f_request.place
+                f_date = f_request.date
+                f_values = {'proposer' : f_proposer,
+                               'demander' : f_demander,
+                               'request_category' : f_req_cat,
+                               'request_subject' : f_subject,
+                               'request_place' : f_place,
+                               "request_date" : f_date}
+                empty_feedback.append((feedback, f_values))
+        for feedback in needed_feedback[1]:
+            if feedback.rating_proposer == 0:
+                f_request = feedback.request
+                f_proposer = sol_user(f_request.proposer)
+                f_demander = sol_user(f_request.demander)
+                f_req_cat = f_request.category
+                f_subject = f_request.name
+                f_place = f_request.place
+                f_date = f_request.date
+                f_values = {'proposer' : f_proposer,
+                               'demander' : f_demander,
+                               'request_category' : f_req_cat,
+                               'request_subject' : f_subject,
+                               'request_place' : f_place,
+                               "request_date" : f_date}
+                empty_feedback.append((feedback, f_values))
+    
+            
+        
+        
         ## GET FOLLOWING LIST
         for person in entity.get_followed():
             following.append((person, sol_user(person).__unicode__()))
@@ -439,10 +487,14 @@ def account(request):
             saved_searches.append((elem, elem.search_field))
 
         ## GET SIMILAR
-        similar_objects = entity.get_similar_matching_requests(3)
+        similar_objects = entity.get_similar_matching_requests(6)
+        i = 0
         for elem in similar_objects:
-            a=(elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
-            similar.append(a)   
+            if i < 3:
+                a = (elem, profile_current_demands([elem])[0][1], profile_current_offers([elem])[0][1], elem.name)
+                if search_filter_can_be_added(elem, entity, is_user):
+                    similar.append(a)
+                    i += 1
 
         ## GET Pending
         req_candidates = []
@@ -474,7 +526,7 @@ def account(request):
                                             'saved_searches': saved_searches, 'similar': similar,
                                             'upcoming_requests': upcoming_requests, 'summary': summary,
                                             'is_association_admin': is_association_admin,
-                                            'type_user': type_user, 'pending': pending})
+                                            'type_user': type_user, 'pending': pending, 'empty_feedback':empty_feedback})
 
 
 @login_required
@@ -487,7 +539,8 @@ def profile(request):
 
     is_user = User.objects.filter(dj_user__exact=this_user)
     if is_user:
-        this_entity = is_user[0]
+        is_user = is_user[0]
+        this_entity = is_user
 
     is_association = AssociationUser.objects.filter(dj_user__exact=this_user)
     if is_association:
@@ -758,8 +811,8 @@ def messages(request):
     if request.method == "GET":
         req_id = request.GET.get('id')
 
-    threads = entity.get_all_requests(include_candidates=True).order_by('-date')
-    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add( qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
+    threads = entity.get_all_requests(include_candidates=True).exclude(state__exact=Request.DONE).order_by('-date')
+    threads = map(lambda t: (t.id, t.name, sol_user(InternalMessage.objects.filter(request_id__exact=t.id).order_by('-time')[0].sender).picture if InternalMessage.objects.filter(request_id__exact=t.id).count() != 0 else None, ", ".join(map(lambda m: sol_user(m).__unicode__(), qs_add(qs_add(t.candidates, t.proposer), t.demander).exclude(id__exact=entity.id)))), threads)
 
     if req_id:
         found = False
@@ -884,14 +937,17 @@ def search(request):
                                                    'max_times':max_times, 'searched':searched})
         else:
             search_object = SavedSearch(search_field=search_field)
-            search_objects = usr_entity.search(search_object, 20)
+            search_objects = usr_entity.search(search_object, 30)
             searched = True
+            i = 0
             for this_request in search_objects:
-                (req_initiator, req_type) = this_request.get_initiator()
-                # Need to know if it's a User or a Association
-                initiator_entity = sol_user(req_initiator)
-                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
-                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if i < 15:
+                    (req_initiator, req_type) = this_request.get_initiator()
+                    # Need to know if it's a User or a Association
+                    initiator_entity = sol_user(req_initiator)
+                    if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                        search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                        i += 1
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
@@ -901,12 +957,15 @@ def search(request):
             search_object = SavedSearch(search_field=search_field)
             search_objects = usr_entity.search(search_object, 20)
             searched = True
+            i = 0
             for this_request in search_objects:
-                (req_initiator, req_type) = this_request.get_initiator()
-                # Need to know if it's a User or a Association
-                initiator_entity = sol_user(req_initiator)
-                if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
-                    search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                if i < 15:
+                    (req_initiator, req_type) = this_request.get_initiator()
+                    # Need to know if it's a User or a Association
+                    initiator_entity = sol_user(req_initiator)
+                    if search_filter_can_be_added(this_request, usr_entity, is_user): # Verify if it pass the filters
+                        search_results.append((this_request, req_type, initiator_entity, this_request.place, this_request.date))
+                        i += 1
             max_times = len(search_results)
             return render(request, 'search.html', {'search_field': search_field, 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
