@@ -17,13 +17,16 @@ class Place(models.Model):
     
     def __unicode__(self):
         result = []
-        if self.country:
-            result.append(self.country)
-        if self.city:
-            result.append(self.city)
-        if self.street:
-            result.append(self.street)
+        
         if str(self.number):
             result.append(str(self.number))
+        if self.street:
+            result.append(self.street)
+        if self.postcode:
+            result.append(str(self.postcode))
+        if self.city:
+            result.append(self.city)
+        if self.country:
+            result.append(self.country)
 
         return ', '.join(result)

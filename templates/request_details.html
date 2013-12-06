@@ -25,7 +25,9 @@
 
                 
                 
-                {% trans "Date" %} : {{ elem.0.date }} <br><br>
+                {% trans "Date" %} : {{ elem.0.date }} <br>
+                {% trans "Place" %} : {{ elem.0.place}}
+                <br><br>
 
                 <a href="{% url 'account' %}?susp_req_id={{ elem.0.id }}" class="btn btn-default" ><i class="glyphicon glyphicon-warning-sign custom_alert"></i></a>
 
