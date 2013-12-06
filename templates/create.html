@@ -12,6 +12,7 @@
 
 
 {% block content %}
+<!-- If error in the form -->
 {% if errorlist %}
     <div class="row warning">
         <div class="col-md-12 ">
@@ -27,6 +28,7 @@
 <div class="well">
 	<form class="form-horizontal" role="form" method="post">
 		{% csrf_token %}
+		<!-- Initiator of the request -->
 		<div class="col-md-6">
 			<div class="form-group">
 				<label class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "Person" %}</label>
@@ -41,6 +43,7 @@
 				</div>
 			</div>
 
+			<!-- Display PIN in case of association user -->
 			{% if au %}
 			<div class="form-group">
 				<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "For PIN ?" %}*</label>
@@ -55,8 +58,11 @@
 					</div>
 				</div>
 			</div>
+			{% else %}
+				<input type="hidden" name="pin" value="None" >
 			{% endif %}
 
+			<!-- Type of the request -->
 			<div class="form-group">
 				<label class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "Type" %}*</label>
 				<div class="col-sm-8">
@@ -110,6 +116,7 @@
 				</div>
 			</div>
 
+			<!-- WHEN -->
 			<div class="form-group">
 				<label for="inputDate" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ date_color }} !important;">{% trans "When ?" %}</label>
 				<div class="col-sm-8">
@@ -122,6 +129,7 @@
 				</div>
 			</div>
 
+			<!-- What -->
 			<div class="form-group">
 				<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label">{% trans "What ?" %}*</label>
 				<div class="col-sm-8">
@@ -133,6 +141,7 @@
 				</div>
 			</div>
 
+			<!-- Able Filters -->
 			<div class="form-group">
 				<div class="col-sm-8 col-sm-offset-4">
 					<div class="form-inline">
@@ -145,6 +154,7 @@
 				</div>
 			</div>
 
+			<!-- Filter on verfified users -->
 			<div id="filters_hidden_box"  name="filters"{% if filters != 'on' %} style="display:none" {% endif %}>
 				<div class="form-group">
 					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ filters_color }} !important;">{% trans 'Verified' %}</label>
@@ -159,6 +169,7 @@
 					</div>
 				</div>
 
+				<!-- Filter on user rating -->
 				<div class="form-group">
 					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ min_rating_color }} !important;">{% trans "Minimal rating" %}</label>
 					<div class="col-sm-8">
@@ -172,6 +183,7 @@
 					</div>
 				</div>
 
+				<!-- Filter on rating -->
 				<div class="form-group">
 					<label for="inputGender" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ gender_color }} !important;">{% trans "Gender" %}</label>
 					<div class="col-sm-8">
@@ -185,6 +197,7 @@
 					</div>
 				</div>
 
+				<!-- Filter on age -->
 				<div class="form-group">
 					<label for="" class="col-sm-3 col-xs-12 col-sm-offset-1 control-label" style="color:{{ min_age_color }} !important;color:{{ max_age_color }} !important;">{% trans "Age" %}</label>
 					<div class="col-sm-4">
@@ -197,6 +210,7 @@
 			</div>
 		</div>
 
+		<!-- Description of the request -->
 		<div class="col-md-6">
 			<div class="form-group" style="margin-top:86px;">
 				<label for="description" class="col-xs-12 " style="color: {{ description_color }} !important;" value="{{ country }}">{% trans "Description" %}*</label>

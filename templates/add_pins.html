@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block content %}
+<!-- If errors in the form -->
 {% if errorlist %}
     <div class="row warning">
         <div class="col-md-12 ">
@@ -24,6 +25,7 @@
     </div>
 {% endif %}
 
+<!-- Confirmation message -->
 {% if success_messages %}
 <div class="alert alert-success">
 	<ul>
@@ -41,6 +43,7 @@
 		{% for row in rows %}
 		<div class="to_duplicate row" style="margin-bottom: 20px;">
 			<div class="col-xs-11">
+				<!-- Name -->
 				<div class="col-sm-4">
 					<label for="inputName" class="col-xs-12" style="color: {{ row.last_name_color }} !important;">{% trans "Name" %}*</label>
 					<div class="col-xs-12">
@@ -48,6 +51,7 @@
 					</div>
 				</div>
 
+				<!-- First Name -->
 				<div class="col-sm-4">
 					<label for="inputFirstName" class="col-xs-12" style="color: {{ row.first_name_color }} !important;">{% trans "First name"%}*</label>
 					<div class="col-xs-12">
@@ -55,6 +59,7 @@
 					</div>
 				</div>
 
+				<!-- Association user manager -->
 				<div class="col-sm-4">
 					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Managed by" %}*</label>
 					<div style="margin-right: 15px;margin-left: 15px;">

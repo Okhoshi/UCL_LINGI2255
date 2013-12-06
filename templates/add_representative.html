@@ -12,6 +12,7 @@
 
 
 {% block content %}
+<!-- If errors in the form -->
 {% if errorlist %}
     <div class="row warning">
         <div class="col-md-12 ">
@@ -25,6 +26,7 @@
     </div>
 {% endif %}
 
+<!-- Confirmation message -->
 {% if success_messages %}
 <div class="alert alert-success">
 	<ul>
@@ -42,6 +44,7 @@
 		{% for row in rows %}
 		<div class="to_duplicate row" style="margin-bottom: 20px;">
 			<div class="col-xs-11">
+				<!-- Name -->
 				<div class="col-sm-3">
 					<label for="inputName" class="col-xs-12" style="color: {{ row.last_name_color }} !important;">{% trans "Name" %}*</label>
 					<div class="col-xs-12">
@@ -49,6 +52,7 @@
 					</div>
 				</div>
 
+				<!-- First name -->
 				<div class="col-sm-3">
 					<label for="inputFirstName" class="col-xs-12" style="color: {{ row.first_name_color }} !important;">{% trans "First name"%}*</label>
 					<div class="col-xs-12">
@@ -56,13 +60,15 @@
 					</div>
 				</div>
 
+				<!-- mail -->
 				<div class="col-sm-3">
 					<label for="inputEmail" class="col-xs-12" style="color: {{ row.email_color }} !important;">{% trans "E-mail" %}*</label>
 					<div class="col-xs-12">
 						<input type="email" class="form-control" id="inputEmail" placeholder="{% trans 'E-mail' %}" name="email[]" value="{{ row.email }}" style="border-color: {{ row.email_color }} !important;" required>
 					</div>
 				</div>
-
+				
+				<!-- level -->
 				<div class="col-sm-3">
 					<label for="inputLevel" class="col-xs-12" style="color: {{ row.level_color }} !important;">{% trans "Level" %}*</label>
 					<div style="margin-right: 15px;margin-left: 15px;">
@@ -79,6 +85,7 @@
 		</div>
 		{% endfor %}
 	{% endif %}
+	
 	<div class="row" style="padding:15px">
 		<div class="col-xs-6 text-left">
 			<a class="btn btn-primary" id="add"><i class="glyphicon glyphicon-plus"></i> {% trans "Add line" %}</a>

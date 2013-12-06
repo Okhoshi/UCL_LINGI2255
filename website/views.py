@@ -416,6 +416,7 @@ def account(request):
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
 
+    empty_feedback = []
     saved_searches = []
     similar = []
     pending = []
@@ -446,7 +447,6 @@ def account(request):
     if (is_user or is_association_user):
         ##GET UN-GIVEN FEEDBACK
         needed_feedback = entity.get_feedback()
-        empty_feedback = []
         for feedback in needed_feedback[0]:
             if feedback.rating_demander == 0:
                 f_request = feedback.request
@@ -557,6 +557,7 @@ def profile(request):
 
     entity = None
     follow = None
+    
 
     profile_id = request.REQUEST.get('profile_id')
     if profile_id:
@@ -692,12 +693,12 @@ def create_offer_demand(request):
             if form.values['type'] == 'offer':
                 proposer = entity
                 if not form.values['pin_selected'] == "None":
-                    pin_proposer = form.values['pin_selected']
-                    pin_proposer = PIN.objects.get(id=pin_proposer)
+                    pin_proposer_id = form.values['pin_selected']
+                    pin_proposer = PIN.objects.get(id=pin_proposer_id)
             elif form.values['type'] == 'demand':
                 if not form.values['pin_selected'] == "None":
-                    pin_demander = form.values['pin_selected']
-                    pin_demander = PIN.objects.get(id=pin_demander)
+                    pin_demander_id = form.values['pin_selected']
+                    pin_demander = PIN.objects.get(id=pin_demander_id)
     
 
             req = None
