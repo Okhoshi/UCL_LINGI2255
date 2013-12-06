@@ -235,11 +235,12 @@ def edit_profile(request):
 def add_representative(request):
     # This page can only be reached by association users
     this_user = DUser.objects.get(username=request.user)
-    is_association_user = AssociationUser.objects.get(dj_user=this_user.id)
+    is_association_user = AssociationUser.objects.filter(dj_user=this_user.id)
+    print(is_association_user)
     if not is_association_user:
         return redirect('account')
     else:
-        au = is_association_user
+        au = is_association_user[0]
 
     if request.method == 'POST':
         form = RForm(request)
@@ -576,13 +577,20 @@ def profile(request):
 
         association_visited = Association.objects.filter(entity_ptr__exact=profile_id)
         if association_visited:
-            association_visited = association_visited[0]
+            association_visited = association_visited[0].entity
             entity = association_visited
 
-        my_profile = False
+        if entity == this_entity:
+            my_profile = True
+        else:
+            my_profile = False
 
-        if entity and this_entity:
-            follow = this_entity.get_followed() == entity
+        if entity and this_entity and not my_profile:
+            follow = False
+            for elem in this_entity.get_followed():
+                if elem.id == entity.id:
+                    follow = True
+
 
             if request.method == 'POST':
                 if 'follow_ask' in request.POST:
