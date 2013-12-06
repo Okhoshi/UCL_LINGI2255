@@ -6,3 +6,4 @@ extras/documentation
 *.pyc
 *.pyproj
 *.user
+.idea
