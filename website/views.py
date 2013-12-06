@@ -371,25 +371,10 @@ def account(request):
 
     req_id = request.REQUEST.get('req_id')
     candid_id = request.REQUEST.get('candid_id')
-    if req_id and candid_id:
-        request_to_change = Request.objects.get(id=req_id)
-        candid_obj = Entity.objects.get(id=candid_id)
-        if request_to_change.proposer:
-            request_to_change.demander = candid_obj
-        else:
-            request_to_change.proposer = candid_obj
-        request_to_change.state = Request.IN_PROGRESS
-        request_to_change.candidates = []
-        request_to_change.save()
+
 
     finish_req = request.REQUEST.get('finish_req')
-    if finish_req:
-        finish_req = Request.objects.get(id=finish_req)
-        finish_req.state = Request.DONE
-        finish_req.save()
-        new_feedback = Feedback()
-        new_feedback.request = finish_req
-        new_feedback.save()
+
 
     susp_req_id = request.REQUEST.get('susp_req_id')
     if susp_req_id :
@@ -430,6 +415,32 @@ def account(request):
         #is_verified = 1
 
     if (is_user or is_association_user):
+
+        #TREATS GET REQUESTS WITH USER VERIFICATION
+        if finish_req:
+            finish_req = Request.objects.get(id=finish_req)
+            if entity.id == finish_req.demander.id or entity.id == finish_req.proposer.id :
+                finish_req.state = Request.DONE
+                finish_req.save()
+                new_feedback = Feedback()
+                new_feedback.request = finish_req
+                new_feedback.save()
+
+        if req_id and candid_id:
+            request_to_change = Request.objects.get(id=req_id)
+            if True or (not request_to_change.demander == None and entity.id == request_to_change.demander.id) or (not request_to_change.proposer == None and entity.id == request_to_change.proposer.id) :
+                candid_obj = Entity.objects.get(id=candid_id)
+                b = request_to_change.candidates.all()
+                if (candid_obj in b) and (not candid_obj == entity):
+                    if request_to_change.proposer:
+                        request_to_change.demander = candid_obj
+                    else:
+                        request_to_change.proposer = candid_obj
+                    request_to_change.state = Request.IN_PROGRESS
+                    request_to_change.candidates = []
+                    request_to_change.save()
+
+        
         ##GET UN-GIVEN FEEDBACK
         needed_feedback = entity.get_feedback()
         empty_feedback = []
