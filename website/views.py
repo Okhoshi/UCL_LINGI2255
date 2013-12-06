@@ -377,6 +377,12 @@ def add_pins(request):
 
 @login_required
 def account(request):
+    if request.method == 'POST':
+        suppress = request.POST.get('suppress')
+        if not suppress == None:
+            to_suppress = SavedSearch.objects.get(id=suppress)
+            to_suppress.delete()
+
     req_id = request.REQUEST.get('req_id')
     candid_id = request.REQUEST.get('candid_id')
     if req_id and candid_id:

@@ -88,8 +88,15 @@
 		<ul class="list-unstyled">
 			{% for elem in saved_searches %}
 			<li>
-				<a class="btn btn-primary btn-xs pull-right" href="{% url "search" %}?id={{ elem.1 }}">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
-				{{ elem.1 }}
+                <form action="{% url 'account' %}" method="POST">
+                    {% csrf_token %}
+                    <a class="btn btn-primary btn-xs pull-right" href="{% url "search" %}?id={{ elem.1 }}">{% trans "Launch" %} <i class="glyphicon glyphicon-arrow-right"></i></a>
+                    <button class="btn btn-danger btn-xs pull-right"type="submit" name="suppress" value={{ elem.0.id }} style="padding-left:1em; padding-right:1em">
+                        {% trans "Suppress" %}
+                    </button>
+                    {{ elem.1 }}
+                </form>
+
 				<div class="clearfix"></div>
 			</li>
 			{% endfor %}
