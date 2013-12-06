@@ -12,7 +12,7 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.auth.models import User as DUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from datetime import datetime as dt
-from forms import MForm,RForm,SolidareForm, PForm
+from forms import MForm,RForm,SolidareForm, PForm, FeedbackForm
 from exceptions import *
 from website.models import *
 
@@ -379,9 +379,24 @@ def add_pins(request):
 def account(request):
     if request.method == 'POST':
         suppress = request.POST.get('suppress')
-        if not suppress == None:
+        if not suppress == None:            
+            print('!!!!!!!!!!!!!! suppress !!!!!!!!!!!!!!!!')
             to_suppress = SavedSearch.objects.get(id=suppress)
             to_suppress.delete()
+        feedback = request.POST.get('feedback')
+        if not feedback == None:
+            form = FeedbackForm(request)
+            feedback_to_fill = Feedback.objects.get(id = form.feedback_id)
+            if  form.is_proposer == '1':
+                feedback_to_fill.rating_proposer = form.rating
+                feedback_to_fill.feedback_proposer = form.feedback
+            else :                
+                feedback_to_fill.rating_demander = form.rating
+                feedback_to_fill.feedback_demander = form.feedback
+            feedback_to_fill.save()
+            print('!!!!!!!!!!!!!! feedback !!!!!!!!!!!!!!!!', form.feedback, form.feedback_id, form.is_proposer=='1')
+            
+        
 
     req_id = request.REQUEST.get('req_id')
     candid_id = request.REQUEST.get('candid_id')
@@ -461,8 +476,8 @@ def account(request):
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
                                'request_place' : f_place,
-                               "request_date" : f_date,
-                                'is_proposer': 0,
+                               "request_date" : f_date,
+                                'is_proposer': 0,
                                 'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
         for feedback in needed_feedback[1]:
@@ -479,8 +494,8 @@ def account(request):
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
                                 'request_place' : f_place,
-                               "request_date" : f_date,
-                                'is_proposer': 1,
+                               "request_date" : f_date,
+                                'is_proposer': 1,
                                 'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
     
