@@ -12,6 +12,19 @@
 
 {% block content %}
 <div class="row">
+{% if empty_feedback %}
+
+
+	{% for elem in empty_feedback %}
+
+	{% include "new_feedback.html" %}
+		{{ elem.1 }}
+    	<a class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#ID{{ elem.1.0.id }}" >{% trans "Feedback" %}</a>
+	{% endfor %}
+{% endif %}
+</div>
+
+<div class="row">
 	<div class="col-md-8 col-sm-7 text-center">
 		<h3>
 			{% trans "Welcome" %}
@@ -148,7 +161,9 @@
 		<ul class="list-unstyled">
 			{% for elem in upcoming_requests %}
             	{% include 'request_details.html' %}
-				<li data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" style="cursor: pointer;">{{ elem.0 }} - {{ elem.0.date }}</li>
+				<li> <a data-toggle="modal" data-target="#TON_ID_ICI{{ elem.0.id }}" >{{ elem.0 }}</a> - {{ elem.0.date }} 
+					<a href="{% url 'account' %}?finish_req={{ elem.0.id }}" class="btn btn-success" >{% trans "Done !"%}&nbsp;&nbsp;<i class="glyphicon glyphicon-ok-circle"></i></a>				
+				</li>
 			{% endfor %}
 		</ul>
 	</div>

@@ -93,7 +93,7 @@ def contact(request):
         # FOR FEEDBACK
         if 'feedback' in request.POST.dict():
             # As a request is in the state "Done", a feedback has been created
-            # feedback = request.get_feedback()
+            #feedback = request.get_feedback()
             #data = request.POST.dict()
 
             #if request.proposer == user :
@@ -390,6 +390,15 @@ def account(request):
         request_to_change.candidates = []
         request_to_change.save()
 
+    finish_req = request.REQUEST.get('finish_req')
+    if finish_req:
+        finish_req = Request.objects.get(id=finish_req)
+        finish_req.state = Request.DONE
+        finish_req.save()
+        new_feedback = Feedback()
+        new_feedback.request = finish_req
+        new_feedback.save()
+
     susp_req_id = request.REQUEST.get('susp_req_id')
     if susp_req_id :
         req_to_mod = Request.objects.get(id=susp_req_id)
@@ -429,6 +438,45 @@ def account(request):
         #is_verified = 1
 
     if (is_user or is_association_user):
+        ##GET UN-GIVEN FEEDBACK
+        needed_feedback = entity.get_feedback()
+        empty_feedback = []
+        for feedback in needed_feedback[0]:
+            if feedback.rating_demander == 0:
+                f_request = feedback.request
+                f_proposer = sol_user(f_request.proposer)
+                f_demander = sol_user(f_request.demander)
+                f_req_cat = f_request.category
+                f_subject = f_request.name
+                f_place = f_request.place
+                f_date = f_request.date
+                f_values = {'proposer' : f_proposer,
+                               'demander' : f_demander,
+                               'request_category' : f_req_cat,
+                               'request_subject' : f_subject,
+                               'request_place' : f_place,
+                               "request_date" : f_date}
+                empty_feedback.append((feedback, f_values))
+        for feedback in needed_feedback[1]:
+            if feedback.rating_proposer == 0:
+                f_request = feedback.request
+                f_proposer = sol_user(f_request.proposer)
+                f_demander = sol_user(f_request.demander)
+                f_req_cat = f_request.category
+                f_subject = f_request.name
+                f_place = f_request.place
+                f_date = f_request.date
+                f_values = {'proposer' : f_proposer,
+                               'demander' : f_demander,
+                               'request_category' : f_req_cat,
+                               'request_subject' : f_subject,
+                               'request_place' : f_place,
+                               "request_date" : f_date}
+                empty_feedback.append((feedback, f_values))
+    
+            
+        
+        
         ## GET FOLLOWING LIST
         for person in entity.get_followed():
             following.append((person, sol_user(person).__unicode__()))
@@ -478,7 +526,7 @@ def account(request):
                                             'saved_searches': saved_searches, 'similar': similar,
                                             'upcoming_requests': upcoming_requests, 'summary': summary,
                                             'is_association_admin': is_association_admin,
-                                            'type_user': type_user, 'pending': pending})
+                                            'type_user': type_user, 'pending': pending, 'empty_feedback':empty_feedback})
 
 
 @login_required
