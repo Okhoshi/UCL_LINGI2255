@@ -18,8 +18,7 @@
 	{% for elem in empty_feedback %}
 
 	{% include "new_feedback.html" %}
-		{{ elem.1 }}
-    	<a class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#ID{{ elem.1.0.id }}" >{% trans "Feedback" %}</a>
+    	<a class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#ID{{ elem.0.id }}" >{% trans "Feedback" %}</a>
 	{% endfor %}
 {% endif %}
 </div>

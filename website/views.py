@@ -416,7 +416,6 @@ def account(request):
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
 
-    empty_feedback = []
     saved_searches = []
     similar = []
     pending = []
@@ -447,6 +446,7 @@ def account(request):
     if (is_user or is_association_user):
         ##GET UN-GIVEN FEEDBACK
         needed_feedback = entity.get_feedback()
+        empty_feedback = []
         for feedback in needed_feedback[0]:
             if feedback.rating_demander == 0:
                 f_request = feedback.request
@@ -461,7 +461,9 @@ def account(request):
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
                                'request_place' : f_place,
-                               "request_date" : f_date}
+                               "request_date" : f_date,
+                                'is_proposer': 0,
+                                'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
         for feedback in needed_feedback[1]:
             if feedback.rating_proposer == 0:
@@ -476,8 +478,10 @@ def account(request):
                                'demander' : f_demander,
                                'request_category' : f_req_cat,
                                'request_subject' : f_subject,
-                               'request_place' : f_place,
-                               "request_date" : f_date}
+                                'request_place' : f_place,
+                               "request_date" : f_date,
+                                'is_proposer': 1,
+                                'feed_ID': feedback.id}
                 empty_feedback.append((feedback, f_values))
     
             
@@ -557,7 +561,6 @@ def profile(request):
 
     entity = None
     follow = None
-    
 
     profile_id = request.REQUEST.get('profile_id')
     if profile_id:
@@ -693,12 +696,12 @@ def create_offer_demand(request):
             if form.values['type'] == 'offer':
                 proposer = entity
                 if not form.values['pin_selected'] == "None":
-                    pin_proposer_id = form.values['pin_selected']
-                    pin_proposer = PIN.objects.get(id=pin_proposer_id)
+                    pin_proposer = form.values['pin_selected']
+                    pin_proposer = PIN.objects.get(id=pin_proposer)
             elif form.values['type'] == 'demand':
                 if not form.values['pin_selected'] == "None":
-                    pin_demander_id = form.values['pin_selected']
-                    pin_demander = PIN.objects.get(id=pin_demander_id)
+                    pin_demander = form.values['pin_selected']
+                    pin_demander = PIN.objects.get(id=pin_demander)
     
 
             req = None
@@ -936,12 +939,17 @@ def search(request):
         search_field = request.POST['search']
 
         if 'search_saved' in request.POST.dict():
-            pla = Place()
-            pla.save()
-            savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
-            savedsearch.save()
-            return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
+            if search_field == "" :
+                return render(request, 'search.html', {'search_results':search_results,
+                                                   'max_times':max_times, 'search_saved_invalid':'INVALID'})
+            else :
+                pla = Place()
+                pla.save()
+                savedsearch = SavedSearch(place=pla, search_field=search_field, entity=usr_entity)
+                savedsearch.save()
+                return render(request, 'search.html', {'search_saved': "True", 'search_results':search_results,
                                                    'max_times':max_times, 'searched':searched})
+
         else:
             search_object = SavedSearch(search_field=search_field)
             search_objects = usr_entity.search(search_object, 30)
