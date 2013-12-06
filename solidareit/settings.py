@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sessions',
-    'website'
+    'website',
+    'django_jenkins'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,7 +97,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    '/home/public/solidareit/static/',
 )
 
 STATICFILES_FINDERS = (
@@ -113,7 +113,6 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(BASE_DIR, "templates"),
-    '/home/public/solidareit/templates/',
 )
 
 TEMPLATE_LOADERS = (
@@ -132,7 +131,6 @@ APPEND_SLASH = True  # Ajoute un slash en fin d'URL
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
-    '/home/public/solidareit/locale/',
 )
 
 # reCaptcha account
@@ -145,3 +143,14 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'llncampusteam@gmail.com'
 EMAIL_HOST_PASSWORD = 'androideclipse'
+
+JENKINS_TASKS = (
+    'django_jenkins.tasks.with_coverage',
+    'django_jenkins.tasks.run_pylint',
+    #'django_jenkins.tasks.run_pep8',
+    #'django_jenkins.tasks.run_pyflakes',
+    'django_jenkins.tasks.run_jshint',
+    'django_jenkins.tasks.run_csslint',
+    #'django_jenkins.tasks.run_sloccount',
+    #'django_jenkins.tasks.lettuce_tests',
+)
