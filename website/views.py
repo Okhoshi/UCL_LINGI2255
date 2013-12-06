@@ -61,7 +61,6 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        print('oups', user.is_active)
         if user is not None:
             if user.is_active:
                 Dlogin(request, user)
@@ -347,7 +346,6 @@ def add_pins(request):
                 new_pin = PIN(first_name=first_name, last_name=last_name, managed_by=managed_by)
                 new_pin.save()
 
-
                 message = first_name + " " + last_name + _(" has successfully been added and managed by ")\
                     + managed_by.dj_user.get_full_name() + "."
                 success_messages.append(message)
@@ -402,9 +400,6 @@ def account(request):
     this_user = DUser.objects.get(username=request.user)
     is_user = User.objects.filter(dj_user__exact=this_user.id)
     is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    
-
-
 
     saved_searches = []
     similar = []
@@ -435,19 +430,8 @@ def account(request):
 
     if (is_user or is_association_user):
         ## GET FOLLOWING LIST
-        following_entity = entity.get_followed()
-        for person in following_entity:
-            person_assoc = Association.objects.filter(entity_ptr_id__exact=person.id)
-            person_user = User.objects.filter(entity_ptr_id__exact=person.id)
-
-            if (person_assoc):
-                person = person_assoc[0]
-                name_person = person.name
-            elif (person_user): #is a User
-                person = person_user[0]
-                person = DUser.objects.get(id=person.dj_user_id)
-                name_person = person.first_name + " " + person.last_name
-            following.append((person,name_person))
+        for person in entity.get_followed():
+            following.append((person, sol_user(person).__unicode__()))
 
         ## GET SAVED SEARCHES
         objects_saved_searches = entity.get_searches()
@@ -484,13 +468,13 @@ def account(request):
         in_progress_requests = upcoming_objects.count()
         proposal_requests = entity.get_current_offers().count() + \
             entity.get_current_demands().count() - in_progress_requests
-        summary = (proposal_requests,in_progress_requests,old_requests)
+        summary = (proposal_requests, in_progress_requests, old_requests)
         
-    return render(request, 'account.html', {'image':image,'following':following,\
-        'saved_searches':saved_searches,'similar':similar,\
-        'upcoming_requests':upcoming_requests,'summary':summary,\
-        'is_association_admin': is_association_admin,\
-        'type_user':type_user, 'pending':pending})
+    return render(request, 'account.html', {'image': image, 'following': following,
+                                            'saved_searches': saved_searches, 'similar': similar,
+                                            'upcoming_requests': upcoming_requests, 'summary': summary,
+                                            'is_association_admin': is_association_admin,
+                                            'type_user': type_user, 'pending': pending})
 
 
 @login_required
@@ -498,35 +482,58 @@ def profile(request):
 
     # First, check if the current user is a User or a AssociationUser
     this_user = DUser.objects.get(username=request.user)
-    is_user = User.objects.filter(dj_user__exact=this_user.id)
-    is_association_user = AssociationUser.objects.filter(dj_user__exact=this_user.id)
-    my_profile = True
-
-    
-    profile_id = request.REQUEST.get('profile_id')
-    if profile_id:
-        is_user = User.objects.filter(entity_ptr_id__exact=profile_id)
-        is_association_user = AssociationUser.objects.filter(entity_id=profile_id)
-        my_profile = False
-    else:
-        profile_id = this_user.id
-
-    is_verified = None
     this_entity = None
-    image = None
+    this_entity = None
 
+    is_user = User.objects.filter(dj_user__exact=this_user)
     if is_user:
         this_entity = is_user[0]
-        image = this_entity.picture
-        is_verified = this_entity.is_verified
-        this_entity_name = DUser.objects.get(id=this_entity.dj_user_id)
-        profile_name = this_entity_name.first_name + " " + this_entity_name.last_name
-    elif is_association_user:
-        au = is_association_user[0]
-        this_entity = au.entity
-        image = this_entity.picture
-        is_verified = 1
-        profile_name = this_entity.name 
+
+    is_association = AssociationUser.objects.filter(dj_user__exact=this_user)
+    if is_association:
+        is_association = is_association[0].get_association()
+        this_entity = is_association
+
+    my_profile = True
+
+    entity = None
+    follow = None
+
+    profile_id = request.REQUEST.get('profile_id')
+    if profile_id:
+        user_visited = User.objects.filter(entity_ptr__exact=profile_id)
+
+        if user_visited:
+            user_visited = user_visited[0]
+            entity = user_visited
+
+        association_visited = Association.objects.filter(entity_ptr__exact=profile_id)
+        if association_visited:
+            association_visited = association_visited[0]
+            entity = association_visited
+
+        my_profile = False
+
+        if entity and this_entity:
+            follow = this_entity.get_followed() == entity
+
+            if request.method == 'POST':
+                if 'follow_ask' in request.POST:
+                    this_entity.set_followed(entity)
+                    follow = True
+
+                elif 'unfollow_ask' in request.POST:
+                    this_entity.remove_followed(entity)
+                    follow = False
+        this_entity = entity
+        is_user = user_visited
+
+    is_verified = None
+    if is_user:
+        is_verified = is_user.confirmed_status
+
+    image = this_entity.picture
+    profile_name = this_entity.__unicode__()
 
     # Then, fetch some useful data from the models
     current_offers = []
@@ -568,12 +575,13 @@ def profile(request):
             feedback_tuples.append((feed[0][0], profile_current_demands([feed[0][0]])[0][1], profile_current_offers([feed[0][0]])[0][1], feed[0][1], feed[0][2], feed[0][3]))
 
     # Finally return all the useful informations
-    return render(request, 'profile.html', {'entity': entity, \
-                                            'current_offers': current_offers_tuples, 'current_demands': current_demands_tuples, \
-                                            'old_requests': old_tuples, 'feedbacks': feedback_tuples, \
-                                            'global_rating': global_rating, 'profile_name':profile_name, \
+    return render(request, 'profile.html', {'entity': entity,
+                                            'current_offers': current_offers_tuples,
+                                            'current_demands': current_demands_tuples,
+                                            'old_requests': old_tuples, 'feedbacks': feedback_tuples,
+                                            'global_rating': global_rating, 'profile_name':profile_name,
                                             'image': image, 'is_verified': is_verified, 'my_profile':my_profile,
-                                            'profile_id': profile_id})
+                                            'profile_id': profile_id, 'follow': follow})
 
 
 @login_required

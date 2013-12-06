@@ -21,17 +21,36 @@
             {% else %}
             <img src="{{ MEDIA_URL }}{{ image }}" alt="Username" class="img-thumbnail img-responsive" style="margin: auto 0">
             {% endif %}
-            {% if my_profile == False %}
-            <a class="btn btn-primary btn-xs" style="margin-top:1em; width:10em"
-               href="{% url 'profile' %}?profile_id={{ profile_id }}">
-                {% trans "Follow" %}
-            </a>
-            {% endif %}
+             <form method="post" action="{% url 'profile' %}">
+                    {% csrf_token %}
+                    {% if my_profile == False %}
+                        {% if follow == False %}
+                        <button type="submit" class="btn btn-success btn-xs" style="margin-top:1em; width:10em" name="follow_ask">
+                        {% trans "Follow" %}
+                        </button>
+                        {% else %}
+                        <button type="submit" class="btn btn-alert btn-xs" style="margin-top:1em; width:10em" name="unfollow_ask">
+                        {% trans "Unfollow" %}
+                        </button>
+                        {% endif %}
+                    <input name="profile_id" value="{{ profile_id }}" type="hidden">
+                {% endif %}
+            </form>
         </div>
 	</div>
 
 	<div class="col-sm-10">
-		<h4 style="pull-left">{{ profile_name }} &nbsp; {% if is_verified %}<span class="label label-success" style="font-size:0.7em;">{% trans "Verified" %}</span>{% endif %}</h4>
+		<h4 style="pull-left">{{ profile_name }} &nbsp;
+            <span class="label {% if is_verified %}label-success{% else %}label-warning{% endif %}" style="font-size:0.7em;{% if is_verified == None %}background-color: rgb(225, 0, 122);{% endif %}">
+                {% if is_verified %}
+                    {% trans "Verified" %}
+                {% elif is_verified == None %}
+                    {% trans "Organisation" %}
+                {% else %}
+                    {% trans "Not verified" %}
+                {% endif %}
+            </span>
+        </h4>
 		<hr>
 		{% if global_rating.1 > 0 %}
 			{{ global_rating.0 }}% {% trans "of positive evaluations." %} ({{ global_rating.1 }} {% trans "evaluations"%})
@@ -45,21 +64,6 @@
 
 		<div class="clearfix" style="margin-top: 30px"></div>
 
-		<!--
-		##################
-		##### GROUPS #####
-		##################
-		-> NOT USED
-		<div class="col-xs-2" style="padding: 0px;">
-			<label>Groups</label>
-		</div>
-
-		<div class="col-xs-10" style="padding: 0px;">
-			Social group X<br />
-			Social group Y<br />
-			Social group Z
-		</div>
-		<div class="clearfix" style="margin-top: 12px">&nbsp;</div>
 		<!--
 		##########################
 		##### CURRENT OFFERS #####

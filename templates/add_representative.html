@@ -45,21 +45,21 @@
 				<div class="col-sm-3">
 					<label for="inputName" class="col-xs-12" style="color: {{ row.last_name_color }} !important;">{% trans "Name" %}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputName" placeholder="Name" name="last_name[]" value="{{ row.last_name }}" style="border-color: {{ row.last_name_color }} !important;" required>
+						<input type="text" class="form-control" id="inputName" placeholder="{% trans 'Name' %}" name="last_name[]" value="{{ row.last_name }}" style="border-color: {{ row.last_name_color }} !important;" required>
 					</div>
 				</div>
 
 				<div class="col-sm-3">
 					<label for="inputFirstName" class="col-xs-12" style="color: {{ row.first_name_color }} !important;">{% trans "First name"%}*</label>
 					<div class="col-xs-12">
-						<input type="text" class="form-control" id="inputFirstName" placeholder="First name" name="first_name[]" value="{{ row.first_name }}" style="border-color: {{ row.first_name_color }} !important;" required>
+						<input type="text" class="form-control" id="inputFirstName" placeholder="{% trans 'First name' %}" name="first_name[]" value="{{ row.first_name }}" style="border-color: {{ row.first_name_color }} !important;" required>
 					</div>
 				</div>
 
 				<div class="col-sm-3">
 					<label for="inputEmail" class="col-xs-12" style="color: {{ row.email_color }} !important;">{% trans "E-mail" %}*</label>
 					<div class="col-xs-12">
-						<input type="email" class="form-control" id="inputEmail" placeholder="Email" name="email[]" value="{{ row.email }}" style="border-color: {{ row.email_color }} !important;" required>
+						<input type="email" class="form-control" id="inputEmail" placeholder="{% trans 'E-mail' %}" name="email[]" value="{{ row.email }}" style="border-color: {{ row.email_color }} !important;" required>
 					</div>
 				</div>
 
