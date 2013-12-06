@@ -37,7 +37,7 @@ def home(request):
     testimonies = Testimony.get_random_testimonies(3, request.LANGUAGE_CODE)
 
     # Latest requests
-    latest_requests = FilteredRequest.get_latest_requests(6)
+    latest_requests = FilteredRequest.get_latest_requests(amount=6)
 
     latest_requests_tuples = []
     for req in latest_requests:
