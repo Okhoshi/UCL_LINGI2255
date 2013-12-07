@@ -416,6 +416,7 @@ def account(request):
 
         #is_verified = 1
 
+    empty_feedback = []
     if (is_user or is_association_user):
 
         #TREATS GET REQUESTS WITH USER VERIFICATION
@@ -447,7 +448,6 @@ def account(request):
         
         ##GET UN-GIVEN FEEDBACK
         needed_feedback = entity.get_feedback()
-        empty_feedback = []
         for feedback in needed_feedback[0]:
             if feedback.rating_demander == 0:
                 f_request = feedback.request
@@ -538,7 +538,8 @@ def account(request):
                                             'saved_searches': saved_searches, 'similar': similar,
                                             'upcoming_requests': upcoming_requests, 'summary': summary,
                                             'is_association_admin': is_association_admin,
-                                            'type_user': type_user, 'pending': pending, 'empty_feedback':empty_feedback,
+                                            'type_user': type_user, 'pending': pending,
+                                            'empty_feedback':empty_feedback,
                                             'is_association':is_association})
 
 
