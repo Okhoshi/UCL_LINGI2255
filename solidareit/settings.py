@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sessions',
     'website',
-    'django_jenkins'
+    'django_jenkins',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,6 +127,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.core.context_processors.request',
     'django.core.context_processors.media',
+    'django.core.context_processors.request',
 )
 APPEND_SLASH = True  # Ajoute un slash en fin d'URL
 
