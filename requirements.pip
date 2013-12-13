@@ -3,3 +3,4 @@ django
 recaptcha-client
 pillow
 mysql-python
+django-suit==0.2.5
