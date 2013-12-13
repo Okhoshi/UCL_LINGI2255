@@ -381,6 +381,7 @@ def account(request):
         req_to_mod = Request.objects.get(id=susp_req_id)
         req_to_mod.is_suspicious = True
         req_to_mod.save()
+        return redirect('account')
 
 
     this_user = DUser.objects.get(username=request.user)
