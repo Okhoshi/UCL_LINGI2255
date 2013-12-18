@@ -22,7 +22,7 @@ from django.db.models import Q
 
 class Entity(models.Model):
     location = models.OneToOneField(Place)
-    followed = models.ManyToManyField('self')
+    followed = models.ManyToManyField('self',symmetrical=False)
 
     class Meta:
         app_label = 'website'
